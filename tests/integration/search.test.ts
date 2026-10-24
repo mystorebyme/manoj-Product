@@ -55,6 +55,6 @@ test("catalogue meta reports the live store", () => {
   const meta = catalogMeta();
   assert.ok(meta.productCount >= 287);
   assert.equal(meta.liveProductCount, 287);
-  assert.equal(meta.source, "https://www.likshaclothing.com");
+  assert.equal(meta.source, "https://trendsyounique.onrender.com");
   assert.equal(meta.moneyUnit, "paise");
 });
