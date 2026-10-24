@@ -13,7 +13,7 @@ export function SearchBar({ initialQuery = "" }: { initialQuery?: string }) {
         event.preventDefault();
         router.push(`/search?q=${encodeURIComponent(value.trim())}`);
       }}
-      className="flex border border-[#ddd2c6]"
+      className="flex border border-[#ded1c0]"
     >
       <input
         value={value}
@@ -23,7 +23,7 @@ export function SearchBar({ initialQuery = "" }: { initialQuery?: string }) {
       />
       <button
         type="submit"
-        className="shrink-0 bg-[#862222] px-5 text-[10.5px] font-semibold tracking-[.14em] text-white uppercase"
+        className="shrink-0 bg-[#6f1d2b] px-5 text-[10.5px] font-semibold tracking-[.14em] text-white uppercase"
       >
         Search
       </button>

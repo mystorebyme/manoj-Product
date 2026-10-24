@@ -17,7 +17,7 @@ const nextConfig: NextConfig = {
       }
     : {}),
   // shared packages ko TS source se compile karna hai (no separate build step)
-  transpilePackages: ["@liksha/types", "@liksha/validation", "@liksha/api-client", "@liksha/ui"],
+  transpilePackages: ["@liksha/types", "@liksha/validation", "@liksha/api-client", "@liksha/ui", "@liksha/product-store"],
   allowedDevOrigins: devOrigins,
   // pdfkit native-style deps (fontkit) bundle karna theek nahi — runtime par node_modules se load
   serverExternalPackages: ["pdfkit"],

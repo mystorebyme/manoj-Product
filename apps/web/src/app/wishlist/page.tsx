@@ -42,7 +42,7 @@ export default function WishlistPage() {
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 className="font-display text-[28px] font-medium sm:text-[34px]">My wishlist</h1>
-          <p className="mt-1 text-[11.5px] tracking-[.12em] text-[#9c8f82] uppercase">
+          <p className="mt-1 text-[11.5px] tracking-[.12em] text-[#a3948a] uppercase">
             {ready ? `${wishlist.length} ${wishlist.length === 1 ? "piece" : "pieces"} saved` : "Loading…"}
           </p>
         </div>
@@ -50,7 +50,7 @@ export default function WishlistPage() {
           <button
             type="button"
             onClick={clearWishlist}
-            className="border border-[#ddd2c6] px-4 py-2 text-[10.5px] font-semibold tracking-[.14em] text-[#6b6259] uppercase transition hover:border-[#862222] hover:text-[#862222]"
+            className="border border-[#ded1c0] px-4 py-2 text-[10.5px] font-semibold tracking-[.14em] text-[#6f6259] uppercase transition hover:border-[#6f1d2b] hover:text-[#6f1d2b]"
           >
             Clear wishlist
           </button>
@@ -58,13 +58,13 @@ export default function WishlistPage() {
       </div>
 
       {items.length === 0 ? (
-        <div className="mt-10 border border-[#eee6de] px-6 py-20 text-center">
-          <p className="text-sm text-[#6b6259]">
+        <div className="mt-10 border border-[#ece1d3] px-6 py-20 text-center">
+          <p className="text-sm text-[#6f6259]">
             {ready && !loading ? "Aapki wishlist khaali hai — product card par heart icon dabaiye." : "Loading…"}
           </p>
           <Link
             href="/collections/party-wear-gown"
-            className="mt-5 inline-block bg-[#862222] px-7 py-3 text-[11px] font-semibold tracking-[.16em] text-white uppercase"
+            className="mt-5 inline-block bg-[#6f1d2b] px-7 py-3 text-[11px] font-semibold tracking-[.16em] text-white uppercase"
           >
             Shop Anarkali suits
           </Link>

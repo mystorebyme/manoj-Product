@@ -9,10 +9,10 @@ import { useStoreSettings } from "@/components/store-settings-provider";
  * Yahan lightweight fade/slide rotation hai, koi library nahi.
  */
 const MESSAGES = [
-  { text: "Diwali Sale — Up to 70% OFF · Final price ₹499 onwards", href: "/collections/sale" },
-  { text: "Express Delivery on Prepaid Orders", href: "/policies/shipping-policy" },
-  { text: "Free Shipping within India", href: "/policies/shipping-policy" },
-  { text: "Secure Prepaid Checkout — UPI, Cards & Netbanking", href: "/policies/payment-policy" },
+  { text: "Free shipping across India — every order", href: "/policies/shipping-policy" },
+  { text: "Order on WhatsApp — instant size & price confirmation", href: "/collections" },
+  { text: "Hand-finished in Jaipur · limited runs", href: "/pages/about-us" },
+  { text: "7 day easy exchange on every order", href: "/policies/refund-and-return-policy" },
 ];
 
 export function AnnouncementBar() {
@@ -41,12 +41,12 @@ export function AnnouncementBar() {
   const message = messages[index % messages.length];
 
   return (
-    <div className="relative bg-[#862222] text-white" data-testid="announcement-bar">
+    <div className="relative bg-[#2a0b13] text-white" data-testid="announcement-bar">
       <div className="container-liksha flex h-9 items-center justify-center">
         <Link
           key={message.text}
           href={message.href}
-          className="animate-soft-fade px-6 text-center text-[10.5px] font-medium tracking-[.16em] uppercase hover:underline sm:text-[11px]"
+          className="animate-soft-fade px-6 text-center text-[10px] font-medium tracking-[.22em] text-[#f0e2cd] uppercase hover:text-[#e2c894] sm:text-[10.5px]"
         >
           {message.text}
         </Link>

@@ -104,7 +104,7 @@ export function CheckoutForm() {
       .map((line) => `• ${line.title} — size ${line.size}${line.colour ? `, ${line.colour}` : ""} × ${line.quantity}`)
       .join("\n");
     const text = [
-      "Hi Designer Clothing, I want to place this order:",
+      "Hi TRENDS YOUNIQUE, I want to place this order:",
       "",
       itemLines,
       "",
@@ -155,7 +155,12 @@ export function CheckoutForm() {
         {
           ...form,
           paymentMethod: payment,
-          items: lines.map((line) => ({ handle: line.handle, size: line.size, quantity: line.quantity })),
+          items: lines.map((line) => ({
+            handle: line.handle,
+            size: line.size,
+            quantity: line.quantity,
+            colour: line.colour ?? null,
+          })),
         },
         { timeoutMs: 25_000, headers: { "Idempotency-Key": idempotencyKey } },
       );
@@ -178,11 +183,11 @@ export function CheckoutForm() {
 
   if (lines.length === 0) {
     return (
-      <div className="border border-[#eee6de] px-6 py-20 text-center">
-        <p className="text-sm text-[#6b6259]">Your cart is empty — add a suit set to checkout.</p>
+      <div className="border border-[#ece1d3] px-6 py-20 text-center">
+        <p className="text-sm text-[#6f6259]">Your cart is empty — add a suit set to checkout.</p>
         <Link
           href="/collections/party-wear-gown"
-          className="mt-5 inline-block bg-[#862222] px-7 py-3 text-[11px] font-semibold tracking-[.16em] text-white uppercase"
+          className="mt-5 inline-block bg-[#6f1d2b] px-7 py-3 text-[11px] font-semibold tracking-[.16em] text-white uppercase"
         >
           Shop now
         </Link>
@@ -194,7 +199,7 @@ export function CheckoutForm() {
     <form onSubmit={submit} className="grid gap-8 lg:grid-cols-[1.5fr_1fr]">
       <div className="space-y-6">
         <section>
-          <h2 className="text-[11px] font-semibold tracking-[.16em] text-[#862222] uppercase">Contact</h2>
+          <h2 className="text-[11px] font-semibold tracking-[.16em] text-[#6f1d2b] uppercase">Contact</h2>
           <div className="mt-3 grid gap-3 sm:grid-cols-2">
             <Field label="Full name" required value={form.customerName} onChange={(v) => update("customerName", v)} />
             <Field
@@ -217,7 +222,7 @@ export function CheckoutForm() {
         </section>
 
         <section>
-          <h2 className="text-[11px] font-semibold tracking-[.16em] text-[#862222] uppercase">Shipping address</h2>
+          <h2 className="text-[11px] font-semibold tracking-[.16em] text-[#6f1d2b] uppercase">Shipping address</h2>
           <div className="mt-3 grid gap-3 sm:grid-cols-2">
             <Field
               label="Address (house, street, area)"
@@ -228,11 +233,11 @@ export function CheckoutForm() {
             />
             <Field label="City" required value={form.city} onChange={(v) => update("city", v)} />
             <div>
-              <label className="text-[10.5px] tracking-[.12em] text-[#6b6259] uppercase">State</label>
+              <label className="text-[10.5px] tracking-[.12em] text-[#6f6259] uppercase">State</label>
               <select
                 value={form.state}
                 onChange={(event) => update("state", event.target.value)}
-                className="mt-1 h-11 w-full border border-[#ddd2c6] bg-white px-3 text-[13px] outline-none focus:border-[#862222]"
+                className="mt-1 h-11 w-full border border-[#ded1c0] bg-white px-3 text-[13px] outline-none focus:border-[#6f1d2b]"
               >
                 {indianStates.map((state) => (
                   <option key={state} value={state}>
@@ -249,7 +254,7 @@ export function CheckoutForm() {
                 value={form.pincode}
                 onChange={(v) => update("pincode", v.replace(/\D/g, "").slice(0, 6))}
               />
-              {pinBusy ? <p className="mt-1 text-[11px] text-[#8a8078]">Checking delivery…</p> : null}
+              {pinBusy ? <p className="mt-1 text-[11px] text-[#8a7d72]">Checking delivery…</p> : null}
               {pinStatus ? (
                 <p
                   className={`mt-1 text-[11px] leading-relaxed ${pinStatus.ok ? "text-[#2f7a3f]" : "text-[#a11d1d]"}`}
@@ -266,27 +271,27 @@ export function CheckoutForm() {
         </section>
 
         <section>
-          <h2 className="text-[11px] font-semibold tracking-[.16em] text-[#862222] uppercase">Payment</h2>
+          <h2 className="text-[11px] font-semibold tracking-[.16em] text-[#6f1d2b] uppercase">Payment</h2>
           <div className="mt-3 border border-[#e5dbd0] bg-[#fdf8f7] p-3.5">
             <div className="flex items-start gap-3">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#862222" strokeWidth="1.7" className="mt-0.5 shrink-0" aria-hidden>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6f1d2b" strokeWidth="1.7" className="mt-0.5 shrink-0" aria-hidden>
                 <path d="M12 3l7 3v6c0 4.2-2.9 7.6-7 9-4.1-1.4-7-4.8-7-9V6l7-3z" />
                 <path d="M9 12l2 2 4-4" />
               </svg>
               <div className="min-w-0">
                 <p className="text-[12.5px] font-medium">Prepaid order — UPI (GPay, PhonePe, Paytm)</p>
-                <p className="mt-0.5 text-[11.5px] leading-relaxed text-[#8a8078]">
+                <p className="mt-0.5 text-[11.5px] leading-relaxed text-[#8a7d72]">
                   You will get the payment page right after placing the order — scan the QR or pay to the UPI ID.
                   Payment goes straight to the store account, with no gateway charges.
                 </p>
-                <p className="mt-1.5 break-all text-[11.5px] font-medium text-[#862222]">UPI: {upiId}</p>
+                <p className="mt-1.5 break-all text-[11.5px] font-medium text-[#6f1d2b]">UPI: {upiId}</p>
                 <div className="mt-2.5">
                   <UpiApps
                     uri={buildUpiUri({
                       vpa: upiId,
                       name: upiName,
                       amountPaise: total,
-                      note: "Designer Clothing order",
+                      note: "TRENDS YOUNIQUE order",
                     })}
                     upiId={upiId}
                     amountPaise={total}
@@ -299,16 +304,16 @@ export function CheckoutForm() {
         </section>
       </div>
 
-      <aside className="h-fit border border-[#eee6de] bg-[#faf8f5] p-5 lg:sticky lg:top-[92px]">
+      <aside className="h-fit border border-[#ece1d3] bg-[#fdfaf5] p-5 lg:sticky lg:top-[92px]">
         <h2 className="text-[11px] font-semibold tracking-[.16em] uppercase">Order summary ({count})</h2>
-        <ul className="mt-3 divide-y divide-[#eee6de]">
+        <ul className="mt-3 divide-y divide-[#ece1d3]">
           {lines.map((line) => (
             <li key={line.key} className="flex gap-2.5 py-2.5">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <SafeImage src={imageUrl(line.image, 200)} alt={line.title} className="h-16 w-12 shrink-0 object-cover" />
               <div className="flex-1">
                 <p className="line-clamp-2 text-[11.5px] leading-snug">{line.title}</p>
-                <p className="mt-0.5 text-[10.5px] text-[#8a8078]">
+                <p className="mt-0.5 text-[10.5px] text-[#8a7d72]">
                   {line.size}
                   {line.colour ? ` · ${line.colour}` : ""} · Qty {line.quantity}
                 </p>
@@ -317,7 +322,7 @@ export function CheckoutForm() {
                   onClick={() => removeLine(line.key)}
                   data-testid="summary-remove"
                   aria-label={`Remove ${line.title} from order`}
-                  className="mt-1 text-[10px] tracking-[.06em] text-[#9a8f85] uppercase underline transition hover:text-[#862222]"
+                  className="mt-1 text-[10px] tracking-[.06em] text-[#9a8f85] uppercase underline transition hover:text-[#6f1d2b]"
                 >
                   Remove
                 </button>
@@ -329,16 +334,16 @@ export function CheckoutForm() {
 
         <div className="mt-4 space-y-2 border-t border-[#e7ddd2] pt-3 text-[12.5px]">
           <div className="flex justify-between">
-            <span className="text-[#6b6259]">Subtotal</span>
+            <span className="text-[#6f6259]">Subtotal</span>
             <span>{formatPrice(subtotal)}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-[#6b6259]">Shipping</span>
+            <span className="text-[#6f6259]">Shipping</span>
             <span className="text-[#2f7a3f]">Free</span>
           </div>
           <div className="flex items-center justify-between border-t border-[#e7ddd2] pt-2.5 text-[14.5px] font-semibold">
             <span>Total</span>
-            <span className="text-[#862222]">{formatPrice(total)}</span>
+            <span className="text-[#6f1d2b]">{formatPrice(total)}</span>
           </div>
         </div>
 
@@ -358,7 +363,7 @@ export function CheckoutForm() {
                     vpa: upiId,
                     name: upiName,
                     amountPaise: total,
-                    note: "Designer Clothing order",
+                    note: "TRENDS YOUNIQUE order",
                   })}
                   alt={`UPI QR to pay ${formatPrice(total)}`}
                   className="h-auto w-full"
@@ -371,7 +376,7 @@ export function CheckoutForm() {
                     vpa: upiId,
                     name: upiName,
                     amountPaise: total,
-                    note: "Designer Clothing order",
+                    note: "TRENDS YOUNIQUE order",
                   })}
                   upiId={upiId}
                   amountPaise={total}
@@ -394,11 +399,11 @@ export function CheckoutForm() {
           type="submit"
           data-testid="checkout-submit"
           disabled={submitting}
-          className="mt-4 w-full bg-[#862222] py-3 text-[11.5px] font-semibold tracking-[.16em] text-white uppercase disabled:opacity-60"
+          className="mt-4 w-full bg-[#6f1d2b] py-3 text-[11.5px] font-semibold tracking-[.16em] text-white uppercase disabled:opacity-60"
         >
           {submitting ? "Placing order…" : `Place order · ${formatPrice(total)}`}
         </button>
-        <p className="mt-2 text-center text-[10.5px] leading-relaxed text-[#8a8078]">
+        <p className="mt-2 text-center text-[10.5px] leading-relaxed text-[#8a7d72]">
           Final price is already sale price — no coupon needed. By placing this order you agree to our{" "}
           <Link href="/policies/terms-and-conditions" className="underline">
             Terms &amp; Conditions
@@ -437,14 +442,14 @@ function Field({
 }) {
   return (
     <div className={className}>
-      <label className="text-[10.5px] tracking-[.12em] text-[#6b6259] uppercase">{label}</label>
+      <label className="text-[10.5px] tracking-[.12em] text-[#6f6259] uppercase">{label}</label>
       <input
         value={value}
         onChange={(event) => onChange(event.target.value)}
         required={required}
         type={type}
         inputMode={inputMode}
-        className="mt-1 h-11 w-full border border-[#ddd2c6] bg-white px-3 text-[13px] outline-none focus:border-[#862222]"
+        className="mt-1 h-11 w-full border border-[#ded1c0] bg-white px-3 text-[13px] outline-none focus:border-[#6f1d2b]"
       />
     </div>
   );

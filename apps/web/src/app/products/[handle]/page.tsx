@@ -14,7 +14,13 @@ export async function generateStaticParams() {
   return products.map((product) => ({ handle: product.handle }));
 }
 
-export const dynamicParams = false;
+/**
+ * Admin se naya product kabhi bhi aa sakta hai — isliye prerendered handles ke
+ * bahar wale bhi on-demand render hote hain (404 nahi). 60s revalidate par list
+ * pages naya product utha lete hain.
+ */
+export const dynamicParams = true;
+export const revalidate = 60;
 
 export async function generateMetadata({
   params,
@@ -53,7 +59,7 @@ export default async function ProductPage({
     image: product.images.slice(0, 3),
     description: product.description,
     sku: product.handle,
-    brand: { "@type": "Brand", name: "Designer Clothing" },
+    brand: { "@type": "Brand", name: "TRENDS YOUNIQUE" },
     offers: {
       "@type": "Offer",
       priceCurrency: "INR",
@@ -77,18 +83,18 @@ export default async function ProductPage({
     <div className="container-liksha py-6 lg:py-9">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <nav aria-label="Breadcrumb" className="mb-4">
-        <ol className="flex flex-wrap items-center gap-1.5 text-[11px] text-[#9c8f82]">
+        <ol className="flex flex-wrap items-center gap-1.5 text-[11px] text-[#a3948a]">
           <li>
-            <Link href="/" className="hover:text-[#862222]">Home</Link>
+            <Link href="/" className="hover:text-[#6f1d2b]">Home</Link>
           </li>
           <li>/</li>
           <li>
-            <Link href={categoryHref(product.category)} className="hover:text-[#862222]">
+            <Link href={categoryHref(product.category)} className="hover:text-[#6f1d2b]">
               {categoryLabel(product.category)}
             </Link>
           </li>
           <li>/</li>
-          <li className="line-clamp-1 text-[#5c534b]">{product.title}</li>
+          <li className="line-clamp-1 text-[#3d332c]">{product.title}</li>
         </ol>
       </nav>
 
@@ -101,12 +107,12 @@ export default async function ProductPage({
 
       <ProductReviews block={reviewBlock} productTitle={product.title} productHandle={product.handle} />
 
-      <section className="mt-14 border-t border-[#eee6de] pt-9">
+      <section className="mt-14 border-t border-[#ece1d3] pt-9">
         <div className="text-center">
           <h2 className="font-display text-[24px] font-medium tracking-[.03em] sm:text-[28px]">
             You may also like
           </h2>
-          <p className="mt-1 text-[11px] tracking-[.14em] text-[#9c8f82] uppercase">
+          <p className="mt-1 text-[11px] tracking-[.14em] text-[#a3948a] uppercase">
             Handpicked from the same edit
           </p>
         </div>

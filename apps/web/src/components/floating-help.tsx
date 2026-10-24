@@ -25,7 +25,7 @@ export function FloatingHelp() {
           type="button"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           aria-label="Back to top"
-          className="flex h-10 w-10 items-center justify-center rounded-full border border-[#e0d6ca] bg-white text-[#862222] shadow-md"
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-[#e0d6ca] bg-white text-[#6f1d2b] shadow-md"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
             <path d="M12 19V5M5 12l7-7 7 7" />

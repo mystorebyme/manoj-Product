@@ -104,20 +104,20 @@ export function UpiApps({
         <a
           href={uri}
           data-testid="upi-open-app"
-          className="inline-flex h-10 items-center justify-center bg-[#862222] px-4 text-[10.5px] font-semibold tracking-[.14em] text-white uppercase"
+          className="inline-flex h-10 items-center justify-center bg-[#6f1d2b] px-4 text-[10.5px] font-semibold tracking-[.14em] text-white uppercase"
         >
           {platform === "desktop" ? "Open UPI app" : "Auto-detect UPI apps"}
         </a>
         <button
           type="button"
           onClick={copy}
-          className="inline-flex h-10 items-center justify-center border border-[#ddd2c6] px-4 text-[10.5px] font-semibold tracking-[.12em] text-[#6b6259] uppercase"
+          className="inline-flex h-10 items-center justify-center border border-[#ded1c0] px-4 text-[10.5px] font-semibold tracking-[.12em] text-[#6f6259] uppercase"
         >
           {copied ? "Copied" : "Copy UPI ID"}
         </button>
       </div>
 
-      <p className="mt-2 text-[10.5px] leading-relaxed text-[#8a8078]">
+      <p className="mt-2 text-[10.5px] leading-relaxed text-[#8a7d72]">
         {platform === "desktop"
           ? `Scan the QR to pay ${formatPrice(amountPaise)} — any UPI app works.`
           : `Phone par ${formatPrice(amountPaise)} ka UPI app khulega — amount pehle se bhara hoga.`}
@@ -131,7 +131,7 @@ export function UpiApps({
             href={app.href}
             onClick={() => setTried(app.id)}
             data-testid={`upi-app-${app.id}`}
-            className="inline-flex h-8 items-center gap-1.5 rounded-full border border-[#e5dbd0] bg-white px-2.5 text-[10.5px] font-medium text-[#4a423b] transition hover:border-[#862222]"
+            className="inline-flex h-8 items-center gap-1.5 rounded-full border border-[#e5dbd0] bg-white px-2.5 text-[10.5px] font-medium text-[#4a423b] transition hover:border-[#6f1d2b]"
           >
             <span
               aria-hidden
@@ -147,7 +147,7 @@ export function UpiApps({
       ) : null}
 
       {tried ? (
-        <p className="mt-2 text-[10.5px] leading-relaxed text-[#8a8078]">
+        <p className="mt-2 text-[10.5px] leading-relaxed text-[#8a7d72]">
           App na khule to QR scan kariye ya UPI ID copy karke apne bank app me pay kariye.
         </p>
       ) : null}

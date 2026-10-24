@@ -1,16 +1,38 @@
 @import "tailwindcss";
 
+/*
+ * TRENDS YOUNIQUE — design tokens
+ * ---------------------------------
+ * Palette: ink (near-black), wine (primary), gold (accent), ivory/cream (canvas).
+ * Sab classes Tailwind utilities + in tokens se aati hain, isliye ek jagah badalne
+ * par poori site badal jaati hai.
+ */
 @theme {
-  --color-maroon: #862222;
-  --color-maroon-dark: #6d1a1a;
-  --color-cream: #faf6f1;
-  --color-sand: #e9dfd4;
+  --color-ink: #14100e;
+  --color-wine: #6f1d2b;
+  --color-wine-deep: #4a1220;
+  --color-gold: #b08a4a;
+  --color-gold-soft: #d9bb84;
+  --color-cream: #faf6ef;
+  --color-sand: #eadfce;
+
+  /* purane naam bhi kaam karte rahein (200+ jagah use hote hain) */
+  --color-maroon: #6f1d2b;
+  --color-maroon-dark: #4a1220;
+
   --font-display: "Cormorant Garamond", "Playfair Display", Georgia, serif;
   --font-body: "Jost", "Helvetica Neue", Arial, sans-serif;
 }
 
 :root {
-  --maroon: #862222;
+  --maroon: #6f1d2b;
+  --wine: #6f1d2b;
+  --wine-deep: #4a1220;
+  --gold: #b08a4a;
+  --gold-soft: #d9bb84;
+  --ink: #14100e;
+  --ivory: #faf6ef;
+  --hairline: #e4d7c5;
 }
 
 html {
@@ -19,13 +41,137 @@ html {
 
 body {
   font-family: var(--font-body);
-  color: #2f2a25;
+  color: #14100e;
   background: #fff;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 .font-display {
   font-family: var(--font-display);
+}
+
+/* ───────────── premium type helpers ───────────── */
+
+/* chhota all-caps label — section ke upar (gold) */
+.eyebrow {
+  display: inline-block;
+  font-size: 10.5px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+/* do halki gold lines ke beech ka ornament — premium section divider */
+.rule-gold {
+  position: relative;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-soft), transparent);
+}
+
+/* link ke neeche gold underline jo hover par khulti hai */
+.link-underline {
+  position: relative;
+}
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  height: 1px;
+  width: 0;
+  background: var(--gold);
+  transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.link-underline:hover::after,
+.link-underline:focus-visible::after {
+  width: 100%;
+}
+
+/* primary CTA — wine fill, gold hairline, letter-spaced caps */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--wine);
+  color: #fff;
+  padding: 0.9rem 1.75rem;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border: 1px solid var(--wine);
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+.btn-primary:hover {
+  background: var(--wine-deep);
+  border-color: var(--gold);
+}
+
+/* secondary CTA — ink outline, hover par wine */
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: transparent;
+  color: var(--ink);
+  padding: 0.9rem 1.75rem;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border: 1px solid #cfc0ac;
+  transition:
+    border-color 0.3s ease,
+    color 0.3s ease,
+    background 0.3s ease;
+}
+.btn-outline:hover {
+  border-color: var(--wine);
+  color: var(--wine);
+  background: #fdf7f5;
+}
+
+/* WhatsApp CTA — brand green, par site ke saath match karta hua */
+.btn-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  background: #0f7a45;
+  color: #fff;
+  padding: 0.9rem 1.5rem;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border: 1px solid #0f7a45;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+}
+.btn-whatsapp:hover {
+  background: #0b6338;
+  border-color: var(--gold-soft);
+}
+
+/* product card image frame — subtle inner shadow, no harsh border */
+.card-frame {
+  background: #f4ece2;
+  overflow: hidden;
 }
 
 @keyframes fadeIn {
@@ -284,19 +430,19 @@ table {
    Height breakpoints yahin hain: mobile 40 → tablet 50 → desktop 46 (horizontal
    lockup lamba hai, isliye height kam par width zyada — header me overlap nahi). */
 .brand-lockup img {
-  height: 40px;
+  height: 42px;
   width: auto;
 }
 
 @media (min-width: 768px) {
   .brand-lockup img {
-    height: 50px;
+    height: 52px;
   }
 }
 
 @media (min-width: 1024px) {
   .brand-lockup img {
-    height: 46px;
+    height: 50px;
   }
 }
 
@@ -324,10 +470,40 @@ table {
   object-position: center;
 }
 
-/* 320px par bhi hero ke edges par kuch kat na jaye */
-@media (max-width: 767px) {
+/* hero: har device par cover (letterbox nahi), model kabhi crop na ho */
+.hero-media img {
+  object-position: center 35%;
+}
+
+@media (min-width: 1024px) {
   .hero-media img {
-    object-fit: contain;
-    background: #fbf1e2;
+    object-position: center 40%;
+  }
+}
+
+/* hero overlay copy — neeche se upar gradient, text hamesha readable */
+.hero-scrim::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(20, 16, 14, 0.42) 0%,
+    rgba(20, 16, 14, 0.12) 34%,
+    rgba(20, 16, 14, 0.06) 52%,
+    rgba(20, 16, 14, 0.55) 100%
+  );
+  pointer-events: none;
+}
+
+@media (min-width: 1024px) {
+  .hero-scrim::before {
+    background: linear-gradient(
+      90deg,
+      rgba(20, 16, 14, 0.62) 0%,
+      rgba(20, 16, 14, 0.34) 38%,
+      rgba(20, 16, 14, 0.02) 62%,
+      rgba(20, 16, 14, 0.18) 100%
+    );
   }
 }

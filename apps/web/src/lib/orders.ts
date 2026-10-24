@@ -6,14 +6,16 @@ import type { AuditEntry, InvoiceMeta, Order, OrderStatus, PaymentMethod, Tracki
 import {
   IDEMPOTENCY_TTL_MS,
   canTransition,
+  checkCartQuantity,
   computeDiscount,
   generateOrderNumber,
   invoiceNumber,
+  lineLimit,
 } from "@liksha/validation";
 import { dataFile } from "./data-dir";
 import { dbEnabled } from "./db";
 import { checkPincode } from "./delivery";
-import { products } from "./store";
+import { liveProducts } from "./store";
 import { syncOrderToSheet } from "./google-sheets";
 
 type StoredOrder = Order;
@@ -93,7 +95,7 @@ export interface CreateOrderPayload {
   notes?: string | null;
   couponCode?: string | null;
   paymentMethod: PaymentMethod;
-  items: { handle: string; size: string; quantity: number }[];
+  items: { handle: string; size: string; quantity: number; colour?: string | null }[];
   /** admin ke manual/phone orders par pincode serviceability check skip (admin ne khud confirm kiya) */
   skipPincodeCheck?: boolean;
 }
@@ -130,15 +132,20 @@ export async function createOrder(payload: CreateOrderPayload): Promise<Order> {
   }
 
   const items = payload.items.map((line) => {
-    const product = products.find((candidate) => candidate.handle === line.handle);
+    const product = liveProducts().find((candidate) => candidate.handle === line.handle);
     if (!product) throw new OrderError(`Product nahi mila: ${line.handle}`, 400, "product_not_found");
     // product-level stock — colour group ke sab sizes khatam ho to kuch bhi na bike
     if (product.inStock === false) {
       throw new OrderError(`${product.title} abhi sold out hai.`, 409, "product_unavailable");
     }
     const quantity = Number(line.quantity);
-    if (!Number.isInteger(quantity) || quantity < 1 || quantity > 10) {
-      throw new OrderError(`Quantity 1 se 10 ke beech honi chahiye (${product.title}).`, 400, "invalid_item");
+    const maxForSize = lineLimit(line.size);
+    if (!Number.isInteger(quantity) || quantity < 1 || quantity > maxForSize) {
+      throw new OrderError(
+        `${product.title} ke liye quantity 1 se ${maxForSize} ke beech honi chahiye. Bulk ke liye WhatsApp kariye.`,
+        400,
+        "invalid_item",
+      );
     }
     // size silently badalna galat order deta hai — customer ko saaf error do
     if (!product.sizes.includes(line.size)) {
@@ -166,11 +173,20 @@ export async function createOrder(payload: CreateOrderPayload): Promise<Order> {
       handle: product.handle,
       title: product.title,
       image: product.images[0] ?? "",
+      // customer ne jo colour chuna (na ho to product ka apna colourway) — order,
+      // WhatsApp message aur sheet dono me wahi jaata hai
+      colour: line.colour?.trim() || product.colourName || product.color || null,
       size,
       quantity,
       price: sizePricing?.price ?? product.price,
     };
   });
+
+  // poore order par bhi limit — 15 pieces (sirf XL+ order ho to 30)
+  const cartCheck = checkCartQuantity(items.map((item) => ({ size: item.size, quantity: item.quantity })));
+  if (!cartCheck.ok) {
+    throw new OrderError(cartCheck.message, 400, "invalid_item");
+  }
 
   const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const discount = computeDiscount(subtotal, payload.couponCode);

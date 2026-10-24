@@ -95,9 +95,9 @@ test("order sheet row carries payment details for the owner", () => {
   } as unknown as Order;
 
   const row = orderSheetRow(order, "order.placed");
-  assert.equal(row["Order number"], "LK-TEST01");
-  assert.equal(row["Payment reference"], "412345678901");
-  assert.equal(row.Total, 499);
-  assert.equal(row.Items, 1);
+  assert.equal(row["Order ID"], "LK-TEST01");
+  assert.equal(row["Payment ref"], "412345678901");
+  assert.equal(row["Total ₹"], 499);
+  assert.equal(row["Qty total"], 1);
   assert.equal(row["Payment status"], "pending");
 });

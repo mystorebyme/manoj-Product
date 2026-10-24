@@ -1,5 +1,5 @@
 :root {
-  --maroon: #862222;
+  --maroon: #6f1d2b;
   --ink: #1f1c19;
   --muted: #6b6259;
   --line: #e7e1da;
@@ -142,3 +142,76 @@ label { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; colo
   .topbar { flex-direction: column; align-items: flex-start; gap: 10px; }
   .photo-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
 }
+
+/* ---------- product upload (photos + sizes) ---------- */
+
+.stack-lg { display: flex; flex-direction: column; gap: 0; }
+
+.upload-drop {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  padding: 26px 16px;
+  border: 1.5px dashed #d8c8b2;
+  border-radius: 10px;
+  background: #fdfbf7;
+  cursor: pointer;
+  text-align: center;
+}
+.upload-drop:hover { border-color: var(--maroon); background: #fcf6f4; }
+.upload-drop input[type="file"] { display: none; }
+.upload-drop strong { font-size: 13px; color: var(--maroon); }
+.upload-drop span { font-size: 11.5px; color: var(--muted); }
+
+.upload-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+.upload-grid figure {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: #f4ece2;
+}
+.upload-grid figure.is-primary { border-color: #b08a4a; box-shadow: 0 0 0 2px #f3e6cf; }
+.upload-grid img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.upload-grid figcaption {
+  position: absolute;
+  left: 4px;
+  bottom: 4px;
+  background: rgba(111, 29, 43, 0.92);
+  color: #fff;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.size-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 8px;
+}
+.size-card {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 10px;
+  background: #fbfaf8;
+}
+.size-card.is-on { border-color: #c9a86a; background: #fdf8ee; }
+.size-check { display: inline-flex; align-items: center; gap: 7px; font-size: 12.5px; font-weight: 500; }
+.size-card input[type="number"] { width: 72px; padding: 4px 6px; font-size: 12.5px; }
+.size-card input[type="number"]:disabled { background: #f2efeb; color: #b6ada3; }

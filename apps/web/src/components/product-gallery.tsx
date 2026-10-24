@@ -90,7 +90,7 @@ export function ProductGallery({
               aria-current={index === imageIndex}
               className={`relative h-20 w-16 shrink-0 overflow-hidden border bg-[#f6f1ec] transition sm:h-[96px] sm:w-full ${
                 index === imageIndex
-                  ? "border-[#862222] opacity-100"
+                  ? "border-[#6f1d2b] opacity-100"
                   : "border-transparent opacity-75 hover:border-[#d9c6b4] hover:opacity-100"
               }`}
             >
@@ -156,7 +156,7 @@ export function ProductGallery({
           />
 
           {badge ? (
-            <span className="absolute left-3 top-3 z-20 bg-[#862222] px-2 py-1 text-[10px] font-semibold tracking-[.1em] text-white uppercase">
+            <span className="absolute left-3 top-3 z-20 bg-[#6f1d2b] px-2 py-1 text-[10px] font-semibold tracking-[.1em] text-white uppercase">
               {badge}
             </span>
           ) : null}
@@ -213,7 +213,7 @@ export function ProductGallery({
                 onClick={() => setIndex(imageIndex)}
                 aria-label={`Image ${imageIndex + 1}`}
                 className={`h-1.5 w-1.5 rounded-full transition ${
-                  index === imageIndex ? "bg-[#862222]" : "bg-[#d9c6b4]"
+                  index === imageIndex ? "bg-[#6f1d2b]" : "bg-[#d9c6b4]"
                 }`}
               />
             ))}

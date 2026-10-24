@@ -13,6 +13,7 @@ import type { SearchHit } from "@/types/catalog";
 import { useStoreSettings } from "@/components/store-settings-provider";
 import { SafeImage } from "@/components/safe-image";
 import { BrandLockup } from "@/components/brand-lockup";
+import { cartWhatsAppMessage, logWhatsAppEnquiry, whatsappLink, whatsappNumber } from "@/lib/whatsapp";
 
 /**
  * Desktop nav — sirf wahi categories jo sach me products rakhti hain (khaali
@@ -200,8 +201,8 @@ export function SiteHeader() {
       </div>
 
       <header
-        className={`sticky top-0 z-40 border-b border-[#e9e2da] bg-white transition-shadow ${
-          scrolled ? "shadow-[0_6px_24px_rgba(0,0,0,0.08)]" : ""
+        className={`sticky top-0 z-40 border-b border-[#e4d7c5] bg-[#fffdfa]/96 backdrop-blur-md transition-shadow ${
+          scrolled ? "shadow-[0_8px_28px_rgba(74,18,32,0.10)]" : ""
         }`}
       >
         {/* mobile: [menu] [logo center] [search · cart] — tablet/desktop: [logo] [nav] [icons] */}
@@ -220,7 +221,7 @@ export function SiteHeader() {
 
           <Link
             href="/"
-            aria-label="Designer Clothing home"
+            aria-label="TRENDS YOUNIQUE home"
             className="col-start-2 flex min-w-0 shrink-0 items-center justify-center lg:col-start-auto lg:justify-start"
           >
             <BrandLockup />
@@ -233,8 +234,10 @@ export function SiteHeader() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`relative whitespace-nowrap py-2 text-[10px] font-medium tracking-[.06em] transition-colors hover:text-[#862222] xl:text-[11.5px] xl:tracking-[.1em] ${
-                    active ? "text-[#862222]" : "text-[#222]"
+                  className={`relative whitespace-nowrap py-2 text-[10px] font-medium tracking-[.06em] uppercase transition-colors hover:text-[#6f1d2b] xl:text-[11px] xl:tracking-[.14em] ${
+                    active ? "text-[#6f1d2b]" : "text-[#2b2420]"
+                  } after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-[#b08a4a] after:transition-all after:duration-300 hover:after:w-full ${
+                    active ? "after:w-full" : ""
                   }`}
                 >
                   {link.label}
@@ -254,7 +257,7 @@ export function SiteHeader() {
               onClick={() => setSearchOpen((open) => !open)}
               aria-label="Search"
               data-testid="header-search"
-              className="flex h-9 w-9 items-center justify-center rounded-full transition hover:bg-[#f6f1ec] hover:text-[#862222]"
+              className="flex h-9 w-9 items-center justify-center rounded-full transition hover:bg-[#f6f1ec] hover:text-[#6f1d2b]"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
                 <circle cx="11" cy="11" r="7" />
@@ -264,7 +267,7 @@ export function SiteHeader() {
             <Link
               href="/account"
               aria-label="Account"
-              className="hidden h-9 w-9 items-center justify-center rounded-full transition hover:bg-[#f6f1ec] hover:text-[#862222] md:flex"
+              className="hidden h-9 w-9 items-center justify-center rounded-full transition hover:bg-[#f6f1ec] hover:text-[#6f1d2b] md:flex"
             >
               <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
                 <circle cx="12" cy="8" r="4" />
@@ -275,7 +278,7 @@ export function SiteHeader() {
               href="/wishlist"
               aria-label="Wishlist"
               data-testid="header-wishlist"
-              className="relative hidden h-9 w-9 items-center justify-center rounded-full transition hover:bg-[#f6f1ec] hover:text-[#862222] sm:flex"
+              className="relative hidden h-9 w-9 items-center justify-center rounded-full transition hover:bg-[#f6f1ec] hover:text-[#6f1d2b] sm:flex"
             >
               <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
                 <path d="M20.8 5.6a5 5 0 0 0-7.1 0L12 7.3l-1.7-1.7a5 5 0 1 0-7.1 7.1L12 21.5l8.8-8.8a5 5 0 0 0 0-7.1Z" />
@@ -291,7 +294,7 @@ export function SiteHeader() {
               onClick={openCart}
               aria-label="Open cart"
               data-testid="header-cart"
-              className="relative flex h-9 items-center gap-1.5 px-1.5 transition hover:text-[#862222]"
+              className="relative flex h-9 items-center gap-1.5 px-1.5 transition hover:text-[#6f1d2b]"
             >
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
                 <path d="M6 7h12l1.2 13H4.8L6 7Z" />
@@ -302,7 +305,7 @@ export function SiteHeader() {
                 {count}
                 <span className="hidden xl:inline"> / {formatPrice(subtotal)}</span>
               </span>
-              <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#862222] px-1 text-[9px] font-semibold text-white sm:hidden">
+              <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#6f1d2b] px-1 text-[9px] font-semibold text-white sm:hidden">
                 {count}
               </span>
             </button>
@@ -315,7 +318,7 @@ export function SiteHeader() {
             data-testid="search-panel"
             onKeyDown={onSearchKeyDown}
             /* panel apne andar scroll hota hai — bahut results hone par bhi user niche tak pahunch sakta hai */
-            className="max-h-[calc(100svh-72px)] overflow-y-auto overscroll-contain border-t border-[#eee6de] bg-white px-4 py-4 shadow-sm"
+            className="max-h-[calc(100svh-72px)] overflow-y-auto overscroll-contain border-t border-[#ece1d3] bg-white px-4 py-4 shadow-sm"
           >
             <form onSubmit={submitSearch} className="mx-auto max-w-[760px]">
               <div className="flex items-center gap-2 border border-[#d9cec3] px-3">
@@ -332,7 +335,7 @@ export function SiteHeader() {
                   placeholder="Search for anarkali suits, lehenga, printed suits…"
                   className="h-11 w-full bg-transparent text-sm outline-none placeholder:text-[#9c9289]"
                 />
-                <button type="submit" className="text-[11px] font-semibold tracking-[.14em] uppercase text-[#862222]">
+                <button type="submit" className="text-[11px] font-semibold tracking-[.14em] uppercase text-[#6f1d2b]">
                   Search
                 </button>
               </div>
@@ -344,7 +347,7 @@ export function SiteHeader() {
                       key={suggestion}
                       type="button"
                       onClick={() => setQuery(suggestion)}
-                      className="border border-[#ece3d9] px-2.5 py-1 text-[11.5px] text-[#5c534b] transition hover:border-[#862222] hover:text-[#862222]"
+                      className="border border-[#ece3d9] px-2.5 py-1 text-[11.5px] text-[#3d332c] transition hover:border-[#6f1d2b] hover:text-[#6f1d2b]"
                     >
                       {suggestion}
                     </button>
@@ -365,7 +368,7 @@ export function SiteHeader() {
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <SafeImage src={imageUrl(product.images[0], 160)} alt={product.title} className="h-14 w-12 object-cover" />
                         <span className="flex-1 text-xs font-medium">{product.title}</span>
-                        <span className="text-xs text-[#862222]">{formatPrice(product.price)}</span>
+                        <span className="text-xs text-[#6f1d2b]">{formatPrice(product.price)}</span>
                       </Link>
                     </li>
                   ))}
@@ -376,14 +379,14 @@ export function SiteHeader() {
                 <Link
                   href={`/search?q=${encodeURIComponent(query.trim())}`}
                   onClick={() => setSearchOpen(false)}
-                  className="mt-2 block text-center text-[11px] font-semibold tracking-[.12em] text-[#862222] uppercase"
+                  className="mt-2 block text-center text-[11px] font-semibold tracking-[.12em] text-[#6f1d2b] uppercase"
                 >
                   View all results
                 </Link>
               ) : null}
 
               {query.trim().length >= 2 && results.length === 0 ? (
-                <p className="mt-3 text-[11.5px] text-[#8a8078]">
+                <p className="mt-3 text-[11.5px] text-[#8a7d72]">
                   &ldquo;{query.trim()}&rdquo; ke liye kuch nahi mila — inhe try kariye:
                 </p>
               ) : null}
@@ -406,7 +409,7 @@ export function SiteHeader() {
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <SafeImage src={imageUrl(product.images[0], 160)} alt={product.title} className="h-14 w-12 object-cover" />
                           <span className="flex-1 text-xs font-medium">{product.title}</span>
-                          <span className="text-xs text-[#862222]">{formatPrice(product.price)}</span>
+                          <span className="text-xs text-[#6f1d2b]">{formatPrice(product.price)}</span>
                         </Link>
                       </li>
                     ))}
@@ -427,8 +430,8 @@ export function SiteHeader() {
             className="absolute inset-0 bg-black/40"
           />
           <div className="absolute inset-y-0 left-0 flex w-[86%] max-w-[340px] flex-col bg-white shadow-xl">
-            <div className="flex items-center justify-between border-b border-[#eee6de] px-4 py-3">
-              <Link href="/" onClick={() => setMobileOpen(false)} aria-label="Designer Clothing home">
+            <div className="flex items-center justify-between border-b border-[#ece1d3] px-4 py-3">
+              <Link href="/" onClick={() => setMobileOpen(false)} aria-label="TRENDS YOUNIQUE home">
                 <BrandLockup size="compact" />
               </Link>
               <button type="button" onClick={() => setMobileOpen(false)} aria-label="Close" className="p-2">
@@ -481,8 +484,8 @@ export function SiteHeader() {
                 </div>
               </div>
             </nav>
-            <div className="border-t border-[#eee6de] px-5 py-4 text-[11.5px] text-[#5c534b]">
-              <p className="font-medium text-[#862222]">Info.likshaclothing@gmail.com</p>
+            <div className="border-t border-[#ece1d3] px-5 py-4 text-[11.5px] text-[#3d332c]">
+              <p className="font-medium text-[#6f1d2b]">care@trendsyounique.com</p>
               <p className="mt-1">WhatsApp {whatsapp} · {supportPhone}</p>
             </div>
           </div>
@@ -513,8 +516,37 @@ function CartDrawer({
   removeLine: (key: string) => void;
   setQuantity: (key: string, quantity: number) => void;
 }) {
-  const { isOpen, closeCart, lastAdded } = useCart();
+  const { isOpen, closeCart, lastAdded, notice, maxForSize } = useCart();
   const listRef = useRef<HTMLDivElement>(null);
+  const { whatsapp } = useStoreSettings();
+
+  /** drawer se poora cart WhatsApp par — pehle enquiry DB/Sheet me, phir chat */
+  function sendCartOnWhatsApp() {
+    if (!lines.length) return;
+    logWhatsAppEnquiry({
+      type: "cart",
+      items: lines.map((line) => ({
+        title: line.title,
+        handle: line.handle,
+        colour: line.colour ?? null,
+        size: line.size ?? null,
+        quantity: line.quantity,
+        price: line.price,
+      })),
+      total: subtotal,
+    });
+    const message = cartWhatsAppMessage(
+      lines.map((line) => ({
+        title: line.title,
+        handle: line.handle,
+        size: line.size,
+        colour: line.colour,
+        quantity: line.quantity,
+        price: line.price,
+      })),
+    );
+    window.open(whatsappLink(message, whatsappNumber(whatsapp)), "_blank", "noopener");
+  }
 
   // naya item list ke sabse upar aata hai — drawer bhi top par scroll ho jaye
   useEffect(() => {
@@ -527,7 +559,7 @@ function CartDrawer({
     <div className="fixed inset-0 z-50" data-testid="cart-drawer" role="dialog" aria-modal="true" aria-label="Cart">
       <button type="button" aria-label="Close cart" onClick={closeCart} className="absolute inset-0 bg-black/45" />
       <aside className="absolute inset-y-0 right-0 flex w-full max-w-[420px] flex-col bg-white shadow-2xl">
-        <div className="flex items-center justify-between border-b border-[#eee6de] px-5 py-4">
+        <div className="flex items-center justify-between border-b border-[#ece1d3] px-5 py-4">
           <h2 className="text-[13px] font-semibold tracking-[.16em] uppercase">Your cart ({count})</h2>
           <button type="button" onClick={closeCart} aria-label="Close cart" className="p-1.5">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
@@ -535,13 +567,23 @@ function CartDrawer({
             </svg>
           </button>
         </div>
+        {notice ? (
+          <p
+            role="status"
+            className="mx-5 mt-3 border border-[#e2cfa8] bg-[#fdf6e7] px-3 py-2 text-[11.5px] leading-snug text-[#7a5a1c]"
+            data-testid="cart-notice"
+          >
+            {notice}
+          </p>
+        ) : null}
+
         {lines.length === 0 ? (
           <div className="flex flex-1 flex-col items-center justify-center gap-4 px-6 text-center">
-            <p className="text-sm text-[#6b6259]">Your cart is empty.</p>
+            <p className="text-sm text-[#6f6259]">Your cart is empty.</p>
             <Link
               href="/collections/party-wear-gown"
               onClick={closeCart}
-              className="bg-[#862222] px-6 py-3 text-[11px] font-semibold tracking-[.16em] text-white uppercase"
+              className="bg-[#6f1d2b] px-6 py-3 text-[11px] font-semibold tracking-[.16em] text-white uppercase"
             >
               Shop Anarkali Suits
             </Link>
@@ -553,7 +595,7 @@ function CartDrawer({
                 <div
                   key={line.key}
                   data-testid={line.key === lastAdded?.key ? "cart-just-added" : undefined}
-                  className={`flex gap-3 border-b border-[#f1ebe5] py-4 ${
+                  className={`flex gap-3 border-b border-[#f2e9dd] py-4 ${
                     line.key === lastAdded?.key ? "bg-[#fdf7f5]" : ""
                   }`}
                 >
@@ -565,7 +607,7 @@ function CartDrawer({
                     <Link
                       href={`/products/${line.handle}`}
                       onClick={closeCart}
-                      className="text-[12.5px] font-medium leading-snug hover:text-[#862222]"
+                      className="text-[12.5px] font-medium leading-snug hover:text-[#6f1d2b]"
                     >
                       {line.title}
                     </Link>
@@ -574,11 +616,11 @@ function CartDrawer({
                         Just added
                       </span>
                     ) : null}
-                    <p className="mt-0.5 text-[11px] text-[#8a8078]">
+                    <p className="mt-0.5 text-[11px] text-[#8a7d72]">
                       Size: {line.size}
                       {line.colour ? ` · ${line.colour}` : ""}
                     </p>
-                    <p className="mt-1 text-[12.5px] font-semibold text-[#862222]">{formatPrice(line.price)}</p>
+                    <p className="mt-1 text-[12.5px] font-semibold text-[#6f1d2b]">{formatPrice(line.price)}</p>
                     <div className="mt-2 flex items-center justify-between">
                       <div className="flex items-center border border-[#e2d8cd]">
                         <button
@@ -593,7 +635,8 @@ function CartDrawer({
                         <button
                           type="button"
                           onClick={() => setQuantity(line.key, line.quantity + 1)}
-                          className="h-7 w-7 text-sm"
+                          disabled={line.quantity >= maxForSize(line.size)}
+                          className="h-7 w-7 text-sm disabled:cursor-not-allowed disabled:text-[#c9bfb4]"
                           aria-label="Increase quantity"
                         >
                           +
@@ -611,28 +654,39 @@ function CartDrawer({
                 </div>
               ))}
             </div>
-            <div className="border-t border-[#eee6de] px-5 py-4">
+            <div className="border-t border-[#ece1d3] px-5 py-4">
               <div className="flex items-center justify-between text-sm">
                 <span className="tracking-[.1em] uppercase">Subtotal</span>
-                <span className="font-semibold text-[#862222]">{formatPrice(subtotal)}</span>
+                <span className="font-semibold text-[#6f1d2b]">{formatPrice(subtotal)}</span>
               </div>
-              <p className="mt-1 text-[11px] text-[#8a8078]">
+              <p className="mt-1 text-[11px] text-[#8a7d72]">
                 Free shipping across India · prepaid orders dispatch same day
               </p>
               <Link
                 href="/cart"
                 onClick={closeCart}
-                className="mt-3 block border border-[#862222] py-3 text-center text-[11px] font-semibold tracking-[.16em] text-[#862222] uppercase"
+                className="mt-3 block border border-[#6f1d2b] py-3 text-center text-[11px] font-semibold tracking-[.16em] text-[#6f1d2b] uppercase"
               >
                 View cart
               </Link>
               <Link
                 href="/checkout"
                 onClick={closeCart}
-                className="mt-2 block bg-[#862222] py-3 text-center text-[11px] font-semibold tracking-[.16em] text-white uppercase"
+                className="mt-2 block bg-[#6f1d2b] py-3 text-center text-[11px] font-semibold tracking-[.16em] text-white uppercase"
               >
                 Checkout
               </Link>
+              <button
+                type="button"
+                onClick={sendCartOnWhatsApp}
+                data-testid="drawer-whatsapp"
+                className="btn-whatsapp mt-2 w-full py-3 text-[11px]"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                  <path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.2 14.1c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1a11.6 11.6 0 0 1-5.9-5.2c-.4-.7-.6-1.4-.6-2 0-.6.3-1.2.6-1.6.2-.2.4-.3.6-.3h.5c.2 0 .4 0 .5.4l.7 1.7c.1.2 0 .4-.1.6l-.4.5c-.1.1-.2.3-.1.5a7.5 7.5 0 0 0 3.3 2.9c.2.1.4.1.5-.1l.6-.7c.2-.2.3-.2.5-.1l1.6.8c.2.1.4.2.4.4 0 .2 0 .9-.2 1.4Z" />
+                </svg>
+                Send cart on WhatsApp
+              </button>
             </div>
           </>
         )}

@@ -14,7 +14,7 @@ export function renderMarkdown(markdown: string): ReactNode[] {
   const flushList = () => {
     if (listItems.length === 0) return;
     blocks.push(
-      <ul key={`ul-${key++}`} className="mt-2 list-disc space-y-1.5 pl-5 text-[13px] leading-relaxed text-[#5c534b]">
+      <ul key={`ul-${key++}`} className="mt-2 list-disc space-y-1.5 pl-5 text-[13px] leading-relaxed text-[#3d332c]">
         {listItems.map((item, index) => (
           <li key={index}>{inline(item)}</li>
         ))}
@@ -32,7 +32,7 @@ export function renderMarkdown(markdown: string): ReactNode[] {
           <thead>
             <tr>
               {head.map((cell, index) => (
-                <th key={index} className="border border-[#e9dfd4] bg-[#faf6f1] px-3 py-2 text-left font-semibold">
+                <th key={index} className="border border-[#eadfce] bg-[#faf6ef] px-3 py-2 text-left font-semibold">
                   {cell}
                 </th>
               ))}
@@ -42,7 +42,7 @@ export function renderMarkdown(markdown: string): ReactNode[] {
             {rows.map((row, rowIndex) => (
               <tr key={rowIndex}>
                 {row.map((cell, cellIndex) => (
-                  <td key={cellIndex} className="border border-[#e9dfd4] px-3 py-2 text-[#5c534b]">
+                  <td key={cellIndex} className="border border-[#eadfce] px-3 py-2 text-[#3d332c]">
                     {cell}
                   </td>
                 ))}
@@ -69,7 +69,7 @@ export function renderMarkdown(markdown: string): ReactNode[] {
     }
     if (line.startsWith("### ")) {
       blocks.push(
-        <h3 key={`h3-${key++}`} className="mt-5 text-[13.5px] font-semibold tracking-[.04em] text-[#862222]">
+        <h3 key={`h3-${key++}`} className="mt-5 text-[13.5px] font-semibold tracking-[.04em] text-[#6f1d2b]">
           {inline(line.slice(4))}
         </h3>,
       );
@@ -97,14 +97,14 @@ export function renderMarkdown(markdown: string): ReactNode[] {
     }
     if (/^\d+\.\s/.test(line)) {
       blocks.push(
-        <p key={`ol-${key++}`} className="mt-1 pl-1 text-[13px] leading-relaxed text-[#5c534b]">
+        <p key={`ol-${key++}`} className="mt-1 pl-1 text-[13px] leading-relaxed text-[#3d332c]">
           {inline(line)}
         </p>,
       );
       continue;
     }
     blocks.push(
-      <p key={`p-${key++}`} className="mt-2.5 text-[13px] leading-relaxed text-[#5c534b]">
+      <p key={`p-${key++}`} className="mt-2.5 text-[13px] leading-relaxed text-[#3d332c]">
         {inline(line)}
       </p>,
     );
@@ -118,7 +118,7 @@ function inline(text: string): ReactNode[] {
   const parts = text.split(/(\*\*[^*]+\*\*)/g);
   return parts.map((part, index) =>
     part.startsWith("**") && part.endsWith("**") ? (
-      <strong key={index} className="font-semibold text-[#2f2a25]">
+      <strong key={index} className="font-semibold text-[#14100e]">
         {part.slice(2, -2)}
       </strong>
     ) : (

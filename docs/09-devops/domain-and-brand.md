@@ -49,7 +49,7 @@ callback — sab isi se bante hain (`apps/web/src/config/site.ts`).
 | `STORE_UPI_ID` / `STORE_UPI_NAME` | `dhakadgourav@fam` / `Designer Clothing` | UPI QR (sheet `upi_id`/`upi_name` override karte hain) |
 | `ADMIN_API_TOKEN` | 32+ char random | admin → storefront API auth |
 | `GOOGLE_SHEETS_WEBAPP_URL` / `GOOGLE_SHEETS_TOKEN` | Apps Script `/exec` | owner settings + order/payment log |
-| `CONTACT_EMAIL` | `Info.likshaclothing@gmail.com` | contact form delivery |
+| `CONTACT_EMAIL` | `care@trendsyounique.com` | contact form delivery |
 
 ### 3.2 GitHub → Settings → Variables (`STORE_API_URL`)
 

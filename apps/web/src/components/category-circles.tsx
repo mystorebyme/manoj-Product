@@ -22,7 +22,7 @@ export function CategoryCircles({
             href={item.href}
             className="group flex w-[76px] shrink-0 snap-start flex-col items-center sm:w-[92px] lg:w-[104px]"
           >
-            <span className="relative block h-[76px] w-[76px] overflow-hidden rounded-full bg-[#f3ece4] ring-1 ring-[#e9dfd4] transition group-hover:ring-2 group-hover:ring-[#862222] sm:h-[92px] sm:w-[92px] lg:h-[104px] lg:w-[104px]">
+            <span className="relative block h-[76px] w-[76px] overflow-hidden rounded-full bg-[#f3ece4] ring-1 ring-[#eadfce] transition group-hover:ring-2 group-hover:ring-[#6f1d2b] sm:h-[92px] sm:w-[92px] lg:h-[104px] lg:w-[104px]">
               {item.image ? (
                 <SafeImage
                   src={imageUrl(item.image, 300)}
@@ -31,11 +31,11 @@ export function CategoryCircles({
                 />
               ) : null}
             </span>
-            <span className="mt-2 text-center text-[10.5px] font-medium tracking-[.1em] text-[#2f2a25] uppercase transition group-hover:text-[#862222] sm:text-[11px]">
+            <span className="mt-2 text-center text-[10.5px] font-medium tracking-[.1em] text-[#14100e] uppercase transition group-hover:text-[#6f1d2b] sm:text-[11px]">
               {item.title}
             </span>
             {typeof item.count === "number" ? (
-              <span className="text-[9.5px] text-[#9c8f82]">{item.count} styles</span>
+              <span className="text-[9.5px] text-[#a3948a]">{item.count} styles</span>
             ) : null}
           </Link>
         ))}

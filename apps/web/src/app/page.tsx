@@ -12,31 +12,31 @@ import { bestSellers } from "@/lib/best-sellers";
 import { BestSellersRail } from "@/components/best-sellers-rail";
 import { imageUrl } from "@/lib/format";
 import { heroBanners, siteConfig } from "@/config/site";
+import { whatsappLink, whatsappNumber } from "@/lib/whatsapp";
 import { SafeImage } from "@/components/safe-image";
 
 /** Home ke rails har 10 minute me badalte hain — page bhi utni hi der me refresh hota hai */
 export const revalidate = 600;
 
 export const metadata: Metadata = {
-  title: "Designer Clothing | Designer Anarkali Suits, Lehenga Choli & Suit Sets",
+  title: "TRENDS YOUNIQUE | Designer Anarkali Suits, Lehenga Choli & Suit Sets",
   description:
-    "Shop designer Anarkali suits, lehanga choli and printed suit sets at Designer Clothing. Hand-finished pieces, free shipping within India and express delivery on prepaid orders.",
+    "Shop designer Anarkali suits, lehanga choli and printed suit sets at TRENDS YOUNIQUE. Hand-finished pieces, free shipping within India and express delivery on prepaid orders.",
   alternates: { canonical: "/" },
 };
 
 /**
- * Festive home banner — owner ke diye hue Diwali Sale posters.
- * Artwork par "FLAT 70% OFF" chhapa hai; catalogue me 60% aur 70% dono hain, isliye
- * HTML copy/alt/announcement "Up to 70% OFF" bolti hai (misleading claim nahi).
+ * Hero — premium editorial.
  *
- * Device ke hisaab se alag file (ek hi download hoti hai):
- *   - <768px   → portrait poster  (mobile, poora composition)
- *   - 768–1023 → 4:3 crop         (tablet, text + dono models)
- *   - ≥1024px  → wide banner      (desktop/laptop)
- * Wrapper ka `aspect-ratio` har asset ke exact ratio ke barabar hai, isliye
- * kuch bhi crop/stretch nahi hota aur layout shift (CLS) zero rehta hai.
+ * Artwork (owner ke liye generate ki gayi editorial shoot) par koi text bake nahi
+ * hai; headline HTML me hai — isliye SEO/accessibility dono theek aur copy badalna
+ * aasan. Device ke hisaab se alag crop aata hai (ek hi file download hoti hai):
+ *   - <768px   → 4:5 portrait (mobile)
+ *   - 768–1023 → 4:3 (tablet)
+ *   - ≥1024px  → 16:9 wide (desktop, model right + left me copy ke liye space)
  */
-const HERO_HREF = "/collections/sale";
+const HERO_HREF = "/collections/new-arrivals";
+const SECONDARY_HREF = "/collections/sale";
 
 export default async function HomePage() {
   const products = await getProducts();
@@ -100,55 +100,81 @@ export default async function HomePage() {
     <div>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      {/* ── hero banner: device-specific festive poster (mobile / tablet / desktop) ── */}
-      <section className="relative bg-[#fbf1e2]" data-testid="hero-banner" aria-label="Diwali Sale">
+      {/* ── hero: editorial banner + overlay copy (device-specific crop) ── */}
+      <section className="relative bg-[#efe4d4]" data-testid="hero-banner" aria-label="TRENDS YOUNIQUE new season">
         <div className="mx-auto max-w-[1920px]">
-          <Link
-            href={HERO_HREF}
-            aria-label="Shop the Diwali sale — up to 70% off"
-            className="hero-media group relative block aspect-[860/1290] w-full overflow-hidden bg-[#fbf1e2] md:aspect-[4/3] lg:aspect-[1779/594]"
-          >
+          <div className="hero-media hero-scrim relative aspect-[4/5] w-full overflow-hidden bg-[#efe4d4] md:aspect-[4/3] lg:aspect-[16/9]">
             <picture>
-              <source media="(min-width:1024px)" srcSet={heroBanners.desktop} width={1779} height={594} />
-              <source media="(min-width:768px)" srcSet={heroBanners.tablet} width={1200} height={900} />
+              <source media="(min-width:1024px)" srcSet={heroBanners.desktop} width={1920} height={1080} />
+              <source media="(min-width:768px)" srcSet={heroBanners.tablet} width={1280} height={960} />
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={heroBanners.mobile}
-                alt="Happy Diwali Sale — up to 70% off ethnic wear by Designer Clothing"
-                width={860}
-                height={1290}
+                alt="Model in a hand-embroidered wine anarkali suit from the TRENDS YOUNIQUE new season edit"
+                width={1000}
+                height={1250}
                 loading="eager"
                 fetchPriority="high"
                 decoding="async"
-                className="transition duration-700 group-hover:scale-[1.01]"
+                className="animate-kenburns"
               />
             </picture>
-          </Link>
 
-          {/* SEO h1 + quick actions — poster par text pehle se hai, isliye chhota strip */}
-          <div className="container-liksha flex flex-col items-center gap-3 border-b border-[#efe2cf] py-5 text-center sm:flex-row sm:justify-between sm:text-left">
-            <div>
-              <h1 className="font-display text-[20px] leading-tight font-medium text-[#5c1010] sm:text-[24px]">
-                Diwali Sale — Up to <span className="text-[#862222]">70%</span> Off
-              </h1>
-              <p className="mt-1 text-[11px] text-[#7b6f64]">
-                Free shipping pan-India · Prepaid only · 4–7 day delivery
-              </p>
+            {/* overlay copy — mobile par neeche, desktop par left me */}
+            <div className="absolute inset-0 flex items-end justify-start sm:items-center">
+              <div className="w-full max-w-[760px] px-6 pb-9 sm:px-10 sm:pb-0 lg:px-16">
+                <p className="text-[10px] font-semibold tracking-[.34em] text-[#e6cb98] uppercase sm:text-[11px]">
+                  New season · 2026
+                </p>
+                <h1 className="mt-3 font-display text-[34px] leading-[1.05] font-medium text-white sm:text-[46px] lg:text-[62px]">
+                  Couture for the
+                  <br className="hidden sm:block" /> woman who arrives
+                </h1>
+                <p className="mt-4 max-w-[42ch] text-[12.5px] leading-relaxed text-[#f2e6d6] sm:text-[13.5px]">
+                  Hand-finished anarkali suits, lehenga choli and printed sets — made in limited runs,
+                  delivered across India.
+                </p>
+                <div className="mt-6 flex flex-col gap-2.5 sm:flex-row sm:items-center">
+                  <Link
+                    href={HERO_HREF}
+                    className="btn-primary w-full justify-center sm:w-auto"
+                  >
+                    Shop new arrivals
+                  </Link>
+                  <a
+                    href={whatsappLink(
+                      `Hi ${siteConfig.name}, I'd like help choosing an outfit. Please share your latest designs.`,
+                      whatsappNumber(),
+                    )}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex w-full items-center justify-center gap-2 border border-white/70 px-7 py-[0.9rem] text-[11px] font-semibold tracking-[.18em] text-white uppercase transition hover:border-[#e6cb98] hover:text-[#e6cb98] sm:w-auto"
+                  >
+                    Order on WhatsApp
+                  </a>
+                </div>
+                <p className="mt-4 text-[10.5px] tracking-[.16em] text-[#e7d9c6] uppercase">
+                  Free shipping · 7 day exchange · WhatsApp ordering
+                </p>
+              </div>
             </div>
-            <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
-              <Link
-                href="/collections/sale"
-                className="inline-flex h-11 items-center justify-center bg-[#862222] px-7 text-[11px] font-semibold tracking-[.16em] text-white uppercase transition hover:bg-[#6d1b1b]"
-              >
-                Shop the sale
-              </Link>
-              <Link
-                href="/collections/new-arrivals"
-                className="inline-flex h-11 items-center justify-center border border-[#862222] px-7 text-[11px] font-semibold tracking-[.16em] text-[#862222] uppercase transition hover:bg-[#862222] hover:text-white"
-              >
-                New arrivals
-              </Link>
-            </div>
+          </div>
+
+          {/* trust strip — premium brands jaise, hero ke turant neeche */}
+          <div className="border-y border-[#e4d7c5] bg-[#faf6ef]">
+            <ul className="container-liksha grid grid-cols-2 divide-[#e4d7c5] text-center md:grid-cols-4 md:divide-x">
+              {[
+                { title: "Hand-finished in Jaipur", note: "Zari, sequin & mirror work" },
+                { title: "Free shipping pan-India", note: "Dispatched within 24 hours" },
+                { title: "Order on WhatsApp", note: "Stylist help before you buy" },
+                { title: "7 day easy exchange", note: "Size ya fit ka issue? Solved" },
+              ].map((item) => (
+                <li key={item.title} className="px-4 py-4 md:py-5">
+                  <p className="text-[10.5px] font-semibold tracking-[.14em] text-[#4a1220] uppercase">{item.title}</p>
+                  <p className="mt-1 text-[10.5px] text-[#8a7d72]">{item.note}</p>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>
@@ -169,6 +195,46 @@ export default async function HomePage() {
       <OccasionStrip />
       <EditorialBand />
 
+      {/* WhatsApp ordering band — dukaan ka doosra "checkout" */}
+      <section className="container-liksha pb-4" aria-labelledby="whatsapp-band">
+        <div className="relative overflow-hidden bg-[#4a1220] px-6 py-10 text-center sm:px-12 sm:py-14">
+          <div className="pointer-events-none absolute inset-0 opacity-[0.14]" aria-hidden>
+            <div className="absolute -top-24 -left-16 h-64 w-64 rounded-full border border-[#d9bb84]" />
+            <div className="absolute -right-10 -bottom-24 h-72 w-72 rounded-full border border-[#d9bb84]" />
+          </div>
+          <span className="text-[10px] font-semibold tracking-[.32em] text-[#d9bb84] uppercase">
+            Personal styling
+          </span>
+          <h2 id="whatsapp-band" className="mt-3 font-display text-[26px] leading-tight font-medium text-white sm:text-[34px]">
+            Size, colour ya delivery — poochh lijiye WhatsApp par
+          </h2>
+          <p className="mx-auto mt-3 max-w-[52ch] text-[12.5px] leading-relaxed text-[#e9d9c8]">
+            Cart bhariye ya seedha product page se hi order bhejiye — humari team wahi item,
+            wahi size confirm karke payment link bhej deti hai. Bulk (10–30 pieces) ke liye bhi
+            yahi number.
+          </p>
+          <div className="mt-6 flex flex-col items-center justify-center gap-2.5 sm:flex-row">
+            <a
+              href={whatsappLink(
+                `Hi ${siteConfig.name}, I need help with size / delivery.`,
+                whatsappNumber(),
+              )}
+              target="_blank"
+              rel="noreferrer"
+              className="btn-whatsapp w-full justify-center sm:w-auto"
+              data-testid="home-whatsapp"
+            >
+              Chat on WhatsApp
+            </a>
+            <Link
+              href="/collections"
+              className="inline-flex w-full items-center justify-center border border-white/60 px-7 py-[0.9rem] text-[11px] font-semibold tracking-[.18em] text-white uppercase transition hover:border-[#d9bb84] hover:text-[#d9bb84] sm:w-auto"
+            >
+              Browse all edits
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
@@ -185,22 +251,23 @@ function ProductRail({
   const { title, subtitle, href } = RAILS[rail];
   if (!products.length) return null;
   return (
-    <section className="container-liksha py-10 lg:py-14">
-      <Reveal className="flex flex-col items-center">
-        <h2 className="font-display text-[26px] leading-tight font-medium tracking-[.03em] text-[#2f2a25] sm:text-[32px]">
-          {title}
-        </h2>
-        <p className="mt-1 text-[11.5px] tracking-[.14em] text-[#9c8f82] uppercase">{subtitle}</p>
+    <section className="container-liksha py-11 lg:py-16">
+      <Reveal className="flex flex-col items-center text-center">
+        <span className="eyebrow">The edit</span>
+        <h2 className="section-title mt-2 text-[27px] sm:text-[34px]">{title}</h2>
+        <div className="mt-4 flex w-full max-w-[220px] items-center gap-3">
+          <span className="h-px flex-1 bg-[#dcc9ad]" />
+          <span className="h-1 w-1 rotate-45 bg-[#b08a4a]" />
+          <span className="h-px flex-1 bg-[#dcc9ad]" />
+        </div>
+        <p className="mt-3 text-[11px] tracking-[.16em] text-[#a3948a] uppercase">{subtitle}</p>
       </Reveal>
       <Reveal className="mt-7" delay={80}>
         <RotatingRail rail={rail} initial={products} pool={pool} perView={3} />
       </Reveal>
-      <div className="mt-8 flex justify-center">
-        <Link
-          href={href}
-          className="border border-[#862222] px-9 py-3 text-[11px] font-semibold tracking-[.18em] text-[#862222] uppercase transition hover:bg-[#862222] hover:text-white"
-        >
-          View All
+      <div className="mt-9 flex justify-center">
+        <Link href={href} className="btn-outline">
+          View all
         </Link>
       </div>
     </section>

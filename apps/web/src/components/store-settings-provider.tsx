@@ -23,17 +23,27 @@ export type PublicSettings = {
   supportEmail: string;
   whatsapp: string;
   freeShipping: boolean;
+  /** owner sheet se quantity limits */
+  maxQtyPerItem?: number;
+  maxQtyBulk?: number;
+  maxQtyPerOrder?: number;
+  brandName?: string;
+  tagline?: string;
   updatedAt?: string;
 };
 
 export const DEFAULT_PUBLIC_SETTINGS: PublicSettings = {
   announcement: "",
   upiId: "dhakadgourav@fam",
-  upiName: "Designer Clothing",
+  upiName: "TRENDS YOUNIQUE",
   supportPhone: "8005900581",
-  supportEmail: "Info.likshaclothing@gmail.com",
+  supportEmail: "care@trendsyounique.com",
   whatsapp: "8005900581",
   freeShipping: true,
+  maxQtyPerItem: 10,
+  maxQtyBulk: 30,
+  maxQtyPerOrder: 15,
+  brandName: "TRENDS YOUNIQUE",
 };
 
 type ContextValue = {

@@ -184,3 +184,64 @@ Owner ka full-site audit prompt. Sabse pehle code/data inspect kiya, phir fix + 
 - **Tests:** naya `tests/e2e/round16.mjs` (37 checks) + `tests/e2e/links.mjs` (45 pages
   crawl) CI me; smoke 86/0, responsive 40/0, breakpoints 48/0, unit 89/0.
 - Docs: `docs/08-testing/round16-audit.md` (issues, decisions, verification matrix).
+
+## Round 17 — TRENDS YOUNIQUE rebrand, WhatsApp orders aur Google Sheet DB (2026-10-25)
+
+Project kisi aur ka tha; owner ne ise apne brand ke hisaab se poora badalne ko kaha.
+Sab kuch ek hi pass me: brand, WhatsApp order flow, admin panel, sheet database.
+
+**Brand**
+- Naam/logo **TRENDS YOUNIQUE** — owner ki di hui logo file se assets bane
+  (`scripts/brand/build-trends-assets.py`): header lockup, cream version (maroon bg),
+  stacked lockup, 4 square marks (favicon/PWA/WhatsApp thumb), invoice logo.
+- Palette: ink `#14100e`, wine `#6f1d2b`, wine-deep `#4a1220`, gold `#b08a4a`,
+  cream `#faf6ef`, sand `#eadfce`. Fonts: Cormorant Garamond + Jost.
+- Home hero naya (2026 drop, "Couture for the woman who arrives"), announcement bar
+  naye messages par, footer wine band + cream logo + gold heading.
+- Purane brand ke saare strings hata diye: `likshaclothing.com` email/handle/host
+  (`care@trendsyounique.com`), `likshaclothing@upi` → `trendsyounique@upi`,
+  admin login email `admin@trendsyounique.com`, invoice/sheet/docs.
+
+**WhatsApp = order channel (koi gateway nahi)**
+- Product page par "Order on WhatsApp": message me naam · colour · size · qty · price · link.
+- Cart drawer + cart page par "Send cart on WhatsApp": poora cart ek message me
+  (item-wise colour/size/qty/price + total) — aur saath hi `Enquiries` me log.
+- Cart se order place hone ke baad order page par WhatsApp confirmation link
+  (`orderWhatsAppMessage`) — ab **colour bhi** message me jaata hai.
+- Har click se pehle `POST /api/enquiry` (sendBeacon) → detail DB + sheet me save.
+
+**Quantity limits (owner: 10 / 30 / 15)**
+- Ek line 10 pieces, XL+ 30, poora order 15 (sirf XL+ order ho to 30).
+- Teen numbers sheet `Settings` + admin Settings se configurable.
+- `createOrderSchema.superRefine` server par bhi yahi rule lagata hai — UI bypass nahi hota.
+- `tests/unit/quantity-limits.test.ts` (10 tests).
+
+**Admin panel (sirf zaroori)**
+- Multi-image upload (12 tak, 8 MB, jpg/png/webp/avif, pehli = cover), naam, price, MRP,
+  colour, collection, **size + stock + size-wise price** (khaali = base price), draft/live.
+- Size-wise price storefront tak pahunchta hai (`sizePricing`) aur sheet row me
+  `XL (2 @2899)` ki tarah dikhta hai.
+- Settings page: brand, WhatsApp, UPI, announcement + teen quantity limits.
+- Uploaded photos `/api/uploads/<name>` se serve hote hain; admin panel `noindex` +
+  HMAC cookie session.
+
+**Google Sheet = database (link public nahi)**
+- Sheet: `TRENDS YOUNIQUE — Store DB`, tabs Orders · Order Items · Products · Enquiries ·
+  Payments · Settings · Messages · Newsletter · Read Me.
+- `scripts/google-apps-script/trends-sheets.gs`: `setup()`, `settings`, `recent`, `health`,
+  `append`, `upsert`; token-protected; deploy as *Me* + *Anyone*.
+- **Bug fix:** `orderSheetRow` purane column naam bhej raha tha (`Order number`, `Total`,
+  `Item details`) jabki sheet ke headers (`Order ID`, `Total ₹`, `Items`) — Apps Script
+  header ke naam se map karta hai, isliye customer ka phone/address chupchaap khaali
+  reh jaata. Ab keys exactly headers par, plus naye `orderItemRows` (har item ki alag row
+  with colour/size/qty/price/link) aur `paymentSheetRow` (Payments tab).
+- `tests/unit/sheet-headers.test.ts` — header contract test jo `.gs` file se headers padh
+  kar row keys se compare karta hai (drift pakad leta hai).
+- Docs: `docs/09-devops/google-sheets.md` (setup, tabs, settings keys, verify commands).
+
+**Verification**
+- `npm run typecheck` — web + admin + api clean.
+- `npm run test:unit` — 108/0, `npm run test:integration` — 40/0.
+- Manual (dev servers): product save → PDP 200 / listing / `/api/products`; order with
+  colour → stored order + order page + WhatsApp link; settings round-trip (10/30/15 →
+  8/25/12 → restore); admin pages 200 with session.

@@ -257,8 +257,8 @@ export function CollectionBrowser({
         {items.length === 0 ? (
           (emptyState ?? (
             <div className="py-20 text-center">
-              <p className="font-display text-[24px] text-[#2f2a25]">No styles here just yet</p>
-              <p className="mx-auto mt-2 max-w-[420px] text-[12.5px] leading-relaxed text-[#6b6259]">
+              <p className="font-display text-[24px] text-[#14100e]">No styles here just yet</p>
+              <p className="mx-auto mt-2 max-w-[420px] text-[12.5px] leading-relaxed text-[#6f6259]">
                 Try a different filter, or browse the edits our customers are loving right now.
               </p>
             </div>
@@ -283,7 +283,7 @@ export function CollectionBrowser({
                   type="button"
                   onClick={() => void loadMore()}
                   disabled={appending || loading}
-                  className="border border-[#862222] px-8 py-3 text-[11px] font-semibold tracking-[.16em] text-[#862222] uppercase transition hover:bg-[#862222] hover:text-white disabled:opacity-50"
+                  className="border border-[#6f1d2b] px-8 py-3 text-[11px] font-semibold tracking-[.16em] text-[#6f1d2b] uppercase transition hover:bg-[#6f1d2b] hover:text-white disabled:opacity-50"
                 >
                   {appending ? "Loading…" : `Load more (${total - items.length} left)`}
                 </button>

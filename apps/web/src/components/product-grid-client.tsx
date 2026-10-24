@@ -67,17 +67,17 @@ export function ProductGridWithMore({
             type="button"
             onClick={loadMore}
             disabled={loading}
-            className="border border-[#862222] px-8 py-3 text-[11px] font-semibold tracking-[.18em] text-[#862222] uppercase transition hover:bg-[#862222] hover:text-white disabled:opacity-60"
+            className="border border-[#6f1d2b] px-8 py-3 text-[11px] font-semibold tracking-[.18em] text-[#6f1d2b] uppercase transition hover:bg-[#6f1d2b] hover:text-white disabled:opacity-60"
           >
             {loading ? "Loading…" : "Load more products"}
           </button>
-          <p className="text-[10.5px] tracking-[.12em] text-[#9c8f82] uppercase">
+          <p className="text-[10.5px] tracking-[.12em] text-[#a3948a] uppercase">
             Showing {products.length} of {total} products
           </p>
           {error ? <p className="text-[11px] text-[#b3261e]">{error}</p> : null}
         </div>
       ) : total > pageSize ? (
-        <p className="mt-8 text-center text-[10.5px] tracking-[.12em] text-[#9c8f82] uppercase">
+        <p className="mt-8 text-center text-[10.5px] tracking-[.12em] text-[#a3948a] uppercase">
           All {total} products shown
         </p>
       ) : null}

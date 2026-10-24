@@ -2,11 +2,11 @@
 
 Last updated: 24 October 2026
 
-These terms govern your use of likshaclothing.com and any order you place with Designer Clothing. By placing an order you accept these terms.
+These terms govern your use of trendsyounique.com and any order you place with TRENDS YOUNIQUE. By placing an order you accept these terms.
 
 ## 1. Who we are
 
-Designer Clothing is a designer ethnic wear label operating from Jaipur, Rajasthan. You can reach us on WhatsApp 8005900581 or at Info.likshaclothing@gmail.com.
+TRENDS YOUNIQUE is a designer ethnic wear label operating from Jaipur, Rajasthan. You can reach us on WhatsApp 8005900581 or at care@trendsyounique.com.
 
 ## 2. Products and descriptions
 
@@ -40,7 +40,7 @@ Coupons cannot be combined, are valid only within their stated window and cannot
 
 ## 9. Intellectual property
 
-All photographs, designs and text on this site belong to Designer Clothing. Do not copy them for commercial use without written permission.
+All photographs, designs and text on this site belong to TRENDS YOUNIQUE. Do not copy them for commercial use without written permission.
 
 ## 10. Liability
 
@@ -48,4 +48,4 @@ We are responsible for the products we sell and for delivering them safely. We a
 
 ## 11. Complaints and law
 
-Write to Info.likshaclothing@gmail.com with your order number; we acknowledge complaints within 48 hours and aim to resolve them within 15 days. These terms are governed by Indian law, and courts at Jaipur, Rajasthan have jurisdiction.
+Write to care@trendsyounique.com with your order number; we acknowledge complaints within 48 hours and aim to resolve them within 15 days. These terms are governed by Indian law, and courts at Jaipur, Rajasthan have jurisdiction.

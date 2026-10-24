@@ -34,7 +34,7 @@ export default async function OrderPage({ params }: { params: Promise<{ orderNum
   return (
     <div className="container-liksha py-10 lg:py-14">
       <div className="mx-auto max-w-[860px]">
-        <div className="border border-[#e9dfd4] bg-[#faf8f5] p-6 text-center sm:p-9">
+        <div className="border border-[#eadfce] bg-[#fdfaf5] p-6 text-center sm:p-9">
           <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#e6f2e8] text-[#2f7a3f]">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
               <path d="m5 13 4 4L19 7" />
@@ -43,7 +43,7 @@ export default async function OrderPage({ params }: { params: Promise<{ orderNum
           <h1 className="mt-4 font-display text-[27px] font-medium sm:text-[32px]">
             Thank you, {order.customerName.split(" ")[0]}!
           </h1>
-          <p className="mt-1.5 text-[12.5px] text-[#6b6259]">
+          <p className="mt-1.5 text-[12.5px] text-[#6f6259]">
             {order.paymentMethod === "cod"
               ? "Your order is confirmed. Please pay the COD amount at delivery."
               : order.paymentStatus === "paid"
@@ -62,14 +62,14 @@ export default async function OrderPage({ params }: { params: Promise<{ orderNum
             </svg>
             Confirm order on WhatsApp
           </a>
-          <p className="mt-1.5 text-[11px] text-[#8a8078]">
+          <p className="mt-1.5 text-[11px] text-[#8a7d72]">
             This button sends your order number, every item with size and quantity, and the total on WhatsApp.
           </p>
 
-          <div className="mt-4 inline-flex flex-wrap items-center justify-center gap-x-6 gap-y-2 border-t border-[#e9dfd4] pt-4 text-[12px]">
+          <div className="mt-4 inline-flex flex-wrap items-center justify-center gap-x-6 gap-y-2 border-t border-[#eadfce] pt-4 text-[12px]">
             <span>
               Order:{" "}
-              <strong data-testid="order-number" className="text-[#862222]">
+              <strong data-testid="order-number" className="text-[#6f1d2b]">
                 {order.orderNumber}
               </strong>
             </span>
@@ -92,11 +92,11 @@ export default async function OrderPage({ params }: { params: Promise<{ orderNum
           />
         ) : null}
 
-        <div className="mt-4 border border-[#eee6de] p-5" data-testid="order-tracking">
+        <div className="mt-4 border border-[#ece1d3] p-5" data-testid="order-tracking">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h2 className="text-[11px] font-semibold tracking-[.16em] uppercase">Order tracking</h2>
-            <span className="text-[11px] text-[#8a8078]">
-              Status: <strong className="text-[#862222]">{ORDER_STATUS_COPY[order.status] ?? order.status}</strong>
+            <span className="text-[11px] text-[#8a7d72]">
+              Status: <strong className="text-[#6f1d2b]">{ORDER_STATUS_COPY[order.status] ?? order.status}</strong>
             </span>
           </div>
           <ol className="mt-4 grid grid-cols-5 gap-1.5 text-center">
@@ -107,12 +107,12 @@ export default async function OrderPage({ params }: { params: Promise<{ orderNum
                 <li key={step} className="flex flex-col items-center gap-1.5">
                   <span
                     className={`flex h-6 w-6 items-center justify-center rounded-full text-[10px] font-semibold ${
-                      done ? "bg-[#862222] text-white" : "bg-[#efe7dd] text-[#a49a90]"
+                      done ? "bg-[#6f1d2b] text-white" : "bg-[#efe7dd] text-[#a49a90]"
                     }`}
                   >
                     {done ? "✓" : index + 1}
                   </span>
-                  <span className="text-[10px] tracking-[.08em] uppercase text-[#6b6259]">
+                  <span className="text-[10px] tracking-[.08em] uppercase text-[#6f6259]">
                     {ORDER_STATUS_COPY[step]}
                   </span>
                   {eventFor ? (
@@ -124,19 +124,19 @@ export default async function OrderPage({ params }: { params: Promise<{ orderNum
           </ol>
 
           {order.statusNote?.text ? (
-            <div className="mt-4 border-l-2 border-[#862222] bg-[#faf6f2] px-4 py-3" data-testid="order-note">
-              <p className="text-[10.5px] font-semibold tracking-[.14em] text-[#862222] uppercase">
+            <div className="mt-4 border-l-2 border-[#6f1d2b] bg-[#faf6f2] px-4 py-3" data-testid="order-note">
+              <p className="text-[10.5px] font-semibold tracking-[.14em] text-[#6f1d2b] uppercase">
                 Update from our team
               </p>
               <p className="mt-1 text-[12.5px] leading-relaxed text-[#4a423b]">{order.statusNote.text}</p>
-              <p className="mt-1 text-[10.5px] text-[#9c8f82]">
+              <p className="mt-1 text-[10.5px] text-[#a3948a]">
                 {formatDate(order.statusNote.at)} · {ORDER_STATUS_COPY[order.statusNote.status] ?? order.statusNote.status}
               </p>
             </div>
           ) : null}
 
           {order.tracking?.awb ? (
-            <div className="mt-4 border-t border-[#f1ebe5] pt-3 text-[12.5px] text-[#5c534b]">
+            <div className="mt-4 border-t border-[#f2e9dd] pt-3 text-[12.5px] text-[#3d332c]">
               <p>
                 Courier: <strong>{order.tracking.courier ?? "—"}</strong>
                 <br />
@@ -153,23 +153,23 @@ export default async function OrderPage({ params }: { params: Promise<{ orderNum
                   href={order.tracking.url}
                   target="_blank"
                   rel="noreferrer"
-                  className="mt-2 inline-block border border-[#862222] px-4 py-2 text-[10.5px] font-semibold tracking-[.14em] text-[#862222] uppercase"
+                  className="mt-2 inline-block border border-[#6f1d2b] px-4 py-2 text-[10.5px] font-semibold tracking-[.14em] text-[#6f1d2b] uppercase"
                 >
                   Track with courier
                 </a>
               ) : null}
             </div>
           ) : (
-            <p className="mt-3 border-t border-[#f1ebe5] pt-3 text-[11.5px] text-[#8a8078]">
+            <p className="mt-3 border-t border-[#f2e9dd] pt-3 text-[11.5px] text-[#8a7d72]">
               The AWB number appears here and on WhatsApp as soon as the parcel is dispatched.
             </p>
           )}
         </div>
 
-        <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border border-[#eee6de] p-5">
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border border-[#ece1d3] p-5">
           <div>
             <h2 className="text-[11px] font-semibold tracking-[.16em] uppercase">GST invoice</h2>
-            <p className="mt-1 text-[11.5px] text-[#6b6259]">
+            <p className="mt-1 text-[11.5px] text-[#6f6259]">
               Download the tax invoice (GST 5% / 18% based on product value) — you will be asked for the last
               4 digits of the order phone number.
             </p>
@@ -177,16 +177,16 @@ export default async function OrderPage({ params }: { params: Promise<{ orderNum
           <Link
             href={`/orders/${order.orderNumber}/invoice`}
             data-testid="download-invoice"
-            className="border border-[#862222] px-5 py-2.5 text-[10.5px] font-semibold tracking-[.14em] text-[#862222] uppercase"
+            className="border border-[#6f1d2b] px-5 py-2.5 text-[10.5px] font-semibold tracking-[.14em] text-[#6f1d2b] uppercase"
           >
             Download invoice
           </Link>
         </div>
 
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
-          <div className="border border-[#eee6de] p-5">
+          <div className="border border-[#ece1d3] p-5">
             <h2 className="text-[11px] font-semibold tracking-[.16em] uppercase">Delivery address</h2>
-            <p className="mt-2 text-[12.5px] leading-relaxed text-[#5c534b]">
+            <p className="mt-2 text-[12.5px] leading-relaxed text-[#3d332c]">
               {order.customerName}
               <br />
               {order.address}
@@ -198,9 +198,9 @@ export default async function OrderPage({ params }: { params: Promise<{ orderNum
               {order.email}
             </p>
           </div>
-          <div className="border border-[#eee6de] p-5">
+          <div className="border border-[#ece1d3] p-5">
             <h2 className="text-[11px] font-semibold tracking-[.16em] uppercase">Payment</h2>
-            <p className="mt-2 text-[12.5px] text-[#5c534b]">
+            <p className="mt-2 text-[12.5px] text-[#3d332c]">
               Method: <strong>{order.paymentMethod === "cod" ? "Cash on delivery" : "Prepaid (UPI / card)"}</strong>
               <br />
               Status: <strong data-testid="payment-status">{order.paymentStatus}</strong>
@@ -230,11 +230,11 @@ export default async function OrderPage({ params }: { params: Promise<{ orderNum
           </div>
         </div>
 
-        <div className="mt-4 border border-[#eee6de]">
-          <h2 className="border-b border-[#eee6de] px-5 py-3 text-[11px] font-semibold tracking-[.16em] uppercase">
+        <div className="mt-4 border border-[#ece1d3]">
+          <h2 className="border-b border-[#ece1d3] px-5 py-3 text-[11px] font-semibold tracking-[.16em] uppercase">
             Items
           </h2>
-          <ul className="divide-y divide-[#f1ebe5]">
+          <ul className="divide-y divide-[#f2e9dd]">
             {order.items.map((item) => (
               <li key={`${item.handle}-${item.size}`} className="flex gap-3 p-4">
                 <SafeImage
@@ -243,14 +243,14 @@ export default async function OrderPage({ params }: { params: Promise<{ orderNum
                   className="h-24 w-20 shrink-0 object-cover"
                 />
                 <div className="flex-1">
-                  <Link href={`/products/${item.handle}`} className="text-[12.5px] font-medium hover:text-[#862222]">
+                  <Link href={`/products/${item.handle}`} className="text-[12.5px] font-medium hover:text-[#6f1d2b]">
                     {item.title}
                   </Link>
-                  <p className="mt-1 text-[11px] text-[#8a8078]">
+                  <p className="mt-1 text-[11px] text-[#8a7d72]">
                     Size {item.size} · Qty {item.quantity}
                   </p>
                 </div>
-                <span className="text-[12.5px] font-semibold text-[#862222]">
+                <span className="text-[12.5px] font-semibold text-[#6f1d2b]">
                   {formatPrice(item.price * item.quantity)}
                 </span>
               </li>
@@ -261,7 +261,7 @@ export default async function OrderPage({ params }: { params: Promise<{ orderNum
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link
             href="/collections/new-arrivals"
-            className="bg-[#862222] px-7 py-3 text-[11px] font-semibold tracking-[.16em] text-white uppercase"
+            className="bg-[#6f1d2b] px-7 py-3 text-[11px] font-semibold tracking-[.16em] text-white uppercase"
           >
             Continue shopping
           </Link>
@@ -269,7 +269,7 @@ export default async function OrderPage({ params }: { params: Promise<{ orderNum
             href={orderWhatsAppLink(order, siteUrl)}
             target="_blank"
             rel="noopener noreferrer"
-            className="border border-[#862222] px-7 py-3 text-[11px] font-semibold tracking-[.16em] text-[#862222] uppercase"
+            className="border border-[#6f1d2b] px-7 py-3 text-[11px] font-semibold tracking-[.16em] text-[#6f1d2b] uppercase"
           >
             Send order on WhatsApp
           </a>
@@ -282,7 +282,7 @@ export default async function OrderPage({ params }: { params: Promise<{ orderNum
 function Row({ label, value, strong = false }: { label: string; value: string; strong?: boolean }) {
   return (
     <div className={`flex justify-between ${strong ? "font-semibold" : ""}`}>
-      <span className="text-[#6b6259]">{label}</span>
+      <span className="text-[#6f6259]">{label}</span>
       <span>{value}</span>
     </div>
   );

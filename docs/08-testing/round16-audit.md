@@ -49,7 +49,7 @@ test nahi ho saka (screenshots) wo alag se marked hai.
    Confirm karein: Jaipur ya Surat? Address/GSTIN invoice par chhapta hai.
 2. **Sale wording:** HTML copy ab "Up to 70% OFF". Banner artwork me "FLAT 70% OFF" baked hai —
    agar artwork bhi badalna hai to naya poster chahiye (ya hum text overlay karke bana dein).
-3. **Support email:** abhi `Info.likshaclothing@gmail.com` (source store se). Naya brand email
+3. **Support email:** abhi `care@trendsyounique.com` (source store se). Naya brand email
    dena ho to `SELLER_EMAIL` / sheet settings se badal jayega.
 4. **Render deployment:** `https://likshaclothing.onrender.com` abhi har path par plain
    `Not Found` de raha hai (health check bhi). Ye code ka bug nahi — Render service

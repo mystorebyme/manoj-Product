@@ -2,7 +2,7 @@
 
 Last updated: 24 October 2026
 
-Designer Clothing ("we", "us") sells designer ethnic wear through likshaclothing.com. This policy explains what personal data we collect, why we collect it, and the choices you have. It is written to align with the Digital Personal Data Protection Act, 2023 (DPDP Act) and the Information Technology (Reasonable Security Practices) Rules, 2011.
+TRENDS YOUNIQUE ("we", "us") sells designer ethnic wear through trendsyounique.com. This policy explains what personal data we collect, why we collect it, and the choices you have. It is written to align with the Digital Personal Data Protection Act, 2023 (DPDP Act) and the Information Technology (Reasonable Security Practices) Rules, 2011.
 
 ## 1. Data we collect
 
@@ -18,7 +18,7 @@ We use your data to accept and deliver orders, send order updates, handle return
 
 ## 3. Consent and notice
 
-We ask for your consent before collecting data for a new purpose. You can withdraw consent at any time by writing to Info.likshaclothing@gmail.com; withdrawal does not affect orders already placed or records we must keep by law.
+We ask for your consent before collecting data for a new purpose. You can withdraw consent at any time by writing to care@trendsyounique.com; withdrawal does not affect orders already placed or records we must keep by law.
 
 ## 4. Sharing
 
@@ -37,7 +37,7 @@ Order and tax records are kept for 8 years as required by GST law. Support conve
 
 ## 6. Your rights
 
-You can ask us to access, correct, or erase your personal data, or to withdraw consent. Write to Info.likshaclothing@gmail.com from your registered email; we respond within 30 days. You can also nominate someone to exercise these rights on your behalf. If you are unhappy with our response, you may complain to the Data Protection Board of India.
+You can ask us to access, correct, or erase your personal data, or to withdraw consent. Write to care@trendsyounique.com from your registered email; we respond within 30 days. You can also nominate someone to exercise these rights on your behalf. If you are unhappy with our response, you may complain to the Data Protection Board of India.
 
 ## 7. Security
 
@@ -53,5 +53,5 @@ We use essential cookies for the cart and checkout, and optional analytics cooki
 
 ## 10. Contact
 
-Designer Clothing, Jaipur, Rajasthan, India.
-Email: Info.likshaclothing@gmail.com · WhatsApp: 8005900581
+TRENDS YOUNIQUE, Jaipur, Rajasthan, India.
+Email: care@trendsyounique.com · WhatsApp: 8005900581

@@ -14,6 +14,9 @@ import {
  * Sort/price filtering client side hoti hai (CollectionBrowser) — isliye URL param
  * badalne par server round-trip nahi hota aur TTFB edge se aata hai.
  */
+// owner ke naye products 60 second me listing me aa jayein
+export const revalidate = 60;
+
 export async function generateStaticParams() {
   const list = await getCollections();
   return [...list.map((collection) => ({ handle: collection.handle })), ...Object.keys(COLLECTION_ALIASES).map((handle) => ({ handle }))];
@@ -28,7 +31,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const products = await getProductsByCollection(collection.handle);
   return {
     title: `${collection.title} — ${products.length} styles`,
-    description: `${collection.title}: ${collection.subtitle}. ${products.length} designer pieces at Designer Clothing, free shipping across India and secure prepaid checkout.`,
+    description: `${collection.title}: ${collection.subtitle}. ${products.length} designer pieces at TRENDS YOUNIQUE, free shipping across India and secure prepaid checkout.`,
     alternates: { canonical: `/collections/${collection.handle}` },
     // khaali collection par thin content — index mat karo (par page accessible rahe)
     robots: products.length === 0 ? { index: false, follow: true } : undefined,
@@ -47,17 +50,17 @@ export default async function CollectionPage({ params }: { params: Promise<Param
 
   const emptyState = (
     <div className="py-20 text-center">
-      <p className="font-display text-[24px] text-[#2f2a25]">
+      <p className="font-display text-[24px] text-[#14100e]">
         {collection.handle === "saree" ? "Our saree edit is being styled" : "No styles here just yet"}
       </p>
-      <p className="mx-auto mt-2 max-w-[420px] text-[12.5px] leading-relaxed text-[#6b6259]">
+      <p className="mx-auto mt-2 max-w-[420px] text-[12.5px] leading-relaxed text-[#6f6259]">
         {collection.handle === "saree"
           ? "New six-yard drops are on the way. In the meantime, our anarkali and lehenga edits are full of festive favourites."
           : "Try a different filter, or browse the edits our customers are loving right now."}
       </p>
       <Link
         href="/collections/new-arrivals"
-        className="mt-5 inline-block bg-[#862222] px-6 py-3 text-[11px] font-semibold tracking-[.16em] text-white uppercase"
+        className="mt-5 inline-block bg-[#6f1d2b] px-6 py-3 text-[11px] font-semibold tracking-[.16em] text-white uppercase"
       >
         Shop new arrivals
       </Link>
@@ -67,22 +70,22 @@ export default async function CollectionPage({ params }: { params: Promise<Param
   return (
     <div>
       <nav aria-label="Breadcrumb" className="container-liksha pt-5">
-        <ol className="flex items-center gap-1.5 text-[11px] text-[#9c8f82]">
+        <ol className="flex items-center gap-1.5 text-[11px] text-[#a3948a]">
           <li>
-            <Link href="/" className="hover:text-[#862222]">
+            <Link href="/" className="hover:text-[#6f1d2b]">
               Home
             </Link>
           </li>
           <li>/</li>
-          <li className="text-[#5c534b]">{collection.title}</li>
+          <li className="text-[#3d332c]">{collection.title}</li>
         </ol>
       </nav>
 
       <header className="container-liksha pt-3 pb-5 text-center">
-        <h1 className="font-display text-[30px] leading-tight font-medium tracking-[.03em] text-[#2f2a25] sm:text-[38px]">
+        <h1 className="font-display text-[30px] leading-tight font-medium tracking-[.03em] text-[#14100e] sm:text-[38px]">
           {collection.title}
         </h1>
-        <p className="mt-1 text-[11.5px] tracking-[.14em] text-[#9c8f82] uppercase">{collection.subtitle}</p>
+        <p className="mt-1 text-[11.5px] tracking-[.14em] text-[#a3948a] uppercase">{collection.subtitle}</p>
       </header>
 
       <CollectionBrowser
@@ -93,8 +96,8 @@ export default async function CollectionPage({ params }: { params: Promise<Param
       />
 
       <div className="container-liksha pb-12">
-        <div className="border-t border-[#eee6de] pt-8">
-          <h2 className="text-center text-[11px] font-semibold tracking-[.18em] text-[#862222] uppercase">
+        <div className="border-t border-[#ece1d3] pt-8">
+          <h2 className="text-center text-[11px] font-semibold tracking-[.18em] text-[#6f1d2b] uppercase">
             Explore more collections
           </h2>
           <div className="no-scrollbar mt-4 flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:justify-center">
@@ -104,8 +107,8 @@ export default async function CollectionPage({ params }: { params: Promise<Param
                 href={`/collections/${item.handle}`}
                 className={`whitespace-nowrap border px-3.5 py-2 text-[11px] tracking-[.08em] uppercase transition ${
                   item.handle === collection.handle
-                    ? "border-[#862222] bg-[#862222] text-white"
-                    : "border-[#e0d6ca] text-[#5c534b] hover:border-[#862222] hover:text-[#862222]"
+                    ? "border-[#6f1d2b] bg-[#6f1d2b] text-white"
+                    : "border-[#e0d6ca] text-[#3d332c] hover:border-[#6f1d2b] hover:text-[#6f1d2b]"
                 }`}
               >
                 {item.title}

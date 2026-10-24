@@ -31,60 +31,60 @@ export function ProductReviews({
   const visible = filter ? block.reviews.filter((review) => Math.round(review.rating) === filter) : block.reviews;
 
   const whatsappReview = `https://wa.me/918005900581?text=${encodeURIComponent(
-    `Hi Designer Clothing! I'd like to review "${productTitle}" (${productUrl(productHandle)}). My rating: `,
+    `Hi TRENDS YOUNIQUE! I'd like to review "${productTitle}" (${productUrl(productHandle)}). My rating: `,
   )}`;
 
   return (
-    <section className="mt-10 border-t border-[#eee6de] pt-8" data-testid="product-reviews" id="reviews">
+    <section className="mt-10 border-t border-[#ece1d3] pt-8" data-testid="product-reviews" id="reviews">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h2 className="font-display text-[24px] font-medium sm:text-[28px]">Customer reviews</h2>
-          <p className="mt-1 text-[11px] tracking-[.12em] text-[#9c8f82] uppercase">
+          <p className="mt-1 text-[11px] tracking-[.12em] text-[#a3948a] uppercase">
             {block.count > 0 ? `${block.count} customer reviews` : "Be the first to review this piece"}
           </p>
         </div>
         <button
           type="button"
           onClick={() => setShowForm((current) => !current)}
-          className="border border-[#862222] px-5 py-2.5 text-[10.5px] font-semibold tracking-[.14em] text-[#862222] uppercase transition hover:bg-[#862222] hover:text-white"
+          className="border border-[#6f1d2b] px-5 py-2.5 text-[10.5px] font-semibold tracking-[.14em] text-[#6f1d2b] uppercase transition hover:bg-[#6f1d2b] hover:text-white"
         >
           Write a review
         </button>
       </div>
 
       {showForm ? (
-        <p className="mt-3 border border-[#eee6de] bg-[#faf8f5] p-4 text-[12.5px] leading-relaxed text-[#5c534b]">
+        <p className="mt-3 border border-[#ece1d3] bg-[#fdfaf5] p-4 text-[12.5px] leading-relaxed text-[#3d332c]">
           Apna review WhatsApp par bhejiye — team 24 ghante me publish kar deti hai.{" "}
-          <a href={whatsappReview} target="_blank" rel="noopener noreferrer" className="font-medium text-[#862222] underline">
+          <a href={whatsappReview} target="_blank" rel="noopener noreferrer" className="font-medium text-[#6f1d2b] underline">
             WhatsApp par review likhein
           </a>
         </p>
       ) : null}
 
       {block.count === 0 ? (
-        <div className="mt-5 border border-[#eee6de] px-5 py-10 text-center">
+        <div className="mt-5 border border-[#ece1d3] px-5 py-10 text-center">
           <Stars value={0} size={18} />
-          <p className="mt-2 text-[12.5px] text-[#6b6259]">
+          <p className="mt-2 text-[12.5px] text-[#6f6259]">
             Is piece par abhi koi review nahi hai. Pehla review aapka ho sakta hai.
           </p>
         </div>
       ) : (
         <>
-          <div className="mt-5 grid gap-6 border border-[#eee6de] p-5 sm:grid-cols-[210px_1fr]">
-            <div className="text-center sm:border-r sm:border-[#f1ebe5] sm:pr-5">
+          <div className="mt-5 grid gap-6 border border-[#ece1d3] p-5 sm:grid-cols-[210px_1fr]">
+            <div className="text-center sm:border-r sm:border-[#f2e9dd] sm:pr-5">
               {block.rating > 0 ? (
                 <>
-                  <p className="font-display text-[44px] leading-none text-[#862222]">{block.rating.toFixed(1)}</p>
+                  <p className="font-display text-[44px] leading-none text-[#6f1d2b]">{block.rating.toFixed(1)}</p>
                   <Stars value={block.rating} size={16} />
                 </>
               ) : (
-                <p className="font-display text-[20px] leading-none text-[#862222]">{block.count} ratings</p>
+                <p className="font-display text-[20px] leading-none text-[#6f1d2b]">{block.count} ratings</p>
               )}
-              <p className="mt-1.5 text-[11.5px] text-[#6b6259]">Based on {block.count} reviews</p>
+              <p className="mt-1.5 text-[11.5px] text-[#6f6259]">Based on {block.count} reviews</p>
             </div>
             <div className="space-y-1.5">
               {block.reviews.length === 0 ? (
-                <p className="text-[12px] leading-relaxed text-[#6b6259]">
+                <p className="text-[12px] leading-relaxed text-[#6f6259]">
                   Is piece par {block.count} ratings hain. Customer-written reviews aate hi yahan dikhte hain —
                   koi sample review publish nahi hota.
                 </p>
@@ -95,11 +95,11 @@ export function ProductReviews({
                   type="button"
                   onClick={() => setFilter(filter === row.stars ? null : row.stars)}
                   className={`flex w-full items-center gap-2 text-left text-[11.5px] transition ${
-                    filter === row.stars ? "text-[#862222]" : "text-[#6b6259] hover:text-[#862222]"
+                    filter === row.stars ? "text-[#6f1d2b]" : "text-[#6f6259] hover:text-[#6f1d2b]"
                   }`}
                 >
                   <span className="w-7">{row.stars}★</span>
-                  <span className="h-2 flex-1 overflow-hidden rounded-full bg-[#f1ebe5]">
+                  <span className="h-2 flex-1 overflow-hidden rounded-full bg-[#f2e9dd]">
                     <span className="block h-full rounded-full bg-[#c9a86a]" style={{ width: `${row.percent}%` }} />
                   </span>
                   <span className="w-8 text-right tabular-nums">{row.count}</span>
@@ -109,7 +109,7 @@ export function ProductReviews({
                 <button
                   type="button"
                   onClick={() => setFilter(null)}
-                  className="text-[10.5px] tracking-[.1em] text-[#862222] uppercase underline"
+                  className="text-[10.5px] tracking-[.1em] text-[#6f1d2b] uppercase underline"
                 >
                   Clear filter
                 </button>
@@ -119,12 +119,12 @@ export function ProductReviews({
 
           {photos.length > 0 ? (
             <div className="mt-6">
-              <p className="text-[10.5px] font-semibold tracking-[.14em] text-[#8a8078] uppercase">Customer photos</p>
+              <p className="text-[10.5px] font-semibold tracking-[.14em] text-[#8a7d72] uppercase">Customer photos</p>
               <div className="no-scrollbar mt-2 flex gap-2 overflow-x-auto pb-1">
                 {photos.map(({ src, review }) => (
                   <figure key={`${review.id}-${src}`} className="w-[104px] shrink-0">
                     <SafeImage src={src} alt="" className="h-[132px] w-full object-cover" />
-                    <figcaption className="mt-1 text-[10px] text-[#8a8078]">{review.author}</figcaption>
+                    <figcaption className="mt-1 text-[10px] text-[#8a7d72]">{review.author}</figcaption>
                   </figure>
                 ))}
               </div>
@@ -144,7 +144,7 @@ export function ProductReviews({
 
 function ReviewCard({ review }: { review: Review }) {
   return (
-    <li className="border border-[#eee6de] p-4">
+    <li className="border border-[#ece1d3] p-4">
       <div className="flex flex-wrap items-center gap-2">
         <span className="text-[12.5px] font-medium">{review.author}</span>
         {review.verified === true ? (
@@ -152,13 +152,13 @@ function ReviewCard({ review }: { review: Review }) {
             Verified buyer
           </span>
         ) : null}
-        {review.date ? <span className="text-[10.5px] text-[#9c8f82]">{review.date}</span> : null}
+        {review.date ? <span className="text-[10.5px] text-[#a3948a]">{review.date}</span> : null}
       </div>
       <div className="mt-1.5">
         <Stars value={review.rating} size={13} />
       </div>
       {review.title ? <p className="mt-1.5 text-[12.5px] font-medium">{review.title}</p> : null}
-      <p className="mt-1 text-[12.5px] leading-relaxed text-[#5c534b]">{review.body}</p>
+      <p className="mt-1 text-[12.5px] leading-relaxed text-[#3d332c]">{review.body}</p>
       {review.photos?.length ? (
         <div className="mt-2 flex gap-1.5">
           {review.photos.slice(0, 4).map((src) => (

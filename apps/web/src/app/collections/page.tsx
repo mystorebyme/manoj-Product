@@ -18,7 +18,7 @@ export const revalidate = 600;
 export const metadata: Metadata = {
   title: "Shop all collections — Anarkali, Lehenga, Printed Suit Sets",
   description:
-    "Browse every Designer Clothing edit: Anarkali suits, lehenga choli, printed suit sets, new arrivals and the Diwali sale — free shipping across India.",
+    "Browse every TRENDS YOUNIQUE edit: Anarkali suits, lehenga choli, printed suit sets, new arrivals and the Diwali sale — free shipping across India.",
   alternates: { canonical: "/collections" },
 };
 
@@ -38,11 +38,11 @@ export default async function CollectionsIndexPage() {
   return (
     <div className="container-liksha py-9 lg:py-12">
       <div className="mx-auto max-w-[720px] text-center">
-        <p className="text-[10.5px] tracking-[.28em] text-[#9c8f82] uppercase">Shop</p>
-        <h1 className="mt-2 font-display text-[28px] leading-tight font-medium text-[#2f2a25] sm:text-[36px]">
-          Every Designer Clothing edit
+        <p className="text-[10.5px] tracking-[.28em] text-[#a3948a] uppercase">Shop</p>
+        <h1 className="mt-2 font-display text-[28px] leading-tight font-medium text-[#14100e] sm:text-[36px]">
+          Every TRENDS YOUNIQUE edit
         </h1>
-        <p className="mt-2 text-[12.5px] leading-relaxed text-[#6b6259]">
+        <p className="mt-2 text-[12.5px] leading-relaxed text-[#6f6259]">
           Hand-finished suits, lehengas and festive sets — {siteConfig.name}. Free shipping pan-India, prepaid
           only, 4–7 day delivery.
         </p>
@@ -53,7 +53,7 @@ export default async function CollectionsIndexPage() {
           <Link
             key={collection.handle}
             href={collection.href}
-            className="group border border-[#eee6de] bg-white transition hover:border-[#862222]"
+            className="group border border-[#ece1d3] bg-white transition hover:border-[#6f1d2b]"
             data-testid="collection-card"
           >
             <div className="relative aspect-[3/4] overflow-hidden bg-[#f7f1e9]">
@@ -64,8 +64,8 @@ export default async function CollectionsIndexPage() {
               />
             </div>
             <div className="px-3 py-3">
-              <h2 className="truncate text-[13px] font-medium text-[#2f2a25]">{collection.title}</h2>
-              <p className="mt-0.5 text-[10.5px] tracking-[.12em] text-[#9c8f82] uppercase">
+              <h2 className="truncate text-[13px] font-medium text-[#14100e]">{collection.title}</h2>
+              <p className="mt-0.5 text-[10.5px] tracking-[.12em] text-[#a3948a] uppercase">
                 {collection.count} styles
               </p>
             </div>
@@ -76,7 +76,7 @@ export default async function CollectionsIndexPage() {
       <div className="mt-10 flex justify-center">
         <Link
           href="/search"
-          className="border border-[#862222] px-8 py-3 text-[11px] font-semibold tracking-[.16em] text-[#862222] uppercase transition hover:bg-[#862222] hover:text-white"
+          className="border border-[#6f1d2b] px-8 py-3 text-[11px] font-semibold tracking-[.16em] text-[#6f1d2b] uppercase transition hover:bg-[#6f1d2b] hover:text-white"
         >
           Search the full catalogue
         </Link>

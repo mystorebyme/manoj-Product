@@ -10,15 +10,15 @@ const POLICY_DIR = path.join(process.cwd(), "src/content/policies");
 const policyMeta: Record<string, { title: string; description: string }> = {
   "privacy-policy": {
     title: "Privacy Policy",
-    description: "How Designer Clothing collects, uses and protects your personal data under the DPDP Act.",
+    description: "How TRENDS YOUNIQUE collects, uses and protects your personal data under the DPDP Act.",
   },
   "terms-and-conditions": {
     title: "Terms & Conditions",
-    description: "The terms that apply when you shop with Designer Clothing.",
+    description: "The terms that apply when you shop with TRENDS YOUNIQUE.",
   },
   "refund-and-return-policy": {
     title: "Refund & Return Policy",
-    description: "7 day returns, exchanges and refund timelines at Designer Clothing.",
+    description: "7 day returns, exchanges and refund timelines at TRENDS YOUNIQUE.",
   },
   "shipping-policy": {
     title: "Shipping Policy",
@@ -58,21 +58,21 @@ export default async function PolicyPage({ params }: { params: Promise<{ slug: s
               href={`/policies/${key}`}
               className={`border px-2.5 py-1 ${
                 key === slug
-                  ? "border-[#862222] bg-[#862222] text-white"
-                  : "border-[#e5dbd0] text-[#5c534b] hover:border-[#862222] hover:text-[#862222]"
+                  ? "border-[#6f1d2b] bg-[#6f1d2b] text-white"
+                  : "border-[#e5dbd0] text-[#3d332c] hover:border-[#6f1d2b] hover:text-[#6f1d2b]"
               }`}
             >
               {value.title}
             </Link>
           ))}
         </nav>
-        <article className="border border-[#eee6de] p-6 sm:p-9">{renderMarkdown(content)}</article>
-        <p className="mt-6 text-center text-[11.5px] text-[#8a8078]">
+        <article className="border border-[#ece1d3] p-6 sm:p-9">{renderMarkdown(content)}</article>
+        <p className="mt-6 text-center text-[11.5px] text-[#8a7d72]">
           Questions? WhatsApp{" "}
-          <a className="text-[#862222]" href="https://wa.me/918005900581">
+          <a className="text-[#6f1d2b]" href="https://wa.me/918005900581">
             8005900581
           </a>{" "}
-          or email Info.likshaclothing@gmail.com
+          or email care@trendsyounique.com
         </p>
       </div>
     </div>

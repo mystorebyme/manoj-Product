@@ -54,7 +54,7 @@ export function TrackOrderForm() {
 
   return (
     <form onSubmit={submit} className="mt-4" data-testid="track-order-form">
-      <label htmlFor="order-number" className="text-[10.5px] tracking-[.12em] text-[#6b6259] uppercase">
+      <label htmlFor="order-number" className="text-[10.5px] tracking-[.12em] text-[#6f6259] uppercase">
         Order number
       </label>
       <div className="mt-1 flex">
@@ -64,11 +64,11 @@ export function TrackOrderForm() {
           onChange={(event) => setValue(event.target.value)}
           placeholder="LK-1A2B3C"
           autoComplete="off"
-          className="h-11 w-full min-w-0 border border-[#ddd2c6] bg-white px-3 text-[13px] outline-none focus:border-[#862222]"
+          className="h-11 w-full min-w-0 border border-[#ded1c0] bg-white px-3 text-[13px] outline-none focus:border-[#6f1d2b]"
         />
         <button
           type="submit"
-          className="shrink-0 bg-[#862222] px-5 text-[10.5px] font-semibold tracking-[.14em] text-white uppercase"
+          className="shrink-0 bg-[#6f1d2b] px-5 text-[10.5px] font-semibold tracking-[.14em] text-white uppercase"
         >
           Track
         </button>
@@ -77,7 +77,7 @@ export function TrackOrderForm() {
 
       {resolved ? (
         <div className="mt-4 border border-[#e6d3a8] bg-[#fdf9ee] p-4" data-testid="track-static-help">
-          <p className="text-[12.5px] leading-relaxed text-[#5c534b]">
+          <p className="text-[12.5px] leading-relaxed text-[#3d332c]">
             <strong>{resolved}</strong> — live tracking (payment, courier aur AWB) store ke server
             version par chalti hai. Neeche se kholiye ya WhatsApp par order number bhejiye:
           </p>
@@ -91,13 +91,13 @@ export function TrackOrderForm() {
                 href={`${LIVE_STORE_URL}/orders/${encodeURIComponent(resolved)}`}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex h-10 items-center bg-[#862222] px-4 text-[10.5px] font-semibold tracking-[.12em] text-white uppercase"
+                className="inline-flex h-10 items-center bg-[#6f1d2b] px-4 text-[10.5px] font-semibold tracking-[.12em] text-white uppercase"
               >
                 {liveStatus === "up" ? "Open live tracking" : "Open live tracking ↗"}
               </a>
             )}
             <a
-              href={`https://wa.me/91${wa}?text=${encodeURIComponent(`Hi Designer Clothing, please share the status of order ${resolved}.`)}`}
+              href={`https://wa.me/91${wa}?text=${encodeURIComponent(`Hi TRENDS YOUNIQUE, please share the status of order ${resolved}.`)}`}
               target="_blank"
               rel="noreferrer"
               className="inline-flex h-10 items-center bg-[#25D366] px-4 text-[10.5px] font-semibold tracking-[.12em] text-white uppercase"
@@ -105,7 +105,7 @@ export function TrackOrderForm() {
               WhatsApp us
             </a>
           </div>
-          <p className="mt-2 text-[11px] text-[#8a8078]">
+          <p className="mt-2 text-[11px] text-[#8a7d72]">
             Ya <Link href="/pages/contact" className="underline">contact page</Link> se message bhejiye — team
             status reply karti hai.
           </p>

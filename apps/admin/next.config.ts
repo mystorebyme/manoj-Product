@@ -8,7 +8,7 @@ import type { NextConfig } from "next";
 const devOrigins = ["localhost:3001", "127.0.0.1:3001", "*.e2b.app", "3001-iu4hlpxjms5r4hq5t841e.e2b.app"];
 
 const nextConfig: NextConfig = {
-  transpilePackages: ["@liksha/types", "@liksha/validation", "@liksha/ui"],
+  transpilePackages: ["@liksha/types", "@liksha/validation", "@liksha/ui", "@liksha/product-store"],
   allowedDevOrigins: devOrigins,
   poweredByHeader: false,
   async headers() {

@@ -16,26 +16,26 @@ export function ContactDetails() {
         href={`https://wa.me/91${wa}`}
         target="_blank"
         rel="noreferrer"
-        className="flex flex-col gap-1 border border-[#eee6de] bg-white p-4 transition hover:border-[#862222]"
+        className="flex flex-col gap-1 border border-[#ece1d3] bg-white p-4 transition hover:border-[#6f1d2b]"
       >
-        <span className="text-[10px] tracking-[.14em] text-[#9c8f82] uppercase">WhatsApp</span>
-        <span className="text-[14px] font-medium break-words text-[#862222]">{whatsapp}</span>
+        <span className="text-[10px] tracking-[.14em] text-[#a3948a] uppercase">WhatsApp</span>
+        <span className="text-[14px] font-medium break-words text-[#6f1d2b]">{whatsapp}</span>
       </a>
       <a
         href={`tel:${supportPhone.replace(/[^\d+]/g, "")}`}
-        className="flex flex-col gap-1 border border-[#eee6de] bg-white p-4 transition hover:border-[#862222]"
+        className="flex flex-col gap-1 border border-[#ece1d3] bg-white p-4 transition hover:border-[#6f1d2b]"
       >
-        <span className="text-[10px] tracking-[.14em] text-[#9c8f82] uppercase">Call</span>
+        <span className="text-[10px] tracking-[.14em] text-[#a3948a] uppercase">Call</span>
         <span className="text-[14px] font-medium break-words">{supportPhone}</span>
       </a>
       <a
         href={`mailto:${supportEmail}`}
-        className="flex flex-col gap-1 border border-[#eee6de] bg-white p-4 transition hover:border-[#862222]"
+        className="flex flex-col gap-1 border border-[#ece1d3] bg-white p-4 transition hover:border-[#6f1d2b]"
       >
-        <span className="text-[10px] tracking-[.14em] text-[#9c8f82] uppercase">Email</span>
+        <span className="text-[10px] tracking-[.14em] text-[#a3948a] uppercase">Email</span>
         <span className="text-[14px] font-medium break-all">{supportEmail}</span>
       </a>
-      <p className="text-[12px] text-[#6b6259] sm:col-span-3">
+      <p className="text-[12px] text-[#6f6259] sm:col-span-3">
         Customer care hours: Monday to Saturday, 10:00 AM – 8:00 PM IST
       </p>
     </div>
@@ -58,7 +58,7 @@ export function SupportChannels({ className = "" }: { className?: string }) {
       </a>
       <a
         href={`mailto:${supportEmail}`}
-        className="inline-flex h-9 items-center border border-[#862222] px-3 text-[10.5px] font-semibold tracking-[.1em] text-[#862222] uppercase"
+        className="inline-flex h-9 items-center border border-[#6f1d2b] px-3 text-[10.5px] font-semibold tracking-[.1em] text-[#6f1d2b] uppercase"
       >
         Email us
       </a>

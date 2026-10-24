@@ -6,7 +6,7 @@ import { apiUrl } from "@/lib/api-base";
 import { useStoreSettings } from "@/components/store-settings-provider";
 
 /** fallback — live value Google Sheet / admin settings se aati hai */
-const FALLBACK_EMAIL = "Info.likshaclothing@gmail.com";
+const FALLBACK_EMAIL = "care@trendsyounique.com";
 const FALLBACK_WHATSAPP = "8005900581";
 
 /** static mailto — koi server/API fail ho to bhi ye kaam karta hai */
@@ -58,12 +58,12 @@ export function ContactForm() {
     return (
       <div className="border border-[#d6e8d9] bg-[#f2f8f3] p-6 text-center" data-testid="contact-success">
         <p className="font-display text-[21px] text-[#2f7a3f]">Message received!</p>
-        <p className="mt-1 text-[12.5px] text-[#5c534b]">
+        <p className="mt-1 text-[12.5px] text-[#3d332c]">
           Our team will reply within 24 hours. For an instant reply, WhatsApp us on {SUPPORT_WHATSAPP}.
         </p>
         <div className="mt-3 flex flex-wrap justify-center gap-2">
           <a
-            href={`https://wa.me/91${SUPPORT_WHATSAPP}?text=${encodeURIComponent("Hi Designer Clothing, I sent a message from the website.")}`}
+            href={`https://wa.me/91${SUPPORT_WHATSAPP}?text=${encodeURIComponent("Hi TRENDS YOUNIQUE, I sent a message from the website.")}`}
             target="_blank"
             rel="noreferrer"
             className="bg-[#25d366] px-4 py-2 text-[11px] font-semibold tracking-[.12em] text-white uppercase"
@@ -72,7 +72,7 @@ export function ContactForm() {
           </a>
           <a
             href={`mailto:${SUPPORT_EMAIL}`}
-            className="border border-[#862222] px-4 py-2 text-[11px] font-semibold tracking-[.12em] text-[#862222] uppercase"
+            className="border border-[#6f1d2b] px-4 py-2 text-[11px] font-semibold tracking-[.12em] text-[#6f1d2b] uppercase"
           >
             Email us
           </a>
@@ -82,15 +82,15 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={submit} className="border border-[#eee6de] bg-[#faf8f5] p-5 sm:p-6">
-      <h2 className="font-display text-[21px] font-medium text-[#862222]">Send us a message</h2>
+    <form onSubmit={submit} className="border border-[#ece1d3] bg-[#fdfaf5] p-5 sm:p-6">
+      <h2 className="font-display text-[21px] font-medium text-[#6f1d2b]">Send us a message</h2>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         <input
           required
           value={form.name}
           onChange={(event) => setForm({ ...form, name: event.target.value })}
           placeholder="Your name *"
-          className="h-11 w-full border border-[#ddd2c6] bg-white px-3 text-[13px] outline-none focus:border-[#862222]"
+          className="h-11 w-full border border-[#ded1c0] bg-white px-3 text-[13px] outline-none focus:border-[#6f1d2b]"
         />
         <input
           required
@@ -98,18 +98,18 @@ export function ContactForm() {
           value={form.email}
           onChange={(event) => setForm({ ...form, email: event.target.value })}
           placeholder="Email *"
-          className="h-11 w-full border border-[#ddd2c6] bg-white px-3 text-[13px] outline-none focus:border-[#862222]"
+          className="h-11 w-full border border-[#ded1c0] bg-white px-3 text-[13px] outline-none focus:border-[#6f1d2b]"
         />
         <input
           value={form.phone}
           onChange={(event) => setForm({ ...form, phone: event.target.value })}
           placeholder="Phone / WhatsApp"
-          className="h-11 w-full border border-[#ddd2c6] bg-white px-3 text-[13px] outline-none focus:border-[#862222]"
+          className="h-11 w-full border border-[#ded1c0] bg-white px-3 text-[13px] outline-none focus:border-[#6f1d2b]"
         />
         <select
           value={form.subject}
           onChange={(event) => setForm({ ...form, subject: event.target.value })}
-          className="h-11 w-full border border-[#ddd2c6] bg-white px-3 text-[13px] outline-none focus:border-[#862222]"
+          className="h-11 w-full border border-[#ded1c0] bg-white px-3 text-[13px] outline-none focus:border-[#6f1d2b]"
         >
           {["Order enquiry", "Sizing help", "Replacement request", "Bulk / wholesale", "Other"].map((option) => (
             <option key={option}>{option}</option>
@@ -121,14 +121,14 @@ export function ContactForm() {
           value={form.message}
           onChange={(event) => setForm({ ...form, message: event.target.value })}
           placeholder="How can we help? *"
-          className="w-full border border-[#ddd2c6] bg-white px-3 py-2.5 text-[13px] outline-none focus:border-[#862222] sm:col-span-2"
+          className="w-full border border-[#ded1c0] bg-white px-3 py-2.5 text-[13px] outline-none focus:border-[#6f1d2b] sm:col-span-2"
         />
       </div>
       {error ? (
         <div className="mt-2 text-[11.5px] text-[#b3261e]" role="alert">
           <p>{error}</p>
           {/* honest fallback — static preview / server down par message kho na jaye */}
-          <p className="mt-1 text-[#5c534b]">
+          <p className="mt-1 text-[#3d332c]">
             Aap seedha bhi bhej sakte hain:{" "}
             <a href={mailtoHref(form, SUPPORT_EMAIL)} className="underline">
               email
@@ -136,7 +136,7 @@ export function ContactForm() {
             ya{" "}
             <a
               href={`https://wa.me/91${SUPPORT_WHATSAPP}?text=${encodeURIComponent(
-                `Hi Designer Clothing! ${form.subject}\nName: ${form.name}\n${form.message}`,
+                `Hi TRENDS YOUNIQUE! ${form.subject}\nName: ${form.name}\n${form.message}`,
               )}`}
               target="_blank"
               rel="noreferrer"
@@ -153,14 +153,14 @@ export function ContactForm() {
           type="submit"
           disabled={status === "loading"}
           data-testid="contact-submit"
-          className="bg-[#862222] px-7 py-3 text-[11px] font-semibold tracking-[.16em] text-white uppercase disabled:opacity-60"
+          className="bg-[#6f1d2b] px-7 py-3 text-[11px] font-semibold tracking-[.16em] text-white uppercase disabled:opacity-60"
         >
           {status === "loading" ? "Sending…" : "Send message"}
         </button>
         <a
           href={mailtoHref(form, SUPPORT_EMAIL)}
           data-testid="contact-mailto"
-          className="text-[11.5px] text-[#5c534b] underline decoration-[#c9b9a8] underline-offset-4 hover:text-[#862222]"
+          className="text-[11.5px] text-[#3d332c] underline decoration-[#c9b9a8] underline-offset-4 hover:text-[#6f1d2b]"
         >
           or email {SUPPORT_EMAIL}
         </a>

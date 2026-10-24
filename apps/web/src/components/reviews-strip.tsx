@@ -11,7 +11,7 @@ export function ReviewsStrip() {
   if (!reviews.length) return null;
 
   return (
-    <section className="bg-[#faf6f1] py-12" data-testid="home-reviews">
+    <section className="bg-[#faf6ef] py-12" data-testid="home-reviews">
       <div className="container-liksha">
         <div className="text-center">
           <h2 className="font-display text-[26px] font-medium tracking-[.03em] sm:text-[32px]">
@@ -19,7 +19,7 @@ export function ReviewsStrip() {
           </h2>
           <div className="mt-2 flex items-center justify-center gap-2">
             <Stars value={shopRating.rating || 5} size={16} />
-            <span className="text-[12px] text-[#6b6259]">
+            <span className="text-[12px] text-[#6f6259]">
               {(shopRating.rating || 5).toFixed(1)} / 5 · {shopRating.count} reviews
             </span>
           </div>
@@ -29,17 +29,17 @@ export function ReviewsStrip() {
           {reviews.map((review) => (
             <figure
               key={`${review.productHandle}-${review.id}`}
-              className="w-[260px] shrink-0 border border-[#e9dfd4] bg-white p-4 sm:w-[300px]"
+              className="w-[260px] shrink-0 border border-[#eadfce] bg-white p-4 sm:w-[300px]"
             >
               <Stars value={review.rating} size={14} />
               {review.title ? <p className="mt-2 text-[12.5px] font-medium">{review.title}</p> : null}
-              <blockquote className="mt-1 line-clamp-4 text-[12px] leading-relaxed text-[#5c534b]">
+              <blockquote className="mt-1 line-clamp-4 text-[12px] leading-relaxed text-[#3d332c]">
                 {review.body}
               </blockquote>
-              <figcaption className="mt-2 flex items-center justify-between text-[10.5px] text-[#8a8078]">
+              <figcaption className="mt-2 flex items-center justify-between text-[10.5px] text-[#8a7d72]">
                 <span>{review.author}</span>
                 {review.productHandle ? (
-                  <Link href={`/products/${review.productHandle}`} className="text-[#862222] underline">
+                  <Link href={`/products/${review.productHandle}`} className="text-[#6f1d2b] underline">
                     View piece
                   </Link>
                 ) : null}

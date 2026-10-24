@@ -2,7 +2,11 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { applySalePricing, displayedPercent, salePriceFor, SALE_FINAL_PRICES } from "../../scripts/lib/sale-pricing.mjs";
 import { buildUpiUri, normaliseUpiId, normaliseUpiReference, formatUpiAmount } from "../../apps/web/src/lib/upi";
-import { normaliseSheetSettings, orderSheetRow } from "../../apps/web/src/lib/sheet-format";
+import {
+  normaliseSheetSettings,
+  orderSheetRow,
+  paymentSheetRow,
+} from "../../apps/web/src/lib/sheet-format";
 
 test("sale price always lands on ₹499/₹549/₹599/₹649/₹699", () => {
   for (let index = 0; index < 500; index += 1) {
@@ -127,10 +131,31 @@ test("order sheet row carries payment + tracking details", () => {
     "payment.paid",
     { "UPI ID": "dhakadgourav@fam" },
   );
-  assert.equal(row["Order number"], "LK-ABC123");
-  assert.equal(row["Payment reference"], "412345678901");
-  assert.equal(row["UPI ID"], "dhakadgourav@fam");
-  assert.equal(row["Total"], 499);
-  assert.equal(row["AWB"], "AWB123");
-  assert.equal(row["Item details"], "Anarkali (S [36]) x1");
+  // keys exactly `Orders` tab ke headers par (Apps Script header naam se map karta hai)
+  assert.equal(row["Order ID"], "LK-ABC123");
+  assert.equal(row["Payment ref"], "412345678901");
+  assert.equal(row["Total ₹"], 499);
+  assert.equal(row["Status"], "shipped");
+  assert.equal(row["Items"], "Anarkali (S [36]) x1");
+  assert.equal(row["Qty total"], 1);
+  assert.match(String(row["Notes"]), /AWB123/);
+  assert.match(String(row["WhatsApp"]), /^https:\/\/wa\.me\/918005900581$/);
+
+  const payment = paymentSheetRow(
+    {
+      orderNumber: "LK-ABC123",
+      status: "shipped",
+      customerName: "Test Customer",
+      phone: "8005900581",
+      total: 49_900,
+      paymentStatus: "paid",
+      payment: { reference: "412345678901", gateway: "manual-upi" },
+    } as never,
+    "payment.paid",
+    { "UPI ID": "dhakadgourav@fam" },
+  );
+  assert.equal(payment["Order ID"], "LK-ABC123");
+  assert.equal(payment["UPI ID"], "dhakadgourav@fam");
+  assert.equal(payment["Total ₹"], 499);
+  assert.equal(payment.Event, "payment.paid");
 });

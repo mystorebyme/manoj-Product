@@ -26,7 +26,7 @@
 | `freeShipping` | true | shipping line |
 | `upiId` | likshaclothing@upi | manual fallback |
 | `supportPhone` | 8005900581 | header, order page |
-| `supportEmail` | Info.likshaclothing@gmail.com | contact |
+| `supportEmail` | care@trendsyounique.com | contact |
 | `announcement` | "Free shipping on all orders" | top bar |
 | `whatsappNumber` | 918005900581 | CTAs |
 

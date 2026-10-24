@@ -87,7 +87,7 @@ export function ProductCarousel({
             type="button"
             onClick={() => go(index - 1)}
             aria-label="Previous products"
-            className="absolute -left-2 top-[38%] hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-[#e5dbd0] bg-white/95 text-[#862222] shadow-sm transition hover:bg-white lg:flex"
+            className="absolute -left-2 top-[38%] hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-[#e5dbd0] bg-white/95 text-[#6f1d2b] shadow-sm transition hover:bg-white lg:flex"
           >
             ‹
           </button>
@@ -95,7 +95,7 @@ export function ProductCarousel({
             type="button"
             onClick={() => go(index + 1)}
             aria-label="Next products"
-            className="absolute -right-2 top-[38%] hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-[#e5dbd0] bg-white/95 text-[#862222] shadow-sm transition hover:bg-white lg:flex"
+            className="absolute -right-2 top-[38%] hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-[#e5dbd0] bg-white/95 text-[#6f1d2b] shadow-sm transition hover:bg-white lg:flex"
           >
             ›
           </button>
@@ -107,7 +107,7 @@ export function ProductCarousel({
                 onClick={() => go(dot)}
                 aria-label={`Go to slide ${dot + 1}`}
                 className={`h-1.5 rounded-full transition-all ${
-                  dot === index ? "w-5 bg-[#862222]" : "w-1.5 bg-[#d9cec3] hover:bg-[#b9a99a]"
+                  dot === index ? "w-5 bg-[#6f1d2b]" : "w-1.5 bg-[#d9cec3] hover:bg-[#b9a99a]"
                 }`}
               />
             ))}

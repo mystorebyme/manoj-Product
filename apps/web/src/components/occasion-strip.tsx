@@ -11,7 +11,7 @@ export async function OccasionStrip() {
         <h2 className="font-display text-[25px] font-medium tracking-[.03em] sm:text-[30px]">
           Shop by edit
         </h2>
-        <p className="mt-1 text-[11px] tracking-[.16em] text-[#9c8f82] uppercase">
+        <p className="mt-1 text-[11px] tracking-[.16em] text-[#a3948a] uppercase">
           Curated for weddings, festivities & everyday ease
         </p>
       </div>
@@ -40,22 +40,22 @@ export async function OccasionStrip() {
 
 export function EditorialBand() {
   return (
-    <section className="bg-[#faf6f1] py-12">
+    <section className="bg-[#faf6ef] py-12">
       <div className="container-liksha grid items-center gap-8 lg:grid-cols-2">
         <div className="relative aspect-[4/3] overflow-hidden bg-[#f0e7dd]">
           <SafeImage
             src={imageUrl("https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_9512.webp", 900)}
-            alt="Designer Clothing signature craftsmanship"
+            alt="TRENDS YOUNIQUE signature craftsmanship"
             className="h-full w-full object-cover"
           />
         </div>
         <div className="max-w-[520px]">
-          <p className="text-[10.5px] tracking-[.2em] text-[#862222] uppercase">The Designer signature</p>
+          <p className="text-[10.5px] tracking-[.2em] text-[#6f1d2b] uppercase">The Designer signature</p>
           <h2 className="mt-2 font-display text-[28px] leading-tight font-medium sm:text-[36px]">
             Heirloom embroidery, finished by hand
           </h2>
-          <p className="mt-3 text-[13px] leading-relaxed text-[#5c534b]">
-            Every Designer Clothing anarkali, lehenga and suit set is cut from premium fabric and finished by
+          <p className="mt-3 text-[13px] leading-relaxed text-[#3d332c]">
+            Every TRENDS YOUNIQUE anarkali, lehenga and suit set is cut from premium fabric and finished by
             karigars who have spent generations perfecting zari, sequin and thread work. Fully stitched,
             ready to wear and delivered free across India.
           </p>
@@ -67,14 +67,14 @@ export function EditorialBand() {
               "7 days easy replacement",
             ].map((item) => (
               <li key={item} className="flex items-center gap-1.5">
-                <span className="text-[#862222]">✓</span>
+                <span className="text-[#6f1d2b]">✓</span>
                 {item}
               </li>
             ))}
           </ul>
           <Link
             href="/pages/about-us"
-            className="mt-5 inline-block border border-[#862222] px-7 py-3 text-[11px] font-semibold tracking-[.16em] text-[#862222] uppercase transition hover:bg-[#862222] hover:text-white"
+            className="mt-5 inline-block border border-[#6f1d2b] px-7 py-3 text-[11px] font-semibold tracking-[.16em] text-[#6f1d2b] uppercase transition hover:bg-[#6f1d2b] hover:text-white"
           >
             Our story
           </Link>

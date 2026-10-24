@@ -21,7 +21,7 @@ export default async function SheetPage() {
       <div className="topbar">
         <div>
           <h1>Google Sheet</h1>
-          <p>Owner ki sheet ka live data — settings, orders aur payments</p>
+          <p>TRENDS YOUNIQUE — Store DB (Orders · Products · Settings) ka live data</p>
         </div>
         <div className="actions">
           <Link className="btn" href="/settings">

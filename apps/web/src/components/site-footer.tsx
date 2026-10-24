@@ -8,8 +8,8 @@ import { siteConfig } from "@/config/site";
 import { apiUrl } from "@/lib/api-base";
 
 /**
- * Footer — live store (likshaclothing.com) ka same structure:
- * dark maroon band (#8a000e), white wordmark, Contact Us / Follow Us /
+ * Footer — deep wine band, cream logo, support + menu columns:
+ * deep wine band (#3a0f1b), cream logo, contact / follow /
  * CUSTOMER SUPPORT / Menu columns, phir copyright strip.
  */
 
@@ -66,23 +66,27 @@ export function SiteFooter() {
   }
 
   return (
-    <footer className="mt-16 bg-[#8a000e] text-white">
-      <div className="mx-auto max-w-[1400px] px-4 pt-11 pb-8 lg:px-6">
+    <footer className="mt-16 bg-[#3a0f1b] text-white">
+      <div className="mx-auto max-w-[1400px] px-4 pt-12 pb-8 lg:px-6">
         <div className="flex flex-col items-center">
-          <Link
-            href="/"
-            aria-label="Designer Clothing home"
-            className="inline-block"
-          >
-            {/* same brand lockup jo header me hai — maroon band par gold wordmark */}
+          <Link href="/" aria-label="TRENDS YOUNIQUE home" className="inline-block">
+            {/* cream version — wine band par logo saaf padhta hai */}
             <BrandLockup tone="light" size="large" variant="stacked" />
           </Link>
+          <p className="mt-4 text-center font-display text-[15px] italic tracking-[.06em] text-[#e9d3ae]">
+            Couture for the woman who arrives
+          </p>
+          <div className="mt-5 flex items-center gap-3">
+            <span className="h-px w-12 bg-[#6b3a3f]" />
+            <span className="h-1 w-1 rotate-45 bg-[#b08a4a]" />
+            <span className="h-px w-12 bg-[#6b3a3f]" />
+          </div>
         </div>
 
         <div className="mt-9 grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
           {/* Contact us */}
           <div>
-            <h3 className="text-[15px] font-medium text-white">Contact Us</h3>
+            <h3 className="text-[11px] font-semibold tracking-[.22em] text-[#d9bb84] uppercase">Contact us</h3>
             <ul className="mt-4 space-y-2.5 text-[13.5px] text-[#ececec]">
               <li className="flex items-start gap-2">
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" className="mt-0.5 shrink-0" aria-hidden>
@@ -175,7 +179,7 @@ export function SiteFooter() {
           <div>
             <h3 className="text-[15px] font-medium text-white">Sale alerts</h3>
             <p className="mt-2 text-[13px] leading-relaxed text-[#f1dede]">
-              Join the Designer Clothing list for early access to new drops and festive sale prices.
+              Join the TRENDS YOUNIQUE list for early access to new drops and festive sale prices.
             </p>
             <form onSubmit={subscribe} className="mt-3">
               <div className="flex border border-white/40 bg-white">
@@ -186,7 +190,7 @@ export function SiteFooter() {
                   onChange={(event) => setEmail(event.target.value)}
                   placeholder="Your email"
                   aria-label="Email address"
-                  className="h-10 w-full bg-transparent px-2.5 text-[12.5px] text-[#2f2a25] outline-none"
+                  className="h-10 w-full bg-transparent px-2.5 text-[12.5px] text-[#14100e] outline-none"
                 />
                 <button
                   type="submit"
@@ -204,7 +208,7 @@ export function SiteFooter() {
                   Signup abhi save nahi hua.{" "}
                   <a
                     href={`https://wa.me/91${whatsapp.replace(/\D/g, "").slice(-10)}?text=${encodeURIComponent(
-                      `Hi Designer Clothing! Please add me to the sale list: ${email}`,
+                      `Hi TRENDS YOUNIQUE! Please add me to the sale list: ${email}`,
                     )}`}
                     target="_blank"
                     rel="noreferrer"
@@ -240,7 +244,7 @@ export function SiteFooter() {
 
       <div className="border-t border-white/20">
         <div className="mx-auto flex max-w-[1400px] flex-col items-center justify-between gap-2 px-4 py-4 text-[11.5px] text-[#f3e2e2] sm:flex-row lg:px-6">
-          <p>© {new Date().getFullYear()}, Designer Clothing. All rights reserved.</p>
+          <p>© {new Date().getFullYear()}, TRENDS YOUNIQUE. All rights reserved.</p>
           <p className="text-[10.5px] tracking-[.1em] uppercase">Secure prepaid payments</p>
         </div>
       </div>

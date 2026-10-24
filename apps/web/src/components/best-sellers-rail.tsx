@@ -38,10 +38,10 @@ export function BestSellersRail({ initial }: { initial: Product[] }) {
   return (
     <section className="container-liksha py-10 lg:py-14" data-testid="best-sellers">
       <div className="flex flex-col items-center text-center">
-        <h2 className="font-display text-[26px] leading-tight font-medium tracking-[.03em] text-[#2f2a25] sm:text-[32px]">
+        <h2 className="font-display text-[26px] leading-tight font-medium tracking-[.03em] text-[#14100e] sm:text-[32px]">
           Best sellers
         </h2>
-        <p className="mt-1 text-[11.5px] tracking-[.14em] text-[#9c8f82] uppercase">
+        <p className="mt-1 text-[11.5px] tracking-[.14em] text-[#a3948a] uppercase">
           Sabse zyada order hone wale pieces — ranking har order ke saath update hoti hai
         </p>
       </div>

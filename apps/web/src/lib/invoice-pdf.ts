@@ -14,9 +14,9 @@ const money = (paise: number) =>
 const dateLabel = (iso: string) =>
   new Date(iso).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
 
-const MAROON = "#862222";
-const INK = "#2f2a25";
-const MUTED = "#6b6259";
+const MAROON = "#6f1d2b";
+const INK = "#14100e";
+const MUTED = "#6f6259";
 const LINE = "#dcd2c7";
 const SOFT = "#f7f2ec";
 

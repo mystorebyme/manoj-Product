@@ -12,15 +12,15 @@ test("cookie name is stable (middleware depends on it)", () => {
 });
 
 test("session token round-trips", () => {
-  const token = createSessionToken("admin@likshaclothing.com");
+  const token = createSessionToken("admin@trendsyounique.com");
   const session = verifySessionToken(token);
-  assert.equal(session?.email, "admin@likshaclothing.com");
+  assert.equal(session?.email, "admin@trendsyounique.com");
   assert.equal(session?.role, "owner");
   assert.ok(session!.exp > Date.now());
 });
 
 test("tampered token is rejected", () => {
-  const token = createSessionToken("admin@likshaclothing.com");
+  const token = createSessionToken("admin@trendsyounique.com");
   const [payload, signature] = token.split(".");
   const forgedPayload = Buffer.from(
     JSON.stringify({ email: "attacker@example.com", role: "owner", exp: Date.now() + 60_000 }),
@@ -32,23 +32,23 @@ test("tampered token is rejected", () => {
 });
 
 test("expired session is rejected", () => {
-  const token = createSessionToken("admin@likshaclothing.com");
+  const token = createSessionToken("admin@trendsyounique.com");
   const [, signature] = token.split(".");
   const expired = Buffer.from(
-    JSON.stringify({ email: "admin@likshaclothing.com", role: "owner", exp: Date.now() - 1 }),
+    JSON.stringify({ email: "admin@trendsyounique.com", role: "owner", exp: Date.now() - 1 }),
   ).toString("base64url");
   assert.equal(verifySessionToken(`${expired}.${signature}`), null);
 });
 
 test("credentials check is exact and case-insensitive on email", () => {
-  assert.equal(checkCredentials("admin@likshaclothing.com", "liksha2026"), true);
-  assert.equal(checkCredentials("ADMIN@likshaclothing.com", "liksha2026"), true);
-  assert.equal(checkCredentials("admin@likshaclothing.com", "wrong"), false);
+  assert.equal(checkCredentials("admin@trendsyounique.com", "liksha2026"), true);
+  assert.equal(checkCredentials("ADMIN@trendsyounique.com", "liksha2026"), true);
+  assert.equal(checkCredentials("admin@trendsyounique.com", "wrong"), false);
   assert.equal(checkCredentials("someone@else.com", "liksha2026"), false);
 });
 
 test("session 30 din chalti hai (baar-baar login nahi)", () => {
-  const token = createSessionToken("admin@likshaclothing.com");
+  const token = createSessionToken("admin@trendsyounique.com");
   const session = verifySessionToken(token);
   const days = ((session?.exp ?? 0) - Date.now()) / 86_400_000;
   assert.ok(days > 29 && days <= 30.01, `expected ~30 days, got ${days.toFixed(2)}`);

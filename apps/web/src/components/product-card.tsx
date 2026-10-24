@@ -12,7 +12,7 @@ import { colourSwatch } from "@/lib/colour";
 import { coloursFor } from "@/lib/colour-index";
 
 /**
- * Product card — live store (likshaclothing.com) jaisa:
+ * Product card — premium editorial layout:
  *  - hover par pehli image hat jaati hai aur doosri image cursor ke saath
  *    background me halki si move karti hai (parallax follow)
  *  - image ke **upar** icons: wishlist (heart), compare (eye), aur niche add-to-cart
@@ -97,7 +97,7 @@ export function ProductCard({
         </Link>
 
         {off > 0 ? (
-          <span className="absolute left-2 top-2 bg-[#862222] px-1.5 py-0.5 text-[9.5px] font-semibold tracking-[.08em] text-white uppercase">
+          <span className="absolute left-2 top-2 bg-[#6f1d2b] px-1.5 py-0.5 text-[9.5px] font-semibold tracking-[.08em] text-white uppercase">
             {off}% off
           </span>
         ) : null}
@@ -117,7 +117,7 @@ export function ProductCard({
             data-testid="wishlist-toggle"
             title={wished ? "In wishlist" : "Add to wishlist"}
             className={`flex h-8 w-8 items-center justify-center rounded-full bg-white/95 shadow-sm transition hover:bg-white ${
-              wished ? "text-[#c2185b]" : "text-[#2f2a25]"
+              wished ? "text-[#c2185b]" : "text-[#14100e]"
             }`}
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill={wished ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.6">
@@ -132,7 +132,7 @@ export function ProductCard({
             data-testid="compare-toggle"
             title={compared ? "In compare list" : "Add to compare"}
             className={`flex h-8 w-8 items-center justify-center rounded-full bg-white/95 shadow-sm transition hover:bg-white ${
-              compared ? "text-[#862222]" : "text-[#2f2a25]"
+              compared ? "text-[#6f1d2b]" : "text-[#14100e]"
             }`}
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
@@ -164,7 +164,7 @@ export function ProductCard({
           className={`absolute inset-x-0 bottom-0 py-2.5 text-[10.5px] font-semibold tracking-[.16em] uppercase transition-transform duration-300 group-hover:translate-y-0 focus-visible:translate-y-0 max-sm:translate-y-0 ${
             soldOut
               ? "cursor-not-allowed bg-[#4a423b] text-white/90"
-              : "bg-[#862222] text-white"
+              : "bg-[#6f1d2b] text-white"
           }`}
         >
           {soldOut ? "Sold out" : "Add to cart"}
@@ -174,12 +174,12 @@ export function ProductCard({
       <div className="flex flex-1 flex-col pt-2.5 text-center">
         <Link
           href={`/products/${product.handle}`}
-          className="line-clamp-2 text-[12px] font-medium leading-snug text-[#2f2a25] transition hover:text-[#862222] sm:text-[12.5px]"
+          className="line-clamp-2 text-[12px] font-medium leading-snug text-[#14100e] transition hover:text-[#6f1d2b] sm:text-[12.5px]"
         >
           {product.title}
         </Link>
         {product.reviewCount > 0 ? (
-          <p className="mt-1 flex items-center justify-center gap-1 text-[10px] text-[#8a8078]">
+          <p className="mt-1 flex items-center justify-center gap-1 text-[10px] text-[#8a7d72]">
             <Stars value={product.rating} size={10} />
             <span>
               {product.rating.toFixed(1)} ({product.reviewCount})
@@ -190,7 +190,7 @@ export function ProductCard({
           {product.compareAtPrice && product.compareAtPrice > product.price ? (
             <span className="text-[#a49a90] line-through">{formatPrice(product.compareAtPrice)}</span>
           ) : null}
-          <span className="font-semibold text-[#862222]">{formatPrice(product.price)}</span>
+          <span className="font-semibold text-[#6f1d2b]">{formatPrice(product.price)}</span>
         </div>
         {colourOptions.length > 1 ? (
           <div className="mt-1.5 flex items-center justify-center gap-1.5">

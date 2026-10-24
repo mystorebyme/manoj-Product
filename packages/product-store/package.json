@@ -1,0 +1,12 @@
+{
+  "name": "@liksha/product-store",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Owner-uploaded product store (admin likhta hai, storefront padhta hai)",
+  "main": "index.ts",
+  "types": "index.ts",
+  "type": "module",
+  "dependencies": {
+    "@liksha/types": "*"
+  }
+}

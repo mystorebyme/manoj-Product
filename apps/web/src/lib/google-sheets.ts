@@ -1,9 +1,15 @@
 import "server-only";
 
 import type { Order } from "@liksha/types";
-import { normaliseSheetSettings, orderSheetRow, type SheetSettings } from "./sheet-format";
+import {
+  normaliseSheetSettings,
+  orderItemRows,
+  orderSheetRow,
+  paymentSheetRow,
+  type SheetSettings,
+} from "./sheet-format";
 
-export { normaliseSheetSettings, orderSheetRow };
+export { normaliseSheetSettings, orderItemRows, orderSheetRow, paymentSheetRow };
 export type { SheetSettings };
 
 /**
@@ -24,7 +30,15 @@ export type { SheetSettings };
  * (koi feature band nahi hota) — sirf owner edits sheet se nahi honge.
  */
 
-export type SheetName = "Orders" | "Payments" | "Messages" | "Newsletter" | "Audit";
+export type SheetName =
+  | "Orders"
+  | "Order Items"
+  | "Products"
+  | "Enquiries"
+  | "Payments"
+  | "Messages"
+  | "Newsletter"
+  | "Audit";
 
 export type SheetAppend = {
   sheet: SheetName;
@@ -187,7 +201,19 @@ export async function syncOrderToSheet(
   event: string,
   extra: Record<string, string | number | null> = {},
 ): Promise<boolean> {
-  return appendSheetRows([
-    { sheet: event.startsWith("payment") ? "Payments" : "Orders", row: orderSheetRow(order, event, extra) },
-  ]);
+  // payment.* events → Payments tab, baaki sab → Orders tab
+  if (event.startsWith("payment")) {
+    return appendSheetRows([{ sheet: "Payments", row: paymentSheetRow(order, event, extra) }]);
+  }
+
+  const appends: SheetAppend[] = [{ sheet: "Orders", row: orderSheetRow(order, event, extra) }];
+  /**
+   * Order Items rows sirf ek baar — jab order pehli baar sheet me jaata hai.
+   * Baad ke events (shipped / delivered) par item rows dobara nahi likhte,
+   * warna packing list me same item kai baar aa jaata.
+   */
+  if (event === "order.placed") {
+    for (const row of orderItemRows(order)) appends.push({ sheet: "Order Items", row });
+  }
+  return appendSheetRows(appends);
 }

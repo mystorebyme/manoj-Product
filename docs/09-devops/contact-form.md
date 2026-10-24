@@ -6,7 +6,7 @@ Website ke `/pages/contact` par form hai. Submit karte hi:
    `.data/messages.json`. Redeploy par kuch nahi khota.
 2. **Owner ko email** — neeche diye provider se (best effort).
 3. **Admin panel** → **Messages** page par message turant dikhta hai, "Mark handled" bhi hota hai.
-4. **Direct fallback** — form par "or email Info.likshaclothing@gmail.com" (static `mailto:`) aur
+4. **Direct fallback** — form par "or email care@trendsyounique.com" (static `mailto:`) aur
    success screen par WhatsApp button hamesha kaam karta hai, chahe koi service band ho.
 
 ## Email provider — bina key, unlimited (default)
@@ -14,7 +14,7 @@ Website ke `/pages/contact` par form hai. Submit karte hi:
 **FormSubmit** use hota hai: `POST https://formsubmit.co/ajax/<CONTACT_EMAIL>`.
 
 - Koi account/API key nahi, unlimited free.
-- **Ek baar activation**: pehli submission par `Info.likshaclothing@gmail.com` ke inbox me
+- **Ek baar activation**: pehli submission par `care@trendsyounique.com` ke inbox me
   "Activate" mail aata hai — usme click kar dein. Uske baad har message seedhe mail me aayega.
 - Band karna ho: `CONTACT_FORMSUBMIT=off`.
 

@@ -37,17 +37,17 @@ export function CollectionToolbar({
   onPriceChange: (value: string) => void;
 }) {
   return (
-    <div className="flex flex-col gap-3 border-b border-[#eee6de] pb-3 sm:flex-row sm:items-center sm:justify-between">
-      <p className="text-[11.5px] tracking-[.1em] text-[#8a8078] uppercase">
+    <div className="flex flex-col gap-3 border-b border-[#ece1d3] pb-3 sm:flex-row sm:items-center sm:justify-between">
+      <p className="text-[11.5px] tracking-[.1em] text-[#8a7d72] uppercase">
         {total} {total === 1 ? "product" : "products"}
-        {loading ? <span className="ml-2 text-[#862222]">updating…</span> : null}
+        {loading ? <span className="ml-2 text-[#6f1d2b]">updating…</span> : null}
       </p>
       <div className="flex flex-wrap items-center gap-2">
         <select
           value={priceRange}
           onChange={(event) => onPriceChange(event.target.value)}
           aria-label="Filter by price"
-          className="h-9 border border-[#e0d6ca] bg-white px-2.5 text-[11.5px] tracking-[.04em] outline-none focus:border-[#862222]"
+          className="h-9 border border-[#e0d6ca] bg-white px-2.5 text-[11.5px] tracking-[.04em] outline-none focus:border-[#6f1d2b]"
         >
           {priceOptions.map((option) => (
             <option key={option.value} value={option.value}>
@@ -59,7 +59,7 @@ export function CollectionToolbar({
           value={sort}
           onChange={(event) => onSortChange(event.target.value)}
           aria-label="Sort products"
-          className="h-9 border border-[#e0d6ca] bg-white px-2.5 text-[11.5px] tracking-[.04em] outline-none focus:border-[#862222]"
+          className="h-9 border border-[#e0d6ca] bg-white px-2.5 text-[11.5px] tracking-[.04em] outline-none focus:border-[#6f1d2b]"
         >
           {sortOptions.map((option) => (
             <option key={option.value} value={option.value}>

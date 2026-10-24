@@ -150,7 +150,7 @@ export function UpiPayment({
 
   const wa = whatsapp.replace(/\D/g, "").slice(-10);
   const waText = encodeURIComponent(
-    `Hi Designer Clothing, I have paid ${formatPrice(amount)} for order ${orderNumber} via UPI (${upiId}). UTR: `,
+    `Hi TRENDS YOUNIQUE, I have paid ${formatPrice(amount)} for order ${orderNumber} via UPI (${upiId}). UTR: `,
   );
   const paid = paymentStatus === "paid";
 
@@ -197,7 +197,7 @@ export function UpiPayment({
                 {upiId}
               </span>
             </div>
-            <p className="mt-1 break-words text-[11.5px] text-[#6b6259]">
+            <p className="mt-1 break-words text-[11.5px] text-[#6f6259]">
               {upiName} · Amount <strong>{formatPrice(amount)}</strong> (exact — no extra charges)
             </p>
 
@@ -221,7 +221,7 @@ export function UpiPayment({
               </div>
             ) : API_AVAILABLE ? (
               <form onSubmit={submit} className="mt-4 space-y-2.5" data-testid="upi-form">
-                <p className="text-[11px] leading-relaxed text-[#6b6259]">
+                <p className="text-[11px] leading-relaxed text-[#6f6259]">
                   After paying, copy the reference / UTR from your UPI app and paste it here.
                 </p>
                 <div className="grid gap-2 sm:grid-cols-[1.4fr_0.8fr]">
@@ -231,7 +231,7 @@ export function UpiPayment({
                     placeholder="UPI reference / UTR"
                     inputMode="text"
                     aria-label="UPI reference or UTR"
-                    className="h-10 w-full min-w-0 border border-[#ddd2c6] bg-white px-2.5 text-[12px] outline-none focus:border-[#862222]"
+                    className="h-10 w-full min-w-0 border border-[#ded1c0] bg-white px-2.5 text-[12px] outline-none focus:border-[#6f1d2b]"
                   />
                   <input
                     value={last4}
@@ -239,7 +239,7 @@ export function UpiPayment({
                     placeholder="Phone last 4"
                     inputMode="numeric"
                     aria-label="Last 4 digits of your mobile number"
-                    className="h-10 w-full min-w-0 border border-[#ddd2c6] bg-white px-2.5 text-[12px] outline-none focus:border-[#862222]"
+                    className="h-10 w-full min-w-0 border border-[#ded1c0] bg-white px-2.5 text-[12px] outline-none focus:border-[#6f1d2b]"
                   />
                 </div>
                 {error ? <p className="text-[11px] text-[#b3261e]">{error}</p> : null}

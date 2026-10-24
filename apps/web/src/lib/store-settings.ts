@@ -21,6 +21,13 @@ export type StoreSettings = {
   whatsapp: string;
   /** Admin panel ka link (sirf admin/owner ke liye — public API me nahi jaata) */
   adminUrl: string;
+  /** brand naam + home hero ka sub-line (sheet se badal sakte hain) */
+  brandName: string;
+  tagline: string;
+  /** quantity limits — sheet ke Settings tab se (khaali = code default) */
+  maxQtyPerItem: number;
+  maxQtyBulk: number;
+  maxQtyPerOrder: number;
   updatedAt: string;
   updatedBy: string;
 };
@@ -29,12 +36,17 @@ export const DEFAULT_STORE_SETTINGS: StoreSettings = {
   announcement: "Diwali Sale — Up to 70% OFF · Final price ₹499 onwards",
   freeShipping: true,
   upiId: process.env.STORE_UPI_ID ?? "dhakadgourav@fam",
-  upiName: process.env.STORE_UPI_NAME ?? "Designer Clothing",
+  upiName: process.env.STORE_UPI_NAME ?? "TRENDS YOUNIQUE",
   gstin: process.env.SELLER_GSTIN ?? "",
   supportPhone: "8005900581",
-  supportEmail: "Info.likshaclothing@gmail.com",
+  supportEmail: "care@trendsyounique.com",
   whatsapp: "8005900581",
   adminUrl: process.env.ADMIN_PANEL_URL ?? "",
+  brandName: "TRENDS YOUNIQUE",
+  tagline: "Couture for the woman who arrives",
+  maxQtyPerItem: 10,
+  maxQtyBulk: 30,
+  maxQtyPerOrder: 15,
   updatedAt: new Date(0).toISOString(),
   updatedBy: "system",
 };
@@ -57,6 +69,11 @@ export function normalizeStoreSettings(input: unknown): StoreSettings {
     supportEmail: text(raw.supportEmail, base.supportEmail, 120),
     whatsapp: text(raw.whatsapp, base.whatsapp, 16),
     adminUrl: text(raw.adminUrl, base.adminUrl, 200),
+    brandName: text(raw.brandName, base.brandName, 60),
+    tagline: text(raw.tagline, base.tagline, 160),
+    maxQtyPerItem: Number(raw.maxQtyPerItem) > 0 ? Math.min(99, Math.round(Number(raw.maxQtyPerItem))) : base.maxQtyPerItem,
+    maxQtyBulk: Number(raw.maxQtyBulk) > 0 ? Math.min(999, Math.round(Number(raw.maxQtyBulk))) : base.maxQtyBulk,
+    maxQtyPerOrder: Number(raw.maxQtyPerOrder) > 0 ? Math.min(999, Math.round(Number(raw.maxQtyPerOrder))) : base.maxQtyPerOrder,
     updatedAt: typeof raw.updatedAt === "string" ? raw.updatedAt : base.updatedAt,
     updatedBy: typeof raw.updatedBy === "string" ? raw.updatedBy : base.updatedBy,
   };
@@ -101,6 +118,11 @@ export async function getStoreSettings(options: { fresh?: boolean } = {}): Promi
         ...(sheet.gstin ? { gstin: sheet.gstin } : {}),
         ...(typeof sheet.freeShipping === "boolean" ? { freeShipping: sheet.freeShipping } : {}),
         ...(sheet.adminUrl ? { adminUrl: sheet.adminUrl } : {}),
+        ...(sheet.brandName ? { brandName: sheet.brandName } : {}),
+        ...(sheet.tagline ? { tagline: sheet.tagline } : {}),
+        ...(sheet.maxQtyPerItem ? { maxQtyPerItem: sheet.maxQtyPerItem } : {}),
+        ...(sheet.maxQtyBulk ? { maxQtyBulk: sheet.maxQtyBulk } : {}),
+        ...(sheet.maxQtyPerOrder ? { maxQtyPerOrder: sheet.maxQtyPerOrder } : {}),
         ...(sheet.announcement || sheet.upiId || sheet.supportPhone
           ? { updatedAt: new Date().toISOString(), updatedBy: "google-sheet" }
           : {}),

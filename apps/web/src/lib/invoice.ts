@@ -46,10 +46,10 @@ export interface InvoiceView {
 /** Seller details — GSTIN env se aata hai; na hone par invoice par "pending" chhapta hai. */
 export function sellerDetails() {
   return {
-    name: "Designer Clothing",
+    name: "TRENDS YOUNIQUE",
     address: "Jaipur, Rajasthan 302001, India",
     gstin: process.env.SELLER_GSTIN?.trim() || "GSTIN pending",
-    email: process.env.SELLER_EMAIL?.trim() || "info.likshaclothing@gmail.com",
+    email: process.env.SELLER_EMAIL?.trim() || "care@trendsyounique.com",
     phone: process.env.SELLER_PHONE?.trim() || "+91 8005900581",
     state: SELLER_STATE,
   };

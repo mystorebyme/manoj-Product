@@ -146,6 +146,8 @@ export interface OrderItem {
   handle: string;
   title: string;
   image: string;
+  /** colourway ka naam — WhatsApp / invoice / sheet me dikhta hai */
+  colour?: string | null;
   size: string;
   quantity: number;
   /** unit price in paise */

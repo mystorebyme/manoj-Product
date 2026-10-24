@@ -270,18 +270,25 @@ export type StoreSettings = {
   whatsapp: string;
   /** admin panel ka link — sheet ke Settings tab se (customer ko nahi dikhta) */
   adminUrl: string;
+  /** quantity limits — storefront inhe follow karta hai (Google Sheet Settings se bhi) */
+  maxQtyPerItem: number;
+  maxQtyBulk: number;
+  maxQtyPerOrder: number;
 };
 
 const DEFAULT_SETTINGS: StoreSettings = {
-  announcement: "Diwali Sale — Flat 70% OFF · Final price ₹499 onwards",
+  announcement: "New drop live — free shipping across India",
   freeShipping: true,
   upiId: "dhakadgourav@fam",
-  upiName: "Designer Clothing",
+  upiName: "TRENDS YOUNIQUE",
   gstin: "27AAAAA0000A1Z5",
   supportPhone: "8005900581",
-  supportEmail: "Info.likshaclothing@gmail.com",
+  supportEmail: "care@trendsyounique.com",
   whatsapp: "8005900581",
   adminUrl: process.env.ADMIN_PANEL_URL ?? "",
+  maxQtyPerItem: 10,
+  maxQtyBulk: 30,
+  maxQtyPerOrder: 15,
 };
 
 export type ManualOrderInput = {
