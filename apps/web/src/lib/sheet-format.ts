@@ -105,15 +105,9 @@ export function orderSheetRow(
   extra: Record<string, string | number | null> = {},
 ): Record<string, string | number> {
   const pieces = order.items.reduce((sum, item) => sum + item.quantity, 0);
-  const extras: string[] = [];
-  if (order.couponCode) extras.push(`Coupon: ${order.couponCode}`);
-  if (order.discount > 0) extras.push(`Discount: Rs. ${inr(order.discount)}`);
-  if (order.tracking?.courier) extras.push(`Courier: ${order.tracking.courier}`);
-  if (order.tracking?.awb) extras.push(`AWB: ${order.tracking.awb}`);
-  if (order.tracking?.url) extras.push(`Track: ${order.tracking.url}`);
-  if (order.notes) extras.push(`Note: ${order.notes}`);
-  const notes = [...extras, ...Object.values(extra).map((value) => String(value ?? ""))]
-    .filter(Boolean)
+  const notes = Object.entries(extra)
+    .filter(([, value]) => value !== null && value !== undefined && String(value) !== "")
+    .map(([key, value]) => `${key}: ${value}`)
     .join(" · ");
 
   return {
@@ -124,18 +118,25 @@ export function orderSheetRow(
     Customer: order.customerName,
     Phone: order.phone,
     WhatsApp: sheetWhatsAppLink(order.phone),
-    Address: [order.address, order.email].filter(Boolean).join(" · "),
+    Email: order.email,
+    Address: order.address,
     City: order.city,
     State: order.state,
     PIN: order.pincode,
     Items: order.items.map(lineLabel).join(" | "),
     "Qty total": pieces,
     "Subtotal ₹": inr(order.subtotal),
+    "Discount ₹": inr(order.discount),
+    Coupon: order.couponCode ?? "",
     "Shipping ₹": inr(order.shipping),
     "Total ₹": inr(order.total),
+    "Payment method": order.paymentMethod,
     "Payment status": order.paymentStatus,
     "Payment ref": order.payment?.reference ?? "",
-    Notes: notes,
+    Courier: order.tracking?.courier ?? "",
+    AWB: order.tracking?.awb ?? "",
+    "Tracking URL": order.tracking?.url ?? "",
+    Notes: [order.notes ?? "", notes].filter(Boolean).join(" · "),
     Source: order.payment?.gateway ? `website · ${order.payment.gateway}` : "website",
   };
 }
@@ -160,6 +161,7 @@ export function paymentSheetRow(
     "Payment status": order.paymentStatus,
     "Payment ref": order.payment?.reference ?? "",
     "UPI ID": extra["UPI ID"] ?? order.payment?.upiUri ?? "",
+    Method: order.paymentMethod,
     Notes: [order.payment?.gateway ? `via ${order.payment.gateway}` : "", ...Object.values(extra)]
       .filter(Boolean)
       .join(" · "),
@@ -183,5 +185,85 @@ export function orderItemRows(order: Order): Record<string, string | number>[] {
     "Line total ₹": inr(item.price * item.quantity),
     "Product link": item.handle ? `${siteConfig.url}/products/${item.handle}` : "",
     Image: item.image ?? "",
+    "Order status": order.status,
   }));
+}
+
+/** `Enquiries` tab ki row — WhatsApp order/enquiry ka poora detail. */
+export type EnquirySheetItem = {
+  title: string;
+  handle: string;
+  colour?: string | null;
+  size?: string | null;
+  quantity: number;
+  price: number;
+};
+
+export type EnquirySheetInput = {
+  id: string;
+  createdAt: string;
+  type: string;
+  customer?: string | null;
+  phone?: string | null;
+  items: EnquirySheetItem[];
+  total: number;
+  note?: string | null;
+  source?: string | null;
+};
+
+/** Har item ek line: colour · size · qty · line total · product link */
+export function enquiryItemsSummary(items: EnquirySheetItem[]): string {
+  return items
+    .map(
+      (item, index) =>
+        `${index + 1}) ${item.title}` +
+        `${item.colour ? ` · Colour: ${item.colour}` : ""}` +
+        ` · Size: ${item.size ?? "-"}` +
+        ` · Qty: ${item.quantity}` +
+        ` · Rs. ${inr(item.price * item.quantity)}` +
+        (item.handle ? ` · ${siteConfig.url}/products/${item.handle}` : ""),
+    )
+    .join("\n");
+}
+
+export function enquirySheetRow(enquiry: EnquirySheetInput): Record<string, string | number> {
+  return {
+    "Date & Time": enquiry.createdAt,
+    "Enquiry ID": enquiry.id,
+    Type: enquiry.type,
+    Customer: enquiry.customer ?? "",
+    Phone: enquiry.phone ?? "",
+    Items: enquiryItemsSummary(enquiry.items),
+    "Qty total": enquiry.items.reduce((sum, item) => sum + item.quantity, 0),
+    "Value ₹": inr(enquiry.total),
+    Message: enquiry.note ?? "",
+    "Source page": enquiry.source ?? "",
+  };
+}
+
+/** `Messages` tab (contact form) */
+export function messageSheetRow(message: {
+  createdAt: string;
+  name: string;
+  email: string;
+  phone?: string | null;
+  subject?: string | null;
+  message: string;
+  replied?: boolean;
+  handled?: boolean;
+}): Record<string, string> {
+  return {
+    Timestamp: message.createdAt,
+    Name: message.name,
+    Email: message.email,
+    Phone: message.phone ?? "",
+    Subject: message.subject ?? "",
+    Message: message.message,
+    Status: message.replied ? "replied" : message.handled ? "handled" : "new",
+  };
+}
+
+/** `Newsletter` tab */
+export function newsletterSheetRow(email: string, at = new Date().toISOString()): Record<string, string> {
+  return { Timestamp: at, Email: email };
 }

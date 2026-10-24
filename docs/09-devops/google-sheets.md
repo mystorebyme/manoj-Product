@@ -18,7 +18,7 @@ rehti hai — sirf owner ke edits ruk jaate hain, koi order fail nahi hota.
 | --- | --- |
 | Naam | `TRENDS YOUNIQUE — Store DB (Orders · Products · Settings)` |
 | Link | https://docs.google.com/spreadsheets/d/1ag5Ivpw8GWkX8oE5_KLe77GFR4KP-7uQFKsmjeZ2xVY/edit |
-| Tabs | `Orders` (20 cols) · `Order Items` (11) · `Products` (12) · `Enquiries` (9) · `Payments` (11) · `Settings` (key/value) · `Messages` (7) · `Newsletter` (2) · `Read Me` |
+| Tabs | `Orders` (27 cols) · `Order Items` (12) · `Products` (15) · `Enquiries` (10) · `Payments` (12) · `Settings` (key/value) · `Messages` (7) · `Newsletter` (2) · `Read Me` |
 | Settings values | `brand_name`, `tagline`, `support_phone`, `whatsapp`, `upi_id`, `upi_name`, `announcement`, `free_shipping`, `shipping_fee`, `gstin`, `max_qty_per_item` = 10, `max_qty_bulk` = 30, `max_qty_per_order` = 15, `admin_url` |
 
 > **Security:** yeh link kisi customer ko nahi bhejni. Isme customer ke phone aur address hain.
@@ -73,6 +73,21 @@ bharte hi: storefront par product turant live ho jaata hai (`/products/<handle>`
 | Images | `/api/uploads/…` ya koi https URL |
 | Stock | saare sizes ka total |
 | Status | `Live` / `Draft` |
+
+### Kaun si row kis tab me jaati hai (poora detail)
+
+| Tab | Kab likhi jaati hai | Kya hota hai andar |
+| --- | --- | --- |
+| **Orders** | har order event par (placed → shipped → delivered) | Order ID, Date & Time, Event, Status, customer, phone, **WhatsApp link**, **email**, address, city, state, PIN, item-wise detail, qty, subtotal, **discount**, **coupon**, shipping, total, payment method/status/ref, **courier, AWB, tracking URL**, notes, source |
+| **Order Items** | order place hone par (har item ek row) | Order ID, date, product, handle, **colour**, size, qty, price, line total, product link, image, order status |
+| **Products** | admin se product save/update par (upsert) | handle, naam, price, MRP, **discount %**, size-wise stock/price, colours, images, collection, **category**, fabric, description, stock, status, updated |
+| **Enquiries** | product page / cart se WhatsApp order par | date, **enquiry ID**, type, customer, phone, item-wise colour·size·qty·price·link, qty total, value, message, source page |
+| **Payments** | payment submit / paid / reverse par | timestamp, event, order ID, status, customer, phone, total, payment status/ref, UPI ID, method, notes |
+| **Messages** / **Newsletter** | contact form / footer signup | naam, email, phone, subject, message, status · email |
+
+> **Bharosa:** Apps Script down ho ya network timeout ho jaye to row **disk outbox**
+> (`.data/sheet-outbox.json`) me queue ho jaati hai aur agle successful call par khud
+> chali jaati hai — isliye order ki koi detail gum nahi hoti.
 
 ### Orders + Order Items
 Har order place hone par **Orders** me ek row, aur uske har item ki alag row **Order Items** me

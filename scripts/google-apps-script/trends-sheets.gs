@@ -36,25 +36,26 @@ var TOKEN = 'CHANGE-ME-trends-token';
 
 var HEADERS = {
   Orders: [
-    'Order ID', 'Date & Time', 'Event', 'Status', 'Customer', 'Phone', 'WhatsApp',
-    'Address', 'City', 'State', 'PIN', 'Items', 'Qty total', 'Subtotal ₹', 'Shipping ₹',
-    'Total ₹', 'Payment status', 'Payment ref', 'Notes', 'Source',
+    'Order ID', 'Date & Time', 'Event', 'Status', 'Customer', 'Phone', 'WhatsApp', 'Email',
+    'Address', 'City', 'State', 'PIN', 'Items', 'Qty total', 'Subtotal ₹', 'Discount ₹',
+    'Coupon', 'Shipping ₹', 'Total ₹', 'Payment method', 'Payment status', 'Payment ref',
+    'Courier', 'AWB', 'Tracking URL', 'Notes', 'Source',
   ],
   'Order Items': [
     'Order ID', 'Date & Time', 'Product', 'Handle', 'Colour', 'Size', 'Qty',
-    'Price ₹', 'Line total ₹', 'Product link', 'Image',
+    'Price ₹', 'Line total ₹', 'Product link', 'Image', 'Order status',
   ],
   Products: [
-    'Handle', 'Product name', 'Price ₹', 'MRP ₹', 'Sizes', 'Colours', 'Images',
-    'Collection', 'Description', 'Stock', 'Status', 'Updated',
+    'Handle', 'Product name', 'Price ₹', 'MRP ₹', 'Discount %', 'Sizes', 'Colours', 'Images',
+    'Collection', 'Category', 'Fabric', 'Description', 'Stock', 'Status', 'Updated',
   ],
   Enquiries: [
-    'Date & Time', 'Type', 'Customer', 'Phone', 'Items', 'Qty total', 'Value ₹',
-    'Message', 'Source page',
+    'Date & Time', 'Enquiry ID', 'Type', 'Customer', 'Phone', 'Items', 'Qty total',
+    'Value ₹', 'Message', 'Source page',
   ],
   Payments: [
     'Timestamp', 'Event', 'Order ID', 'Status', 'Customer', 'Phone', 'Total ₹',
-    'Payment status', 'Payment ref', 'UPI ID', 'Notes',
+    'Payment status', 'Payment ref', 'UPI ID', 'Method', 'Notes',
   ],
   Settings: ['key', 'value', 'notes'],
   Messages: ['Timestamp', 'Name', 'Email', 'Phone', 'Subject', 'Message', 'Status'],
@@ -159,8 +160,50 @@ function setup() {
     // filter already set ho to chhod do
   }
 
+  writeReadme_();
+
   book_().toast('TRENDS YOUNIQUE sheet ready ✔', 'Setup', 5);
   return json_({ ok: true, message: 'setup complete' });
+}
+
+/**
+ * `Read Me` tab — owner ke liye ek page ka guide (har baar setup par refresh hota hai).
+ * Koi customer data yahan nahi aata.
+ */
+function writeReadme_() {
+  var book = book_();
+  var sheet = book.getSheetByName('Read Me') || book.insertSheet('Read Me', 0);
+  sheet.clear();
+  var lines = [
+    ['TRENDS YOUNIQUE — Store DB'],
+    [''],
+    ['Ye sheet website ka database hai. Yahan owner ke liye har detail aati hai.'],
+    ['Sheet ka link kisi customer ko share na karein — isme phone aur address hai.'],
+    [''],
+    ['Tab', 'Kya rehta hai'],
+    ['Orders', 'Har order ki row — customer, phone, WhatsApp, email, address, items, qty, total, payment, courier/AWB, notes'],
+    ['Order Items', 'Order ka har item alag row — product, colour, size, qty, price, line total, product link'],
+    ['Products', 'Admin se upload hue products (handle = key, isliye duplicate nahi)'],
+    ['Enquiries', 'WhatsApp se aaye order/enquiry — item-wise colour/size/qty/price/link'],
+    ['Payments', 'Payment submit / paid / reverse ka record (UPI ID + reference)'],
+    ['Settings', 'WhatsApp number, UPI, announcement, quantity limits — site 15 second me utha leti hai'],
+    ['Messages', 'Contact form ke messages'],
+    ['Newsletter', 'Email subscribers'],
+    [''],
+    ['Settings tab badalne ke baad', 'Kuch nahi karna — website khud refresh kar leti hai (redeploy nahi).'],
+    ['Apps Script code badla ho to', 'Deploy → Manage deployments → Edit → New version → Deploy (URL wahi rehta hai).'],
+  ];
+  sheet.getRange(1, 1, lines.length, 2).setValues(
+    lines.map(function (row) {
+      return [row[0] === undefined ? '' : row[0], row[1] === undefined ? '' : row[1]];
+    }),
+  );
+  sheet.getRange(1, 1).setFontWeight('bold').setFontSize(14);
+  sheet.getRange(6, 1, 1, 2).setFontWeight('bold');
+  sheet.getRange(1, 1, lines.length, 2).setVerticalAlignment('top');
+  sheet.setColumnWidth(1, 220);
+  sheet.setColumnWidth(2, 620);
+  sheet.getRange(6, 1, lines.length - 5, 2).setWrap(true);
 }
 
 /* ─────────────────────────── read ─────────────────────────── */

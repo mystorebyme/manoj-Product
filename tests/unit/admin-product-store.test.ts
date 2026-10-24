@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
+import { readFileSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 
@@ -68,6 +69,7 @@ test("Products sheet row me size ka apna price dikhta hai", () => {
   assert.equal(row["Product name"], "Test Size Price Anarkali");
   assert.equal(row["Price ₹"], 2499);
   assert.match(String(row.Sizes), /XL \(2 @2899\)/);
+  assert.equal(row["Discount %"], 29);
   assert.match(String(row.Sizes), /S \(4\)/);
   assert.equal(row.Stock, 9);
 });
@@ -89,4 +91,19 @@ test("product delete hone par store se hat jaata hai", () => {
   assert.ok(getAdminProduct("test-size-price-anarkali"));
   deleteProduct("test-size-price-anarkali");
   assert.equal(getAdminProduct("test-size-price-anarkali"), null);
+});
+
+test("Products sheet row ke keys `.gs` ke Products headers par hain", () => {
+  const script = readFileSync("scripts/google-apps-script/trends-sheets.gs", "utf8");
+  const block = /Products:\s*\[([\s\S]*?)\]/.exec(script);
+  assert.ok(block, "Products headers nahi mile");
+  const headers = [...block[1]!.matchAll(/'([^']+)'/g)].map((entry) => entry[1]!);
+  const record = seed();
+  assert.ok(record);
+  const row = productSheetRow(record!);
+  for (const key of Object.keys(row)) {
+    assert.ok(headers.includes(key), `Products header me "${key}" nahi hai`);
+  }
+  assert.equal(row.Category, "anarkali");
+  assert.equal(row.Collection, "new-arrivals");
 });

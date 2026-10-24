@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useCart } from "@/components/cart-provider";
 import { formatPrice, imageUrl } from "@/lib/format";
 import { SafeImage } from "@/components/safe-image";
@@ -13,6 +13,7 @@ import { UpiQr } from "@/components/upi-qr";
 import { UpiApps } from "@/components/upi-apps";
 import { postJson, readJson } from "@/lib/http-json";
 import { checkPincodeOffline } from "@/lib/pincode-offline";
+import { logWhatsAppEnquiry } from "@/lib/whatsapp";
 
 const indianStates = [
   "Andhra Pradesh", "Assam", "Bihar", "Chandigarh", "Chhattisgarh", "Delhi", "Goa", "Gujarat",
@@ -27,6 +28,8 @@ export function CheckoutForm() {
   // festive sale me final price already 499–699 hai — koi extra coupon nahi
   const { upiId, upiName, whatsapp } = useStoreSettings();
   const [whatsappHref, setWhatsappHref] = useState<string | null>(null);
+  // ek hi submission par ek hi enquiry log ho (link dobara banne par duplicate na bane)
+  const enquiryLogged = useRef(false);
   // sirf prepaid — COD option hata diya gaya hai
   const payment = "prepaid" as const;
   const [submitting, setSubmitting] = useState(false);
@@ -100,6 +103,34 @@ export function CheckoutForm() {
 
   /** static preview / server down — poora order WhatsApp par (owner usi se confirm karta hai) */
   function whatsappOrderLink(): string {
+    // detail sheet/DB me bhi jaye — sirf WhatsApp chat par depend na rahe
+    if (!enquiryLogged.current) {
+      enquiryLogged.current = true;
+      logWhatsAppEnquiry({
+        type: "checkout",
+        items: lines.map((line) => ({
+          title: line.title,
+          handle: line.handle,
+          colour: line.colour ?? null,
+          size: line.size ?? null,
+          quantity: line.quantity,
+          price: line.price,
+        })),
+        total,
+        customer: form.customerName || null,
+        phone: form.phone || null,
+        note: [
+          form.address,
+          form.city,
+          form.state,
+          form.pincode,
+          form.notes,
+        ]
+          .filter(Boolean)
+          .join(", ")
+          .slice(0, 480),
+      });
+    }
     const itemLines = lines
       .map((line) => `• ${line.title} — size ${line.size}${line.colour ? `, ${line.colour}` : ""} × ${line.quantity}`)
       .join("\n");
@@ -136,6 +167,7 @@ export function CheckoutForm() {
     }
     setError(null);
     setWhatsappHref(null);
+    enquiryLogged.current = false;
 
     // GitHub Pages par server nahi hai — order WhatsApp par jaata hai, 404/network error nahi
     if (!API_AVAILABLE) {

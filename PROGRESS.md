@@ -239,9 +239,24 @@ Sab kuch ek hi pass me: brand, WhatsApp order flow, admin panel, sheet database.
   kar row keys se compare karta hai (drift pakad leta hai).
 - Docs: `docs/09-devops/google-sheets.md` (setup, tabs, settings keys, verify commands).
 
+**Sheet = "every detail" (Round 17b)**
+- Owner ne kaha: sheet me **har detail** aani chahiye. Isliye columns poore kiye:
+  - Orders (27): email, WhatsApp link, discount, coupon, payment method, courier, AWB, tracking URL
+  - Order Items (12): colour + order status, product link, image
+  - Products (15): discount %, category, fabric, size-wise `XL (2 @2899)`
+  - Enquiries (10): enquiry ID + item-wise colour·size·qty·price·link
+  - Payments (12): method
+- Row builders ab pure module (`sheet-format.ts`) me — Messages/Newsletter/Enquiries bhi wahin se.
+- **Outbox:** Apps Script down/timeout ho to row `.data/sheet-outbox.json` me queue hoti hai aur
+  agli successful call par purani rows pehle chali jaati hain — detail gum nahi hoti.
+- Checkout ka WhatsApp fallback bhi ab enquiry log karta hai (naam, phone, poora address).
+- `tests/unit/sheet-outbox.test.ts` (4) + header-contract test ab "koi zaroori cell khaali
+  nahi" bhi check karta hai. `Read Me` tab `setup()` se regenerate hota hai (Hinglish guide).
+- `writeSheetSettings` ab brand, tagline aur teen quantity limits bhi sheet me likhta hai.
+
 **Verification**
 - `npm run typecheck` — web + admin + api clean.
-- `npm run test:unit` — 108/0, `npm run test:integration` — 40/0.
+- `npm run test:unit` — 116/0, `npm run test:integration` — 40/0.
 - Manual (dev servers): product save → PDP 200 / listing / `/api/products`; order with
   colour → stored order + order page + WhatsApp link; settings round-trip (10/30/15 →
   8/25/12 → restore); admin pages 200 with session.

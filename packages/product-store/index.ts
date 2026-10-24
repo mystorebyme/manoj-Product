@@ -275,6 +275,10 @@ export function productSheetRow(record: AdminProductRecord): Record<string, stri
     "Product name": record.title,
     "Price ₹": Math.round(record.price) / 100,
     "MRP ₹": record.compareAtPrice ? Math.round(record.compareAtPrice) / 100 : "",
+    "Discount %":
+      record.compareAtPrice && record.compareAtPrice > record.price
+        ? Math.round(((record.compareAtPrice - record.price) / record.compareAtPrice) * 100)
+        : 0,
     // `S (5)` normal, `XL (2 @3799)` = us size ka apna price
     Sizes: record.sizes
       .map((entry) =>
@@ -286,6 +290,8 @@ export function productSheetRow(record: AdminProductRecord): Record<string, stri
     Colours: record.colours.join(", "),
     Images: record.images.join(", "),
     Collection: record.collection,
+    Category: record.category,
+    Fabric: record.fabric,
     Description: record.description,
     Stock: record.sizes.reduce((sum, entry) => sum + entry.stock, 0),
     Status: record.status === "published" ? "Live" : "Draft",

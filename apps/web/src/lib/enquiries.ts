@@ -4,6 +4,8 @@ import fs from "node:fs";
 import { randomUUID } from "node:crypto";
 import { dataFile } from "@/lib/data-dir";
 import { appendSheetRows } from "@/lib/google-sheets";
+// row builder pure module me hai — header contract test me seedha test hota hai
+import { enquirySheetRow } from "@/lib/sheet-format";
 
 /**
  * WhatsApp enquiries.
@@ -66,17 +68,6 @@ export function listEnquiries(limit = 50): Enquiry[] {
     .slice(0, Math.max(1, Math.min(500, limit)));
 }
 
-const money = (paise: number) => Math.round(paise) / 100;
-
-function itemsSummary(items: EnquiryItem[]): string {
-  return items
-    .map(
-      (item, index) =>
-        `${index + 1}) ${item.title} · ${item.size ?? "-"}${item.colour ? ` · ${item.colour}` : ""} · qty ${item.quantity} · ₹${money(item.price * item.quantity)}`,
-    )
-    .join("\n");
-}
-
 /** Naya enquiry save karo + sheet me bhejo (sheet fail ho to bhi save rahe). */
 export async function saveEnquiry(input: Omit<Enquiry, "id" | "createdAt">): Promise<Enquiry> {
   const clean: Enquiry = {
@@ -103,22 +94,7 @@ export async function saveEnquiry(input: Omit<Enquiry, "id" | "createdAt">): Pro
   // bahut purane rows disk par na badhein
   writeAll(rows.slice(-5000));
 
-  void appendSheetRows([
-    {
-      sheet: "Enquiries",
-      row: {
-        "Date & Time": clean.createdAt,
-        Type: clean.type,
-        Customer: clean.customer ?? "",
-        Phone: clean.phone ?? "",
-        Items: itemsSummary(clean.items),
-        "Qty total": clean.items.reduce((sum, item) => sum + item.quantity, 0),
-        "Value ₹": money(clean.total),
-        Message: clean.note ?? "",
-        "Source page": clean.source ?? "",
-      },
-    },
-  ]).catch(() => undefined);
+  void appendSheetRows([{ sheet: "Enquiries", row: enquirySheetRow(clean) }]).catch(() => undefined);
 
   return clean;
 }

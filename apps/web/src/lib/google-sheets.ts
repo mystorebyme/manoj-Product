@@ -8,8 +8,9 @@ import {
   paymentSheetRow,
   type SheetSettings,
 } from "./sheet-format";
+import { enqueueRows, outboxCount, takeOutboxBatch } from "./sheet-outbox";
 
-export { normaliseSheetSettings, orderItemRows, orderSheetRow, paymentSheetRow };
+export { normaliseSheetSettings, orderItemRows, orderSheetRow, paymentSheetRow, outboxCount };
 export type { SheetSettings };
 
 /**
@@ -23,7 +24,7 @@ export type { SheetSettings };
  *              "Orders" / "Payments" / "Messages" sheet me chala jaata hai. Append-only
  *              log hai, isliye owner ko poora history + latest status dono dikhte hain.
  *
- * Setup: Google Sheet → Extensions → Apps Script → `scripts/google-apps-script/liksha-sheets.gs`
+ * Setup: Google Sheet → Extensions → Apps Script → `scripts/google-apps-script/trends-sheets.gs`
  * deploy → Web app URL + token env me. Poora guide: docs/09-devops/google-sheets.md
  *
  * Sheets optional hai: configure nahi hai to site Postgres/JSON par chalti hai
@@ -37,8 +38,7 @@ export type SheetName =
   | "Enquiries"
   | "Payments"
   | "Messages"
-  | "Newsletter"
-  | "Audit";
+  | "Newsletter";
 
 export type SheetAppend = {
   sheet: SheetName;
@@ -88,6 +88,8 @@ export async function readSheetSettings(options: { fresh?: boolean } = {}): Prom
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const value = normaliseSheetSettings(await response.json());
     cache = { at: now, value, failedAt: value ? 0 : now };
+    // sheet reachable hai — pending rows bhi nikaal do (fire-and-forget)
+    if (outboxCount() > 0) void flushSheetOutbox();
     return value;
   } catch (error) {
     console.warn(`[sheets] settings read failed: ${(error as Error).message}`);
@@ -107,6 +109,11 @@ export async function writeSheetSettings(settings: {
   gstin?: string;
   freeShipping?: boolean;
   adminUrl?: string;
+  brandName?: string;
+  tagline?: string;
+  maxQtyPerItem?: number;
+  maxQtyBulk?: number;
+  maxQtyPerOrder?: number;
 }): Promise<boolean> {
   const config = googleSheetsConfig();
   if (!config) return false;
@@ -127,6 +134,11 @@ export async function writeSheetSettings(settings: {
           upi_name: settings.upiName ?? "",
           gstin: settings.gstin ?? "",
           free_shipping: settings.freeShipping !== false,
+          ...(settings.brandName ? { brand_name: settings.brandName } : {}),
+          ...(settings.tagline ? { tagline: settings.tagline } : {}),
+          ...(settings.maxQtyPerItem ? { max_qty_per_item: settings.maxQtyPerItem } : {}),
+          ...(settings.maxQtyBulk ? { max_qty_bulk: settings.maxQtyBulk } : {}),
+          ...(settings.maxQtyPerOrder ? { max_qty_per_order: settings.maxQtyPerOrder } : {}),
           ...(settings.adminUrl ? { admin_url: settings.adminUrl } : {}),
         },
       }),
@@ -171,24 +183,69 @@ export async function readSheetRecent(
   }
 }
 
-/** Sheet me rows append karo. Best-effort — order kabhi isliye fail nahi hota. */
+/** Ek HTTP round-trip — rows bhejo, success par true. */
+async function postRows(
+  config: { url: string; token: string },
+  rows: { sheet: string; row: Record<string, unknown> }[],
+): Promise<boolean> {
+  const response = await fetch(config.url, {
+    method: "POST",
+    cache: "no-store",
+    // Apps Script preflight (OPTIONS) handle nahi karta — isliye simple request
+    // `text/plain` bhejte hain, script body ko JSON.parse karti hai. CORS error nahi aata.
+    headers: { "content-type": "text/plain;charset=utf-8", accept: "application/json" },
+    body: JSON.stringify({ token: config.token, action: "append", rows }),
+    signal: AbortSignal.timeout(WRITE_TIMEOUT_MS),
+  });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return true;
+}
+
+/**
+ * Sheet me rows append karo. Best-effort — order kabhi isliye fail nahi hota.
+ *
+ * Pehle **pending outbox** flush hoti hai (purani rows pehle), phir nayi rows.
+ * Fail hone par sab kuch disk outbox me chala jaata hai, isliye sheet me har
+ * detail aakhir me pahunchti hai — chahe Apps Script us waqt down ho.
+ */
 export async function appendSheetRows(appends: SheetAppend[]): Promise<boolean> {
   const config = googleSheetsConfig();
   if (!config || !appends.length) return false;
+
+  const pending = takeOutboxBatch(40);
+  const payload = [
+    ...pending.map((entry) => ({ sheet: entry.sheet, row: entry.row as Record<string, unknown> })),
+    ...appends.map((entry) => ({ sheet: entry.sheet, row: entry.row as Record<string, unknown> })),
+  ];
+
   try {
-    const response = await fetch(config.url, {
-      method: "POST",
-      cache: "no-store",
-      // Apps Script preflight (OPTIONS) handle nahi karta — isliye simple request
-      // `text/plain` bhejte hain, script body ko JSON.parse karti hai. CORS error nahi aata.
-      headers: { "content-type": "text/plain;charset=utf-8", accept: "application/json" },
-      body: JSON.stringify({ token: config.token, action: "append", rows: appends }),
-      signal: AbortSignal.timeout(WRITE_TIMEOUT_MS),
-    });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    await postRows(config, payload);
     return true;
   } catch (error) {
-    console.warn(`[sheets] append failed (${appends.map((a) => a.sheet).join(",")}): ${(error as Error).message}`);
+    console.warn(
+      `[sheets] append failed (${payload.map((a) => a.sheet).join(",")}): ${(error as Error).message}`,
+    );
+    // detail gum na ho — disk par queue, agli baar khud chali jayegi
+    enqueueRows(payload.map((entry) => ({ sheet: entry.sheet, row: entry.row as Record<string, string | number> })));
+    return false;
+  }
+}
+
+/** Pending outbox ko abhi bhejne ki koshish (settings refresh par bhi chalta hai). */
+export async function flushSheetOutbox(): Promise<boolean> {
+  const config = googleSheetsConfig();
+  if (!config || outboxCount() === 0) return true;
+  const batch = takeOutboxBatch(40);
+  if (!batch.length) return true;
+  try {
+    await postRows(
+      config,
+      batch.map((entry) => ({ sheet: entry.sheet, row: entry.row as Record<string, unknown> })),
+    );
+    return true;
+  } catch (error) {
+    enqueueRows(batch.map((entry) => ({ sheet: entry.sheet, row: entry.row })));
+    console.warn(`[sheets] outbox flush failed: ${(error as Error).message}`);
     return false;
   }
 }

@@ -138,7 +138,11 @@ test("order sheet row carries payment + tracking details", () => {
   assert.equal(row["Status"], "shipped");
   assert.equal(row["Items"], "Anarkali (S [36]) x1");
   assert.equal(row["Qty total"], 1);
-  assert.match(String(row["Notes"]), /AWB123/);
+  assert.equal(row["AWB"], "AWB123");
+  assert.equal(row["Courier"], "Delhivery");
+  assert.equal(row["Tracking URL"], "https://track.example/1");
+  assert.equal(row["Email"], "test@example.com");
+  assert.equal(row["Address"], "12 MG Road");
   assert.match(String(row["WhatsApp"]), /^https:\/\/wa\.me\/918005900581$/);
 
   const payment = paymentSheetRow(
