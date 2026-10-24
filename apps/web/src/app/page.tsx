@@ -70,7 +70,7 @@ export default async function HomePage() {
   const printedCollection = await getCollection("printed-suit-set");
   const newArrivalsCollection = await getCollection("new-arrivals");
   const saleCollection = await getCollection("sale");
-  const choiceCollection = await getCollection("likshas-choice");
+  const choiceCollection = await getCollection("trends-signature");
 
   // "Shop by edit" circles — ek line me, live store ka style
   const circleItems = [
@@ -78,7 +78,7 @@ export default async function HomePage() {
     { href: "/collections/lehnga-choli", title: "Lehnga Choli", image: lehngaCollection?.image, count: byCollection("lehnga-choli").length },
     { href: "/collections/printed-suit-set", title: "Printed Suit Set", image: printedCollection?.image, count: byCollection("printed-suit-set").length },
     { href: "/collections/new-arrivals", title: "New Arrivals", image: newArrivalsCollection?.image, count: byCollection("new-arrivals").length },
-    { href: "/collections/likshas-choice", title: "Liksha's Choice", image: choiceCollection?.image, count: byCollection("likshas-choice").length },
+    { href: "/collections/trends-signature", title: "Trends Signature", image: choiceCollection?.image, count: byCollection("trends-signature").length },
     { href: "/collections/sale", title: "Sale", image: saleCollection?.image, count: byCollection("sale").length },
     { href: "/collections/wedding-collection", title: "Wedding", image: undefined, count: byCollection("weddin-collection").length },
   ];

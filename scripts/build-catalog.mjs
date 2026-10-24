@@ -317,7 +317,7 @@ const readExtra = (name, key) => {
   const LIVE_TITLES = {
     "new-arrivals": "new arrivals",
     "party-wear-gown": "anarkali suit",
-    "likshas-choice": "likshas choice",
+    "trends-signature": "likshas choice",
     "lehnga-choli": "lehenga choli",
     "printed-suit-set": "printed suit set",
     "trending": "trending",
@@ -500,7 +500,7 @@ const readExtra = (name, key) => {
 
   /* ---------- admin se add kiye gaye naye products (upload) ---------- */
   const COLLECTION_KEYS = new Set([
-    "new-arrivals", "party-wear-gown", "likshas-choice", "lehnga-choli",
+    "new-arrivals", "party-wear-gown", "trends-signature", "lehnga-choli",
     "printed-suit-set", "trending", "weddin-collection", "sale",
   ]);
   const VALID_SIZES = new Set(["XS", "S", "M", "L", "XL", "XXL", "3XL", "Free Size"]);
@@ -635,7 +635,7 @@ const readExtra = (name, key) => {
   const COLLECTION_COPY = {
     "new-arrivals": { title: "New Arrivals", subtitle: "Freshly dropped festive favourites", sortOrder: 1 },
     "party-wear-gown": { title: "Anarkali Suit", subtitle: "Designer Anarkali Suits", sortOrder: 2 },
-    "likshas-choice": { title: "Liksha's Choice", subtitle: "Handpicked by our stylists", sortOrder: 3 },
+    "trends-signature": { title: "Trends Signature", subtitle: "Handpicked by our stylists", sortOrder: 3 },
     "lehnga-choli": { title: "Lehenga Choli", subtitle: "Our Range of Designer Lehenga Choli", sortOrder: 4 },
     "printed-suit-set": { title: "Printed Suit Set", subtitle: "Everyday ethnic ease", sortOrder: 5 },
     "trending": { title: "Trending", subtitle: "Top view in this week", sortOrder: 6 },
@@ -646,7 +646,7 @@ const readExtra = (name, key) => {
 
   const collections = [];
   // "Shop by edit" circles: har circle ki photo alag honi chahiye — ek hi image
-  // New Arrivals / Anarkali / Liksha's Choice me repeat nahi hogi.
+  // New Arrivals / Anarkali / Trends Signature me repeat nahi hogi.
   const usedCircleImages = new Set();
   for (const live of liveCollections) {
     const copy = COLLECTION_COPY[live.handle];
@@ -695,7 +695,7 @@ const readExtra = (name, key) => {
 
   const catalog = {
     meta: {
-      store: "Liksha Clothing",
+      store: "TRENDS YOUNIQUE",
       source: SOURCE,
       cdn: CDN,
       currency: "INR",

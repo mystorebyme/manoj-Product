@@ -72,7 +72,7 @@ export default function ComparePage() {
             {ready ? "Compare list khaali hai — product card par eye icon dabaiye." : "Loading…"}
           </p>
           <Link
-            href="/collections/likshas-choice"
+            href="/collections/trends-signature"
             className="mt-5 inline-block bg-[#6f1d2b] px-7 py-3 text-[11px] font-semibold tracking-[.16em] text-white uppercase"
           >
             Browse our choice

@@ -5,7 +5,7 @@
 export const navigationCollections = [
   { handle: "party-wear-gown", title: "Anarkali Suit", subtitle: "Designer Anarkali Suits" },
   { handle: "new-arrivals", title: "New Arrivals", subtitle: "Freshly dropped festive favourites" },
-  { handle: "likshas-choice", title: "The Trends Edit", subtitle: "Handpicked by our stylists" },
+  { handle: "trends-signature", title: "The Trends Edit", subtitle: "Handpicked by our stylists" },
   { handle: "lehnga-choli", title: "Lehenga Choli", subtitle: "Our Range of Designer Lehnga Choli" },
   { handle: "printed-suit-set", title: "Printed Suit Set", subtitle: "Everyday ethnic ease" },
   { handle: "sale", title: "Sale", subtitle: "Limited-time festive prices" },

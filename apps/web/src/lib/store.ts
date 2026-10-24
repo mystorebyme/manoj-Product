@@ -206,7 +206,7 @@ export function searchSuggestions(term: string, limit = 6): string[] {
 /** Search page ke liye "recommended" picks — trending pehle, phir Liksha's choice. */
 export function recommendedProducts(limit = 8): Product[] {
   const trending = listed(products).filter((product) => product.collections.includes("trending"));
-  const picks = listed(products).filter((product) => product.collections.includes("likshas-choice"));
+  const picks = listed(products).filter((product) => product.collections.includes("trends-signature"));
   const newest = [...listed(products)].sort((a, b) =>
     String(b.publishedAt ?? "").localeCompare(String(a.publishedAt ?? "")),
   );
