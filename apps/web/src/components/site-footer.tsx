@@ -237,11 +237,6 @@ export function SiteFooter() {
                 </Link>
               </p>
               <p>
-                <Link href="/compare" className="transition hover:text-[#e1d256]">
-                  Compare Products
-                </Link>
-              </p>
-              <p>
                 <Link href="/track-order" className="transition hover:text-[#e1d256]">
                   Track your order
                 </Link>

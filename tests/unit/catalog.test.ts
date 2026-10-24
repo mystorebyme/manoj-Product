@@ -21,7 +21,7 @@ test("catalogue has the full live product set", () => {
   assert.equal(catalog.meta.liveProductCount, 287);
   assert.equal(catalog.meta.productCount, products.length);
   assert.equal(catalog.meta.moneyUnit, "paise");
-  assert.equal(catalog.meta.source, "https://www.likshaclothing.com");
+  assert.equal(catalog.meta.source, "https://trendsyounique.onrender.com");
 });
 
 test("web and admin copies are identical to the canonical seed", () => {
