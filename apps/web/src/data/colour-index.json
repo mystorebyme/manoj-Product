@@ -1,0 +1,191 @@
+{
+ "groups": {
+  "colour-anarkali-suit-set": {
+   "handle": "light-pink-anarkali-suit-set",
+   "colours": [
+    {
+     "name": "Peach",
+     "handle": "light-pink-anarkali-suit-set"
+    },
+    {
+     "name": "Pista",
+     "handle": "pista-colour-anarkali-suit-set"
+    }
+   ]
+  },
+  "luxe-lucknowi-sequence-anarkali-suit-set": {
+   "handle": "black-luxe-lucknowi-sequence-anarkali-suit-set",
+   "colours": [
+    {
+     "name": "Black",
+     "handle": "black-luxe-lucknowi-sequence-anarkali-suit-set"
+    },
+    {
+     "name": "Red",
+     "handle": "red-luxe-lucknowi-sequence-anarkali-suit-set"
+    }
+   ]
+  },
+  "premium-anarkali-suit-set": {
+   "handle": "premium-maroon-anarkali-suit-set",
+   "colours": [
+    {
+     "name": "Pink",
+     "handle": "premium-pink-anarkali-suit-set"
+    },
+    {
+     "name": "Maroon",
+     "handle": "premium-maroon-anarkali-suit-set"
+    }
+   ]
+  },
+  "coloured-designer-anarkali-suit": {
+   "handle": "red-coloured-designer-anarkali-suit",
+   "colours": [
+    {
+     "name": "Maroon",
+     "handle": "maroon-coloured-designer-anarkali-suit"
+    },
+    {
+     "name": "Red",
+     "handle": "red-coloured-designer-anarkali-suit"
+    }
+   ]
+  },
+  "kishika-color-anarkali-suit-set-sleeves-fabric-attached": {
+   "handle": "kishika-yellow-color-anarkali-suit-set-sleeves-fabric-attached",
+   "colours": [
+    {
+     "name": "Maroon",
+     "handle": "niyara-maroon-color-anarkali-suit-set"
+    },
+    {
+     "name": "Yellow",
+     "handle": "kishika-yellow-color-anarkali-suit-set-sleeves-fabric-attached"
+    }
+   ]
+  },
+  "sandhiya-premium-quality-anarkali-suit-set": {
+   "handle": "priyankas-new-gown-with-dupatta-collaction-lw-9150",
+   "colours": [
+    {
+     "name": "Black",
+     "handle": "sandhiya-black-premium-quality-anarkali-suit-set"
+    },
+    {
+     "name": "Red",
+     "handle": "priyankas-new-gown-with-dupatta-collaction-lw-9150"
+    }
+   ]
+  },
+  "premium-quality-lukhnowi-suit-set": {
+   "handle": "premium-quality-kediya-suit-set-copy-1",
+   "colours": [
+    {
+     "name": "Green",
+     "handle": "premium-quality-lukhnowi-peach-suit-set-copy"
+    },
+    {
+     "name": "Peach",
+     "handle": "premium-quality-kediya-suit-set-copy-1"
+    }
+   ]
+  },
+  "premium-quality-roman-silk-anarkali-suit-set": {
+   "handle": "premium-quality-roman-silk-pink-anarkali-suit-set-copy",
+   "colours": [
+    {
+     "name": "Pink",
+     "handle": "premium-quality-5-layers-orange-anarkali-suit-set-copy"
+    },
+    {
+     "name": "Pista",
+     "handle": "premium-quality-roman-silk-pink-anarkali-suit-set-copy"
+    }
+   ]
+  },
+  "premium-quality-5-layers-anarkali-suit-set": {
+   "handle": "premium-quality-lukhnowi-green-suit-set-copy",
+   "colours": [
+    {
+     "name": "Blue",
+     "handle": "premium-quality-lukhnowi-green-suit-set-copy"
+    },
+    {
+     "name": "Orange",
+     "handle": "premium-quality-5-layers-blue-anarkali-suit-set-copy"
+    }
+   ]
+  },
+  "premium-quality-bandhej-anarkali-suit-set": {
+   "handle": "premium-quality-anarkali-suit-set-copy-3",
+   "colours": [
+    {
+     "name": "Pink",
+     "handle": "premium-quality-bandhej-green-anarkali-suit-set-copy"
+    },
+    {
+     "name": "Red",
+     "handle": "premium-quality-anarkali-suit-set-copy-3"
+    }
+   ]
+  },
+  "peacock-design-heavy-traditional-crop-top-with-shrug": {
+   "handle": "peacock-design-heavy-traditional-crop-top-with-shrug-purple",
+   "colours": [
+    {
+     "name": "Cream",
+     "handle": "peacock-design-heavy-traditional-crop-top-with-shrug-cream"
+    },
+    {
+     "name": "Sky Blue",
+     "handle": "peacock-design-heavy-traditional-crop-top-with-shrug-sky-blue"
+    },
+    {
+     "name": "Purple",
+     "handle": "peacock-design-heavy-traditional-crop-top-with-shrug-purple"
+    }
+   ]
+  },
+  "embroidery-kurta-set": {
+   "handle": "purple-embroidery-kurta-set",
+   "colours": [
+    {
+     "name": "Purple",
+     "handle": "purple-embroidery-kurta-set"
+    },
+    {
+     "name": "Black",
+     "handle": "black-embroidery-kurta-set"
+    }
+   ]
+  }
+ },
+ "byHandle": {
+  "light-pink-anarkali-suit-set": "colour-anarkali-suit-set",
+  "pista-colour-anarkali-suit-set": "colour-anarkali-suit-set",
+  "black-luxe-lucknowi-sequence-anarkali-suit-set": "luxe-lucknowi-sequence-anarkali-suit-set",
+  "red-luxe-lucknowi-sequence-anarkali-suit-set": "luxe-lucknowi-sequence-anarkali-suit-set",
+  "premium-pink-anarkali-suit-set": "premium-anarkali-suit-set",
+  "premium-maroon-anarkali-suit-set": "premium-anarkali-suit-set",
+  "maroon-coloured-designer-anarkali-suit": "coloured-designer-anarkali-suit",
+  "red-coloured-designer-anarkali-suit": "coloured-designer-anarkali-suit",
+  "niyara-maroon-color-anarkali-suit-set": "kishika-color-anarkali-suit-set-sleeves-fabric-attached",
+  "kishika-yellow-color-anarkali-suit-set-sleeves-fabric-attached": "kishika-color-anarkali-suit-set-sleeves-fabric-attached",
+  "sandhiya-black-premium-quality-anarkali-suit-set": "sandhiya-premium-quality-anarkali-suit-set",
+  "priyankas-new-gown-with-dupatta-collaction-lw-9150": "sandhiya-premium-quality-anarkali-suit-set",
+  "premium-quality-lukhnowi-peach-suit-set-copy": "premium-quality-lukhnowi-suit-set",
+  "premium-quality-kediya-suit-set-copy-1": "premium-quality-lukhnowi-suit-set",
+  "premium-quality-5-layers-orange-anarkali-suit-set-copy": "premium-quality-roman-silk-anarkali-suit-set",
+  "premium-quality-roman-silk-pink-anarkali-suit-set-copy": "premium-quality-roman-silk-anarkali-suit-set",
+  "premium-quality-lukhnowi-green-suit-set-copy": "premium-quality-5-layers-anarkali-suit-set",
+  "premium-quality-5-layers-blue-anarkali-suit-set-copy": "premium-quality-5-layers-anarkali-suit-set",
+  "premium-quality-bandhej-green-anarkali-suit-set-copy": "premium-quality-bandhej-anarkali-suit-set",
+  "premium-quality-anarkali-suit-set-copy-3": "premium-quality-bandhej-anarkali-suit-set",
+  "peacock-design-heavy-traditional-crop-top-with-shrug-cream": "peacock-design-heavy-traditional-crop-top-with-shrug",
+  "peacock-design-heavy-traditional-crop-top-with-shrug-sky-blue": "peacock-design-heavy-traditional-crop-top-with-shrug",
+  "peacock-design-heavy-traditional-crop-top-with-shrug-purple": "peacock-design-heavy-traditional-crop-top-with-shrug",
+  "purple-embroidery-kurta-set": "embroidery-kurta-set",
+  "black-embroidery-kurta-set": "embroidery-kurta-set"
+ }
+}
