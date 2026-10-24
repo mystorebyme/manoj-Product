@@ -73,6 +73,12 @@ jobs:
         with:
           path: dist
 
+  # NOTE: yahan `environment: github-pages` jaan-boojh kar nahi lagaya gaya.
+  # Repo ki environment policy sirf `main` branch se deploy allow karti hai, aur
+  # owner ka rule hai ki feature branches se main par direct push nahi hota.
+  # `actions/deploy-pages` bina environment key ke bhi Pages par publish karta hai
+  # (verify: site par latest commit ka content dikhta hai) — isliye branch se bhi
+  # live preview update ho jaata hai.
   deploy:
     needs: build
     runs-on: ubuntu-latest

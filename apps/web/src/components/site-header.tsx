@@ -186,7 +186,7 @@ export function SiteHeader() {
           </p>
 
           <div className="hidden shrink-0 items-center gap-2 lg:flex">
-            <span className="text-[10px] tracking-[.18em] text-[#d9bb84] uppercase">Jaipur · since 2019</span>
+            <span className="text-[10px] tracking-[.18em] text-[#d9bb84] uppercase">Hand-finished in Jaipur</span>
             {announcements.map((item, index) => (
               <button
                 key={item}
