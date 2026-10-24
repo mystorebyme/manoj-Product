@@ -327,6 +327,8 @@ export type SheetOverview = {
   settings?: Partial<StoreSettings>;
   live?: Partial<StoreSettings>;
   sheet?: string | null;
+  /** sheet tak na pahunch paayi rows (retry queue) */
+  pending?: number;
   hint?: string;
   recent?: {
     orders: Record<string, string | number>[];
@@ -345,6 +347,7 @@ export async function getSheetOverview(): Promise<SheetOverview> {
     configured: Boolean(process.env.GOOGLE_SHEETS_WEBAPP_URL),
     settings: await getSettings(),
     recent: { orders: [], payments: [], messages: [] },
+    pending: 0,
     hint: "Local/dev me sheet rows sirf storefront ke through aati hain (STORE_API_URL set kariye).",
   };
 }

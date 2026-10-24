@@ -14,7 +14,7 @@ export default async function SheetPage() {
   const settings = overview.settings ?? {};
   const recent = overview.recent ?? { orders: [], payments: [], messages: [] };
   const orderRows = recent.orders.slice(0, 10);
-  const columns = ["Timestamp", "Event", "Order number", "Order status", "Payment status", "Total", "Customer", "Phone"];
+  const columns = ["Order ID", "Date & Time", "Event", "Status", "Customer", "Phone", "Total ₹", "Payment status"];
 
   return (
     <>
@@ -39,6 +39,12 @@ export default async function SheetPage() {
             <strong>Connected</strong>
             {" "}— settings sheet se live aati hain (15 s), aur har order / payment / message row sheet me
             append hoti hai. Sheet ka link/token sirf server ke paas rehta hai, kabhi website par nahi dikhta.
+            {(overview.pending ?? 0) > 0 ? (
+              <div style={{ marginTop: 6 }}>
+                {overview.pending} row(s) sheet tak nahi pahunchi — queue me safe hain, agli call par khud
+                chali jayengi (kuch karne ki zaroorat nahi).
+              </div>
+            ) : null}
             {overview.reachable === false ? (
               <div style={{ marginTop: 6, color: "var(--danger)" }}>
                 Sheet URL configured hai par reply nahi aaya — Apps Script deployment (&quot;Anyone&quot;) aur token
