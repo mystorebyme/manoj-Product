@@ -55,6 +55,31 @@ try {
     path.join(APP_DIR, "search/page.tsx"),
   );
 
+  /**
+   * Static export me `dynamicParams: true` / ISR (`revalidate`) allowed nahi hai
+   * (build hi fail ho jaata hai). Server build par ye dono zaroori hain — admin se
+   * naya product turant khule aur listing 60s me update ho. Isliye sirf preview
+   * build ke dauraan in lines ko literal `false` kar dete hain (baad me restore).
+   */
+  const patchLiteral = [
+    ["export const dynamicParams = true;", "export const dynamicParams = false;"],
+    ["  export const revalidate = 60;", "  export const revalidate = false;"],
+    ["export const revalidate = 60;", "export const revalidate = false;"],
+  ];
+  for (const relative of ["products/[handle]/page.tsx", "collections/[handle]/page.tsx"]) {
+    const file = path.join(APP_DIR, relative);
+    if (!fs.existsSync(file)) continue;
+    const original = fs.readFileSync(file, "utf8");
+    let patched = original;
+    for (const [from, to] of patchLiteral) patched = patched.replaceAll(from, to);
+    if (patched !== original) {
+      const backup = path.join(TMP, `src-${relative.replaceAll("/", "_")}`);
+      fs.writeFileSync(backup, original, "utf8");
+      fs.writeFileSync(file, patched, "utf8");
+      moved.push({ from: file, to: backup });
+    }
+  }
+
   // client-side search ke liye chhota catalogue index
   const catalog = JSON.parse(fs.readFileSync(path.join(ROOT, "database/seeds/catalog.json"), "utf8"));
   const index = catalog.products

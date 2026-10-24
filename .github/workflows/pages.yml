@@ -1,13 +1,17 @@
 name: GitHub Pages preview
 
-# GitHub Pages par static preview (browse karne ke liye).
-# Poora site — cart, checkout, payment, order tracking, admin — Render par chalta hai
-# (render.yaml). Pages par Node server nahi chalta, isliye yahan sirf static pages.
+# GitHub Pages par live storefront deploy (browse ke liye, bilkul free hosting).
+#
+# Pages par Node server nahi chalta, isliye yahan static export jaata hai:
+# products browse, cart (localStorage), WhatsApp order flow — sab chalta hai.
+# Order place karna / admin / Google Sheet bridge ke liye Render deployment
+# (`render.yaml`) chahiye; tab `STORE_API_URL` variable set karte hi Pages
+# wala site seedha us API par baat karne lagta hai.
 
 on:
   push:
     branches:
-      - arena/f713eef1-tannu-product
+      - arena/e13f4af5-manoj-product
       - main
     paths-ignore:
       - ".reviews-sync-trigger"
@@ -47,7 +51,7 @@ jobs:
           # seedha Render API par jaate hain. Khaali ho to WhatsApp order flow chalta hai.
           # Repo → Settings → Variables → Actions me `STORE_API_URL` set kariye.
           NEXT_PUBLIC_API_BASE_URL: ${{ vars.STORE_API_URL }}
-          NEXT_PUBLIC_LIVE_STORE_URL: ${{ vars.STORE_API_URL || 'https://likshaclothing.onrender.com' }}
+          NEXT_PUBLIC_LIVE_STORE_URL: ${{ vars.STORE_API_URL || 'https://trendsyounique.onrender.com' }}
           # Canonical/OG isi deployment ke hain (preview ko live store ka duplicate na samjha jaye)
           NEXT_PUBLIC_SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
         run: node scripts/pages/build-preview.mjs

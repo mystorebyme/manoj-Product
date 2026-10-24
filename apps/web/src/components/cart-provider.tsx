@@ -36,7 +36,13 @@ type CartContextValue = {
   subtotal: number;
   isOpen: boolean;
   addItem: (product: MiniProduct, quantity?: number) => void;
+  /**
+   * Do-step remove — pehla click sirf "confirm?" maangta hai, tabhi item hatta hai.
+   * Customer ka cart galti se khaali na ho.
+   */
   removeLine: (key: string) => void;
+  /** jis line par remove ka confirm pending hai */
+  pendingRemove: string | null;
   setQuantity: (key: string, quantity: number) => void;
   openCart: () => void;
   closeCart: () => void;
@@ -81,6 +87,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [lastAdded, setLastAdded] = useState<MiniCartLine | null>(null);
   const [hydrated, setHydrated] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
+  const [pendingRemove, setPendingRemove] = useState<string | null>(null);
 
   // owner Google Sheet → Settings se limits (khaali = shared package ke default)
   const settings = useStoreSettings();
@@ -97,10 +104,53 @@ export function CartProvider({ children }: { children: ReactNode }) {
     [settings.maxQtyPerItem, settings.maxQtyBulk, settings.maxQtyPerOrder],
   );
 
+  /**
+   * Storage se sirf **merge** karte hain (overwrite nahi).
+   *
+   * Pehle yahan `setLines(readStorage())` tha — agar customer ne page load hote hi
+   * "Add to cart" dabaya (ya do tab khule the), to storage ki purani list us naye
+   * item ko mita deti thi. Wahi "cart me add hua par remove ho gaya" wala bug tha.
+   */
   useEffect(() => {
-    setLines(readStorage());
+    const stored = readStorage();
+    setLines((current) => {
+      if (!current.length) return stored;
+      const byKey = new Map(stored.map((line) => [line.key, line]));
+      for (const line of current) {
+        const existing = byKey.get(line.key);
+        if (existing) byKey.set(line.key, { ...existing, quantity: Math.max(existing.quantity, line.quantity) });
+        else byKey.set(line.key, line);
+      }
+      // naye/abhi add hue items upar rahen
+      const merged = [...current.map((line) => byKey.get(line.key) ?? line)];
+      for (const line of byKey.values()) {
+        if (!merged.some((entry) => entry.key === line.key)) merged.push(line);
+      }
+      return merged;
+    });
     setHydrated(true);
   }, []);
+
+  // doosre tab me kuch badla to yahan bhi sync ho jaye
+  useEffect(() => {
+    function onStorage(event: StorageEvent) {
+      if (event.key !== STORAGE_KEY) return;
+      const stored = readStorage();
+      setLines((current) => {
+        if (!stored.length && current.length) return current; // khaali event se cart na ude
+        return stored;
+      });
+    }
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, []);
+
+  // remove-confirm 4s me khud reset
+  useEffect(() => {
+    if (!pendingRemove) return;
+    const timer = setTimeout(() => setPendingRemove(null), 4000);
+    return () => clearTimeout(timer);
+  }, [pendingRemove]);
 
   useEffect(() => {
     if (!hydrated) return;
@@ -152,12 +202,21 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
     setLastAdded(line);
     setIsOpen(true);
-  }, []);
+  }, [limits]);
 
-  const removeLine = useCallback((key: string) => {
-    setLines((current) => current.filter((line) => line.key !== key));
-    setNotice(null);
-  }, []);
+  const removeLine = useCallback(
+    (key: string) => {
+      // pehla click: sirf confirm maango (galti se item delete na ho)
+      if (pendingRemove !== key) {
+        setPendingRemove(key);
+        return;
+      }
+      setPendingRemove(null);
+      setLines((current) => current.filter((line) => line.key !== key));
+      setNotice(null);
+    },
+    [pendingRemove],
+  );
 
   const setQuantity = useCallback((key: string, quantity: number) => {
     setLines((current) => {
@@ -172,7 +231,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       setNotice(null);
       return current.map((line) => (line.key === key ? { ...line, quantity } : line));
     });
-  }, []);
+  }, [limits]);
 
   const maxForSize = useCallback(
     (size?: string | null) => lineLimit(size ?? "Free Size", limits),
@@ -189,6 +248,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       isOpen,
       addItem,
       removeLine,
+      pendingRemove,
       setQuantity,
       openCart: () => setIsOpen(true),
       closeCart: () => setIsOpen(false),
@@ -200,7 +260,18 @@ export function CartProvider({ children }: { children: ReactNode }) {
       notice,
       clearNotice: () => setNotice(null),
     };
-  }, [lines, isOpen, addItem, removeLine, setQuantity, lastAdded, maxForSize, notice, limits]);
+  }, [
+    lines,
+    isOpen,
+    addItem,
+    removeLine,
+    pendingRemove,
+    setQuantity,
+    lastAdded,
+    maxForSize,
+    notice,
+    limits,
+  ]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }

@@ -507,3 +507,60 @@ table {
     );
   }
 }
+
+/* ───────────────────────── page opening (route transition) ─────────────────────────
+ * Har naye page par ek baar: wine parda upar uthta hai + gold hairline sweep +
+ * content halka sa rise. CSS-only, 520ms — koi JS timer nahi, isliye instant lagta hai.
+ */
+.page-root { position: relative; }
+
+.page-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 90% at 50% 0%, #6f1d2b 0%, #4a1220 55%, #2a0b13 100%);
+  transform-origin: top;
+  animation: veil-lift 520ms cubic-bezier(.76, 0, .24, 1) forwards;
+  will-change: transform, opacity;
+}
+
+.page-rule {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  z-index: 61;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, #b08a4a 18%, #f0dcae 50%, #b08a4a 82%, transparent);
+  animation: rule-sweep 620ms ease-out forwards;
+}
+
+.page-in {
+  animation: page-rise 480ms cubic-bezier(.22, .61, .36, 1) both;
+  will-change: transform, opacity;
+}
+
+@keyframes veil-lift {
+  0%   { transform: scaleY(1); opacity: 1; }
+  55%  { transform: scaleY(.45); opacity: .92; }
+  100% { transform: scaleY(0); opacity: 0; visibility: hidden; }
+}
+
+@keyframes rule-sweep {
+  0%   { transform: scaleX(0); opacity: 0; }
+  35%  { transform: scaleX(1); opacity: 1; }
+  100% { transform: scaleX(1); opacity: 0; }
+}
+
+@keyframes page-rise {
+  from { opacity: 0; transform: translate3d(0, 10px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-veil, .page-rule, .page-in { animation: none !important; }
+  .page-veil, .page-rule { display: none; }
+}

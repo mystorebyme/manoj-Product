@@ -26,7 +26,7 @@ const supportLinks = [
 
 const menuLinks = [
   { label: "HOME", href: "/" },
-  { label: "LIKSHA'S CHOICE", href: "/collections/likshas-choice" },
+  { label: "TRENDS SIGNATURE", href: "/collections/best-seller" },
   { label: "ANARKALI SUIT", href: "/collections/party-wear-gown" },
   { label: "LEHENGA CHOLI", href: "/collections/lehnga-choli" },
   { label: "PRINTED SUIT SET", href: "/collections/printed-suit-set" },
@@ -68,10 +68,19 @@ export function SiteFooter() {
   return (
     <footer className="mt-16 bg-[#3a0f1b] text-white">
       <div className="mx-auto max-w-[1400px] px-4 pt-12 pb-8 lg:px-6">
-        <div className="flex flex-col items-center">
-          <Link href="/" aria-label="TRENDS YOUNIQUE home" className="inline-block">
-            {/* cream version — wine band par logo saaf padhta hai */}
-            <BrandLockup tone="light" size="large" variant="stacked" />
+        {/* logo — footer me bhi exactly centre (medallion frame ke saath) */}
+        <div className="flex flex-col items-center text-center">
+          <Link
+            href="/"
+            aria-label="TRENDS YOUNIQUE home"
+            className="group inline-flex flex-col items-center justify-center"
+          >
+            <span className="flex h-[112px] w-[112px] items-center justify-center rounded-full border border-[#6b3a3f] bg-[#4a1220]/60 transition-colors duration-500 group-hover:border-[#b08a4a] sm:h-[124px] sm:w-[124px]">
+              <BrandLockup tone="light" size="compact" />
+            </span>
+            <span className="mt-4 font-display text-[19px] tracking-[.3em] text-[#f4e7d2] uppercase sm:text-[21px]">
+              Trends Younique
+            </span>
           </Link>
           <p className="mt-4 text-center font-display text-[15px] italic tracking-[.06em] text-[#e9d3ae]">
             Couture for the woman who arrives

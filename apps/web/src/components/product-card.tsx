@@ -15,7 +15,7 @@ import { coloursFor } from "@/lib/colour-index";
  * Product card — premium editorial layout:
  *  - hover par pehli image hat jaati hai aur doosri image cursor ke saath
  *    background me halki si move karti hai (parallax follow)
- *  - image ke **upar** icons: wishlist (heart), compare (eye), aur niche add-to-cart
+ *  - image ke **upar** wishlist (heart), niche "Add to cart" — clean, sirf zaroori
  *  - price ke niche colour swatches
  */
 export function ProductCard({
@@ -26,9 +26,8 @@ export function ProductCard({
   colours?: { name: string; handle: string }[];
 }) {
   const { addItem } = useCart();
-  const { isWished, toggleWishlist, isCompared, toggleCompare } = useWishlist();
+  const { isWished, toggleWishlist } = useWishlist();
   const wished = isWished(product.handle);
-  const compared = isCompared(product.handle);
   const colourOptions = colours ?? coloursFor(product.handle);
   const off = discountPercent(product.price, product.compareAtPrice);
   const primary = product.images[0];
@@ -107,7 +106,7 @@ export function ProductCard({
           </span>
         ) : null}
 
-        {/* image ke upar icons — wishlist / compare (real store jaisa right side stack) */}
+        {/* image ke upar sirf wishlist — compare/eye icon (purane template ka) hata diya */}
         <div className="absolute right-2 top-2 flex flex-col gap-1.5">
           <button
             type="button"
@@ -124,22 +123,7 @@ export function ProductCard({
               <path d="M20.8 5.6a5 5 0 0 0-7.1 0L12 7.3l-1.7-1.7a5 5 0 1 0-7.1 7.1L12 21.5l8.8-8.8a5 5 0 0 0 0-7.1Z" />
             </svg>
           </button>
-          <button
-            type="button"
-            onClick={() => toggleCompare(product.handle)}
-            aria-label={compared ? `Remove ${product.title} from compare` : `Compare ${product.title}`}
-            aria-pressed={compared}
-            data-testid="compare-toggle"
-            title={compared ? "In compare list" : "Add to compare"}
-            className={`flex h-8 w-8 items-center justify-center rounded-full bg-white/95 shadow-sm transition hover:bg-white ${
-              compared ? "text-[#6f1d2b]" : "text-[#14100e]"
-            }`}
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-              <path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6-10-6-10-6Z" />
-              <circle cx="12" cy="12" r="2.6" />
-            </svg>
-          </button>
+
         </div>
 
         <button

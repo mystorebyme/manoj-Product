@@ -41,7 +41,7 @@ const defaultAnnouncements = [
 ];
 
 export function SiteHeader() {
-  const { count, openCart, lines, removeLine, setQuantity, subtotal } = useCart();
+  const { count, openCart, lines, removeLine, pendingRemove, setQuantity, subtotal } = useCart();
   const { wishlist } = useWishlist();
   const { whatsapp, supportPhone, announcement } = useStoreSettings();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -205,53 +205,49 @@ export function SiteHeader() {
           scrolled ? "shadow-[0_8px_28px_rgba(74,18,32,0.10)]" : ""
         }`}
       >
-        {/* mobile: [menu] [logo center] [search · cart] — tablet/desktop: [logo] [nav] [icons] */}
-        <div className="mx-auto grid h-[66px] max-w-[1400px] grid-cols-[auto_1fr_auto] items-center gap-2 px-3 sm:h-[74px] sm:px-4 lg:flex lg:h-[80px] lg:justify-between lg:gap-4 lg:px-6">
-          <button
-            type="button"
-            onClick={() => setMobileOpen(true)}
-            aria-label="Open menu"
-            data-testid="mobile-menu"
-            className="flex h-10 w-10 shrink-0 items-center justify-center lg:hidden"
-          >
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-              <path d="M3 6h18M3 12h18M3 18h18" />
-            </svg>
-          </button>
+        {/*
+         * Signature layout — logo **bilkul beech me** (desktop + mobile),
+         * nav uske neeche ek patli gold-hairline row me. Ye kisi template ka
+         * copy nahi: left/right groups barabar width ke hain isliye logo text ke
+         * length se hilta nahi (1fr auto 1fr grid).
+         */}
+        <div className="mx-auto grid h-[64px] max-w-[1400px] grid-cols-[1fr_auto_1fr] items-center gap-2 px-3 sm:h-[72px] sm:px-5 lg:h-[82px] lg:px-8">
+          <div className="flex items-center justify-start gap-1.5">
+            <button
+              type="button"
+              onClick={() => setMobileOpen(true)}
+              aria-label="Open menu"
+              data-testid="mobile-menu"
+              className="flex h-10 w-10 shrink-0 items-center justify-center lg:hidden"
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                <path d="M3 6h18M3 12h18M3 18h18" />
+              </svg>
+            </button>
+            <Link
+              href="/track-order"
+              className="hidden text-[10px] font-medium tracking-[.18em] text-[#4a3f38] uppercase transition-colors hover:text-[#6f1d2b] lg:inline"
+            >
+              Track order
+            </Link>
+            <span className="hidden h-3 w-px bg-[#e4d7c5] lg:block" aria-hidden />
+            <Link
+              href="/pages/contact"
+              className="hidden text-[10px] font-medium tracking-[.18em] text-[#4a3f38] uppercase transition-colors hover:text-[#6f1d2b] xl:inline"
+            >
+              Contact
+            </Link>
+          </div>
 
           <Link
             href="/"
             aria-label="TRENDS YOUNIQUE home"
-            className="col-start-2 flex min-w-0 shrink-0 items-center justify-center lg:col-start-auto lg:justify-start"
+            className="flex min-w-0 shrink-0 items-center justify-center px-1"
           >
             <BrandLockup />
           </Link>
 
-          <nav className="hidden min-w-0 flex-1 items-center justify-center gap-2 lg:flex xl:gap-6">
-            {quickLinks.map((link) => {
-              const active = pathname === link.href;
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`relative whitespace-nowrap py-2 text-[10px] font-medium tracking-[.06em] uppercase transition-colors hover:text-[#6f1d2b] xl:text-[11px] xl:tracking-[.14em] ${
-                    active ? "text-[#6f1d2b]" : "text-[#2b2420]"
-                  } after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-[#b08a4a] after:transition-all after:duration-300 hover:after:w-full ${
-                    active ? "after:w-full" : ""
-                  }`}
-                >
-                  {link.label}
-                  {link.label === "SALE" ? (
-                    <span className="absolute -right-3 -top-0.5 rounded-sm bg-[#e02020] px-1 text-[8px] leading-[12px] font-bold text-white">
-                      HOT
-                    </span>
-                  ) : null}
-                </Link>
-              );
-            })}
-          </nav>
-
-          <div className="col-start-3 flex items-center gap-0.5 sm:gap-1.5 lg:col-start-auto">
+          <div className="flex items-center justify-end gap-0.5 sm:gap-1.5">
             <button
               type="button"
               onClick={() => setSearchOpen((open) => !open)}
@@ -284,7 +280,7 @@ export function SiteHeader() {
                 <path d="M20.8 5.6a5 5 0 0 0-7.1 0L12 7.3l-1.7-1.7a5 5 0 1 0-7.1 7.1L12 21.5l8.8-8.8a5 5 0 0 0 0-7.1Z" />
               </svg>
               {wishlist.length > 0 ? (
-                <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#c2185b] px-1 text-[9px] font-semibold text-white">
+                <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#6f1d2b] px-1 text-[9px] font-semibold text-white">
                   {wishlist.length}
                 </span>
               ) : null}
@@ -300,7 +296,6 @@ export function SiteHeader() {
                 <path d="M6 7h12l1.2 13H4.8L6 7Z" />
                 <path d="M9 7a3 3 0 0 1 6 0" />
               </svg>
-              {/* count har size par (sm+), price sirf xl+ — 1024px par nav ke saath overlap na ho */}
               <span data-testid="cart-count" className="hidden text-[11px] font-medium tabular-nums sm:inline">
                 {count}
                 <span className="hidden xl:inline"> / {formatPrice(subtotal)}</span>
@@ -311,6 +306,33 @@ export function SiteHeader() {
             </button>
           </div>
         </div>
+
+        {/* nav — sirf desktop, logo ke neeche centered (gold hairline ke saath) */}
+        <nav className="hidden border-t border-[#efe6d9] bg-[#fbf7f1]/70 lg:block">
+          <div className="mx-auto flex max-w-[1400px] items-center justify-center gap-5 px-8 xl:gap-8">
+            {quickLinks.map((link) => {
+              const active = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`relative whitespace-nowrap py-2.5 text-[10px] font-medium tracking-[.16em] uppercase transition-colors hover:text-[#6f1d2b] xl:text-[10.5px] ${
+                    active ? "text-[#6f1d2b]" : "text-[#3a2f29]"
+                  } after:absolute after:bottom-0 after:left-0 after:h-[1.5px] after:w-0 after:bg-[#b08a4a] after:transition-all after:duration-300 hover:after:w-full ${
+                    active ? "after:w-full" : ""
+                  }`}
+                >
+                  {link.label}
+                  {link.label === "SALE" ? (
+                    <span className="absolute -right-3 -top-0.5 rounded-sm bg-[#6f1d2b] px-1 text-[8px] leading-[12px] font-bold text-[#f3e2c7]">
+                      SALE
+                    </span>
+                  ) : null}
+                </Link>
+              );
+            })}
+          </div>
+        </nav>
 
         {searchOpen ? (
           <div
@@ -497,6 +519,7 @@ export function SiteHeader() {
         subtotal={subtotal}
         lines={lines}
         removeLine={removeLine}
+        pendingRemove={pendingRemove}
         setQuantity={setQuantity}
       />
     </>
@@ -508,12 +531,14 @@ function CartDrawer({
   subtotal,
   lines,
   removeLine,
+  pendingRemove,
   setQuantity,
 }: {
   count: number;
   subtotal: number;
   lines: ReturnType<typeof useCart>["lines"];
   removeLine: (key: string) => void;
+  pendingRemove: string | null;
   setQuantity: (key: string, quantity: number) => void;
 }) {
   const { isOpen, closeCart, lastAdded, notice, maxForSize } = useCart();
@@ -645,9 +670,18 @@ function CartDrawer({
                       <button
                         type="button"
                         onClick={() => removeLine(line.key)}
-                        className="text-[10.5px] tracking-[.08em] text-[#9a8f85] uppercase underline"
+                        className={`text-[10.5px] tracking-[.08em] uppercase underline transition ${
+                          pendingRemove === line.key
+                            ? "font-semibold text-[#6f1d2b] no-underline"
+                            : "text-[#9a8f85]"
+                        }`}
+                        aria-label={
+                          pendingRemove === line.key
+                            ? `Confirm removing ${line.title}`
+                            : `Remove ${line.title}`
+                        }
                       >
-                        Remove
+                        {pendingRemove === line.key ? "Confirm remove?" : "Remove"}
                       </button>
                     </div>
                   </div>

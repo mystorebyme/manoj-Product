@@ -8,7 +8,7 @@ import { cartWhatsAppMessage, logWhatsAppEnquiry, whatsappLink, whatsappNumber }
 import { useStoreSettings } from "@/components/store-settings-provider";
 
 export default function CartPage() {
-  const { lines, subtotal, setQuantity, removeLine, notice, maxForSize } = useCart();
+  const { lines, subtotal, setQuantity, removeLine, pendingRemove, notice, maxForSize } = useCart();
   const { whatsapp } = useStoreSettings();
 
   /** poora cart WhatsApp par — enquiry pehle DB + Sheet me, phir chat khulti hai */
@@ -133,12 +133,16 @@ export default function CartPage() {
                     onClick={() => removeLine(line.key)}
                     data-testid="cart-remove"
                     aria-label={`Remove ${line.title} from cart`}
-                    className="inline-flex items-center gap-1.5 justify-self-start border border-[#e2d8cd] px-2.5 py-1.5 text-[10px] font-medium tracking-[.08em] text-[#8a7d72] uppercase transition hover:border-[#6f1d2b] hover:text-[#6f1d2b] sm:justify-self-center"
+                    className={`inline-flex items-center gap-1.5 justify-self-start border px-2.5 py-1.5 text-[10px] font-medium tracking-[.08em] uppercase transition sm:justify-self-center ${
+                      pendingRemove === line.key
+                        ? "border-[#6f1d2b] bg-[#6f1d2b] text-white"
+                        : "border-[#e2d8cd] text-[#8a7d72] hover:border-[#6f1d2b] hover:text-[#6f1d2b]"
+                    }`}
                   >
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
                       <path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6" />
                     </svg>
-                    Remove
+                    {pendingRemove === line.key ? "Confirm?" : "Remove"}
                   </button>
                 </li>
               ))}
