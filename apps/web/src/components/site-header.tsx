@@ -33,11 +33,10 @@ const quickLinks = [
 
 // Fallback copy — admin → Settings se announcement set ho to wahi dikhta hai
 const defaultAnnouncements = [
-  "Diwali Sale — Up to 70% OFF · Final price ₹499 onwards",
-  "Diwali dispatch ✦ order by 4 Nov for delivery before the festival",
+  "New season 2026 — the couture edit is live",
   "Free shipping across India — every order",
   "Same-day dispatch on prepaid orders",
-  "Secure prepaid checkout — UPI, cards & netbanking",
+  "Order on WhatsApp — instant size & price help",
 ];
 
 export function SiteHeader() {
@@ -164,7 +163,8 @@ export function SiteHeader() {
 
   return (
     <>
-      <div className="bg-[#7d1a1a] text-white">
+      {/* utility bar — deep ink + gold, sirf ek patli line (premium, clone jaisa bright red nahi) */}
+      <div className="bg-[#2a0b13] text-[#f0e2cd]">
         <div className="mx-auto flex min-h-9 max-w-[1400px] items-center justify-between gap-3 px-4 py-1.5">
           {/* phone — desktop/tablet par */}
           <a
@@ -180,13 +180,13 @@ export function SiteHeader() {
           {/* rotating announcement — sab screens par (mobile par akela) */}
           <p
             key={bannerIndex}
-            className="animate-[fadeIn_.5s_ease] flex-1 text-center text-[10.5px] leading-tight tracking-[.1em] uppercase sm:text-[11.5px]"
+            className="animate-[fadeIn_.5s_ease] flex-1 text-center text-[10px] leading-tight tracking-[.22em] text-[#f0e2cd] uppercase sm:text-[10.5px]"
           >
             {announcements[bannerIndex]}
           </p>
 
           <div className="hidden shrink-0 items-center gap-2 lg:flex">
-            <span className="text-[11px] tracking-[.06em]">Premium Designer Collection ✦</span>
+            <span className="text-[10px] tracking-[.18em] text-[#d9bb84] uppercase">Jaipur · since 2019</span>
             {announcements.map((item, index) => (
               <button
                 key={item}
