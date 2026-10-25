@@ -270,7 +270,7 @@ export function createHarness(options = {}) {
   const cache = new Map();
   const mails = [];
   /** test ise badal kar mail fail/success kar sakta hai */
-  const mailState = { failAll: false, quota: 100 };
+  const mailState = { failAll: false, quota: 100, errorMessage: 'mail quota / network error (test)' };
   const fetches = [];
   const triggers = [];
   const alerts = [];
@@ -389,7 +389,7 @@ export function createHarness(options = {}) {
     MailApp: {
       getRemainingDailyQuota: () => mailState.quota,
       sendEmail: (message) => {
-        if (mailState.failAll) throw new Error('mail quota / network error (test)');
+        if (mailState.failAll) throw new Error(mailState.errorMessage);
         mails.push(message);
       },
     },

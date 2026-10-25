@@ -106,7 +106,7 @@ Menu: **TRENDS tools → 3. Orders → Test email bhejo / Email queue abhi chala
 - `MailApp` fail → mail **queue me retry**, `sent` nahi; net theek hone par flush → `sent`
 - `mail_queue` / `mail_test` endpoint
 
-Self-test me 7 naya email check (quota, subject, step index, HTML, queue write) — **107 check**.
+Self-test me 7 naya email check (quota, subject, step index, HTML, queue write) — **108 check**.
 
 ---
 
@@ -118,4 +118,52 @@ Self-test me 7 naya email check (quota, subject, step index, HTML, queue write) 
    URL wahi rehta hai, site ko kuch badalna nahi.
 4. Settings tab me `owner_email` bhar dein (owner copy + alert ke liye).
 5. Test: menu → **3. Orders → Test email bhejo** → apna email daalein → inbox/spam dekhein.
+   (`You do not have permission…` aaye to §5 dekhein — `authorizeMail` Run karna hai.)
 6. Ek asli order par check: `MailQueue` tab me `sent` dikhna chahiye.
+
+---
+
+## 5. `You do not have permission to call MailApp.sendEmail` — fix
+
+Ye error Google ki permission ka hai, code ka bug nahi. Script pehle sirf sheet ke liye
+authorize hui thi; email bhejne ke liye alag permission (`script.send_mail`) chahiye,
+aur wo **sirf Apps Script editor se Run karne par** maangi jaati hai (menu se nahi).
+
+### Ek baar ka fix (2 minute)
+
+1. Sheet me **Extensions → Apps Script**.
+2. Upar function dropdown me **`authorizeMail`** chuniye (naya function hai).
+3. **Run** dabaiye.
+4. **Review permissions** → apna Google account chuniye.
+5. "Google hasn't verified this app" aaye to **Advanced → Go to … (unsafe)** → **Allow**.
+6. Sheet par wapas aaiye → menu **TRENDS tools → 3. Orders → Test email bhejo**.
+   Ab email chali jayegi. (Popup me "Email permission mil gayi ✔ Aaj ki bachi quota: N" aata hai.)
+
+Agar phir bhi permission na aaye (kabhi Google purani permission yaad rakhta hai):
+
+- **Project Settings → "Show manifest file"** → `appsscript.json` kholein aur isme
+  `oauthScopes` list me ye line add karein:
+  `"https://www.googleapis.com/auth/script.send_mail"`
+  (ya repo ka `scripts/google-apps-script/appsscript.json` poora paste kar dein) → **Save**,
+  phir `authorizeMail` dobara Run.
+- Ya https://myaccount.google.com/permissions par jaakar is project ki access hata kar
+  `authorizeMail` dobara Run karein.
+
+### Mail quota — kitni mail roz
+
+| Account | Roz |
+| --- | --- |
+| Normal Gmail | ~100 mail |
+| Google Workspace | ~1,500 mail |
+
+Har order par 2 mail jaati hain (customer + owner copy). 100 din me ~50 order tak aaram se.
+Quota khatam ho jaye to mail `MailQueue` me **retry** par rukti hai (30 tak) aur agle din
+khud chali jaati hai — customer ka order ya sheet ka data kabhi nahi rukta.
+
+### Poora order flow isse kaise safe hai
+
+- Order pehle sheet me save hota hai, email uske **baad**.
+- Permission/quota/net ki koi bhi error aaye → order banta hai, `MailQueue` me row
+  `retry` par rehti hai, aur owner ko alert mail milta hai (usme steps bhi hote hain).
+- Permission milne ke baad queue ki bachi hui mail apne aap nikal jaati hai — dobara
+  bhejne ki zaroorat nahi (ya menu → "Email queue abhi chalao").

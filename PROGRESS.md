@@ -614,5 +614,8 @@ banata hai. Product ID sirf sheet/admin me — storefront par kahin nahi.
   paragraph → "Order ki har update yahan dikhti hai…", reviews ka "Google Sheet me save hota
   hai" → "team check karke publish karti hai", checkout par email ki nayi line. Poori site
   grep ki — aur koi technical line UI me nahi.
-- Test: `npm run sheet:test` **9/9**, self-test **107 check**, unit suite green.
+- Test: `npm run sheet:test` **9/9**, self-test **108 check**, unit suite green.
 - Docs: `docs/09-devops/round-38.md` (owner ke liye redeploy steps).
+- **`MailApp` permission fix (r19)**: naya `authorizeMail()` function + menu item +
+  `appsscript.json` (explicit `script.send_mail` scope). Permission/quota error par order
+  nahi rukta — `MailQueue` me `retry`, owner ko steps wala alert. Docs: round-38.md §5.

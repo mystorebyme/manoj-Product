@@ -1,7 +1,7 @@
 /**
  * ═══════════════════════════════════════════════════════════════════════════
  *  TRENDS YOUNIQUE — poora store, ek Google Sheet ke andar
- *  `trends-sheets.gs` · version 2026-10-25.r18 · ~4,400 lines
+ *  `trends-sheets.gs` · version 2026-10-25.r19 · ~4,400 lines
  * ═══════════════════════════════════════════════════════════════════════════
  *
  *  Ye script aapki Google Sheet ko website ka **database + admin panel** bana
@@ -163,7 +163,7 @@ var WRITE_SHEETS = ['Orders', 'Order Items', 'Enquiries', 'Messages', 'Newslette
 var MAX_WRITE_ROWS = 40;
 
 /** Script version — `?action=ping` se dikhta hai (kaun sa code deploy hai). */
-var VERSION = '2026-10-25.r18';
+var VERSION = '2026-10-25.r19';
 
 var HEADERS = {
   Orders: [
@@ -1964,6 +1964,7 @@ function onOpen() {
         .createMenu('3. Orders')
         .addItem('Order ke 5 step comments banao', 'createOrderUpdateTemplates')
         .addItem('Email queue abhi chalao (retry)', 'runMailQueueNow')
+        .addItem('Email permission do (ek baar)', 'authorizeMail')
         .addItem('Test email bhejo', 'promptEmailTest')
         .addItem('Aaj ka summary sheet me likho', 'writeDailyDigest')
         .addItem('Low stock list', 'showLowStock')
@@ -4500,6 +4501,14 @@ function runSelfTests() {
     if (added > 0) mailTab.deleteRows(start + 1, added);
     return eq(String(queued.ok) + ':' + added, 'true:1');
   });
+  check('mailPermissionError_ permission pakadta hai', function () {
+    return eq(
+      mailPermissionError_(
+        'Exception: You do not have permission to call MailApp.sendEmail. Required permissions: [https://www.googleapis.com/auth/script.send_mail]',
+      ) && mailPermissionError_('Service invoked too many times') === false,
+      true,
+    );
+  });
   check('maxMailAttempts_ 5..100 ke beech', function () {
     var value = maxMailAttempts_();
     return eq(value >= 5 && value <= 100, true);
@@ -4749,6 +4758,52 @@ function ensureMailQueueTab_() {
   return tab;
 }
 
+/**
+ * Owner ke liye permission wali madad — email bhejne ke liye Google se ek baar
+ * `script.send_mail` ki ijazat leni padti hai.
+ */
+var MAIL_PERMISSION_HELP =
+  'Email bhejne ki permission nahi mili. Ek baar ye karein:\n' +
+  '1) Extensions → Apps Script\n' +
+  '2) Upar function list me `authorizeMail` chuniye\n' +
+  '3) Run dabaiye → Review permissions → apna account → Advanced → \n' +
+  '   "Go to ... (unsafe)" → Allow\n' +
+  '4) Phir menu se test email dobara bhejein.';
+
+/** ye error permission ki hai? (tabhi owner ko upar wale steps dikhate hain) */
+function mailPermissionError_(message) {
+  return /permission|authoriz|send_mail|scope|consent/i.test(String(message || ''));
+}
+
+/**
+ * **Ek baar chalaiye** — Google se email ki permission maangta hai.
+ * (Apps Script editor me is function ko Run karne par hi consent screen aata hai;
+ *  menu se chalane par screen nahi aati, isliye ye alag function hai.)
+ */
+function authorizeMail() {
+  var quota = mailQuota_();
+  var result = {
+    ok: quota >= 0,
+    quota: quota,
+    mailPermission: quota >= 0 ? 'yes' : 'no',
+    message: '',
+  };
+  if (quota < 0) {
+    result.message = MAIL_PERMISSION_HELP;
+  } else {
+    result.message =
+      'Email permission mil gayi ✔ Aaj ki bachi quota: ' + quota + ' mail.\n' +
+      'Ab menu se "Test email bhejo" chala kar dekh lein.';
+  }
+  try {
+    SpreadsheetApp.getUi().alert(result.message.replace(/\\n/g, '\n'));
+  } catch (error) {
+    // editor se chalaya gaya — UI nahi hoti
+  }
+  Logger.log(result.message);
+  return result;
+}
+
 /** abhi kitni quota bachi hai (din me) — email bhejne se pehle dekhte hain */
 function mailQuota_() {
   try {
@@ -4777,7 +4832,11 @@ function sendMailNow_(to, subject, text, html, fromName) {
     });
     return { ok: true };
   } catch (error) {
-    return { ok: false, error: String(error) };
+    var message = String(error);
+    if (mailPermissionError_(message)) {
+      return { ok: false, error: 'permission', help: MAIL_PERMISSION_HELP };
+    }
+    return { ok: false, error: message };
   }
 }
 
@@ -4855,7 +4914,11 @@ function processMailQueue_(limit, force) {
     if (isFinal) {
       failed += 1;
       logNotification_('email-failed', to, text_(rows[i][col('Order ID')]), text_(rows[i][col('Template')]), subject + ' — ' + result.error, 'failed');
-      ownerAlert_('Email fail — ' + subject, 'Customer ko mail nahi gaya: ' + to + '\nReason: ' + result.error);
+      ownerAlert_(
+        'Email fail — ' + subject,
+        'Customer ko mail nahi gaya: ' + to + '\nReason: ' + result.error +
+          (result.error === 'permission' ? '\n\n' + MAIL_PERMISSION_HELP : ''),
+      );
     } else {
       retried += 1;
     }
@@ -5226,12 +5289,18 @@ function sendTestEmail_(to) {
   );
   var sent = sendMailNow_(address, 'Test — ' + orderEmailSubject_('shipped', sampleOrder), 'Test email', html);
   logNotification_('email-test', address, 'LK-TEST01', 'test', 'Test email', sent.ok ? 'sent' : 'failed');
+  var helpText = sent.error === 'permission' ? MAIL_PERMISSION_HELP : '';
   return {
     ok: sent.ok,
     error: sent.error || '',
     to: address,
     quota: mailQuota_(),
-    message: sent.ok ? 'Test email chala gaya — inbox (aur spam) dekh lein.' : 'Email nahi gaya: ' + sent.error,
+    help: helpText,
+    message: sent.ok
+      ? 'Test email chala gaya — inbox (aur spam) dekh lein.'
+      : sent.error === 'permission'
+        ? 'Email permission nahi mili.\n\n' + MAIL_PERMISSION_HELP
+        : 'Email nahi gaya: ' + sent.error,
   };
 }
 

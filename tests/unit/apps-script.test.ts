@@ -284,3 +284,45 @@ test("email endpoints: mail_queue stats aur mail_test (test mail)", () => {
   assert.equal(testBody.ok, true, testBody.message);
   assert.ok(mails.some((mail: { to: string }) => mail.to === "check@example.com"));
 });
+
+test("email permission nahi hai to order fail nahi hota, aur owner ko saaf steps milte hain", () => {
+  const { context, mails, mailState, book } = freshHarness();
+  context.setup();
+  context.writeSettings_({ owner_email: "owner@trendsyounique.test" });
+  context.bustSettingsCache_();
+  mailState.failAll = true;
+  mailState.errorMessage =
+    "Exception: You do not have permission to call MailApp.sendEmail. Required permissions: [https://www.googleapis.com/auth/script.send_mail]";
+
+  const placed = context.placeOrder_({
+    customer: {
+      name: "Neha",
+      phone: "9876500011",
+      email: "neha@example.com",
+      address: "9, Vaishali Nagar, Jaipur",
+      city: "Jaipur",
+      state: "Rajasthan",
+      pin: "302021",
+    },
+    items: [{ handle: "saniya-s-pink-gown", size: "S", qty: 1 }],
+    paymentMethod: "cod",
+  });
+  assert.equal(placed.ok, true, "permission error par order ruk gaya");
+  assert.equal(mails.length, 0);
+
+  // test email se owner ko steps milte hain
+  const test = context.sendTestEmail_("owner@trendsyounique.test");
+  assert.equal(test.ok, false);
+  assert.equal(test.error, "permission");
+  assert.match(String(test.message), /authorizeMail/);
+
+  // queue me row retry par hai, gum nahi hui
+  const queue = book.getSheetByName("MailQueue")!;
+  assert.ok(queue.getLastRow() >= 2, "mail queue me row nahi bani");
+  assert.ok(context.mailQueueStats_().retry >= 1);
+
+  // permission mil gayi → retry par bachi mail chali jati hai
+  mailState.failAll = false;
+  context.processMailQueue_(20, true);
+  assert.ok(mails.length >= 1, "permission ke baad mail nahi gayi");
+});
