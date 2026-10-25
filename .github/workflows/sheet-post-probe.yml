@@ -1,0 +1,34 @@
+name: Sheet POST probe (temporary)
+
+on:
+  push:
+    branches: [arena/e13f4af5-manoj-product]
+    paths: [".github/workflows/sheet-post-probe.yml"]
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: GET append (r9 hone par hi chalta hai)
+        env:
+          URL: https://script.google.com/macros/s/AKfycbwQxTH7BIhPkYvlTi7SWzUnh5WD2mP-AijXB2vrfLr9j3TvcD7fW3XtM4N9406VYDhO/exec
+          TOKEN: tyw-cb77177528f9474049ffa98fead4cee1
+        run: |
+          STAMP="TY-GETPROBE-$(date +%s)"
+          DATA=$(printf '[{"sheet":"Orders","row":{"Order ID":"%s","Date & Time":"%s","Event":"probe-get","Status":"test","Customer":"GH probe","Total ₹":1,"Source":"gh-probe"}}]' "$STAMP" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" | base64 -w0 | tr '+/' '-_' | tr -d '=')
+          echo "--- GET append ---"
+          curl -sS --max-time 40 "$URL?action=append&token=$TOKEN&data=$DATA" | head -c 400; echo
+          echo "--- ping ---"
+          curl -sS --max-time 40 "$URL?action=ping" | head -c 200; echo
+
+      - name: POST append (text/plain, browser jaisa)
+        env:
+          URL: https://script.google.com/macros/s/AKfycbwQxTH7BIhPkYvlTi7SWzUnh5WD2mP-AijXB2vrfLr9j3TvcD7fW3XtM4N9406VYDhO/exec
+          TOKEN: tyw-cb77177528f9474049ffa98fead4cee1
+        run: |
+          STAMP="TY-POSTPROBE-$(date +%s)"
+          printf '{"token":"%s","action":"append","rows":[{"sheet":"Orders","row":{"Order ID":"%s","Date & Time":"%s","Event":"probe-post","Status":"test","Customer":"GH probe","Total ₹":1,"Source":"gh-probe"}}]}' "$TOKEN" "$STAMP" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > body.json
+          echo "--- POST text/plain ---"
+          curl -sS -i --max-time 40 -X POST "$URL" -H 'content-type: text/plain;charset=utf-8' --data-binary @body.json | tail -8
+          echo "LATEST: $STAMP"
