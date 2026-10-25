@@ -349,3 +349,19 @@ Round 23 (cont.) — live settings from sheet + write-path self-test
   ko register nahi karta (dispatch 404) — hataya. Verification ab URL se hoti hai.
 - Owner ka deployment abhi bhi **Version 1 (purana code)** chala raha hai: `?action=ping`
   par `unauthorized` aata hai. Unhe "New version" deploy karna hai.
+
+### Round 23 result — sheet bridge LIVE ✅
+
+Owner ne naya deployment banaya (URL badal gaya):
+`…/AKfycbwQxTH7BIhPkYvlTi7SWzUnh5WD2mP-AijXB2vrfLr9j3TvcD7fW3XtM4N9406VYDhO/exec`
+
+Verify kiya (GET se, fetch_page):
+- `?action=ping` → `{"ok":true,"version":"2026-10-25.r5"}`
+- `?action=public` → Settings tab se live values (brandName, whatsapp, limits 10/30/15)
+- `?action=append_test` → `{"ok":true,"written":1,"ref":"TY-SELFTEST-1792901670395"}`
+  yaani **write path end-to-end kaam kar raha hai** (Orders tab me row pahunchi).
+
+Config naye URL par shift kiya, transition/legacy write token hata diya (ab bekaar).
+Purana deployment (AKfycbztH…, Version 1, master token public default) abhi zinda hai —
+owner ko usse **archive/delete** karna chahiye, warna wo URL purana code (aur default
+master token) chalaata rahega.

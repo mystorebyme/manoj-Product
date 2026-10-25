@@ -70,9 +70,13 @@ Site GitHub Pages par hai, isliye URL + write token **repo ke build** me hain
 (`apps/web/src/lib/sheet-config.ts`):
 
 ```ts
-SHEET_WEBAPP_URL_DEFAULT    = https://script.google.com/macros/s/AKfy…/exec
-SHEET_WRITE_TOKEN_DEFAULT   = tyw-cb77…cee1
+SHEET_WEBAPP_URL_DEFAULT  = https://script.google.com/macros/s/AKfycbwQxTH7BIhPkYvlTi7SWzUnh5WD2mP-AijXB2vrfLr9j3TvcD7fW3XtM4N9406VYDhO/exec
+SHEET_WRITE_TOKEN_DEFAULT = tyw-cb77177528f9474049ffa98fead4cee1
 ```
+
+> ⚠️ **"New deployment" na banayein.** Naya deployment banane par **URL badal jaata hai** aur
+> phir ye file update karni padti hai. Hamesha **Manage deployments → ✏️ Edit → Version: New version
+> → Deploy** kariye — URL wahi rehta hai.
 
 Agar kabhi URL badle (naya deployment), to yahi file badal kar push kar dein — bas.
 Repo variables (`SHEET_WEBAPP_URL` / `SHEET_WRITE_TOKEN`) bhi kaam karte hain aur
@@ -98,6 +102,9 @@ check kariye, aur token bilkul same hai ya nahi.
 
 **Deploy → Manage deployments → ✏️ Edit → Version: New version → Deploy.**
 URL wahi rehta hai, website me kuch badalna nahi padta.
+
+> Purani deployments (jo ab kaam ki nahi) **Manage deployments → Archive** kar dein.
+> Har deployment ka apna URL hota hai, aur purana URL purana code chalata rehta hai.
 
 Check karne ke liye browser me kholiye (koi password nahi chahiye):
 

@@ -2,7 +2,7 @@
 
 import type { Order } from "@liksha/types";
 import { enquirySheetRow, orderItemRows, orderSheetRow } from "./sheet-format";
-import { SHEET_LEGACY_WRITE_TOKEN, sheetWebAppUrl, sheetWriteToken } from "./sheet-config";
+import { sheetWebAppUrl, sheetWriteToken } from "./sheet-config";
 
 /**
  * Browser → Google Sheet relay.
@@ -35,26 +35,18 @@ type Row = Record<string, string | number | boolean | null | undefined>;
 /** Fire-and-forget — `no-cors` (Apps Script preflight support nahi karta). */
 export function relayRows(rows: { sheet: string; row: Row }[]): void {
   if (!sheetRelayEnabled() || !rows.length || typeof window === "undefined") return;
-  // Wahi rows, do tokens: deployment jis token ko maanti hai wahi likhegi, doosri
-  // request unauthorized hokar chup-chaap chhod di jaati hai → duplicate row nahi.
-  const tokens = [WRITE_TOKEN];
-  if (SHEET_LEGACY_WRITE_TOKEN && SHEET_LEGACY_WRITE_TOKEN !== WRITE_TOKEN) {
-    tokens.push(SHEET_LEGACY_WRITE_TOKEN);
+  try {
+    // no-cors: response opaque hota hai, par POST pahunch jaata hai (write-only use case)
+    void fetch(URL_, {
+      method: "POST",
+      mode: "no-cors",
+      keepalive: true,
+      headers: { "content-type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({ token: WRITE_TOKEN, action: "append", rows }),
+    }).catch(() => undefined);
+  } catch {
+    /* network fail — user ko rokna nahi hai */
   }
-  tokens.forEach((token) => {
-    try {
-      // no-cors: response opaque hota hai, par POST pahunch jaata hai (write-only use case)
-      void fetch(URL_, {
-        method: "POST",
-        mode: "no-cors",
-        keepalive: true,
-        headers: { "content-type": "text/plain;charset=utf-8" },
-        body: JSON.stringify({ token, action: "append", rows }),
-      }).catch(() => undefined);
-    } catch {
-      /* network fail — user ko rokna nahi hai */
-    }
-  });
 }
 
 export type RelayOrderInput = {
