@@ -614,8 +614,13 @@ banata hai. Product ID sirf sheet/admin me — storefront par kahin nahi.
   paragraph → "Order ki har update yahan dikhti hai…", reviews ka "Google Sheet me save hota
   hai" → "team check karke publish karti hai", checkout par email ki nayi line. Poori site
   grep ki — aur koi technical line UI me nahi.
-- Test: `npm run sheet:test` **9/9**, self-test **108 check**, unit suite green.
+- Test: `npm run sheet:test` **9/9**, self-test **113 check**, unit suite green.
 - Docs: `docs/09-devops/round-38.md` (owner ke liye redeploy steps).
 - **`MailApp` permission fix (r19)**: naya `authorizeMail()` function + menu item +
   `appsscript.json` (explicit `script.send_mail` scope). Permission/quota error par order
   nahi rukta — `MailQueue` me `retry`, owner ko steps wala alert. Docs: round-38.md §5.
+- **r20 — apni Gmail nahi (provider chain)**: naya `EmailKeys` tab (21 ready slots) +
+  `sendViaProvider_` — Brevo / EmailJS / Resend / Mailjet / Elastic Email (customer ko mail),
+  Web3Forms / FormSubmit (owner alert). Chain me ek provider fail ho to agla try hota hai,
+  queue 30 retry. `mail_use_google` default **false** (aapke account se mail nahi jaati).
+  Menu: "Email keys (apni Gmail ke bina)" + "Email providers ki sthiti". Test 14/14.

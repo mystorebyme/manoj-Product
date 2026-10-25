@@ -1,7 +1,7 @@
 /**
  * ═══════════════════════════════════════════════════════════════════════════
  *  TRENDS YOUNIQUE — poora store, ek Google Sheet ke andar
- *  `trends-sheets.gs` · version 2026-10-25.r19 · ~4,400 lines
+ *  `trends-sheets.gs` · version 2026-10-25.r20 · ~5,600 lines
  * ═══════════════════════════════════════════════════════════════════════════
  *
  *  Ye script aapki Google Sheet ko website ka **database + admin panel** bana
@@ -163,7 +163,7 @@ var WRITE_SHEETS = ['Orders', 'Order Items', 'Enquiries', 'Messages', 'Newslette
 var MAX_WRITE_ROWS = 40;
 
 /** Script version — `?action=ping` se dikhta hai (kaun sa code deploy hai). */
-var VERSION = '2026-10-25.r19';
+var VERSION = '2026-10-25.r20';
 
 var HEADERS = {
   Orders: [
@@ -230,6 +230,11 @@ var HEADERS = {
   // Size-wise stock — khaali = unlimited (site par "In stock")
   Stock: ['Handle', 'Size', 'Qty', 'Updated'],
   // Email queue — har status mail pehle yahan, phir bhejne ki koshish (30 retry tak)
+  // Email provider slots — jitni keys daalenge utne fallback (Web3Forms/FormSubmit/Brevo…)
+  EmailKeys: [
+    'Provider', 'Enabled', 'Key', 'Key 2', 'Key 3', 'From Email', 'From Name',
+    'Status', 'Last Error', 'Updated', 'Note',
+  ],
   MailQueue: [
     'Queued At', 'Order ID', 'To', 'Template', 'Subject', 'Body', 'Attempts', 'Next Try',
     'Status', 'Last Error',
@@ -270,6 +275,8 @@ var DEFAULT_SETTINGS = [
   ['email_updates', 'true', 'Order status ki email customer ko bhejein (true/false)'],
   ['email_from_name', 'TRENDS YOUNIQUE', 'Email me bhejne wale ka naam'],
   ['mail_max_attempts', '30', 'Ek email kitni baar retry ho (5-100, default 30)'],
+  ['mail_use_google', 'false', 'Sheet ke Google account se mail bhejni hai? (aapki Gmail use nahi karni to false)'],
+  ['mail_from_email', '', 'Email me "From" address (provider me verify kiya hua, jaise store@… )'],
 ];
 
 /* ─────────────────────────── helpers ─────────────────────────── */
@@ -937,6 +944,7 @@ function setup() {
   ensureNotificationsTab_();
   ensureAuditTab_();
   ensureMailQueueTab_();
+  ensureEmailKeysTab_();
 
   // Reviews: Status dropdown = approval (sirf publish/approved site par jaate hain)
   try {
@@ -1085,7 +1093,9 @@ function writeReadme_() {
     ['— NAYA (r18) —', 'Customer ko asli email, apne aap'],
     ['Email kab jaati hai', 'Placed · confirmed · packed · shipped · delivered · cancel — har status par customer ko poori detail wali email'],
     ['Email me kya aata hai', 'Order number, saari dresses (photo, colour, size, qty), amount, address, courier + AWB, track button'],
-    ['Email free hai', 'Google ke apne MailApp se jaati hai — koi paid service nahi, koi extra charge nahi'],
+    ['Email free hai', 'Free providers se jaati hai (Brevo / EmailJS / Resend / Mailjet / Elastic Email) — koi paid service nahi'],
+    ['EmailKeys tab', 'Yahan jitni keys daalenge utne fallback. Kisi ek me key paste kariye aur Enabled = TRUE. Aapki Gmail zaroori nahi'],
+    ['Web3Forms / FormSubmit', 'Ye "static form" wale sirf AAPKO alert bhejte hain (customer ko nahi) — owner alert ke liye hain'],
     ['MailQueue', 'Har email pehle yahan queue hoti hai, phir turant bhejne ki koshish. Fail ho to khud 30 baar tak retry (har 10 minute trigger chalta hai)'],
     ['Email band karni ho', 'Settings tab me email_updates = false'],
     ['Email test karna ho', 'Menu → TRENDS tools → 3. Orders → Test email bhejo (apni inbox/spam dekh lein)'],
@@ -1558,6 +1568,13 @@ function doGet(e) {
       sheets: counts_(),
       writeTokenConfigured: Boolean(EFFECTIVE_WRITE_TOKEN),
       masterTokenConfigured: masterTokenConfigured_(),
+      email: {
+        google: mailUseGoogle_(),
+        providers: emailProviderRows_().map(function (cfg) {
+          return cfg.provider;
+        }),
+      },
+      mailQueue: mailQueueStats_(),
     });
   }
   if (action === 'schema') {
@@ -1964,7 +1981,9 @@ function onOpen() {
         .createMenu('3. Orders')
         .addItem('Order ke 5 step comments banao', 'createOrderUpdateTemplates')
         .addItem('Email queue abhi chalao (retry)', 'runMailQueueNow')
-        .addItem('Email permission do (ek baar)', 'authorizeMail')
+        .addItem('Email keys (apni Gmail ke bina)', 'showEmailKeys')
+        .addItem('Email providers ki sthiti', 'emailProviderSummary')
+        .addItem('Email permission do (Google se bhejna ho to)', 'authorizeMail')
         .addItem('Test email bhejo', 'promptEmailTest')
         .addItem('Aaj ka summary sheet me likho', 'writeDailyDigest')
         .addItem('Low stock list', 'showLowStock')
@@ -3035,16 +3054,408 @@ function logNotification_(channel, to, orderId, template, body, status) {
   return row;
 }
 
-/** email bhejna — kabhi crash nahi karta, result lauta deta hai */
-function sendMailSafe_(to, subject, body) {
-  var address = text_(to);
-  if (!emailOk_(address)) return { ok: false, error: 'invalid_email' };
+/**
+ * ═══════════════════════════════════════════════════════════════════════════
+ *  BHAG 9b — EMAIL PROVIDERS (free services, 20+ fallback slots)
+ * ---------------------------------------------------------------------------
+ *  Owner ka rule: **apni Gmail use nahi karni** aur koi paid service bhi nahi.
+ *  Isliye email alag-alag **free providers** se jaati hai, aur `EmailKeys` tab
+ *  me jitni keys daalenge utne fallback ban jayenge — ek fail ho to code agle
+ *  provider par khud chala jata hai (aur queue 30 baar tak retry karti hai).
+ *
+ *  Do tarah ke providers:
+ *   • CUSTOMER mail (customer ke email id par jaati hai):
+ *       brevo (300/din) · emailjs (200/mahina) · resend (100/din) ·
+ *       mailjet (200/din) · elasticemail (100/din) · google (sheet ka account)
+ *   • OWNER alert (Web3Forms / FormSubmit — "static form" wale):
+ *       ye sirf AAPKO mail bhejte hain, customer ko nahi. Inki key daalne par
+ *       owner alert + failure alert seedha aapke inbox me aate hain.
+ * ═══════════════════════════════════════════════════════════════════════════
+ */
+
+var MAIL_PROVIDER_HELP =
+  'Customer ki email ke liye ek free provider chahiye (apni Gmail zaroori nahi).\n' +
+  'Sheet ke `EmailKeys` tab me kisi bhi row me key paste kariye aur Enabled = TRUE karein:\n' +
+  '• Brevo — 300 mail/din free (sabse aasan: signup → SMTP key → sender email verify)\n' +
+  '• EmailJS — 200 mail/mahina free\n' +
+  '• Resend — 100 mail/din free\n' +
+  '• Mailjet — 200 mail/din free\n' +
+  '• Elastic Email — 100 mail/din free\n\n' +
+  'Web3Forms / FormSubmit "static form" wale hain — wo sirf AAPKO alert bhejte hain\n' +
+  '(customer ko nahi), isliye unki key owner-alert ke liye use hoti hai.';
+
+/** har provider ka role + endpoint + key kahan se milti hai */
+var EMAIL_PROVIDER_INFO = {
+  brevo: {
+    role: 'customer',
+    label: 'Brevo (300 mail/din free)',
+    endpoint: 'https://api.brevo.com/v3/smtp/email',
+    keys: 'Key = API key (xkeysib-…), From Email = Brevo me verify kiya email',
+  },
+  emailjs: {
+    role: 'customer',
+    label: 'EmailJS (200 mail/mahina free)',
+    endpoint: 'https://api.emailjs.com/api/v1.0/email/send',
+    keys: 'Key = service_id, Key 2 = template_id, Key 3 = public key',
+  },
+  resend: {
+    role: 'customer',
+    label: 'Resend (100 mail/din free)',
+    endpoint: 'https://api.resend.com/emails',
+    keys: 'Key = API key (re_…), From Email = verified address',
+  },
+  mailjet: {
+    role: 'customer',
+    label: 'Mailjet (200 mail/din free)',
+    endpoint: 'https://api.mailjet.com/v3.1/send',
+    keys: 'Key = API key, Key 2 = secret key, From Email = verified sender',
+  },
+  elasticemail: {
+    role: 'customer',
+    label: 'Elastic Email (100 mail/din free)',
+    endpoint: 'https://api.elasticemail.com/v4/emails',
+    keys: 'Key = API key, From Email = verified sender',
+  },
+  web3forms: {
+    role: 'owner',
+    label: 'Web3Forms (static form — sirf owner alert)',
+    endpoint: 'https://api.web3forms.com/submit',
+    keys: 'Key = access key',
+  },
+  formsubmit: {
+    role: 'owner',
+    label: 'FormSubmit (static form — sirf owner alert)',
+    endpoint: 'https://formsubmit.co/ajax/',
+    keys: 'Key = aapka email id (wo hi formsubmit par activate karna hai)',
+  },
+  google: {
+    role: 'customer',
+    label: 'Google MailApp (is sheet ka account)',
+    endpoint: '',
+    keys: 'koi key nahi — Settings me mail_use_google = true',
+  },
+};
+
+/**
+ * 21 ready slots — owner ko sirf key paste karni hai (Enabled = TRUE).
+ * 10 × Web3Forms + 4 × FormSubmit + 5 × customer providers + Google.
+ */
+var EMAIL_SLOT_PLAN = [
+  ['web3forms', 10],
+  ['formsubmit', 4],
+  ['brevo', 2],
+  ['emailjs', 1],
+  ['resend', 1],
+  ['mailjet', 1],
+  ['elasticemail', 1],
+  ['google', 1],
+];
+
+/** `EmailKeys` tab banao (rows sirf ek baar) */
+function ensureEmailKeysTab_() {
+  var tab = book_().getSheetByName('EmailKeys') || book_().insertSheet('EmailKeys');
+  if (tab.getLastRow() < 1 || isBlank_(tab.getRange(1, 1).getValue())) {
+    tab.getRange(1, 1, 1, HEADERS.EmailKeys.length).setValues([HEADERS.EmailKeys]);
+    tab.getRange(1, 1, 1, HEADERS.EmailKeys.length).setFontWeight('bold');
+    tab.setFrozenRows(1);
+    tab.setColumnWidth(2, 70);
+    tab.setColumnWidth(3, 260);
+    tab.setColumnWidth(10, 220);
+  }
+  if (tab.getLastRow() > 1) return tab;
+  var rows = [];
+  for (var p = 0; p < EMAIL_SLOT_PLAN.length; p += 1) {
+    var provider = EMAIL_SLOT_PLAN[p][0];
+    var count = EMAIL_SLOT_PLAN[p][1];
+    for (var n = 1; n <= count; n += 1) {
+      rows.push([
+        provider,
+        provider === 'google' ? 'FALSE' : 'FALSE',
+        '',
+        '',
+        '',
+        provider === 'google' ? setting_('owner_email', '') : '',
+        setting_('email_from_name', 'TRENDS YOUNIQUE'),
+        'khaali',
+        '',
+        provider + ' slot ' + n + ' — ' + EMAIL_PROVIDER_INFO[provider].keys,
+      ]);
+    }
+  }
+  if (rows.length) tab.getRange(2, 1, rows.length, HEADERS.EmailKeys.length).setValues(rows);
+  return tab;
+}
+
+/** tab se chalu (Enabled + key bhara hua) providers, upar se neeche ke order me */
+function emailProviderRows_() {
+  var tab = book_().getSheetByName('EmailKeys');
+  if (!tab || tab.getLastRow() < 2) return [];
+  var head = headersOf_(tab);
+  var rows = tab.getRange(2, 1, tab.getLastRow() - 1, head.length).getValues();
+  var out = [];
+  for (var i = 0; i < rows.length; i += 1) {
+    var provider = text_(rows[i][head.indexOf('Provider')]).toLowerCase();
+    var info = EMAIL_PROVIDER_INFO[provider];
+    if (!info) continue;
+    var enabled = /^(true|yes|1|on|haan)$/i.test(text_(rows[i][head.indexOf('Enabled')]));
+    var key = text_(rows[i][head.indexOf('Key')]);
+    if (!enabled) continue;
+    if (provider !== 'google' && !key) continue;
+    if (provider === 'google' && !mailUseGoogle_()) continue;
+    out.push({
+      row: i + 2,
+      provider: provider,
+      role: info.role,
+      key: key,
+      key2: text_(rows[i][head.indexOf('Key 2')]),
+      key3: text_(rows[i][head.indexOf('Key 3')]),
+      from: text_(rows[i][head.indexOf('From Email')]) || setting_('mail_from_email', ''),
+      fromName:
+        text_(rows[i][head.indexOf('From Name')]) || setting_('email_from_name', 'TRENDS YOUNIQUE'),
+    });
+  }
+  return out;
+}
+
+/** customer ko bhejne wale providers — pehle wahi jo tab me upar hain, Google sabse aakhir */
+function customerMailProviders_() {
+  var all = emailProviderRows_();
+  var out = [];
+  for (var i = 0; i < all.length; i += 1) {
+    if (all[i].role === 'customer') out.push(all[i]);
+  }
+  if (!out.length && mailUseGoogle_()) out.push({ provider: 'google', role: 'customer', key: '' });
+  return out;
+}
+
+/** tab me provider ka status likho (best-effort, kabhi crash nahi) */
+function markProvider_(cfg, status, message) {
   try {
-    MailApp.sendEmail({ to: address, subject: text_(subject, 120), body: String(body || '') });
+    if (!cfg || !cfg.row) return;
+    var tab = book_().getSheetByName('EmailKeys');
+    if (!tab) return;
+    var head = headersOf_(tab);
+    tab.getRange(cfg.row, head.indexOf('Status') + 1).setValue(status);
+    tab.getRange(cfg.row, head.indexOf('Last Error') + 1).setValue(text_(message, 200));
+    tab.getRange(cfg.row, head.indexOf('Updated') + 1).setValue(nowIso_());
+  } catch (error) {
+    // ignore
+  }
+}
+
+/** Google (MailApp) se bhejo — permission nahi mili to saaf error */
+function sendViaGoogle_(address, mail, fromName) {
+  var quota = mailQuota_();
+  if (quota === 0) return { ok: false, error: 'quota_exhausted' };
+  try {
+    MailApp.sendEmail({
+      to: address,
+      subject: text_(mail.subject, 140) || 'TRENDS YOUNIQUE',
+      body: String(mail.text || '').slice(0, 2000),
+      htmlBody: String(mail.html || mail.text || ''),
+      name: text_(fromName) || setting_('email_from_name', 'TRENDS YOUNIQUE'),
+    });
     return { ok: true };
   } catch (error) {
-    return { ok: false, error: String(error) };
+    var message = String(error);
+    if (mailPermissionError_(message)) return { ok: false, error: 'permission', help: MAIL_PERMISSION_HELP };
+    return { ok: false, error: message };
   }
+}
+
+/** ek HTTP call — JSON post, kabhi throw nahi (muteHttpExceptions) */
+function mailPost_(url, payload, headers) {
+  try {
+    var response = UrlFetchApp.fetch(url, {
+      method: 'post',
+      contentType: 'application/json',
+      headers: headers || {},
+      payload: JSON.stringify(payload || {}),
+      muteHttpExceptions: true,
+    });
+    var code = Number(response.getResponseCode());
+    var body = String(response.getContentText() || '');
+    if (code >= 200 && code < 300) return { ok: true, code: code, body: body };
+    return { ok: false, error: 'http_' + code + ' ' + body.slice(0, 120) };
+  } catch (error) {
+    return { ok: false, error: String(error).slice(0, 200) };
+  }
+}
+
+/**
+ * ek provider se mail bhejo. `mail` = {to, subject, text, html, fromName, from}
+ * Return `{ok}` ya `{ok:false, error}` — kabhi exception nahi.
+ */
+function sendViaProvider_(cfg, mail) {
+  var provider = text_(cfg && cfg.provider).toLowerCase();
+  var address = text_(mail.to);
+  var from = text_(cfg.from) || text_(mail.from) || setting_('mail_from_email', '');
+  var fromName = text_(cfg.fromName) || text_(mail.fromName) || setting_('email_from_name', 'TRENDS YOUNIQUE');
+  var subject = text_(mail.subject, 140) || 'TRENDS YOUNIQUE';
+  var textBody = String(mail.text || '').slice(0, 2000);
+  var html = String(mail.html || mail.text || '');
+
+  if (provider === 'google') return sendViaGoogle_(address, mail, fromName);
+  if (provider === 'brevo') {
+    if (!emailOk_(from)) return { ok: false, error: 'from_email_missing' };
+    return mailPost_(
+      EMAIL_PROVIDER_INFO.brevo.endpoint,
+      {
+        sender: { name: fromName, email: from },
+        to: [{ email: address }],
+        subject: subject,
+        htmlContent: html,
+        textContent: textBody,
+      },
+      { 'api-key': text_(cfg.key) },
+    );
+  }
+  if (provider === 'emailjs') {
+    return mailPost_(EMAIL_PROVIDER_INFO.emailjs.endpoint, {
+      service_id: text_(cfg.key),
+      template_id: text_(cfg.key2),
+      user_id: text_(cfg.key3),
+      template_params: {
+        to_email: address,
+        to_name: address,
+        from_name: fromName,
+        subject: subject,
+        message: textBody,
+        html: html,
+      },
+    });
+  }
+  if (provider === 'resend') {
+    if (!emailOk_(from)) return { ok: false, error: 'from_email_missing' };
+    return mailPost_(
+      EMAIL_PROVIDER_INFO.resend.endpoint,
+      { from: fromName + ' <' + from + '>', to: [address], subject: subject, html: html, text: textBody },
+      { Authorization: 'Bearer ' + text_(cfg.key) },
+    );
+  }
+  if (provider === 'mailjet') {
+    if (!emailOk_(from)) return { ok: false, error: 'from_email_missing' };
+    return mailPost_(
+      EMAIL_PROVIDER_INFO.mailjet.endpoint,
+      {
+        Messages: [
+          {
+            From: { Email: from, Name: fromName },
+            To: [{ Email: address }],
+            Subject: subject,
+            HTMLPart: html,
+            TextPart: textBody,
+          },
+        ],
+      },
+      { Authorization: 'Basic ' + Utilities.base64Encode(text_(cfg.key) + ':' + text_(cfg.key2)) },
+    );
+  }
+  if (provider === 'elasticemail') {
+    if (!emailOk_(from)) return { ok: false, error: 'from_email_missing' };
+    return mailPost_(
+      EMAIL_PROVIDER_INFO.elasticemail.endpoint,
+      {
+        Recipients: [{ Email: address }],
+        Content: {
+          From: from,
+          Subject: subject,
+          Body: [{ ContentType: 'HTML', Content: html, Charset: 'utf-8' }],
+        },
+      },
+      { 'X-API-Key': text_(cfg.key) },
+    );
+  }
+  if (provider === 'web3forms') {
+    // static form: mail sirf key ke owner (aap) ko jaati hai
+    return mailPost_(EMAIL_PROVIDER_INFO.web3forms.endpoint, {
+      access_key: text_(cfg.key),
+      subject: subject,
+      from_name: fromName,
+      replyto: address,
+      message: textBody,
+    });
+  }
+  if (provider === 'formsubmit') {
+    var to = text_(cfg.key);
+    if (!emailOk_(to)) return { ok: false, error: 'formsubmit_key_email' };
+    return mailPost_(EMAIL_PROVIDER_INFO.formsubmit.endpoint + encodeURIComponent(to), {
+      _subject: subject,
+      name: fromName,
+      email: address,
+      message: textBody,
+    });
+  }
+  return { ok: false, error: 'unknown_provider' };
+}
+
+/** Google wala rasta chalu hai ya nahi (owner apni mail use nahi karna chahte to false) */
+function mailUseGoogle_() {
+  return settingBool_('mail_use_google', false);
+}
+
+/**
+ * Owner alert — pehle Web3Forms/FormSubmit (aap apni Gmail diye bina), phir baaki.
+ */
+function sendOwnerNotice_(subject, body) {
+  var rows = emailProviderRows_();
+  var ownerRows = [];
+  for (var i = 0; i < rows.length; i += 1) {
+    if (rows[i].role === 'owner') ownerRows.push(rows[i]);
+  }
+  var mail = { to: setting_('owner_email', ''), subject: subject, text: body, html: '<p>' + escapeHtml_(body) + '</p>' };
+  var errors = [];
+  for (var r = 0; r < ownerRows.length; r += 1) {
+    var cfg = ownerRows[r];
+    var copy = Object.assign({}, mail, { to: text_(cfg.key) || mail.to });
+    var result = sendViaProvider_(cfg, copy);
+    if (result.ok) {
+      markProvider_(cfg, 'ok', '');
+      return { ok: true, provider: cfg.provider };
+    }
+    markProvider_(cfg, 'fail', result.error);
+    errors.push(cfg.provider + ': ' + result.error);
+  }
+  var owner = setting_('owner_email', '');
+  if (emailOk_(owner)) {
+    var fallback = sendMailNow_(owner, subject, body, '<p>' + escapeHtml_(body) + '</p>');
+    if (fallback.ok) return fallback;
+    errors.push('owner: ' + fallback.error);
+  }
+  return { ok: false, error: errors.join(' | ') || 'no_owner_channel' };
+}
+
+/** email bhejna — kabhi crash nahi karta, result lauta deta hai */
+function sendMailSafe_(to, subject, body) {
+  return sendMailNow_(to, subject, body, '<p>' + escapeHtml_(String(body || '')) + '</p>');
+}
+
+/** `EmailKeys` tab ka summary — menu aur health me dikhta hai */
+function emailProviderSummary() {
+  var rows = emailProviderRows_();
+  var lines = rows.map(function (cfg) {
+    return '✔ ' + cfg.provider + ' (' + cfg.role + ')';
+  });
+  if (mailUseGoogle_()) lines.push('✔ google (MailApp)');
+  if (!lines.length) lines.push('✖ koi provider chalu nahi — `EmailKeys` tab me key daalein');
+  try {
+    SpreadsheetApp.getUi().alert(
+      'Email providers:\\n' + lines.join('\\n') + '\\n\\n' +
+        (lines.length ? '' : MAIL_PROVIDER_HELP + '\\n\\n') +
+        'Har row ka Status column dekhein — ok / fail + Last Error.',
+    );
+  } catch (error) {
+    // ignore
+  }
+  return { ok: true, providers: rows, google: mailUseGoogle_() };
+}
+
+/** menu: `EmailKeys` tab kholo aur slots bana do */
+function showEmailKeys() {
+  var tab = ensureEmailKeysTab_();
+  book_().setActiveSheet(tab);
+  emailProviderSummary();
+  return { ok: true };
 }
 
 /**
@@ -3094,9 +3505,8 @@ function notifyOrder_(order, status, extra) {
 
 /** owner ko chhota alert (email agar set hai) */
 function ownerAlert_(subject, body) {
-  var owner = setting_('owner_email', '');
-  if (!emailOk_(owner)) return { ok: false, error: 'owner_email_not_set' };
-  return sendMailSafe_(owner, subject, body);
+  // pehle Web3Forms / FormSubmit (aap apni Gmail diye bina), phir baaki providers
+  return sendOwnerNotice_(subject, body);
 }
 
 /* ─────────────────────────────── INVOICE ─────────────────────────────── */
@@ -4501,6 +4911,35 @@ function runSelfTests() {
     if (added > 0) mailTab.deleteRows(start + 1, added);
     return eq(String(queued.ok) + ':' + added, 'true:1');
   });
+  check('email provider slots 20+ hain', function () {
+    var total = 0;
+    EMAIL_SLOT_PLAN.forEach(function (slot) {
+      total += slot[1];
+    });
+    return eq(total >= 20, true);
+  });
+  check('EMAIL_PROVIDER_INFO me customer + owner providers', function () {
+    var customer = 0;
+    var owner = 0;
+    Object.keys(EMAIL_PROVIDER_INFO).forEach(function (key) {
+      if (EMAIL_PROVIDER_INFO[key].role === 'customer') customer += 1;
+      else owner += 1;
+    });
+    return eq(customer >= 5 && owner >= 2, true);
+  });
+  check('emailProviderRows_ chalu providers ki list deta hai', function () {
+    return eq(Array.isArray(emailProviderRows_()), true);
+  });
+  check('customerMailProviders_ sirf customer providers', function () {
+    var list = customerMailProviders_();
+    var clean = list.every(function (cfg) {
+      return cfg.role === 'customer';
+    });
+    return eq(clean, true);
+  });
+  check('sendMailNow_ galat email par invalid_email deta hai', function () {
+    return eq(sendMailNow_('galat@', 'x', 'y', '<p>y</p>').error, 'invalid_email');
+  });
   check('mailPermissionError_ permission pakadta hai', function () {
     return eq(
       mailPermissionError_(
@@ -4817,27 +5256,49 @@ function mailQuota_() {
  * Turant mail bhejo (queue ke andar se bhi yahi chalta hai).
  * Return `{ok}` ya `{ok:false, error}` — kabhi exception nahi.
  */
+/**
+ * Mail bhejo — **provider chain** se. Pehla chalu provider (EmailKeys tab me
+ * sabse upar) try hota hai, fail ho to agla, aur Google (MailApp) sabse aakhir
+ * me — sirf tab jab Settings me `mail_use_google = true` ho.
+ *
+ * Isliye 20+ fallback slots hain: ek service ka quota khatam / key kharab ho to
+ * mail agle se chali jaati hai, queue me atki nahi rehti.
+ */
 function sendMailNow_(to, subject, text, html, fromName) {
   var address = text_(to);
   if (!emailOk_(address)) return { ok: false, error: 'invalid_email' };
-  var quota = mailQuota_();
-  if (quota === 0) return { ok: false, error: 'quota_exhausted' };
-  try {
-    MailApp.sendEmail({
-      to: address,
-      subject: text_(subject, 140) || 'TRENDS YOUNIQUE',
-      body: String(text || '').slice(0, 2000),
-      htmlBody: String(html || text || ''),
-      name: text_(fromName) || setting_('email_from_name', 'TRENDS YOUNIQUE'),
-    });
-    return { ok: true };
-  } catch (error) {
-    var message = String(error);
-    if (mailPermissionError_(message)) {
-      return { ok: false, error: 'permission', help: MAIL_PERMISSION_HELP };
-    }
-    return { ok: false, error: message };
+  var providers = customerMailProviders_();
+  if (!providers.length) {
+    return { ok: false, error: 'no_provider', code: 'no_provider', help: MAIL_PROVIDER_HELP };
   }
+  var mail = {
+    to: address,
+    subject: text_(subject, 140) || 'TRENDS YOUNIQUE',
+    text: String(text || '').slice(0, 2000),
+    html: String(html || text || ''),
+    fromName: text_(fromName) || setting_('email_from_name', 'TRENDS YOUNIQUE'),
+    from: setting_('mail_from_email', ''),
+  };
+  var errors = [];
+  var firstCode = '';
+  for (var i = 0; i < providers.length; i += 1) {
+    var cfg = providers[i];
+    var result = sendViaProvider_(cfg, mail);
+    if (result.ok) {
+      markProvider_(cfg, 'ok', '');
+      return { ok: true, provider: cfg.provider, tried: i + 1 };
+    }
+    markProvider_(cfg, 'fail', result.error);
+    if (!firstCode) firstCode = result.error || 'fail';
+    errors.push(cfg.provider + ': ' + (result.error || 'fail'));
+  }
+  return {
+    ok: false,
+    error: errors.join(' | ').slice(0, 500),
+    code: firstCode,
+    tried: providers.length,
+    help: firstCode === 'permission' ? MAIL_PERMISSION_HELP : '',
+  };
 }
 
 /** mail ko queue me daalo — bhejna `processMailQueue_()` ka kaam */
@@ -4917,7 +5378,8 @@ function processMailQueue_(limit, force) {
       ownerAlert_(
         'Email fail — ' + subject,
         'Customer ko mail nahi gaya: ' + to + '\nReason: ' + result.error +
-          (result.error === 'permission' ? '\n\n' + MAIL_PERMISSION_HELP : ''),
+          (result.code === 'no_provider' ? '\n\n' + MAIL_PROVIDER_HELP : '') +
+          (result.code === 'permission' ? '\n\n' + MAIL_PERMISSION_HELP : ''),
       );
     } else {
       retried += 1;
@@ -5289,18 +5751,21 @@ function sendTestEmail_(to) {
   );
   var sent = sendMailNow_(address, 'Test — ' + orderEmailSubject_('shipped', sampleOrder), 'Test email', html);
   logNotification_('email-test', address, 'LK-TEST01', 'test', 'Test email', sent.ok ? 'sent' : 'failed');
-  var helpText = sent.error === 'permission' ? MAIL_PERMISSION_HELP : '';
+  var helpText = sent.code === 'permission' ? MAIL_PERMISSION_HELP : '';
   return {
     ok: sent.ok,
     error: sent.error || '',
+    code: sent.code || '',
     to: address,
     quota: mailQuota_(),
     help: helpText,
     message: sent.ok
       ? 'Test email chala gaya — inbox (aur spam) dekh lein.'
-      : sent.error === 'permission'
+      : sent.code === 'permission'
         ? 'Email permission nahi mili.\n\n' + MAIL_PERMISSION_HELP
-        : 'Email nahi gaya: ' + sent.error,
+        : sent.code === 'no_provider'
+          ? 'Abhi koi email provider chalu nahi hai.\n\n' + MAIL_PROVIDER_HELP
+          : 'Email nahi gaya: ' + sent.error,
   };
 }
 

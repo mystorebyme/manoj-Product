@@ -16,11 +16,17 @@ const PRODUCT_ROWS = [
   ["1002", "saniya-s-wine-gown", "Wine Coloured Party Wear Gown", 699, 1997, "https://cdn.example/wine.jpg", "https://cdn.example/wine.jpg", 1, "party-wear-gown", "https://trendsyounique.fashion/products/saniya-s-wine-gown/"],
 ];
 
-function freshHarness() {
+/** email providers ke liye apna URL handler (default: sab 404) */
+type FetchAnswer = { status: number; body: unknown };
+function freshHarness(mailFetch?: (url: string, opts: Record<string, unknown>) => FetchAnswer | null) {
   const harness = createHarness({
     sheets: ["Settings", "Orders", "Order Items", "Payments", "Reviews", "Order Updates", "Enquiries", "Messages", "Newsletter", "AddressCheck", "Products", "ProductList", "MainImage", "ProductImages", "Stock", "Coupons", "Returns", "Notifications", "AuditLog", "Banners", "FAQs", "Categories", "Read Me"],
     properties: { MASTER_TOKEN: SELFTEST_MASTER_TOKEN },
-    fetch: (url: string) => {
+    fetch: (url: string, opts: Record<string, unknown> = {}) => {
+      if (mailFetch && !/products-images\.json|products-sheet\.json|reviews-import\.json/.test(url)) {
+        const answer = mailFetch(url, opts);
+        return answer ?? { status: 404, body: "" };
+      }
       if (/products-images\.json/.test(url)) return { status: 200, body: { rows: [["1001", "saniya-s-pink-gown", "Gown", 1, "https://cdn.example/pink.jpg"]] } };
       if (/products-sheet\.json/.test(url)) return { status: 200, body: { images: { "saniya-s-pink-gown": ["https://cdn.example/pink.jpg"] }, ids: { "saniya-s-pink-gown": "1001" } } };
       if (/reviews-import\.json/.test(url)) return { status: 200, body: { rows: [] } };
@@ -187,7 +193,7 @@ test("onEditAutoStatus: sheet me status badalne par timeline khud banti hai", ()
 test("order par asli email jaati hai — placed + shipped, poori detail ke saath", () => {
   const { context, mails, book } = freshHarness();
   context.setup();
-  context.writeSettings_({ owner_email: "owner@trendsyounique.test" });
+  context.writeSettings_({ owner_email: "owner@trendsyounique.test", mail_use_google: "true" });
   context.bustSettingsCache_();
 
   const placed = context.placeOrder_({
@@ -237,6 +243,8 @@ test("order par asli email jaati hai — placed + shipped, poori detail ke saath
 test("mail fail ho to queue 30 baar tak retry karti hai (aur baad me chali jaati hai)", () => {
   const { context, mails, mailState } = freshHarness();
   context.setup();
+  context.writeSettings_({ mail_use_google: "true" });
+  context.bustSettingsCache_();
   mailState.failAll = true;
 
   const placed = context.placeOrder_({
@@ -269,7 +277,7 @@ test("mail fail ho to queue 30 baar tak retry karti hai (aur baad me chali jaati
 test("email endpoints: mail_queue stats aur mail_test (test mail)", () => {
   const { context, mails } = freshHarness();
   context.setup();
-  context.writeSettings_({ owner_email: "owner@trendsyounique.test" });
+  context.writeSettings_({ owner_email: "owner@trendsyounique.test", mail_use_google: "true" });
   context.bustSettingsCache_();
 
   const queueBody = JSON.parse(
@@ -288,7 +296,7 @@ test("email endpoints: mail_queue stats aur mail_test (test mail)", () => {
 test("email permission nahi hai to order fail nahi hota, aur owner ko saaf steps milte hain", () => {
   const { context, mails, mailState, book } = freshHarness();
   context.setup();
-  context.writeSettings_({ owner_email: "owner@trendsyounique.test" });
+  context.writeSettings_({ owner_email: "owner@trendsyounique.test", mail_use_google: "true" });
   context.bustSettingsCache_();
   mailState.failAll = true;
   mailState.errorMessage =
@@ -313,7 +321,7 @@ test("email permission nahi hai to order fail nahi hota, aur owner ko saaf steps
   // test email se owner ko steps milte hain
   const test = context.sendTestEmail_("owner@trendsyounique.test");
   assert.equal(test.ok, false);
-  assert.equal(test.error, "permission");
+  assert.equal(test.code, "permission");
   assert.match(String(test.message), /authorizeMail/);
 
   // queue me row retry par hai, gum nahi hui
@@ -325,4 +333,124 @@ test("email permission nahi hai to order fail nahi hota, aur owner ko saaf steps
   mailState.failAll = false;
   context.processMailQueue_(20, true);
   assert.ok(mails.length >= 1, "permission ke baad mail nahi gayi");
+});
+
+/** `EmailKeys` tab me ek provider row set karo (Enabled + key) */
+function setProvider(
+  book: { getSheetByName: (name: string) => any },
+  provider: string,
+  values: { enabled?: string; key?: string; key2?: string; key3?: string; from?: string },
+  index = 0,
+) {
+  const tab = book.getSheetByName("EmailKeys");
+  const head: string[] = tab.getRange(1, 1, 1, tab.getLastColumn()).getValues()[0];
+  const rows: string[][] = tab
+    .getRange(2, 1, tab.getLastRow() - 1, head.length)
+    .getValues()
+    .map((row: string[]) => row.map((cell: unknown) => String(cell ?? "")));
+  const matches = rows
+    .map((row: string[], i: number) => ({ row, i }))
+    .filter((entry: { row: string[] }) => entry.row[head.indexOf("Provider")] === provider);
+  const target = matches[index];
+  assert.ok(target, `${provider} ka slot nahi mila`);
+  const line = target.i + 2;
+  tab.getRange(line, head.indexOf("Enabled") + 1).setValue(values.enabled ?? "TRUE");
+  tab.getRange(line, head.indexOf("Key") + 1).setValue(values.key ?? "");
+  if (values.key2 !== undefined) tab.getRange(line, head.indexOf("Key 2") + 1).setValue(values.key2);
+  if (values.key3 !== undefined) tab.getRange(line, head.indexOf("Key 3") + 1).setValue(values.key3);
+  if (values.from !== undefined) tab.getRange(line, head.indexOf("From Email") + 1).setValue(values.from);
+}
+
+const CUSTOMER = {
+  name: "Riya Sharma",
+  phone: "9876543210",
+  email: "riya@example.com",
+  address: "12, Malviya Nagar, Jaipur",
+  city: "Jaipur",
+  state: "Rajasthan",
+  pin: "302017",
+};
+
+test("provider chain: Brevo se customer ko mail (apni Gmail ke bina)", () => {
+  const calls: { url: string; opts: Record<string, any> }[] = [];
+  const { context, book, mails } = freshHarness((url, opts) => {
+    calls.push({ url, opts });
+    if (url.indexOf("api.brevo.com") >= 0) return { status: 201, body: { messageId: "x" } };
+    return null;
+  });
+  context.setup();
+  setProvider(book, "brevo", { key: "xkeysib-test-key", from: "store@trendsyounique.test" });
+
+  const placed = context.placeOrder_({
+    customer: CUSTOMER,
+    items: [{ handle: "saniya-s-pink-gown", size: "M", qty: 1 }],
+    paymentMethod: "upi",
+  });
+  assert.equal(placed.ok, true);
+
+  const brevo = calls.filter((call) => call.url.indexOf("api.brevo.com") >= 0);
+  assert.ok(brevo.length >= 1, "Brevo ko call nahi gayi");
+  const payload = JSON.parse(String(brevo[0].opts.payload));
+  assert.equal(payload.to[0].email, "riya@example.com", "customer ka email nahi gaya");
+  assert.equal(payload.sender.email, "store@trendsyounique.test");
+  assert.match(String(payload.htmlContent), /Pink Coloured Party Wear Gown/);
+  assert.equal(brevo[0].opts.headers["api-key"], "xkeysib-test-key");
+  assert.equal(mails.length, 0, "Google MailApp use hua (nahi hona chahiye)");
+
+  const stats = context.mailQueueStats_();
+  assert.equal(stats.sent, 1, `queue: ${JSON.stringify(stats)}`);
+});
+
+test("provider chain: ek fail ho to agla provider try hota hai", () => {
+  const calls: string[] = [];
+  const { context, book } = freshHarness((url) => {
+    calls.push(url);
+    if (url.indexOf("api.brevo.com") >= 0) return { status: 500, body: "brevo down" };
+    if (url.indexOf("api.resend.com") >= 0) return { status: 200, body: { id: "ok" } };
+    return null;
+  });
+  context.setup();
+  setProvider(book, "brevo", { key: "xkeysib-bad", from: "store@trendsyounique.test" });
+  setProvider(book, "resend", { key: "re_test", from: "store@trendsyounique.test" });
+
+  const sent = context.sendMailNow_("riya@example.com", "Test", "hello", "<p>hello</p>");
+  assert.equal(sent.ok, true, JSON.stringify(sent));
+  assert.equal(sent.provider, "resend");
+  assert.ok(calls.some((url) => url.indexOf("api.brevo.com") >= 0), "Brevo try nahi hua");
+  assert.ok(calls.some((url) => url.indexOf("api.resend.com") >= 0), "Resend try nahi hua");
+});
+
+test("provider chain: sab fail ho to queue retry par rehti hai (gum nahi hoti)", () => {
+  const { context, book } = freshHarness(() => ({ status: 500, body: "down" }));
+  context.setup();
+  setProvider(book, "brevo", { key: "k1", from: "store@trendsyounique.test" });
+  setProvider(book, "elasticemail", { key: "k2", from: "store@trendsyounique.test" });
+
+  const placed = context.placeOrder_({
+    customer: CUSTOMER,
+    items: [{ handle: "saniya-s-pink-gown", size: "L", qty: 1 }],
+    paymentMethod: "cod",
+  });
+  assert.equal(placed.ok, true);
+  const stats = context.mailQueueStats_();
+  assert.ok(stats.retry >= 1, `queue: ${JSON.stringify(stats)}`);
+});
+
+test("Web3Forms owner alert — bina apni Gmail diye owner tak mail", () => {
+  const calls: { url: string; opts: Record<string, any> }[] = [];
+  const { context, book } = freshHarness((url, opts) => {
+    calls.push({ url, opts });
+    if (url.indexOf("api.web3forms.com") >= 0) return { status: 200, body: { success: true } };
+    return null;
+  });
+  context.setup();
+  setProvider(book, "web3forms", { key: "w3f-access-key" });
+
+  const result = context.ownerAlert_("Email fail — test", "Customer ko mail nahi gaya");
+  assert.equal(result.ok, true, JSON.stringify(result));
+  assert.equal(result.provider, "web3forms");
+  const call = calls.find((entry) => entry.url.indexOf("api.web3forms.com") >= 0)!;
+  const payload = JSON.parse(String(call.opts.payload));
+  assert.equal(payload.access_key, "w3f-access-key");
+  assert.match(String(payload.message), /Customer ko mail nahi gaya/);
 });

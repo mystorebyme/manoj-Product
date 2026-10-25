@@ -83,7 +83,7 @@ test("har submit ke baad pending queue flush hoti hai (layout boot)", () => {
 
 test("Apps Script: GET se row likhne ka rasta mojood hai", () => {
   const script = readFileSync("scripts/google-apps-script/trends-sheets.gs", "utf8");
-  assert.match(script, /VERSION = '2026-10-25\.r1[0-9]'/);
+  assert.match(script, /VERSION = '2026-10-25\.r(1[0-9]|2[0-9])'/);
   assert.match(script, /action === 'append'/, "doGet me append action chahiye");
   assert.match(script, /base64DecodeWebSafe/, "GET payload base64url decode ho");
   assert.match(script, /action === 'diag'/, "diagnostics action chahiye");

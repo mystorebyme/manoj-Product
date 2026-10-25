@@ -331,7 +331,7 @@ export function createHarness(options = {}) {
     fetch: (url, opts) => {
       fetches.push({ url: String(url), opts: opts ?? {} });
       const handler = options.fetch;
-      const answer = handler ? handler(String(url)) : null;
+      const answer = handler ? handler(String(url), opts ?? {}) : null;
       if (!answer) {
         return { getResponseCode: () => 404, getContentText: () => "" };
       }
@@ -350,6 +350,7 @@ export function createHarness(options = {}) {
       return [...digest].map((byte) => (byte > 127 ? byte - 256 : byte));
     },
     base64DecodeWebSafe: (value) => [...Buffer.from(String(value), "base64url")].map((b) => (b > 127 ? b - 256 : b)),
+    base64Encode: (value) => Buffer.from(String(value), "utf8").toString("base64"),
     newBlob: (bytes) => ({
       getDataAsString: () => Buffer.from(bytes.map((b) => (b < 0 ? b + 256 : b))).toString("utf8"),
     }),

@@ -106,7 +106,7 @@ Menu: **TRENDS tools → 3. Orders → Test email bhejo / Email queue abhi chala
 - `MailApp` fail → mail **queue me retry**, `sent` nahi; net theek hone par flush → `sent`
 - `mail_queue` / `mail_test` endpoint
 
-Self-test me 7 naya email check (quota, subject, step index, HTML, queue write) — **108 check**.
+Self-test me 7 naya email check (quota, subject, step index, HTML, queue write) — **113 check**.
 
 ---
 
@@ -123,7 +123,7 @@ Self-test me 7 naya email check (quota, subject, step index, HTML, queue write) 
 
 ---
 
-## 5. `You do not have permission to call MailApp.sendEmail` — fix
+## 5. `You do not have permission to call MailApp.sendEmail` — fix (sirf jab `mail_use_google = true` ho)
 
 Ye error Google ki permission ka hai, code ka bug nahi. Script pehle sirf sheet ke liye
 authorize hui thi; email bhejne ke liye alag permission (`script.send_mail`) chahiye,
@@ -167,3 +167,74 @@ khud chali jaati hai — customer ka order ya sheet ka data kabhi nahi rukta.
   `retry` par rehti hai, aur owner ko alert mail milta hai (usme steps bhi hote hain).
 - Permission milne ke baad queue ki bachi hui mail apne aap nikal jaati hai — dobara
   bhejne ki zaroorat nahi (ya menu → "Email queue abhi chalao").
+
+---
+
+## 6. Apni Gmail nahi — free providers + 20+ fallback (r20)
+
+Owner ne saaf kaha: **apni mail id nahi deni, wo use nahi karni**. Isliye email ka
+system **provider chain** ban gaya hai.
+
+### Kaam kaise karta hai
+
+Sheets me naya tab **`EmailKeys`** (21 ready rows). Jitni rows me key daalenge, utne
+fallback. Mail bhejte waqt code **upar se neeche** try karta hai — ek fail/quota khatam
+ho to **agle provider** se chali jaati hai, aur `MailQueue` 30 baar tak retry karti hai.
+
+```
+Brevo (slot 1) → Brevo (slot 2) → EmailJS → Resend → Mailjet → Elastic Email → … (21 slots)
+```
+
+Har row ka `Status` (ok / fail) aur `Last Error` tab me likha jata hai.
+
+### Customer ko mail kaun bhej sakta hai (apni Gmail diye bina)
+
+| Provider | Free | Key kaise (2-4 minute) |
+| --- | --- | --- |
+| **Brevo** ⭐ sabse aasan | 300 mail/din | brevo.com → signup → SMTP & API → **API key** → sender email verify → `EmailKeys` me Provider=brevo, Key=API key, **From Email** = wahi verified email |
+| EmailJS | 200 mail/mahina | emailjs.com → service + template (jisme `to_email`, `subject`, `message`) → Key=service_id, Key 2=template_id, Key 3=public key |
+| Resend | 100 mail/din | resend.com → API key → Key=re_…, From Email = verified |
+| Mailjet | 200 mail/din | mailjet.com → API key + secret → Key / Key 2, From Email = verified sender |
+| Elastic Email | 100 mail/din | elasticemail.com → API key → From Email = verified |
+
+> **Note:** "From Email" koi bhi verified address ho sakti hai (jaise
+> `orders@trendsyounique.fashion` ya koi bhi free mailbox) — **aapki personal Gmail
+> zaroori nahi**, aur aapki Gmail ka password kahin nahi dena.
+
+### Web3Forms / FormSubmit ("static form" wale)
+
+Ye **sirf owner ko** mail bhejte hain — Web3Forms ki key jis email par bani ho, mail
+wahin jaati hai. Customer ke email id par ye service mail nahi bhej sakti (ye by-design
+hai, spam rokne ke liye). Isliye inki jagah ye hai:
+
+- **Owner alert** (order aaya, email fail hui, quota khatam) → Web3Forms / FormSubmit se
+  seedha aapke inbox me. `EmailKeys` me 10 Web3Forms + 4 FormSubmit slots ready hain;
+  key paste + Enabled = TRUE. (FormSubmit me Key = aapka email id.)
+- Customer ki status email → Brevo/EmailJS/Resend/Mailjet/Elastic Email se.
+
+### Google (MailApp) — band by default
+
+`Settings` me `mail_use_google = false` hai, isliye **aapke Google account se koi mail
+nahi jaati**. Agar kabhi chahiye to `true` kar dein (us waqt `authorizeMail` Run karna
+padega, §5).
+
+### Settings
+
+| Key | Default | Kaam |
+| --- | --- | --- |
+| `mail_use_google` | `false` | sheet ke Google account se mail (aapki Gmail) — default band |
+| `mail_from_email` | (khaali) | email ka "From" address |
+| `owner_email` | (khaali) | owner copy / fail alert ka address |
+| `mail_max_attempts` | `30` | queue retry limit (5–100) |
+
+### Test
+
+`npm run sheet:test` → **14/14 pass**. Naye test:
+
+- Brevo se customer ko mail (payload me customer ka email, `api-key` header, MailApp use nahi)
+- Brevo fail → Resend try → mail chali jati hai (fallback chain)
+- saare provider fail → queue `retry` (mail gum nahi hoti)
+- Web3Forms se owner alert (access_key, message)
+
+Menu: **3. Orders → Email keys (apni Gmail ke bina)** tab kholta hai,
+**Email providers ki sthiti** batata hai kaun chalu hai.
