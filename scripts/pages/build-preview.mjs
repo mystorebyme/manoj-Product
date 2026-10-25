@@ -82,6 +82,7 @@ try {
   }
 
   // client-side search + wishlist ke liye chhote indexes (share logic)
+  const catalog = JSON.parse(fs.readFileSync(path.join(ROOT, "database/seeds/catalog.json"), "utf8"));
   writeLiteFiles(catalog, path.join(ROOT, "apps/web"));
 
   execSync("npm run build --workspace @liksha/web", {
