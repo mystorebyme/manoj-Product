@@ -50,27 +50,32 @@ customer browser ──► Netlify (static HTML/JS, CDN) ──► Apps Script �
      `NEXT_PUBLIC_SITE_URL = https://trendsyounique.fashion` (canonical, OG image,
      sitemap isi se bante hain) → **Deploys → Trigger deploy**.
 
-## 2b. Environment variables (Import kaise karein)
+## 2b. Environment variables (bas 5 lines)
 
 Netlify → **Site configuration → Environment variables → Import environment variables**
-me repo ki file **`.env.netlify.example`** ka poora content paste kar dein → **Import**.
+me repo ki file **`.env.netlify`** ka poora content paste kar dein → **Import** →
+**Deploys → Clear cache and retry**.
 
-| Variable | Value | Kyun |
-| --- | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | `https://trendsyounique.fashion` | canonical, OG image, sitemap, WhatsApp link |
-| `PAGES_BASE_PATH` | *(khaali)* | root domain par site hai, `/repo/` prefix nahi |
-| `NEXT_PUBLIC_API_BASE_URL` | *(khaali)* | koi Node API nahi — checkout WhatsApp + sheet relay |
-| `NEXT_PUBLIC_GSC_VERIFICATION` | `hFaqyp-…0dGI` | Search Console (meta tag me pehle se hai) |
-| `NEXT_PUBLIC_GA_ID` | `G-…` | *(optional)* GA4 per-page tracking |
-| `NEXT_PUBLIC_CAMPAIGN_ID` / `_START` / `_END` | *(optional)* | campaign rotation, warna `campaign.ts` ki dates |
-| `NEXT_PUBLIC_SHEET_URL_OVERRIDE` / `_TOKEN_OVERRIDE` | *(optional)* | sirf naya Apps Script deployment lene par |
+```ini
+NEXT_PUBLIC_SITE_URL=https://trendsyounique.fashion
+NEXT_PUBLIC_GSC_VERIFICATION=hFaqyp-9LdUXSKPA9RF011TkO2m_-7AUMasXqm_0dGI
+NEXT_PUBLIC_CAMPAIGN_ID=diwali-2026
+NEXT_PUBLIC_CAMPAIGN_START=2026-10-24T00:00:00+05:30
+NEXT_PUBLIC_CAMPAIGN_END=2026-11-30T23:59:59+05:30
+```
 
-**Koi secret nahi chahiye:** static site hai — Firebase OTP, Razorpay keys, DB URL,
-master sheet token sab **server** ke liye hain aur Netlify par use hote hi nahi.
-Sheet ka browser wala token write-only hai (sirf row add kar sakta hai, padh nahi sakta).
+Bas itna. Kuch bhi **khaali ya fake** daalne ki zaroorat nahi:
 
-> `netlify.toml` me bhi `NEXT_PUBLIC_SITE_URL` / `PAGES_BASE_PATH` set hain — env
-> variables unhi values ko override karte hain, isliye dono jagah same rakhein.
+| Cheez | Kahan se aati hai |
+| --- | --- |
+| `PAGES_BASE_PATH=""` | `netlify.toml` (root domain, `/repo/` prefix nahi) |
+| `NEXT_PUBLIC_API_BASE_URL=""` | `netlify.toml` (koi Node API nahi) |
+| Sheet relay URL + write token | `apps/web/src/lib/sheet-config.ts` (verified deployment, `verify_write: true`) |
+| GA4 measurement ID | **abhi set nahi** — property banne ke baad `NEXT_PUBLIC_GA_ID=G-…` add karein |
+
+> Sirf **public** values hain. Static site hai — Firebase OTP, Razorpay keys, DB URL aur
+> master sheet token (`tym-…`) server ke liye hain aur Netlify par use hi nahi hote.
+> Browser wala sheet token write-only hai (row add kar sakta hai, padh nahi sakta).
 
 ## 2c. Netlify **kaunsi branch** build karta hai (zaroori)
 
