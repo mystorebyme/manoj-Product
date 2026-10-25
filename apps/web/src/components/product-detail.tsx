@@ -23,6 +23,7 @@ import {
 } from "@/lib/whatsapp";
 import { lineLimit } from "@liksha/validation";
 import { checkPincodeOffline } from "@/lib/pincode-offline";
+import { useSheetStock } from "@/lib/sheet-stock";
 
 /** catalogue me hai lekin type import ke liye alias */
 type Variant = ColourOption;
@@ -80,6 +81,8 @@ export function ProductDetail({
   const firstAvailable =
     active.sizes.find((size) => active.sizePricing?.[size]?.available) ?? active.sizes[0] ?? "Free Size";
   const [size, setSize] = useState(firstAvailable);
+  // sheet ke `Stock` tab se size-wise bacha hua maal (row na ho = unlimited)
+  const sheetStock = useSheetStock(product.handle);
   const [quantity, setQuantity] = useState(1);
   // size ke hisaab se max pieces (S/M/L = 10, XL+ = 30) — rules shared package me hain
   const maxQuantity = Math.min(maxForSize(size), lineLimit(size));
@@ -116,6 +119,8 @@ export function ProductDetail({
   }
 
   const sizeSoldOut = Boolean(sizePricing && sizePricing.available === false);
+  /** sheet ke Stock tab me is size ka number (na ho to undefined = unlimited) */
+  const sheetLeft = sheetStock ? sheetStock[size.toUpperCase()] : undefined;
   const productSoldOut =
     !active.inStock ||
     active.sizes.every((option) => {
@@ -372,7 +377,22 @@ export function ProductDetail({
             </p>
           ) : (
             <p className="mt-2 text-[11px] text-[#8a7d72]">Har size par same price — XS se 3XL tak.</p>
+
           )}
+          {typeof sheetLeft === "number" ? (
+            <p
+              className={`mt-2 text-[11px] font-medium ${
+                sheetLeft <= 0 ? "text-[#a11d1d]" : sheetLeft <= 5 ? "text-[#8a5a12]" : "text-[#2f7a3f]"
+              }`}
+              data-testid="sheet-stock"
+            >
+              {sheetLeft <= 0
+                ? `${size} — out of stock. WhatsApp ${whatsapp} for the next drop.`
+                : sheetLeft <= 5
+                  ? `Only ${sheetLeft} left in ${size}.`
+                  : `${size} in stock — ready to ship.`}
+            </p>
+          ) : null}
           {sizeSoldOut ? (
             <p className="mt-1 text-[11.5px] text-[#b3261e]">
               {size} is out of stock — WhatsApp {whatsapp} for the next drop.

@@ -595,3 +595,5 @@ banata hai. Product ID sirf sheet/admin me — storefront par kahin nahi.
   (`npm run sheet:test`) — poori script Node me chalti hai: setup, self-test, order flow
   end-to-end (coupon → stock → timeline → invoice), blocked PIN, onEdit trigger.
 - Site endpoints waise hi (backward compatible). `docs/09-devops/round-37.md`.
+- Site wiring: product page par **sheet stock** line (`lib/sheet-stock.ts`, `?action=stock`),
+  row na ho to kuch nahi dikhta — purana behaviour safe.

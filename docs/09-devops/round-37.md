@@ -115,10 +115,22 @@ Roz ka kaam: `Orders` me `Status` badalna, `Order Updates` me comment likhna,
 | `Orders.Status` + `Order Updates` | `/track-order` — 5 step + har step ke 2-3 comment |
 | `Reviews` (Status = publish) + `Images` | product page ki reviews + **Customer photos** strip |
 | `MainImage` / `ProductImages` | home card, collection, product gallery, cart, checkout, tracking thumbnails |
-| `Stock` | `?action=stock` (site ke liye ready) |
+| `Stock` | **product page par** "Only 2 left in M" / "out of stock" (sheet me row ho to) |
 | `Coupons` | checkout coupon validate (site jab chahe use kar sakti hai) |
 | `Banners`/`FAQs`/`Categories` | home page content + nav (ready) |
 | `ProductList`/`ImagesAll` | admin ke liye poora product + image master |
 
 Product ID **sirf sheet/admin me** — storefront par kabhi nahi (live product page par
 sirf "Anarkali suit" dikhta hai, ID nahi).
+
+---
+
+## 7. Site par jo already jud gaya (r17 ke saath)
+
+- **Product page par stock line** — `apps/web/src/lib/sheet-stock.ts` +
+  `product-detail.tsx`: `?action=stock&handle=…` se aata hai.
+  - row na ho → kuch extra nahi dikhta (purana behaviour)
+  - `5` se kam → "Only 2 left in M."
+  - `0` → "M — out of stock. WhatsApp …"
+  - Sheet purane version par ho (action na ho) → chup-chaap ignore (page normal).
+- Tracking, reviews + photos, image overrides — pehle se sheet-driven hi hain.
