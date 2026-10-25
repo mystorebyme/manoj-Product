@@ -282,7 +282,7 @@ data save nahi ho raha — setup kaise karun?" Isliye flow poora WhatsApp-first 
 - Tests: `tests/unit/whatsapp-order.test.ts` (5) — message me link/colour/size/qty/address
   aur "undefined" na aane ki guarantee. Unit 121/0, integration 40/0.
 
-## Round 19 — cart bug fix, naya theme layer, poora Apps Script (2026-10-25)
+## Round 22 — cart bug fix, naya theme layer, poora Apps Script (2026-10-25)
 
 **Cart bug (asli wajah mil gayi):** "Add to cart dabao par cart khaali".
 `cart-provider` naya item add karte waqt limit check `checkLineQuantity(lines, lines.length, …)`
