@@ -333,3 +333,7 @@ build-time defaults (env var se override ho sakte hain). Isliye GitHub Pages par
 variables set karne ki zaroorat nahi; order/enquiry/contact/newsletter seedha sheet me.
 
 Tests: unit **138/0** (5 naye sheet-config tests), typecheck clean.
+
+Round 23 addendum: relay dono tokens (naya `tyw-…` + transition) bhejta hai, isliye
+purani deployment par bhi rows save hoti hain aur naya version deploy hone ke baad
+transition token ki request chup-chaap reject ho jaati hai (duplicate row nahi banti).
