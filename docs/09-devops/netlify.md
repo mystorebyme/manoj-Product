@@ -50,6 +50,28 @@ customer browser ──► Netlify (static HTML/JS, CDN) ──► Apps Script �
      `NEXT_PUBLIC_SITE_URL = https://trendsyounique.fashion` (canonical, OG image,
      sitemap isi se bante hain) → **Deploys → Trigger deploy**.
 
+## 2b. Environment variables (Import kaise karein)
+
+Netlify → **Site configuration → Environment variables → Import environment variables**
+me repo ki file **`.env.netlify.example`** ka poora content paste kar dein → **Import**.
+
+| Variable | Value | Kyun |
+| --- | --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | `https://trendsyounique.fashion` | canonical, OG image, sitemap, WhatsApp link |
+| `PAGES_BASE_PATH` | *(khaali)* | root domain par site hai, `/repo/` prefix nahi |
+| `NEXT_PUBLIC_API_BASE_URL` | *(khaali)* | koi Node API nahi — checkout WhatsApp + sheet relay |
+| `NEXT_PUBLIC_GSC_VERIFICATION` | `hFaqyp-…0dGI` | Search Console (meta tag me pehle se hai) |
+| `NEXT_PUBLIC_GA_ID` | `G-…` | *(optional)* GA4 per-page tracking |
+| `NEXT_PUBLIC_CAMPAIGN_ID` / `_START` / `_END` | *(optional)* | campaign rotation, warna `campaign.ts` ki dates |
+| `NEXT_PUBLIC_SHEET_URL_OVERRIDE` / `_TOKEN_OVERRIDE` | *(optional)* | sirf naya Apps Script deployment lene par |
+
+**Koi secret nahi chahiye:** static site hai — Firebase OTP, Razorpay keys, DB URL,
+master sheet token sab **server** ke liye hain aur Netlify par use hote hi nahi.
+Sheet ka browser wala token write-only hai (sirf row add kar sakta hai, padh nahi sakta).
+
+> `netlify.toml` me bhi `NEXT_PUBLIC_SITE_URL` / `PAGES_BASE_PATH` set hain — env
+> variables unhi values ko override karte hain, isliye dono jagah same rakhein.
+
 ## 3. Netlify par kya chalta hai (aur kya nahi)
 
 | Cheez | Netlify (static) |

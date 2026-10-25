@@ -3,8 +3,66 @@
     "note": "Admin panel isi file ko likhta hai. scripts/build-catalog.mjs publish par isse catalogue me merge karta hai.",
     "lastPublishedAt": "2026-10-24T15:25:55.195Z"
   },
-  "products": {},
-  "collections": {},
+  "products": {
+    "meera-mint-green-gota-pearl-kurta-set": {
+      "images": [
+        "/images/shop/meera-mint-green-gota-pearl-kurta-set/4.webp",
+        "/images/shop/meera-mint-green-gota-pearl-kurta-set/1.webp",
+        "/images/shop/meera-mint-green-gota-pearl-kurta-set/2.webp",
+        "/images/shop/meera-mint-green-gota-pearl-kurta-set/3.webp",
+        "/images/shop/meera-mint-green-gota-pearl-kurta-set/5.webp"
+      ],
+      "updatedAt": "2026-10-26T00:00:00.000Z",
+      "updatedBy": "owner"
+    },
+    "ruhi-wine-anarkali-floral-sleeve-set": {
+      "images": [
+        "/images/shop/ruhi-wine-anarkali-floral-sleeve-set/5.webp",
+        "/images/shop/ruhi-wine-anarkali-floral-sleeve-set/1.webp",
+        "/images/shop/ruhi-wine-anarkali-floral-sleeve-set/2.webp",
+        "/images/shop/ruhi-wine-anarkali-floral-sleeve-set/3.webp",
+        "/images/shop/ruhi-wine-anarkali-floral-sleeve-set/4.webp",
+        "/images/shop/ruhi-wine-anarkali-floral-sleeve-set/6.webp",
+        "/images/shop/ruhi-wine-anarkali-floral-sleeve-set/7.webp",
+        "/images/shop/ruhi-wine-anarkali-floral-sleeve-set/8.webp",
+        "/images/shop/ruhi-wine-anarkali-floral-sleeve-set/9.webp"
+      ],
+      "updatedAt": "2026-10-26T00:00:00.000Z",
+      "updatedBy": "owner"
+    }
+  },
+  "collections": {
+    "new-arrivals": {
+      "image": "/images/shop/meera-mint-green-gota-pearl-kurta-set/5.webp"
+    },
+    "party-wear-gown": {
+      "image": "/images/shop/dhriti-green-leaf-print-dupatta-anarkali/1.webp"
+    },
+    "lehnga-choli": {
+      "image": "/images/shop/rani-emerald-silk-lehenga/1.webp"
+    },
+    "printed-suit-set": {
+      "image": "/images/shop/pari-pink-ikat-print-kurta-set/1.webp"
+    },
+    "trends-signature": {
+      "image": "/images/shop/meher-wine-velvet-anarkali/1.webp"
+    },
+    "sale": {
+      "image": "/images/shop/ruhi-wine-anarkali-floral-sleeve-set/3.webp"
+    },
+    "weddin-collection": {
+      "image": "/images/shop/noor-ivory-chikankari-set/1.webp"
+    },
+    "suit-set-gown": {
+      "image": "/images/shop/tara-brown-zari-tree-kurta-set/1.webp"
+    },
+    "trending": {
+      "image": "/images/shop/rani-emerald-silk-lehenga/1.webp"
+    },
+    "best-seller": {
+      "image": "/images/shop/meher-wine-velvet-anarkali/2.webp"
+    }
+  },
   "hidden": [],
   "newProducts": []
 }

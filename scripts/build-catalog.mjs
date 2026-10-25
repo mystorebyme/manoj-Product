@@ -496,7 +496,12 @@ const readExtra = (name, key) => {
       }
     }
     if (patch.images && Array.isArray(patch.images) && patch.images.length) {
-      product.images = patch.images.filter((image) => typeof image === "string" && image.startsWith("https://"));
+      // owner apni uploaded (local `/images/shop/…`) ya CDN photo — dono chalti hain.
+      // Isi list ka pehla item main image hota hai, isliye order jaisa hai waisa hi rakho.
+      const images = patch.images.filter(
+        (image) => typeof image === "string" && (image.startsWith("https://") || image.startsWith("/images/")),
+      );
+      if (images.length) product.images = images;
     }
   }
   if (overriddenCount) console.log(`admin overrides applied: ${overriddenCount} products`);
@@ -703,7 +708,8 @@ const readExtra = (name, key) => {
       handle: live.handle,
       title: collectionOverride.title || copy.title,
       subtitle: collectionOverride.subtitle || copy.subtitle,
-      image: picked?.images[0] ?? "",
+      // admin "circle ke liye photo" chun le to wahi jeetti hai
+      image: collectionOverride.image || picked?.images[0] || "",
       sortOrder: copy.sortOrder,
       productCount: listedProducts.filter((product) => product.collections.includes(live.handle)).length,
     });

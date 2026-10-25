@@ -304,9 +304,12 @@ export async function toggleProductVisibilityAction(formData: FormData) {
 export async function saveCollectionEditAction(formData: FormData) {
   const session = await requireSession();
   const handle = String(formData.get("handle") ?? "");
+  const image = String(formData.get("image") ?? "").trim();
   saveCollectionOverride(handle, {
     title: String(formData.get("title") ?? "").trim() || undefined,
     subtitle: String(formData.get("subtitle") ?? "").trim() || undefined,
+    // home ke circle / collection header ki photo (local `/images/…` ya https)
+    ...(image ? { image } : {}),
   });
   appendAudit({ actor: session.email, action: "collection.edited", target: handle });
   revalidatePath("/collections");

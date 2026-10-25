@@ -57,7 +57,7 @@ export type NewProduct = {
 export type OverridesFile = {
   meta?: { note?: string; lastPublishedAt?: string | null };
   products: Record<string, ProductOverride>;
-  collections: Record<string, { title?: string; subtitle?: string }>;
+  collections: Record<string, { title?: string; subtitle?: string; /** home circle ki photo */ image?: string }>;
   hidden: string[];
   /** admin se add kiye gaye naye products */
   newProducts?: NewProduct[];

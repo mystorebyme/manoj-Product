@@ -81,6 +81,7 @@ export default async function HomePage() {
   const newArrivalsCollection = await getCollection("new-arrivals");
   const saleCollection = await getCollection("sale");
   const choiceCollection = await getCollection("trends-signature");
+  const weddingCollection = await getCollection("wedding-collection");
 
   // "Shop by edit" circles — ek line me, live store ka style
   const circleItems = [
@@ -90,7 +91,7 @@ export default async function HomePage() {
     { href: "/collections/new-arrivals", title: "New Arrivals", image: newArrivalsCollection?.image, count: byCollection("new-arrivals").length },
     { href: "/collections/trends-signature", title: "Trends Signature", image: choiceCollection?.image, count: byCollection("trends-signature").length },
     { href: "/collections/sale", title: "Sale", image: saleCollection?.image, count: byCollection("sale").length },
-    { href: "/collections/wedding-collection", title: "Wedding", image: undefined, count: byCollection("weddin-collection").length },
+    { href: "/collections/wedding-collection", title: "Wedding", image: weddingCollection?.image, count: byCollection("weddin-collection").length },
   ];
 
   const jsonLd = {

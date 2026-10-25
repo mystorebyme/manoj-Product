@@ -20,7 +20,7 @@
    "handle": "new-arrivals",
    "title": "New Arrivals",
    "subtitle": "Freshly dropped festive favourites",
-   "image": "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/DSC08096_JPG.jpg",
+   "image": "/images/shop/meera-mint-green-gota-pearl-kurta-set/5.webp",
    "sortOrder": 1,
    "productCount": 396
   },
@@ -28,7 +28,7 @@
    "handle": "party-wear-gown",
    "title": "Anarkali Suits",
    "subtitle": "Designer Anarkali Suits",
-   "image": "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_9512.webp",
+   "image": "/images/shop/dhriti-green-leaf-print-dupatta-anarkali/1.webp",
    "sortOrder": 2,
    "productCount": 272
   },
@@ -36,7 +36,7 @@
    "handle": "trends-signature",
    "title": "Trends Signature",
    "subtitle": "Handpicked by our stylists",
-   "image": "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/DSC08059_JPG.jpg",
+   "image": "/images/shop/meher-wine-velvet-anarkali/1.webp",
    "sortOrder": 3,
    "productCount": 126
   },
@@ -44,7 +44,7 @@
    "handle": "lehnga-choli",
    "title": "Lehenga Chunni & Choli Sets",
    "subtitle": "Our Range of Designer Lehenga Choli",
-   "image": "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/photo_6167693120506630697_y.jpg",
+   "image": "/images/shop/rani-emerald-silk-lehenga/1.webp",
    "sortOrder": 4,
    "productCount": 29
   },
@@ -52,7 +52,7 @@
    "handle": "printed-suit-set",
    "title": "Printed Suits",
    "subtitle": "Everyday ethnic ease",
-   "image": "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_8778_3062c1c0-4a26-4ac6-9ae4-93acf7da5361.jpg",
+   "image": "/images/shop/pari-pink-ikat-print-kurta-set/1.webp",
    "sortOrder": 5,
    "productCount": 53
   },
@@ -60,7 +60,7 @@
    "handle": "trending",
    "title": "Trending",
    "subtitle": "Top view in this week",
-   "image": "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/WeddingSagabyIdahoClothing_Launchingourelegantpurpleembroideredmaxiset_beautifully_3__jpg.jpg",
+   "image": "/images/shop/rani-emerald-silk-lehenga/1.webp",
    "sortOrder": 6,
    "productCount": 5
   },
@@ -68,7 +68,7 @@
    "handle": "weddin-collection",
    "title": "Wedding & Festive Wear",
    "subtitle": "Bridal & trousseau edit",
-   "image": "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/photo_6183469660666268753_y.jpg",
+   "image": "/images/shop/noor-ivory-chikankari-set/1.webp",
    "sortOrder": 7,
    "productCount": 19
   },
@@ -76,7 +76,7 @@
    "handle": "sale",
    "title": "Sale",
    "subtitle": "Limited-time festive prices",
-   "image": "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/DSC08106_JPG.jpg",
+   "image": "/images/shop/ruhi-wine-anarkali-floral-sleeve-set/3.webp",
    "sortOrder": 8,
    "productCount": 29
   },
@@ -92,7 +92,7 @@
    "handle": "best-seller",
    "title": "Best Sellers",
    "subtitle": "",
-   "image": "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/Picsart_25-09-12_10-24-36-032.webp",
+   "image": "/images/shop/meher-wine-velvet-anarkali/2.webp",
    "sortOrder": 100,
    "productCount": 35
   },
@@ -100,7 +100,7 @@
    "handle": "suit-set-gown",
    "title": "Suit Sets & Gowns",
    "subtitle": "",
-   "image": "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/photo_6210722319081085181_y.jpg",
+   "image": "/images/shop/tara-brown-zari-tree-kurta-set/1.webp",
    "sortOrder": 101,
    "productCount": 107
   }
@@ -1557,10 +1557,10 @@
    "price": 67500,
    "compareAtPrice": 269900,
    "images": [
+    "/images/shop/meera-mint-green-gota-pearl-kurta-set/4.webp",
     "/images/shop/meera-mint-green-gota-pearl-kurta-set/1.webp",
     "/images/shop/meera-mint-green-gota-pearl-kurta-set/2.webp",
     "/images/shop/meera-mint-green-gota-pearl-kurta-set/3.webp",
-    "/images/shop/meera-mint-green-gota-pearl-kurta-set/4.webp",
     "/images/shop/meera-mint-green-gota-pearl-kurta-set/5.webp"
    ],
    "collections": [
@@ -1641,11 +1641,11 @@
    "price": 82500,
    "compareAtPrice": 329900,
    "images": [
+    "/images/shop/ruhi-wine-anarkali-floral-sleeve-set/5.webp",
     "/images/shop/ruhi-wine-anarkali-floral-sleeve-set/1.webp",
     "/images/shop/ruhi-wine-anarkali-floral-sleeve-set/2.webp",
     "/images/shop/ruhi-wine-anarkali-floral-sleeve-set/3.webp",
     "/images/shop/ruhi-wine-anarkali-floral-sleeve-set/4.webp",
-    "/images/shop/ruhi-wine-anarkali-floral-sleeve-set/5.webp",
     "/images/shop/ruhi-wine-anarkali-floral-sleeve-set/6.webp",
     "/images/shop/ruhi-wine-anarkali-floral-sleeve-set/7.webp",
     "/images/shop/ruhi-wine-anarkali-floral-sleeve-set/8.webp",
