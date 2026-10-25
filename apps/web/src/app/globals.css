@@ -564,3 +564,214 @@ table {
   .page-veil, .page-rule, .page-in { animation: none !important; }
   .page-veil, .page-rule { display: none; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TRENDS YOUNIQUE — 2026 theme layer
+   Ivory "gallery" cards, gold hairlines, editorial serif — kisi template ka
+   copy nahi: har cheez in tokens se banti hai.
+   ═══════════════════════════════════════════════════════════════════════════ */
+:root {
+  --nyx-ink: #231a16;
+  --nyx-wine: #4a1220;
+  --nyx-wine-soft: #6f1d2b;
+  --nyx-gold: #b08a4a;
+  --nyx-gold-soft: #dcc094;
+  --nyx-cream: #faf6ef;
+  --nyx-sand: #eadfce;
+  --nyx-line: #e6dac7;
+}
+
+/* ── framed product card ─────────────────────────────────────────────── */
+.nyx-card-frame {
+  position: relative;
+  background: #f3ece1;
+  border: 1px solid var(--nyx-line);
+  padding: 6px;
+  transition:
+    border-color 0.4s ease,
+    box-shadow 0.4s ease,
+    transform 0.4s ease;
+}
+
+.nyx-card:hover .nyx-card-frame {
+  border-color: var(--nyx-gold);
+  box-shadow: 0 18px 34px -22px rgba(74, 18, 32, 0.45);
+  transform: translateY(-2px);
+}
+
+.nyx-card-frame .card-media {
+  background: var(--nyx-cream);
+}
+
+/* gold corner ticks — sirf hover par (subtle, luxury signal) */
+.nyx-card-frame::before,
+.nyx-card-frame::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--nyx-gold);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  z-index: 2;
+  pointer-events: none;
+}
+.nyx-card-frame::before {
+  top: 6px;
+  left: 6px;
+  border-right: 0;
+  border-bottom: 0;
+}
+.nyx-card-frame::after {
+  bottom: 6px;
+  right: 6px;
+  border-left: 0;
+  border-top: 0;
+}
+.nyx-card:hover .nyx-card-frame::before,
+.nyx-card:hover .nyx-card-frame::after {
+  opacity: 1;
+}
+
+/* ── badges ──────────────────────────────────────────────────────────── */
+.nyx-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: linear-gradient(135deg, #5d1626, #3a0f1b);
+  color: #f7e9d2;
+  border: 1px solid rgba(176, 138, 74, 0.55);
+  padding: 3px 7px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* quick-add pill: desktop par hover se, mobile par hamesha */
+.nyx-quickadd {
+  opacity: 0;
+  transform: translateY(140%);
+  backdrop-filter: blur(2px);
+  box-shadow: 0 8px 20px -12px rgba(35, 26, 22, 0.7);
+}
+.nyx-quickadd:disabled {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── section headings (rails / home / collection) ────────────────────── */
+.section-title {
+  font-family: var(--font-display, "Cormorant Garamond", serif);
+  letter-spacing: 0.005em;
+  color: var(--nyx-ink);
+  position: relative;
+}
+
+.eyebrow {
+  color: var(--nyx-gold) !important;
+  letter-spacing: 0.3em !important;
+}
+
+/* gold flourish — heading ke neeche chhoti lakeer */
+.nyx-rule {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.nyx-rule::before,
+.nyx-rule::after {
+  content: "";
+  width: 26px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--nyx-gold));
+}
+.nyx-rule::after {
+  background: linear-gradient(90deg, var(--nyx-gold), transparent);
+}
+
+/* ── buttons (site-wide polish) ──────────────────────────────────────── */
+.btn-primary {
+  background: linear-gradient(135deg, #5d1626 0%, #4a1220 100%) !important;
+  border: 1px solid rgba(176, 138, 74, 0.45);
+  letter-spacing: 0.2em !important;
+  transition:
+    background 0.35s ease,
+    box-shadow 0.35s ease,
+    transform 0.25s ease;
+}
+.btn-primary:hover {
+  background: linear-gradient(135deg, #6f1d2b 0%, #5d1626 100%) !important;
+  box-shadow: 0 12px 26px -16px rgba(74, 18, 32, 0.85);
+  transform: translateY(-1px);
+}
+
+.btn-outline {
+  border-color: var(--nyx-gold) !important;
+  color: var(--nyx-wine) !important;
+}
+.btn-outline:hover {
+  background: var(--nyx-wine) !important;
+  color: #f7ecdc !important;
+  border-color: var(--nyx-wine) !important;
+}
+
+/* ── editorial hero frame (home) ─────────────────────────────────────── */
+.hero-frame {
+  position: relative;
+}
+.hero-frame::after {
+  content: "";
+  position: absolute;
+  inset: clamp(10px, 2vw, 26px);
+  border: 1px solid rgba(240, 226, 205, 0.45);
+  pointer-events: none;
+  z-index: 3;
+}
+@media (max-width: 640px) {
+  .hero-frame::after {
+    inset: 8px;
+    border-color: rgba(240, 226, 205, 0.3);
+  }
+}
+
+.hero-side {
+  position: absolute;
+  right: clamp(14px, 2.4vw, 34px);
+  top: 50%;
+  transform: translateY(-50%) rotate(180deg);
+  writing-mode: vertical-rl;
+  letter-spacing: 0.4em;
+  font-size: 9.5px;
+  text-transform: uppercase;
+  color: rgba(247, 233, 210, 0.7);
+  z-index: 4;
+  pointer-events: none;
+}
+@media (max-width: 1023px) {
+  .hero-side {
+    display: none;
+  }
+}
+
+/* ── paper texture band (sections ke beech halka warm break) ─────────── */
+.nyx-paper {
+  background-color: var(--nyx-cream);
+  background-image:
+    radial-gradient(circle at 12% 8%, rgba(176, 138, 74, 0.07), transparent 42%),
+    radial-gradient(circle at 88% 92%, rgba(111, 29, 43, 0.06), transparent 45%);
+}
+
+/* ── trust strip numbers ─────────────────────────────────────────────── */
+.nyx-trust li {
+  position: relative;
+}
+.nyx-trust li + li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 22%;
+  bottom: 22%;
+  width: 1px;
+  background: var(--nyx-line);
+}

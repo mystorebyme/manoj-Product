@@ -281,3 +281,34 @@ data save nahi ho raha — setup kaise karun?" Isliye flow poora WhatsApp-first 
   4–6 photos ki salah. Naya guide: `docs/09-devops/sheet-setup-5-min.md`.
 - Tests: `tests/unit/whatsapp-order.test.ts` (5) — message me link/colour/size/qty/address
   aur "undefined" na aane ki guarantee. Unit 121/0, integration 40/0.
+
+## Round 19 — cart bug fix, naya theme layer, poora Apps Script (2026-10-25)
+
+**Cart bug (asli wajah mil gayi):** "Add to cart dabao par cart khaali".
+`cart-provider` naya item add karte waqt limit check `checkLineQuantity(lines, lines.length, …)`
+se karta tha — us index par koi line hoti hi nahi, to function turant
+`{ ok: false, "Ye item cart me nahi mila." }` deta tha. Isliye **naya item kabhi cart me
+jaata hi nahi tha** (sirf pehle se maujood item ki quantity badhti thi).
+
+- Saari cart logic ab pure module `apps/web/src/lib/cart-logic.ts` me: `addToCart`,
+  `updateQuantity`, `removeFromCart`, `mergeCarts`, `cartTotals`.
+- Fix: pehle **candidate cart** banta hai, phir usi par validate hota hai → naya item
+  add hota hai, quantity badhti hai, limits (10 / XL 30 / order 15) wahi lagti hain.
+- Side-effects (notice) state updater ke andar se hata kar `linesRef` par shift — double
+  render par bhi behaviour deterministic.
+- `tests/unit/cart-logic.test.ts` (12 tests): naya item add, duplicate merge, per-line
+  limit, XL 30, order cap 15, quantity 0 = remove, storage merge.
+
+**Naya theme layer (`globals.css` → 2026 theme):** ivory "gallery" card frame with gold
+corner ticks, gold gradient badges, quick-add pill (desktop hover / mobile always),
+serif section titles + gold eyebrow, refined buttons, hero me gold frame + vertical
+"Hand-finished in Jaipur" side label + quick category links, warm paper texture bands.
+
+**Apps Script:** `Newsletter` me `Source` column, `health` me token-status,
+naya `schema` action (website ko tabs/headers bata deta hai), har bade tab par filter,
+`setup()` sab tabs + headers + Settings + Read Me banata hai.
+
+**Sheet relay breadth:** ab footer newsletter aur contact form bhi static hosting par
+seedha sheet me likhte hain (server na ho to bhi data save).
+
+**Tests:** unit 133/0, integration 40/0, typecheck clean.

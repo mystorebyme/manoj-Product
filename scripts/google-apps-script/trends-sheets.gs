@@ -75,7 +75,7 @@ var HEADERS = {
   ],
   Settings: ['key', 'value', 'notes'],
   Messages: ['Timestamp', 'Name', 'Email', 'Phone', 'Subject', 'Message', 'Status'],
-  Newsletter: ['Timestamp', 'Email'],
+  Newsletter: ['Timestamp', 'Email', 'Source'],
 };
 
 /** Settings ke default keys — website inhe padhti hai */
@@ -163,7 +163,19 @@ function setup() {
   });
   settings.setFrozenRows(1);
 
-  // Orders tab par filter + sort (date descending) — owner ko latest pehle
+  // har bade tab par filter lagao (owner ko sort/search aasaani se mile)
+  ['Orders', 'Order Items', 'Enquiries', 'Payments', 'Messages'].forEach(function (name) {
+    try {
+      var tab = sheet_(name);
+      if (!tab.getFilter()) {
+        tab.getRange(1, 1, Math.max(2, tab.getLastRow()), HEADERS[name].length).createFilter();
+      }
+    } catch (error) {
+      // filter already set ho to chhod do
+    }
+  });
+
+  // Orders tab par sort (date descending) — owner ko latest pehle
   try {
     var orders = sheet_('Orders');
     if (!orders.getFilter()) {
@@ -276,7 +288,21 @@ function doGet(e) {
     return json_({ ok: true, sheet: name, rows: recentRows_(name, limit) });
   }
   if (action === 'health') {
-    return json_({ ok: true, time: new Date().toISOString(), sheets: counts_() });
+    return json_({
+      ok: true,
+      time: new Date().toISOString(),
+      sheets: counts_(),
+      writeTokenConfigured: Boolean(WRITE_TOKEN) && WRITE_TOKEN !== 'CHANGE-ME-trends-write-token',
+      masterTokenConfigured: Boolean(TOKEN) && TOKEN !== 'CHANGE-ME-trends-token',
+    });
+  }
+  if (action === 'schema') {
+    // website/admin ko pata chale ki sheet me kaun si tabs aur headers hain
+    var out = {};
+    Object.keys(HEADERS).forEach(function (name) {
+      out[name] = headersOf_(sheet_(name));
+    });
+    return json_({ ok: true, schema: out, time: new Date().toISOString() });
   }
   return json_({ ok: false, error: 'unknown action' });
 }

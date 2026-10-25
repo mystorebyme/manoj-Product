@@ -6,17 +6,25 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
 import {
   QUANTITY_LIMITS,
-  checkLineQuantity,
   lineLimit,
   orderLimit,
   type QuantityLimits,
 } from "@liksha/validation";
 import { useStoreSettings } from "@/components/store-settings-provider";
+import {
+  addToCart as addToCartPure,
+  cartTotals,
+  mergeCarts,
+  removeFromCart,
+  updateQuantity as updateQuantityPure,
+  type CartLine,
+} from "@/lib/cart-logic";
 
 export type MiniProduct = {
   handle: string;
@@ -88,6 +96,15 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [hydrated, setHydrated] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
   const [pendingRemove, setPendingRemove] = useState<string | null>(null);
+  /**
+   * Cart ka mirror — side-effect (notice) state updater ke andar set karne ki
+   * zaroorat na pade, isliye current lines ref me bhi rakhte hain.
+   * `linesRef` hamesha latest `lines` par sync rehta hai.
+   */
+  const linesRef = useRef<MiniCartLine[]>([]);
+  useEffect(() => {
+    linesRef.current = lines;
+  }, [lines]);
 
   // owner Google Sheet → Settings se limits (khaali = shared package ke default)
   const settings = useStoreSettings();
@@ -104,6 +121,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
     [settings.maxQtyPerItem, settings.maxQtyBulk, settings.maxQtyPerOrder],
   );
 
+  // limits bhi ref me — hydration/storage-sync effect ko latest limits chahiye
+  const limitsRef = useRef<QuantityLimits>(limits);
+  useEffect(() => {
+    limitsRef.current = limits;
+  }, [limits]);
+
   /**
    * Storage se sirf **merge** karte hain (overwrite nahi).
    *
@@ -113,21 +136,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
    */
   useEffect(() => {
     const stored = readStorage();
-    setLines((current) => {
-      if (!current.length) return stored;
-      const byKey = new Map(stored.map((line) => [line.key, line]));
-      for (const line of current) {
-        const existing = byKey.get(line.key);
-        if (existing) byKey.set(line.key, { ...existing, quantity: Math.max(existing.quantity, line.quantity) });
-        else byKey.set(line.key, line);
-      }
-      // naye/abhi add hue items upar rahen
-      const merged = [...current.map((line) => byKey.get(line.key) ?? line)];
-      for (const line of byKey.values()) {
-        if (!merged.some((entry) => entry.key === line.key)) merged.push(line);
-      }
-      return merged;
-    });
+    setLines((current) => mergeCarts(current, stored, limitsRef.current));
     setHydrated(true);
   }, []);
 
@@ -136,10 +145,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
     function onStorage(event: StorageEvent) {
       if (event.key !== STORAGE_KEY) return;
       const stored = readStorage();
-      setLines((current) => {
-        if (!stored.length && current.length) return current; // khaali event se cart na ude
-        return stored;
-      });
+      if (!stored.length) return; // khaali event se cart na ude
+      setLines((current) => mergeCarts(current, stored, limitsRef.current));
     }
     window.addEventListener("storage", onStorage);
     return () => window.removeEventListener("storage", onStorage);
@@ -168,70 +175,47 @@ export function CartProvider({ children }: { children: ReactNode }) {
     return () => clearTimeout(timer);
   }, [notice]);
 
-  const addItem = useCallback((product: MiniProduct, quantity = 1) => {
-    const size = product.size ?? "Free Size";
-    const colour = product.colour?.trim() || undefined;
-    const key = `${product.handle}::${size}`;
-    const line: MiniCartLine = { ...product, size, colour, key, quantity };
-
-    setLines((current) => {
-      const existing = current.find((item) => item.key === key);
-      const index = current.findIndex((item) => item.key === key);
-      const requested = (existing?.quantity ?? 0) + quantity;
-
-      if (index >= 0) {
-        const check = checkLineQuantity(current, index, requested, limits);
-        if (!check.ok) {
-          setNotice(check.message);
-          return current;
-        }
-        setNotice(null);
-        // naya/updated item hamesha list ke UPAR — customer ko turant dikhe
-        const rest = current.filter((item) => item.key !== key);
-        return [{ ...current[index]!, quantity: requested }, ...rest];
+  const addItem = useCallback(
+    (product: MiniProduct, quantity = 1) => {
+      // pure helper — naya item, quantity badhana, limit sab wahin handle hota hai
+      const result = addToCartPure(linesRef.current as CartLine[], product, quantity, limits);
+      if (result.changed) {
+        linesRef.current = result.lines as MiniCartLine[];
+        setLines(result.lines as MiniCartLine[]);
       }
-
-      const check = checkLineQuantity(current, current.length, quantity, limits);
-      if (!check.ok) {
-        setNotice(check.message);
-        return current;
+      setNotice(result.notice);
+      if (result.changed) {
+        setLastAdded({ ...product, size: product.size ?? "Free Size", key: result.lines[0]!.key, quantity });
+        setIsOpen(true);
       }
-      setNotice(null);
-      return [line, ...current];
-    });
-
-    setLastAdded(line);
-    setIsOpen(true);
-  }, [limits]);
-
-  const removeLine = useCallback(
-    (key: string) => {
-      // pehla click: sirf confirm maango (galti se item delete na ho)
-      if (pendingRemove !== key) {
-        setPendingRemove(key);
-        return;
-      }
-      setPendingRemove(null);
-      setLines((current) => current.filter((line) => line.key !== key));
-      setNotice(null);
     },
-    [pendingRemove],
+    [limits],
   );
 
-  const setQuantity = useCallback((key: string, quantity: number) => {
-    setLines((current) => {
-      if (quantity <= 0) return current.filter((line) => line.key !== key);
-      const index = current.findIndex((line) => line.key === key);
-      if (index < 0) return current;
-      const check = checkLineQuantity(current, index, quantity, limits);
-      if (!check.ok) {
-        setNotice(check.message);
-        return current;
+  const removeLine = useCallback((key: string) => {
+    // pehla click: sirf confirm maango (galti se item delete na ho)
+    if (pendingRemove !== key) {
+      setPendingRemove(key);
+      return;
+    }
+    setPendingRemove(null);
+    const result = removeFromCart(linesRef.current as CartLine[], key);
+    linesRef.current = result.lines as MiniCartLine[];
+    setLines(result.lines as MiniCartLine[]);
+    setNotice(null);
+  }, [pendingRemove]);
+
+  const setQuantity = useCallback(
+    (key: string, quantity: number) => {
+      const result = updateQuantityPure(linesRef.current as CartLine[], key, quantity, limits);
+      if (result.changed) {
+        linesRef.current = result.lines as MiniCartLine[];
+        setLines(result.lines as MiniCartLine[]);
       }
-      setNotice(null);
-      return current.map((line) => (line.key === key ? { ...line, quantity } : line));
-    });
-  }, [limits]);
+      setNotice(result.notice);
+    },
+    [limits],
+  );
 
   const maxForSize = useCallback(
     (size?: string | null) => lineLimit(size ?? "Free Size", limits),
@@ -239,8 +223,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   );
 
   const value = useMemo<CartContextValue>(() => {
-    const count = lines.reduce((sum, line) => sum + line.quantity, 0);
-    const subtotal = lines.reduce((sum, line) => sum + line.price * line.quantity, 0);
+    const { count, subtotal } = cartTotals(lines as CartLine[]);
     return {
       lines,
       count,

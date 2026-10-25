@@ -69,8 +69,9 @@ export function ProductCard({
   const defaultSize = availableSizes[0] ?? product.sizes[0] ?? "Free Size";
 
   return (
-    <div className="group relative flex flex-col">
-      <div className="relative overflow-hidden bg-[#f6f1ec]">
+    <div className="nyx-card group relative flex flex-col">
+      {/* ivory mat + gold hairline — card ko "framed print" jaisa premium look deta hai */}
+      <div className="nyx-card-frame relative overflow-hidden">
         <Link href={`/products/${product.handle}`} className="block" data-testid="product-card">
           <div
             ref={mediaRef}
@@ -96,14 +97,10 @@ export function ProductCard({
         </Link>
 
         {off > 0 ? (
-          <span className="absolute left-2 top-2 bg-[#6f1d2b] px-1.5 py-0.5 text-[9.5px] font-semibold tracking-[.08em] text-white uppercase">
-            {off}% off
-          </span>
+          <span className="nyx-badge absolute left-2 top-2">{off}% off</span>
         ) : null}
         {soldOut ? (
-          <span className="absolute left-2 top-8 bg-[#222] px-1.5 py-0.5 text-[9px] font-semibold tracking-[.1em] text-white uppercase">
-            Sold out
-          </span>
+          <span className="nyx-badge absolute left-2 top-8 bg-[#14100e] text-[#f3e7d3]">Sold out</span>
         ) : null}
 
         {/* image ke upar sirf wishlist — compare/eye icon (purane template ka) hata diya */}
@@ -115,8 +112,8 @@ export function ProductCard({
             aria-pressed={wished}
             data-testid="wishlist-toggle"
             title={wished ? "In wishlist" : "Add to wishlist"}
-            className={`flex h-8 w-8 items-center justify-center rounded-full bg-white/95 shadow-sm transition hover:bg-white ${
-              wished ? "text-[#c2185b]" : "text-[#14100e]"
+            className={`flex h-8 w-8 items-center justify-center rounded-full border bg-white/95 shadow-sm backdrop-blur transition hover:scale-105 ${
+              wished ? "border-[#c2185b]/30 text-[#c2185b]" : "border-transparent text-[#14100e] hover:border-[#b08a4a]/50"
             }`}
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill={wished ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.6">
@@ -145,20 +142,30 @@ export function ProductCard({
               colour: product.colourName ?? product.color,
             })
           }
-          className={`absolute inset-x-0 bottom-0 py-2.5 text-[10.5px] font-semibold tracking-[.16em] uppercase transition-transform duration-300 group-hover:translate-y-0 focus-visible:translate-y-0 max-sm:translate-y-0 ${
+          className={`nyx-quickadd absolute inset-x-2 bottom-2 flex items-center justify-center gap-1.5 py-2.5 text-[10px] font-semibold tracking-[.18em] uppercase transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 focus-visible:translate-y-0 focus-visible:opacity-100 max-sm:translate-y-0 max-sm:opacity-100 ${
             soldOut
-              ? "cursor-not-allowed bg-[#4a423b] text-white/90"
-              : "bg-[#6f1d2b] text-white"
+              ? "cursor-not-allowed bg-[#3a322c]/95 text-white/80"
+              : "bg-[#4a1220]/95 text-[#f6ecdc] hover:bg-[#6f1d2b]"
           }`}
         >
-          {soldOut ? "Sold out" : "Add to cart"}
+          {soldOut ? (
+            "Sold out"
+          ) : (
+            <>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
+                <path d="M6 7h12l1.2 13H4.8L6 7Z" />
+                <path d="M9 7a3 3 0 0 1 6 0" />
+              </svg>
+              Add to cart
+            </>
+          )}
         </button>
       </div>
 
-      <div className="flex flex-1 flex-col pt-2.5 text-center">
+      <div className="flex flex-1 flex-col px-0.5 pt-3 text-center">
         <Link
           href={`/products/${product.handle}`}
-          className="line-clamp-2 text-[12px] font-medium leading-snug text-[#14100e] transition hover:text-[#6f1d2b] sm:text-[12.5px]"
+          className="line-clamp-2 font-display text-[13.5px] leading-snug tracking-[.01em] text-[#231a16] transition-colors hover:text-[#6f1d2b] sm:text-[14.5px]"
         >
           {product.title}
         </Link>

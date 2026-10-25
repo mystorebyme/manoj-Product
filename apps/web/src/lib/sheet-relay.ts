@@ -151,6 +151,39 @@ export function relayEnquiryToSheet(input: {
   ]);
 }
 
+/** Footer ka newsletter signup → `Newsletter` tab (static hosting par bhi). */
+export function relayNewsletterToSheet(email: string, source = "footer"): void {
+  if (!sheetRelayEnabled()) return;
+  relayRows([
+    { sheet: "Newsletter", row: { Timestamp: new Date().toISOString(), Email: email, Source: source } },
+  ]);
+}
+
+/** Contact form ka message → `Messages` tab. */
+export function relayMessageToSheet(input: {
+  name: string;
+  email: string;
+  phone?: string | null;
+  subject?: string | null;
+  message: string;
+}): void {
+  if (!sheetRelayEnabled()) return;
+  relayRows([
+    {
+      sheet: "Messages",
+      row: {
+        Timestamp: new Date().toISOString(),
+        Name: input.name,
+        Email: input.email,
+        Phone: input.phone ?? "",
+        Subject: input.subject ?? "",
+        Message: input.message,
+        Status: "new",
+      },
+    },
+  ]);
+}
+
 /** Naya order ref — `TY-` + time + random (sheet/deep-link me pehchaan ke liye). */
 export function newOrderRef(): string {
   const time = Date.now().toString(36).toUpperCase().slice(-6);

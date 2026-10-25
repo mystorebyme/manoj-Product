@@ -264,6 +264,10 @@ export function messageSheetRow(message: {
 }
 
 /** `Newsletter` tab */
-export function newsletterSheetRow(email: string, at = new Date().toISOString()): Record<string, string> {
-  return { Timestamp: at, Email: email };
+export function newsletterSheetRow(
+  email: string,
+  at = new Date().toISOString(),
+  source = "footer",
+): Record<string, string> {
+  return { Timestamp: at, Email: email, Source: source };
 }

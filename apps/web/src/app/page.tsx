@@ -103,7 +103,7 @@ export default async function HomePage() {
       {/* ── hero: editorial banner + overlay copy (device-specific crop) ── */}
       <section className="relative bg-[#efe4d4]" data-testid="hero-banner" aria-label="TRENDS YOUNIQUE new season">
         <div className="mx-auto max-w-[1920px]">
-          <div className="hero-media hero-scrim relative aspect-[4/5] w-full overflow-hidden bg-[#efe4d4] md:aspect-[4/3] lg:aspect-[16/9]">
+          <div className="hero-media hero-scrim hero-frame relative aspect-[4/5] w-full overflow-hidden bg-[#efe4d4] md:aspect-[4/3] lg:aspect-[16/9]">
             <picture>
               <source media="(min-width:1024px)" srcSet={heroBanners.desktop} width={1920} height={1080} />
               <source media="(min-width:768px)" srcSet={heroBanners.tablet} width={1280} height={960} />
@@ -120,10 +120,13 @@ export default async function HomePage() {
               />
             </picture>
 
+            {/* vertical signature — editorial magazine jaisa side label */}
+            <span className="hero-side">Hand-finished in Jaipur · Est. 2026</span>
+
             {/* overlay copy — mobile par neeche, desktop par left me */}
             <div className="absolute inset-0 flex items-end justify-start sm:items-center">
               <div className="w-full max-w-[760px] px-6 pb-9 sm:px-10 sm:pb-0 lg:px-16">
-                <p className="text-[10px] font-semibold tracking-[.34em] text-[#e6cb98] uppercase sm:text-[11px]">
+                <p className="nyx-rule text-[10px] font-semibold tracking-[.34em] text-[#e6cb98] uppercase sm:text-[11px]">
                   New season · 2026
                 </p>
                 <h1 className="mt-3 font-display text-[34px] leading-[1.05] font-medium text-white sm:text-[46px] lg:text-[62px]">
@@ -156,13 +159,29 @@ export default async function HomePage() {
                 <p className="mt-4 text-[10.5px] tracking-[.16em] text-[#e7d9c6] uppercase">
                   Free shipping · 7 day exchange · WhatsApp ordering
                 </p>
+                <div className="mt-5 hidden items-center gap-4 border-t border-white/25 pt-4 sm:flex">
+                  {[
+                    { label: "Anarkali", href: "/collections/party-wear-gown" },
+                    { label: "Lehenga", href: "/collections/lehnga-choli" },
+                    { label: "Printed sets", href: "/collections/printed-suit-set" },
+                    { label: "Sale", href: "/collections/sale" },
+                  ].map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="text-[9.5px] tracking-[.2em] text-[#efe1cd]/85 uppercase underline-offset-4 transition hover:text-[#e6cb98] hover:underline"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
 
           {/* trust strip — premium brands jaise, hero ke turant neeche */}
-          <div className="border-y border-[#e4d7c5] bg-[#faf6ef]">
-            <ul className="container-liksha grid grid-cols-2 divide-[#e4d7c5] text-center md:grid-cols-4 md:divide-x">
+          <div className="border-y border-[#e4d7c5] nyx-paper">
+            <ul className="nyx-trust container-liksha grid grid-cols-2 text-center md:grid-cols-4">
               {[
                 { title: "Hand-finished in Jaipur", note: "Zari, sequin & mirror work" },
                 { title: "Free shipping pan-India", note: "Dispatched within 24 hours" },

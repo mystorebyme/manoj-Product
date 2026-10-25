@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { postJson } from "@/lib/http-json";
+import { relayMessageToSheet } from "@/lib/sheet-relay";
 import { apiUrl } from "@/lib/api-base";
 import { useStoreSettings } from "@/components/store-settings-provider";
 
@@ -42,15 +43,19 @@ export function ContactForm() {
       // Pages preview par API live store par jaata hai (apiUrl base add karta hai)
       const result = await postJson<{ error?: string; ok?: boolean }>(apiUrl("/api/contact"), form);
       if (result.error || !result.data) {
-        setError(result.data?.error ?? result.error ?? "Could not send your message.");
-        setStatus("error");
+        // server na ho / fail ho to bhi message sheet me chala jaye (kuch na khoye)
+        relayMessageToSheet(form);
+        setStatus("done");
+        setForm({ name: "", email: "", phone: "", subject: "Order enquiry", message: "" });
         return;
       }
+      relayMessageToSheet(form);
       setStatus("done");
       setForm({ name: "", email: "", phone: "", subject: "Order enquiry", message: "" });
     } catch {
-      setError("Network error, please try again.");
-      setStatus("error");
+      relayMessageToSheet(form);
+      setStatus("done");
+      setForm({ name: "", email: "", phone: "", subject: "Order enquiry", message: "" });
     }
   }
 

@@ -6,6 +6,8 @@ import { BrandLockup } from "@/components/brand-lockup";
 import { useStoreSettings } from "@/components/store-settings-provider";
 import { siteConfig } from "@/config/site";
 import { apiUrl } from "@/lib/api-base";
+import { relayNewsletterToSheet } from "@/lib/sheet-relay";
+import { API_AVAILABLE } from "@/lib/api-base";
 
 /**
  * Footer — deep wine band, cream logo, support + menu columns:
@@ -52,6 +54,13 @@ export function SiteFooter() {
     event.preventDefault();
     if (!email.trim()) return;
     setStatus("loading");
+    // static hosting (GitHub Pages) par server nahi hota — seedha sheet me save karo
+    if (!API_AVAILABLE) {
+      relayNewsletterToSheet(email.trim(), "footer");
+      setStatus("done");
+      setEmail("");
+      return;
+    }
     try {
       const response = await fetch(apiUrl("/api/newsletter"), {
         method: "POST",
@@ -59,9 +68,15 @@ export function SiteFooter() {
         body: JSON.stringify({ email }),
       });
       setStatus(response.ok ? "done" : "error");
-      if (response.ok) setEmail("");
+      if (response.ok) {
+        relayNewsletterToSheet(email.trim(), "footer");
+        setEmail("");
+      }
     } catch {
-      setStatus("error");
+      // server tak nahi pahuncha to bhi sheet me chala jaye
+      relayNewsletterToSheet(email.trim(), "footer");
+      setStatus("done");
+      setEmail("");
     }
   }
 
