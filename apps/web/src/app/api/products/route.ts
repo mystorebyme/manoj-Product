@@ -4,10 +4,10 @@ import { getProducts, isSortKey, sortProducts } from "@/lib/store";
 export const dynamic = "force-dynamic";
 
 const priceFilters: Record<string, (product: Product) => boolean> = {
-  "under-2500": (p) => p.price < 250000,
-  "2500-3000": (p) => p.price >= 250000 && p.price < 300000,
-  "3000-3500": (p) => p.price >= 300000 && p.price < 350000,
-  "above-3500": (p) => p.price >= 350000,
+  "under-500": (p) => p.price < 50000,
+  "500-800": (p) => p.price >= 50000 && p.price < 80000,
+  "800-1200": (p) => p.price >= 80000 && p.price < 120000,
+  "above-1200": (p) => p.price >= 120000,
 };
 
 /**

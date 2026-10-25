@@ -458,3 +458,6 @@ Tests: **145 unit + 40 integration + 9**, typecheck clean, catalog verify clean.
   copy dobara ganda na ho). Local variable rename (`plainTitle`) — import shadow nahi hota.
 - `lib/collections.ts` (client nav) aur home ke circle labels saaf: Anarkali Suits, Lehenga
   Chunni & Choli Sets, Suit Sets & Gowns, Printed Suits, Wedding & Festive Wear.
+
+Round 25 (cont.): price filter buckets campaign ke hisaab se (Under 500 / 500-800 /
+800-1200 / 1200+) — pehle Rs. 2,500+ ke buckets sab khaali dikhte the.

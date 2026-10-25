@@ -79,10 +79,10 @@ export function CollectionBrowser({
         list = list.filter((product) => product.collections?.includes(handle));
       }
       const inRange: Record<string, (p: Product) => boolean> = {
-        "under-2500": (p) => p.price < 250000,
-        "2500-3000": (p) => p.price >= 250000 && p.price < 300000,
-        "3000-3500": (p) => p.price >= 300000 && p.price < 350000,
-        "above-3500": (p) => p.price >= 350000,
+        "under-500": (p) => p.price < 50000,
+        "500-800": (p) => p.price >= 50000 && p.price < 80000,
+        "800-1200": (p) => p.price >= 80000 && p.price < 120000,
+        "above-1200": (p) => p.price >= 120000,
       };
       if (inRange[nextPrice]) list = list.filter(inRange[nextPrice]!);
       const sorted = [...list];
@@ -155,7 +155,7 @@ export function CollectionBrowser({
     [fetchPage],
   );
 
-  // shared link (?sort=price-low&price=under-2500) khulta hai to wahi state apply karo
+  // shared link (?sort=price-low&price=under-500) khulta hai to wahi state apply karo
   useEffect(() => {
     if (!firstRender.current) return;
     firstRender.current = false;

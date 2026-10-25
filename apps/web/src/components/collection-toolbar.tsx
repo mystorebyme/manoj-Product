@@ -13,12 +13,16 @@ const sortOptions = [
   { value: "title-asc", label: "Alphabetically, A-Z" },
 ];
 
+/**
+ * Price buckets — campaign price ke hisaab se (Diwali 75% off ke baad sabse mehnga
+ * product ~Rs. 1,600 hai). Purane Rs. 2,500+ buckets khaali dikhte the.
+ */
 const priceOptions = [
   { value: "all", label: "Price: all" },
-  { value: "under-2500", label: "Under Rs. 2,500" },
-  { value: "2500-3000", label: "Rs. 2,500 – 3,000" },
-  { value: "3000-3500", label: "Rs. 3,000 – 3,500" },
-  { value: "above-3500", label: "Rs. 3,500 & above" },
+  { value: "under-500", label: "Under Rs. 500" },
+  { value: "500-800", label: "Rs. 500 - 800" },
+  { value: "800-1200", label: "Rs. 800 - 1,200" },
+  { value: "above-1200", label: "Rs. 1,200 & above" },
 ];
 
 export function CollectionToolbar({
