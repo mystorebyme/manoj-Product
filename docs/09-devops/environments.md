@@ -17,6 +17,21 @@
 | `RAZORPAY_KEY_ID` | test | test | live |
 | `RESEND_API_KEY` | optional | test key | live key |
 | `NODE_ENV` | development | production | production |
+| `NEXT_PUBLIC_GA_ID` | optional | GA4 property | GA4 property |
+| `NEXT_PUBLIC_GSC_VERIFICATION` | optional | Search Console token | Search Console token |
+
+## Search Console + traffic
+
+- **Google Search Console verification** — `apps/web/src/app/layout.tsx` me
+  `metadata.verification.google` se meta tag aata hai. Default token commit hai;
+  dusri property verify karni ho to `NEXT_PUBLIC_GSC_VERIFICATION` me naya token
+  daal ke deploy karein (ek page par ek hi verification meta tag Google padhta hai).
+  Sitemap: `/sitemap.xml` (robots.txt me declare) — deploy ke baad Search Console
+  → Sitemaps me `sitemap.xml` submit karein.
+- **Har page ki traffic** — `apps/web/src/components/analytics.tsx` GA4 ka
+  `page_view` **har route change** par bhejta hai (product, collection, home,
+  orders sab alag). Env `NEXT_PUBLIC_GA_ID` khaali ho to kuch load nahi hota.
+  GA4 property banane ke baad Measurement ID (`G-XXXXXXXXXX`) daal dein.
 
 ## Rules
 

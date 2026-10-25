@@ -63,17 +63,14 @@ console.log(`\nresponsive checks → ${BASE}\n`);
 /* 1. asset files: existence + device-appropriate dimensions ------------------ */
 const assets = [
   // file, min width, min height, note
-  ["images/brand/logo-mobile.png", 380, 100, "mobile logo (horizontal, 2× of 40px display)"],
-  ["images/brand/logo-tablet.png", 520, 120, "tablet logo (horizontal, ~2.6× of 50px)"],
-  ["images/brand/logo-desktop.png", 600, 140, "desktop logo (horizontal lockup, 3× of 46px)"],
-  ["images/brand/logo-fluid.png", 600, 360, "fluid logo (stacked, footer/invoice)"],
-  ["images/brand/logo-mark-128.png", 128, 128, "favicon 128"],
-  ["images/brand/logo-mark-192.png", 192, 192, "PWA 192"],
-  ["images/brand/logo-mark-512.png", 512, 512, "PWA 512 / invoice"],
-  ["images/banners/banner-mobile.webp", 700, 1000, "mobile poster (portrait)"],
-  ["images/banners/banner-tablet.webp", 1100, 800, "tablet banner (4:3)"],
-  ["images/banners/banner-desktop.webp", 1700, 500, "desktop banner (wide, no baked arrows)"],
-  ["images/banners/banner-fluid.webp", 1500, 480, "fluid banner"],
+  ["images/brand/trends-header.png", 800, 200, "header lockup (crest + wordmark)"],
+  ["images/brand/trends-lockup.png", 600, 600, "fluid lockup (stacked, footer/invoice)"],
+  ["images/brand/trends-mark-128.png", 128, 128, "favicon 128"],
+  ["images/brand/trends-mark-192.png", 192, 192, "PWA 192"],
+  ["images/brand/trends-mark-512.png", 512, 512, "PWA 512 / invoice"],
+  ["images/banners/trends-younique-diwali-75-off-mobile.webp", 700, 1000, "mobile poster (portrait)"],
+  ["images/banners/trends-younique-diwali-75-off-tablet.webp", 1100, 800, "tablet banner (4:3)"],
+  ["images/banners/trends-younique-diwali-75-off-desktop.webp", 1700, 500, "desktop banner (wide)"],
 ];
 
 for (const [file, minW, minH, note] of assets) {
@@ -92,8 +89,8 @@ for (const [file, minW, minH, note] of assets) {
 
 /* 2. payload sanity: par-device file size (mobile = smallest banner) --------- */
 const sizeOf = async (file) => (await fs.stat(path.join(PUBLIC, file))).size;
-const mobileBanner = await sizeOf("images/banners/banner-mobile.webp");
-const desktopBanner = await sizeOf("images/banners/banner-desktop.webp");
+const mobileBanner = await sizeOf("images/banners/trends-younique-diwali-75-off-mobile.webp");
+const desktopBanner = await sizeOf("images/banners/trends-younique-diwali-75-off-desktop.webp");
 check(
   `mobile banner is lighter than desktop (${Math.round(mobileBanner / 1024)} KB vs ${Math.round(desktopBanner / 1024)} KB)`,
   mobileBanner < 260 * 1024 && desktopBanner < 260 * 1024,
@@ -103,29 +100,32 @@ check(
 const home = await get("/");
 check("home 200", home.status === 200, `status ${home.status}`);
 
-const heroPicture = home.text.match(/aspect-\[860\/1290\][\s\S]{0,900}?<\/picture>/)?.[0] ?? "";
+const heroPicture = home.text.match(/data-testid="campaign-banner"[\s\S]{0,1400}?<\/picture>/)?.[0] ?? "";
 check("hero is a <picture> (only one file loads per device)", Boolean(heroPicture));
-check("hero: ≥1024px → banner-desktop.webp", /min-width:1024px[^>]*banner-desktop\.webp/.test(heroPicture));
-check("hero: 768–1023px → banner-tablet.webp", /min-width:768px[^>]*banner-tablet\.webp/.test(heroPicture));
-check("hero: <768px → banner-mobile.webp (default img)", /<img[^>]*banner-mobile\.webp/.test(heroPicture));
+check("hero: ≥1024px → desktop banner", /min-width:1024px[^>]*trends-younique-diwali-75-off-desktop\.webp/.test(heroPicture));
+check("hero: 768–1023px → tablet banner", /min-width:768px[^>]*trends-younique-diwali-75-off-tablet\.webp/.test(heroPicture));
+check("hero: <768px → mobile banner (default img)", /<img[^>]*trends-younique-diwali-75-off-mobile\.webp/.test(heroPicture));
 check(
-  "hero reserves space with width/height + aspect-ratio (no layout shift)",
-  /width="1779"[^>]*height="594"/.test(heroPicture) && /width="860"[^>]*height="1290"/.test(heroPicture),
+  "hero reserves space with width/height per breakpoint (no layout shift)",
+  /width="1920"[^>]*height="1081"/.test(heroPicture) &&
+    /width="1280"[^>]*height="960"/.test(heroPicture) &&
+    /width="1024"[^>]*height="1536"/.test(heroPicture),
 );
-check(
-  "hero aspect ratios match the files (860/1290 · 4/3 · 1779/594)",
-  home.text.includes("aspect-[860/1290]") && home.text.includes("md:aspect-[4/3]") && home.text.includes("lg:aspect-[1779/594]"),
-);
-check("hero image loads eagerly (LCP) with high priority", /fetchPriority="high"|fetchpriority="high"/.test(heroPicture));
+check("hero image loads eagerly (LCP) with high priority", /loading="eager"/.test(heroPicture) && /fetchPriority="high"/i.test(heroPicture));
+check("hero banner links to the sale collection", /href="\/collections\/sale"/.test(home.text));
 
-const headerPicture = home.text.includes("/images/brand/logo-desktop.png") && home.text.includes("/images/brand/logo-tablet.png") && home.text.includes("/images/brand/logo-mobile.png");
-check("brand lockup uses <picture> with all three variants", headerPicture);
+// Brand lockup: owner ka ek hi original asset (crest + wordmark) — alag mobile/tablet
+// crops nahi, isliye sirf ek file download hoti hai.
+const brandLockup =
+  (await fs.readFile(path.resolve(import.meta.dirname, "../../apps/web/src/components/brand-lockup.tsx"), "utf8"));
+check("brand lockup renders the owner's original logo file", /brandAssets\.(desktop|desktopCream|fluid|fluidCream)/.test(brandLockup));
+check("brand lockup ships one source per render (no <picture> fan-out)", !/<picture/.test(brandLockup));
 
 /* 4. header/nav: no dead links, no overflowing fixed widths ---------------- */
 // Pages export me base path + trailing slash aata hai — dono accept karo
 check("nav has SHOP link to /collections", /href="(?:\/tannu-product-)?\/collections\/?"[^>]*>SHOP/.test(home.text));
 check("no saree link in header/footer (0 products)", !home.text.includes("/collections/saree"));
-check("header grid keeps logo centred on phones", home.text.includes("grid-cols-[auto_1fr_auto]"));
+check("header keeps the logo centred between the two icon groups", /grid-cols-\[(auto_1fr_auto|1fr_auto_1fr)\]/.test(home.text));
 check("mobile menu is a 40px touch target", /aria-label="Open menu"[\s\S]{0,220}?h-10 w-10/.test(home.text));
 // 1024px par nav + 4 icons + logo ke saath overlap na ho: cart ka price sirf xl+ par
 check(
@@ -134,7 +134,14 @@ check(
 );
 
 /* 4b. footer logo: stacked fluid file (wide-but-short space) ---------------- */
-check("footer uses the stacked fluid logo", home.text.includes("/images/brand/logo-fluid.png"));
+const footerSource = await fs.readFile(
+  path.resolve(import.meta.dirname, "../../apps/web/src/components/site-footer.tsx"),
+  "utf8",
+);
+check(
+  "footer carries the brand lockup (cream tone on wine)",
+  /<BrandLockup[^>]*tone="light"/.test(footerSource) && /trends-lockup-cream|trends-header-cream|desktopCream/.test(home.text + footerSource),
+);
 
 /* 5. footer: instagram URL text (not a link), whatsapp working -------------- */
 check("footer shows the instagram URL as text", home.text.includes("https://www.instagram.com/designer_clothing_9"));
@@ -151,30 +158,26 @@ check("/collections 200", collections.status === 200, `status ${collections.stat
 check("/collections lists collection cards", collections.text.includes('data-testid="collection-card"'));
 check("/collections hides the empty saree collection", !/href="\/collections\/saree"/.test(collections.text));
 
-/* 7. checkout: UPI app chips removed (owner request) ----------------------
- * Checkout ka payment block client-side cart ke saath render hota hai (SSR me
- * khaali cart dikhta hai), isliye yahan source-level check karte hain —
- * dono call sites par `showAppButtons={false}` hona chahiye.
+/* 7. payment: website par online payment nahi ---------------------------
+ * Checkout par koi UPI block nahi hota; sirf order page (`/orders/[n]`) par
+ * QR + "Open UPI app" milta hai, aur wahan app chips bhi allowed hain.
  */
 const checkoutSource = await fs.readFile(
   path.resolve(import.meta.dirname, "../../apps/web/src/components/checkout-form.tsx"),
   "utf8",
 );
-const appCalls = [...checkoutSource.matchAll(/<UpiApps[\s\S]{0,400}?\/>/g)].map((match) => match[0]);
-check("checkout renders UpiApps twice (form + WhatsApp fallback)", appCalls.length === 2, `found ${appCalls.length}`);
-check(
-  "checkout hides GPay/PhonePe/Paytm/BHIM/Amazon Pay chips",
-  appCalls.length > 0 && appCalls.every((call) => call.includes("showAppButtons={false}")),
+check("checkout me koi online payment block nahi (owner rule)", !/UpiApps|UpiPayment|upiUri/.test(checkoutSource));
+const upiPaymentSource = await fs.readFile(
+  path.resolve(import.meta.dirname, "../../apps/web/src/components/upi-payment.tsx"),
+  "utf8",
 );
-check(
-  "checkout keeps QR + 'Open UPI app' + 'Copy UPI ID'",
-  appCalls.length > 0 && appCalls.every((call) => call.includes("uri={buildUpiUri")),
-);
+check("order page renders the UPI block once", (upiPaymentSource.match(/<UpiApps/g) ?? []).length === 1);
+check("order page UPI block keeps QR + app open + copy id", /buildUpiUri|upiUri/.test(upiPaymentSource) && /UpiApps/.test(upiPaymentSource));
 const upiAppsSource = await fs.readFile(
   path.resolve(import.meta.dirname, "../../apps/web/src/components/upi-apps.tsx"),
   "utf8",
 );
-check("per-app chips are opt-in (default on the order page only)", /showAppButtons = true/.test(upiAppsSource));
+check("per-app chips are opt-out-able (default on the order page)", /showAppButtons = true/.test(upiAppsSource));
 
 /* 8. responsive CSS rules exist in the built stylesheet -------------------- */
 const cssDir = path.join(PUBLIC, "..", ".next/static/chunks");
@@ -183,10 +186,10 @@ if (cssFile) {
   const css = await fs.readFile(path.join(cssDir, cssFile), "utf8");
   const flatCss = css.replace(/\s+/g, "");
   check(
-    "CSS defines brand-lockup heights per breakpoint (40 → 50 → 46)",
-    flatCss.includes(".brand-lockupimg{width:auto;height:40px}") &&
-      flatCss.includes(".brand-lockupimg{height:50px}") &&
-      flatCss.includes(".brand-lockupimg{height:46px}"),
+    "CSS defines brand-lockup heights per breakpoint (42 → 52 → 50)",
+    flatCss.includes(".brand-lockupimg{width:auto;height:42px}") &&
+      flatCss.includes(".brand-lockupimg{height:52px}") &&
+      flatCss.includes(".brand-lockupimg{height:50px}"),
   );
   check("CSS keeps hero image inside its box (object-fit)", /\.hero-media img\{[^}]*object-fit/.test(css));
 } else {

@@ -43,7 +43,6 @@ export function CollectionBrowser({
   const [error, setError] = useState<string | null>(null);
   const firstRender = useRef(true);
   /** neeche tak scroll karte hi agle products khud load ho jaate hain */
-  const sentinelRef = useRef<HTMLDivElement | null>(null);
   /** prefetched pages: "sort|price|offset" → payload */
   const pages = useRef(new Map<string, { data: Product[]; total: number }>());
   /** static preview ke liye poora chhota catalogue (ek hi baar download) */
@@ -206,42 +205,6 @@ export function CollectionBrowser({
 
   const hasMore = items.length < total;
 
-  // idle time me pehla "load more" page pehle se le lo (instant feel)
-  useEffect(() => {
-    if (!hasMore) return;
-    const prefetch = () => {
-      void fetchPage(sort, price, items.length).catch(() => undefined);
-    };
-    const idle = (window as Window & { requestIdleCallback?: (cb: () => void) => number })
-      .requestIdleCallback;
-    if (typeof idle === "function") {
-      idle(prefetch);
-      return;
-    }
-    const timer = window.setTimeout(prefetch, 1200);
-    return () => window.clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasMore, sort, price, items.length, fetchPage]);
-
-  useEffect(() => {
-    const node = sentinelRef.current;
-    if (!node || !hasMore) return;
-    if (typeof IntersectionObserver === "undefined") return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (!entries.some((entry) => entry.isIntersecting)) return;
-        if (appending || loading) return;
-        void loadMore();
-      },
-      // 900px pehle se trigger — user ko spinner nahi dikhta
-      { rootMargin: "900px 0px" },
-    );
-    observer.observe(node);
-    return () => observer.disconnect();
-    // loadMore/items badalne par naya sentinel observe karna zaroori hai
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasMore, appending, loading, items.length, sort, price]);
-
   return (
     <div className="container-liksha">
       <CollectionToolbar
@@ -278,16 +241,23 @@ export function CollectionBrowser({
             {error ? <p className="mt-5 text-center text-[12px] text-[#a02020]">{error}</p> : null}
 
             {hasMore ? (
-              <div ref={sentinelRef} className="mt-10 text-center" data-testid="auto-load-sentinel">
+              /**
+               * Sirf button se load — auto (scroll par) loading owner ki request par
+               * hata di gayi hai, taaki customer khud decide kare kitne dekhe.
+               */
+              <div className="mt-10 text-center" data-testid="load-more">
                 <button
                   type="button"
                   onClick={() => void loadMore()}
                   disabled={appending || loading}
+                  data-testid="load-more-button"
                   className="border border-[#6f1d2b] px-8 py-3 text-[11px] font-semibold tracking-[.16em] text-[#6f1d2b] uppercase transition hover:bg-[#6f1d2b] hover:text-white disabled:opacity-50"
                 >
                   {appending ? "Loading…" : `Load more (${total - items.length} left)`}
                 </button>
-                <p className="mt-2 text-[10.5px] text-[#a49a90]">Scroll karte hi agle styles khud load ho jaate hain</p>
+                <p className="mt-2 text-[10.5px] text-[#a49a90]">
+                  {items.length} / {total} styles
+                </p>
               </div>
             ) : (
               <p className="mt-10 text-center text-[11px] tracking-[.14em] text-[#a49a90] uppercase">

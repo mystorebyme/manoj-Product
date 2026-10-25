@@ -93,12 +93,28 @@ test("every product has at least one image (CDN ya apni upload) and one size", (
   }
 });
 
-test("own products: 3+ original photos, price above MRP logic", () => {
-  assert.ok(ownProducts.length >= 3, "brand ke apne products catalogue me hone chahiye");
+test("own products: apni images, sach me 75% off, har size ka price", () => {
+  assert.ok(ownProducts.length >= 60, "owner ke apne products catalogue me hone chahiye");
+  let multiPhoto = 0;
   for (const product of ownProducts) {
-    assert.ok(product.images.length >= 3, `${product.handle}: kam se kam 3 photos`);
-    assert.ok(product.compareAtPrice! > product.price, `${product.handle}: MRP > price`);
+    assert.ok(product.images.length >= 1, `${product.handle}: koi photo nahi`);
+    if (product.images.length >= 2) multiPhoto += 1;
+    for (const image of product.images) {
+      assert.match(image, /^\/images\/shop\//, `${product.handle}: local image path chahiye`);
+    }
+    // MRP se exactly 25% (75% off) — jhoothi discount nahi
+    const off = Math.round(((product.compareAtPrice! - product.price) / product.compareAtPrice!) * 100);
+    assert.equal(off, 75, `${product.handle}: ${off}% off`);
+    for (const [size, entry] of Object.entries(product.sizePricing ?? {})) {
+      assert.equal(
+        Math.round(((entry.compareAtPrice! - entry.price) / entry.compareAtPrice!) * 100),
+        75,
+        `${product.handle} ${size}: size price par 75% off nahi`,
+      );
+    }
   }
+  // same dress ki kai photos ek hi product me group hui hain
+  assert.ok(multiPhoto >= 5, `multi-photo groups kam hain (${multiPhoto})`);
 });
 
 test("sizes use the store's display format", () => {

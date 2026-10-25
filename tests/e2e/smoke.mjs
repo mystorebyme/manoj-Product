@@ -44,7 +44,7 @@ async function main() {
   const home = await get("/");
   check("home 200", home.status === 200, `status ${home.status}`);
   check("home lists products", /\/products\/[a-z0-9-]+/.test(home.text));
-  check("home has brand name", /Designer Clothing/i.test(home.text));
+  check("home has brand name", /TRENDS YOUNIQUE/i.test(home.text));
   check("home has support number", home.text.includes("8005900581"));
   check("home has the live announcement bar", /announcement-bar/.test(home.text));
   check(
@@ -53,10 +53,10 @@ async function main() {
   );
   check("home shows category counts from the live store", /ANARKALI SUIT/i.test(home.text) && /Products/i.test(home.text));
   check("home hero pricing paragraph removed (Round 12)", !/No hidden charges/i.test(home.text));
-  check("tab title carries the brand name", /<title>[^<]*Designer Clothing[^<]*<\/title>/i.test(home.text));
+  check("tab title carries the brand name", /<title>[^<]*TRENDS YOUNIQUE[^<]*<\/title>/i.test(home.text));
 
   const manifest = await get("/manifest.webmanifest");
-  check("manifest served for installed app", manifest.status === 200 && /Designer Clothing/.test(manifest.text), `status ${manifest.status}`);
+  check("manifest served for installed app", manifest.status === 200 && /TRENDS YOUNIQUE/i.test(manifest.text), `status ${manifest.status}`);
 
   const collection = await get("/collections/lehnga-choli");
   check("collection 200", collection.status === 200, `status ${collection.status}`);
@@ -340,9 +340,11 @@ async function main() {
   const settings = await get("/api/settings");
   check("public settings 200", settings.status === 200, `status ${settings.status}`);
   const settingsBody = JSON.parse(settings.text);
+  // UPI id owner bharega (business detail — hum invent nahi karte); bhara ho to valid ho
   check(
-    "settings expose the UPI id customers pay to",
-    typeof settingsBody.data?.upiId === "string" && settingsBody.data.upiId.includes("@"),
+    "settings UPI id is either unset or a valid VPA",
+    typeof settingsBody.data?.upiId === "string" &&
+      (settingsBody.data.upiId === "" || settingsBody.data.upiId.includes("@")),
     settingsBody.data?.upiId,
   );
   check(
@@ -352,16 +354,17 @@ async function main() {
 
   // festive sale: hero poster + ₹499–₹699 final prices
   // hero: teen device-specific poster (mobile/tablet/desktop) — ek hi download hota hai
-  check("home hero ships a mobile banner", home.text.includes("/images/banners/banner-mobile.webp"));
-  check("home hero ships a tablet banner", home.text.includes("/images/banners/banner-tablet.webp"));
-  check("home hero ships a desktop banner", home.text.includes("/images/banners/banner-desktop.webp"));
+  check("home hero ships a mobile banner", home.text.includes("diwali-75-off-mobile.webp"));
+  check("home hero ships a tablet banner", home.text.includes("diwali-75-off-tablet.webp"));
+  check("home hero ships a desktop banner", home.text.includes("diwali-75-off-desktop.webp"));
   check(
     "hero uses <picture> with min-width media queries",
-    /<picture>[\s\S]{0,600}min-width:1024px[\s\S]{0,600}min-width:768px/.test(home.text),
+    /<picture>[\s\S]{0,700}min-width:1024px[\s\S]{0,700}min-width:768px/.test(home.text),
   );
-  // logo: device-specific variants, ek hi <picture> me
-  check("header logo has desktop/tablet/mobile variants", ["logo-desktop.png", "logo-tablet.png", "logo-mobile.png"].every((file) => home.text.includes(file)));
-  check("tab icon points at the brand logo", /rel="icon"[^>]*\/images\/brand\/logo-mark/i.test(home.text));
+  // logo: owner ka ek hi original lockup (crest + wordmark), cream variant footer me
+  check("header logo is the owner's lockup", home.text.includes("trends-header.png"));
+  check("footer logo uses the cream variant", home.text.includes("trends-header-cream.png"));
+  check("tab icon points at the brand mark", /rel="icon"[^>]*\/images\/brand\/trends-mark/i.test(home.text));
   const salePrices = [...home.text.matchAll(/Rs\. (499|549|599|649|699)\b/g)].map((match) => match[1]);
   check("home lists sale prices (499/549/599/649/699)", salePrices.length > 0, String(salePrices.length));
   check(

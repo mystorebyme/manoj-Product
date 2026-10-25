@@ -8,6 +8,7 @@ import { FloatingHelp } from "@/components/floating-help";
 import { AnnouncementBar } from "@/components/announcement-bar";
 import { WishlistProvider } from "@/components/wishlist-provider";
 import { StoreSettingsProvider } from "@/components/store-settings-provider";
+import { Analytics } from "@/components/analytics";
 import { brandAssets, logoMark, siteConfig } from "@/config/site";
 import { assetUrl } from "@/lib/format";
 
@@ -51,6 +52,14 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image" },
   alternates: { canonical: "/" },
   robots: { index: true, follow: true },
+  /**
+   * Google Search Console verification — owner ke account se.
+   * Env `NEXT_PUBLIC_GSC_VERIFICATION` se badla ja sakta hai (naya property add karein to).
+   */
+  verification: {
+    google:
+      process.env.NEXT_PUBLIC_GSC_VERIFICATION ?? "hFaqyp-9LdUXSKPA9RF011TkO2m_-7AUMasXqm_0dGI",
+  },
 };
 
 export const viewport: Viewport = {
@@ -87,6 +96,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           </WishlistProvider>
         </CartProvider>
         </StoreSettingsProvider>
+        {/* GA4 — har page ka page_view (NEXT_PUBLIC_GA_ID set hone par hi load hota hai) */}
+        <Analytics />
       </body>
     </html>
   );

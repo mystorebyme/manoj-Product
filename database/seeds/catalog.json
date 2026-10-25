@@ -7,13 +7,13 @@
   "moneyUnit": "paise",
   "builtAt": "2026-10-24T16:20:52.051Z",
   "snapshotAt": "2026-10-24T06:51:35.543Z",
-  "productCount": 449,
+  "productCount": 517,
   "liveProductCount": 287,
   "extraProductCount": 159,
   "listedProductCount": 433,
   "colourGroupCount": 12,
-  "imageCount": 2907,
-  "ownProductCount": 3
+  "imageCount": 2991,
+  "ownProductCount": 71
  },
  "collections": [
   {
@@ -1551,15 +1551,5381 @@
  },
  "products": [
   {
+   "handle": "meera-mint-green-gota-pearl-kurta-set",
+   "sourceHandle": "meera-mint-green-gota-pearl-kurta-set",
+   "title": "Meera Mint Green Gota Pearl Kurta Set",
+   "price": 67500,
+   "compareAtPrice": 269900,
+   "images": [
+    "/images/shop/meera-mint-green-gota-pearl-kurta-set/1.webp",
+    "/images/shop/meera-mint-green-gota-pearl-kurta-set/2.webp",
+    "/images/shop/meera-mint-green-gota-pearl-kurta-set/3.webp",
+    "/images/shop/meera-mint-green-gota-pearl-kurta-set/4.webp",
+    "/images/shop/meera-mint-green-gota-pearl-kurta-set/5.webp"
+   ],
+   "collections": [
+    "new-arrivals",
+    "suit-set-gown",
+    "trends-signature"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Mint Green",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Mint Green",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Meera Mint Green Gota Pearl Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Mint Green. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Meera Mint Green Gota Pearl Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Mint Green</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": true,
+   "publishedAt": "2026-10-25T06:04:45.833Z"
+  },
+  {
+   "handle": "ruhi-wine-anarkali-floral-sleeve-set",
+   "sourceHandle": "ruhi-wine-anarkali-floral-sleeve-set",
+   "title": "Ruhi Wine Anarkali with Floral Sleeve Work",
+   "price": 82500,
+   "compareAtPrice": 329900,
+   "images": [
+    "/images/shop/ruhi-wine-anarkali-floral-sleeve-set/1.webp",
+    "/images/shop/ruhi-wine-anarkali-floral-sleeve-set/2.webp",
+    "/images/shop/ruhi-wine-anarkali-floral-sleeve-set/3.webp",
+    "/images/shop/ruhi-wine-anarkali-floral-sleeve-set/4.webp",
+    "/images/shop/ruhi-wine-anarkali-floral-sleeve-set/5.webp",
+    "/images/shop/ruhi-wine-anarkali-floral-sleeve-set/6.webp",
+    "/images/shop/ruhi-wine-anarkali-floral-sleeve-set/7.webp",
+    "/images/shop/ruhi-wine-anarkali-floral-sleeve-set/8.webp",
+    "/images/shop/ruhi-wine-anarkali-floral-sleeve-set/9.webp"
+   ],
+   "collections": [
+    "new-arrivals",
+    "party-wear-gown",
+    "weddin-collection"
+   ],
+   "category": "anarkali",
+   "productType": "Suit set",
+   "fabric": "Georgette",
+   "color": "Wine",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 82500,
+     "compareAtPrice": 329900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 82500,
+     "compareAtPrice": 329900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 82500,
+     "compareAtPrice": 329900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 82500,
+     "compareAtPrice": 329900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 82500,
+     "compareAtPrice": 329900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 82500,
+     "compareAtPrice": 329900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 82500,
+     "compareAtPrice": 329900,
+     "available": true
+    }
+   },
+   "details": [
+    "Georgette 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Wine",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Ruhi Wine Anarkali with Floral Sleeve Work. Georgette 3-piece set — kurta, bottom aur dupatta. Colour: Wine. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Ruhi Wine Anarkali with Floral Sleeve Work</p><ul><li>Georgette 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Wine</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": true,
+   "publishedAt": "2026-10-25T06:04:46.770Z"
+  },
+  {
+   "handle": "dhriti-green-leaf-print-dupatta-anarkali",
+   "sourceHandle": "dhriti-green-leaf-print-dupatta-anarkali",
+   "title": "Dhriti Green Anarkali with Leaf-Print Dupatta",
+   "price": 72500,
+   "compareAtPrice": 289900,
+   "images": [
+    "/images/shop/dhriti-green-leaf-print-dupatta-anarkali/1.webp",
+    "/images/shop/dhriti-green-leaf-print-dupatta-anarkali/2.webp"
+   ],
+   "collections": [
+    "new-arrivals",
+    "party-wear-gown"
+   ],
+   "category": "anarkali",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Light Green",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 72500,
+     "compareAtPrice": 289900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 72500,
+     "compareAtPrice": 289900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 72500,
+     "compareAtPrice": 289900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 72500,
+     "compareAtPrice": 289900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 72500,
+     "compareAtPrice": 289900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 72500,
+     "compareAtPrice": 289900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 72500,
+     "compareAtPrice": 289900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Light Green",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Dhriti Green Anarkali with Leaf-Print Dupatta. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Light Green. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Dhriti Green Anarkali with Leaf-Print Dupatta</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Light Green</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": true,
+   "publishedAt": "2026-10-25T06:04:47.025Z"
+  },
+  {
+   "handle": "saanjh-olive-silk-kurta-pant-set",
+   "sourceHandle": "saanjh-olive-silk-kurta-pant-set",
+   "title": "Saanjh Olive Silk Kurta & Pant Set",
+   "price": 75000,
+   "compareAtPrice": 299900,
+   "images": [
+    "/images/shop/saanjh-olive-silk-kurta-pant-set/1.webp",
+    "/images/shop/saanjh-olive-silk-kurta-pant-set/2.webp"
+   ],
+   "collections": [
+    "new-arrivals",
+    "suit-set-gown"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Silk Blend",
+   "color": "Olive",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 75000,
+     "compareAtPrice": 299900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 75000,
+     "compareAtPrice": 299900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 75000,
+     "compareAtPrice": 299900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 75000,
+     "compareAtPrice": 299900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 75000,
+     "compareAtPrice": 299900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 75000,
+     "compareAtPrice": 299900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 75000,
+     "compareAtPrice": 299900,
+     "available": true
+    }
+   },
+   "details": [
+    "Silk Blend 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Olive",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Saanjh Olive Silk Kurta & Pant Set. Silk Blend 3-piece set — kurta, bottom aur dupatta. Colour: Olive. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Saanjh Olive Silk Kurta & Pant Set</p><ul><li>Silk Blend 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Olive</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": true,
+   "publishedAt": "2026-10-25T06:04:47.359Z"
+  },
+  {
+   "handle": "tara-brown-zari-tree-kurta-set",
+   "sourceHandle": "tara-brown-zari-tree-kurta-set",
+   "title": "Tara Brown Zari Tree Kurta Set",
+   "price": 70000,
+   "compareAtPrice": 279900,
+   "images": [
+    "/images/shop/tara-brown-zari-tree-kurta-set/1.webp",
+    "/images/shop/tara-brown-zari-tree-kurta-set/2.webp",
+    "/images/shop/tara-brown-zari-tree-kurta-set/3.webp"
+   ],
+   "collections": [
+    "new-arrivals",
+    "suit-set-gown",
+    "trends-signature"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Silk Blend",
+   "color": "Brown",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 70000,
+     "compareAtPrice": 279900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 70000,
+     "compareAtPrice": 279900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 70000,
+     "compareAtPrice": 279900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 70000,
+     "compareAtPrice": 279900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 70000,
+     "compareAtPrice": 279900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 70000,
+     "compareAtPrice": 279900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 70000,
+     "compareAtPrice": 279900,
+     "available": true
+    }
+   },
+   "details": [
+    "Silk Blend 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Brown",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Tara Brown Zari Tree Kurta Set. Silk Blend 3-piece set — kurta, bottom aur dupatta. Colour: Brown. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Tara Brown Zari Tree Kurta Set</p><ul><li>Silk Blend 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Brown</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": true,
+   "publishedAt": "2026-10-25T06:04:47.811Z"
+  },
+  {
+   "handle": "gulaabi-rani-pink-flared-anarkali",
+   "sourceHandle": "gulaabi-rani-pink-flared-anarkali",
+   "title": "Gulaabi Rani Pink Flared Anarkali",
+   "price": 80000,
+   "compareAtPrice": 319900,
+   "images": [
+    "/images/shop/gulaabi-rani-pink-flared-anarkali/1.webp"
+   ],
+   "collections": [
+    "party-wear-gown",
+    "weddin-collection"
+   ],
+   "category": "anarkali",
+   "productType": "Suit set",
+   "fabric": "Georgette",
+   "color": "Rani Pink",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 80000,
+     "compareAtPrice": 319900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 80000,
+     "compareAtPrice": 319900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 80000,
+     "compareAtPrice": 319900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 80000,
+     "compareAtPrice": 319900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 80000,
+     "compareAtPrice": 319900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 80000,
+     "compareAtPrice": 319900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 80000,
+     "compareAtPrice": 319900,
+     "available": true
+    }
+   },
+   "details": [
+    "Georgette 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Rani Pink",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Gulaabi Rani Pink Flared Anarkali. Georgette 3-piece set — kurta, bottom aur dupatta. Colour: Rani Pink. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Gulaabi Rani Pink Flared Anarkali</p><ul><li>Georgette 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Rani Pink</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:47.860Z"
+  },
+  {
+   "handle": "pari-pink-ikat-print-kurta-set",
+   "sourceHandle": "pari-pink-ikat-print-kurta-set",
+   "title": "Pari Pink Ikat Print Kurta Set",
+   "price": 55000,
+   "compareAtPrice": 219900,
+   "images": [
+    "/images/shop/pari-pink-ikat-print-kurta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set",
+    "suit-set-gown"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Pink",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Pink",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Pari Pink Ikat Print Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Pink. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Pari Pink Ikat Print Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Pink</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:47.985Z"
+  },
+  {
+   "handle": "gulaal-pink-net-dupatta-anarkali",
+   "sourceHandle": "gulaal-pink-net-dupatta-anarkali",
+   "title": "Gulaal Pink Anarkali with Net Dupatta",
+   "price": 75000,
+   "compareAtPrice": 299900,
+   "images": [
+    "/images/shop/gulaal-pink-net-dupatta-anarkali/1.webp"
+   ],
+   "collections": [
+    "party-wear-gown",
+    "new-arrivals"
+   ],
+   "category": "anarkali",
+   "productType": "Suit set",
+   "fabric": "Georgette",
+   "color": "Pink",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 75000,
+     "compareAtPrice": 299900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 75000,
+     "compareAtPrice": 299900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 75000,
+     "compareAtPrice": 299900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 75000,
+     "compareAtPrice": 299900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 75000,
+     "compareAtPrice": 299900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 75000,
+     "compareAtPrice": 299900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 75000,
+     "compareAtPrice": 299900,
+     "available": true
+    }
+   },
+   "details": [
+    "Georgette 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Pink",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Gulaal Pink Anarkali with Net Dupatta. Georgette 3-piece set — kurta, bottom aur dupatta. Colour: Pink. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Gulaal Pink Anarkali with Net Dupatta</p><ul><li>Georgette 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Pink</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": true,
+   "publishedAt": "2026-10-25T06:04:48.143Z"
+  },
+  {
+   "handle": "neelam-teal-floral-print-kurta-set",
+   "sourceHandle": "neelam-teal-floral-print-kurta-set",
+   "title": "Neelam Teal Floral Print Kurta Set",
+   "price": 57500,
+   "compareAtPrice": 229900,
+   "images": [
+    "/images/shop/neelam-teal-floral-print-kurta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set",
+    "suit-set-gown"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Teal",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Teal",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Neelam Teal Floral Print Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Teal. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Neelam Teal Floral Print Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Teal</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:48.308Z"
+  },
+  {
+   "handle": "gulnaaz-ivory-bandhani-dupatta-set",
+   "sourceHandle": "gulnaaz-ivory-bandhani-dupatta-set",
+   "title": "Gulnaaz Ivory Kurta with Bandhani Dupatta",
+   "price": 65000,
+   "compareAtPrice": 259900,
+   "images": [
+    "/images/shop/gulnaaz-ivory-bandhani-dupatta-set/1.webp"
+   ],
+   "collections": [
+    "new-arrivals",
+    "suit-set-gown"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Ivory",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Ivory",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Gulnaaz Ivory Kurta with Bandhani Dupatta. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Ivory. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Gulnaaz Ivory Kurta with Bandhani Dupatta</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Ivory</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": true,
+   "publishedAt": "2026-10-25T06:04:48.464Z"
+  },
+  {
+   "handle": "zoya-navy-buti-print-kurta-set",
+   "sourceHandle": "zoya-navy-buti-print-kurta-set",
+   "title": "Zoya Navy Buti Print Kurta Set",
+   "price": 57500,
+   "compareAtPrice": 229900,
+   "images": [
+    "/images/shop/zoya-navy-buti-print-kurta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set",
+    "suit-set-gown"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Navy",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Navy",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Zoya Navy Buti Print Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Navy. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Zoya Navy Buti Print Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Navy</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:48.605Z"
+  },
+  {
+   "handle": "ira-rust-printed-kurta-set",
+   "sourceHandle": "ira-rust-printed-kurta-set",
+   "title": "Ira Rust Printed Kurta Set",
+   "price": 55000,
+   "compareAtPrice": 219900,
+   "images": [
+    "/images/shop/ira-rust-printed-kurta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Rust",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Rust",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Ira Rust Printed Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Rust. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Ira Rust Printed Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Rust</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:48.778Z"
+  },
+  {
+   "handle": "aanya-orange-buti-kurta-palazzo-set",
+   "sourceHandle": "aanya-orange-buti-kurta-palazzo-set",
+   "title": "Aanya Orange Buti Kurta & Palazzo Set",
+   "price": 52500,
+   "compareAtPrice": 209900,
+   "images": [
+    "/images/shop/aanya-orange-buti-kurta-palazzo-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set",
+    "suit-set-gown"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Orange",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 52500,
+     "compareAtPrice": 209900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 52500,
+     "compareAtPrice": 209900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 52500,
+     "compareAtPrice": 209900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 52500,
+     "compareAtPrice": 209900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 52500,
+     "compareAtPrice": 209900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 52500,
+     "compareAtPrice": 209900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 52500,
+     "compareAtPrice": 209900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Orange",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Aanya Orange Buti Kurta & Palazzo Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Orange. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Aanya Orange Buti Kurta & Palazzo Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Orange</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:48.914Z"
+  },
+  {
+   "handle": "mahira-magenta-ikat-kurta-set",
+   "sourceHandle": "mahira-magenta-ikat-kurta-set",
+   "title": "Mahira Magenta Ikat Print Kurta Set",
+   "price": 55000,
+   "compareAtPrice": 219900,
+   "images": [
+    "/images/shop/mahira-magenta-ikat-kurta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Magenta",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Magenta",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Mahira Magenta Ikat Print Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Magenta. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Mahira Magenta Ikat Print Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Magenta</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:49.038Z"
+  },
+  {
+   "handle": "saanvi-yellow-foil-print-kurta-set",
+   "sourceHandle": "saanvi-yellow-foil-print-kurta-set",
+   "title": "Saanvi Yellow Foil Print Kurta Set",
+   "price": 60000,
+   "compareAtPrice": 239900,
+   "images": [
+    "/images/shop/saanvi-yellow-foil-print-kurta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set",
+    "new-arrivals"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Yellow",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 60000,
+     "compareAtPrice": 239900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 60000,
+     "compareAtPrice": 239900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 60000,
+     "compareAtPrice": 239900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 60000,
+     "compareAtPrice": 239900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 60000,
+     "compareAtPrice": 239900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 60000,
+     "compareAtPrice": 239900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 60000,
+     "compareAtPrice": 239900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Yellow",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Saanvi Yellow Foil Print Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Yellow. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Saanvi Yellow Foil Print Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Yellow</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": true,
+   "publishedAt": "2026-10-25T06:04:49.212Z"
+  },
+  {
+   "handle": "tara-teal-white-print-kurta-set",
+   "sourceHandle": "tara-teal-white-print-kurta-set",
+   "title": "Tara Teal White-Print Kurta Set",
+   "price": 57500,
+   "compareAtPrice": 229900,
+   "images": [
+    "/images/shop/tara-teal-white-print-kurta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Teal",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Teal",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Tara Teal White-Print Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Teal. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Tara Teal White-Print Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Teal</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:49.361Z"
+  },
+  {
+   "handle": "naina-mint-floral-kurta-set",
+   "sourceHandle": "naina-mint-floral-kurta-set",
+   "title": "Naina Mint Floral Print Kurta Set",
+   "price": 55000,
+   "compareAtPrice": 219900,
+   "images": [
+    "/images/shop/naina-mint-floral-kurta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Mint",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Mint",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Naina Mint Floral Print Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Mint. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Naina Mint Floral Print Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Mint</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:49.525Z"
+  },
+  {
+   "handle": "vanya-green-jaal-print-kurta-set",
+   "sourceHandle": "vanya-green-jaal-print-kurta-set",
+   "title": "Vanya Green Jaal Print Kurta Set",
+   "price": 57500,
+   "compareAtPrice": 229900,
+   "images": [
+    "/images/shop/vanya-green-jaal-print-kurta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Green",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Green",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Vanya Green Jaal Print Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Green. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Vanya Green Jaal Print Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Green</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:49.686Z"
+  },
+  {
+   "handle": "kiara-navy-sequin-buti-kurta-set",
+   "sourceHandle": "kiara-navy-sequin-buti-kurta-set",
+   "title": "Kiara Navy Sequin Buti Kurta Set",
+   "price": 65000,
+   "compareAtPrice": 259900,
+   "images": [
+    "/images/shop/kiara-navy-sequin-buti-kurta-set/1.webp"
+   ],
+   "collections": [
+    "party-wear-gown",
+    "suit-set-gown"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Georgette",
+   "color": "Navy",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    }
+   },
+   "details": [
+    "Georgette 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Navy",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Kiara Navy Sequin Buti Kurta Set. Georgette 3-piece set — kurta, bottom aur dupatta. Colour: Navy. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Kiara Navy Sequin Buti Kurta Set</p><ul><li>Georgette 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Navy</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:49.829Z"
+  },
+  {
+   "handle": "reeva-chartreuse-print-kurta-set",
+   "sourceHandle": "reeva-chartreuse-print-kurta-set",
+   "title": "Reeva Chartreuse Print Kurta Set",
+   "price": 52500,
+   "compareAtPrice": 209900,
+   "images": [
+    "/images/shop/reeva-chartreuse-print-kurta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Chartreuse",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 52500,
+     "compareAtPrice": 209900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 52500,
+     "compareAtPrice": 209900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 52500,
+     "compareAtPrice": 209900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 52500,
+     "compareAtPrice": 209900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 52500,
+     "compareAtPrice": 209900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 52500,
+     "compareAtPrice": 209900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 52500,
+     "compareAtPrice": 209900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Chartreuse",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Reeva Chartreuse Print Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Chartreuse. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Reeva Chartreuse Print Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Chartreuse</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:49.977Z"
+  },
+  {
+   "handle": "amaira-turquoise-mirror-kurta-set",
+   "sourceHandle": "amaira-turquoise-mirror-kurta-set",
+   "title": "Amaira Turquoise Mirror-Work Kurta Set",
+   "price": 62500,
+   "compareAtPrice": 249900,
+   "images": [
+    "/images/shop/amaira-turquoise-mirror-kurta-set/1.webp"
+   ],
+   "collections": [
+    "new-arrivals",
+    "suit-set-gown"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Georgette",
+   "color": "Turquoise",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    }
+   },
+   "details": [
+    "Georgette 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Turquoise",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Amaira Turquoise Mirror-Work Kurta Set. Georgette 3-piece set — kurta, bottom aur dupatta. Colour: Turquoise. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Amaira Turquoise Mirror-Work Kurta Set</p><ul><li>Georgette 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Turquoise</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": true,
+   "publishedAt": "2026-10-25T06:04:50.097Z"
+  },
+  {
+   "handle": "meher-olive-ajrakh-kurta-set",
+   "sourceHandle": "meher-olive-ajrakh-kurta-set",
+   "title": "Meher Olive Ajrakh Print Kurta Set",
+   "price": 57500,
+   "compareAtPrice": 229900,
+   "images": [
+    "/images/shop/meher-olive-ajrakh-kurta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Olive",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Olive",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Meher Olive Ajrakh Print Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Olive. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Meher Olive Ajrakh Print Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Olive</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:50.260Z"
+  },
+  {
+   "handle": "isha-burgundy-dot-print-kurta-set",
+   "sourceHandle": "isha-burgundy-dot-print-kurta-set",
+   "title": "Isha Burgundy Dot-Print Kurta Set",
+   "price": 55000,
+   "compareAtPrice": 219900,
+   "images": [
+    "/images/shop/isha-burgundy-dot-print-kurta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Burgundy",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Burgundy",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Isha Burgundy Dot-Print Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Burgundy. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Isha Burgundy Dot-Print Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Burgundy</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:50.439Z"
+  },
+  {
+   "handle": "nitya-grey-blue-buti-kurta-set",
+   "sourceHandle": "nitya-grey-blue-buti-kurta-set",
+   "title": "Nitya Grey Blue-Buti Kurta Set",
+   "price": 52500,
+   "compareAtPrice": 209900,
+   "images": [
+    "/images/shop/nitya-grey-blue-buti-kurta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Grey Blue",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 52500,
+     "compareAtPrice": 209900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 52500,
+     "compareAtPrice": 209900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 52500,
+     "compareAtPrice": 209900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 52500,
+     "compareAtPrice": 209900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 52500,
+     "compareAtPrice": 209900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 52500,
+     "compareAtPrice": 209900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 52500,
+     "compareAtPrice": 209900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Grey Blue",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Nitya Grey Blue-Buti Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Grey Blue. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Nitya Grey Blue-Buti Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Grey Blue</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:50.602Z"
+  },
+  {
+   "handle": "riya-navy-paisley-kurta-set",
+   "sourceHandle": "riya-navy-paisley-kurta-set",
+   "title": "Riya Navy Paisley Print Kurta Set",
+   "price": 55000,
+   "compareAtPrice": 219900,
+   "images": [
+    "/images/shop/riya-navy-paisley-kurta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Navy",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Navy",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Riya Navy Paisley Print Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Navy. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Riya Navy Paisley Print Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Navy</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:50.759Z"
+  },
+  {
+   "handle": "kiyara-beige-sheer-dupatta-set",
+   "sourceHandle": "kiyara-beige-sheer-dupatta-set",
+   "title": "Kiyara Beige Kurta with Sheer Printed Dupatta",
+   "price": 60000,
+   "compareAtPrice": 239900,
+   "images": [
+    "/images/shop/kiyara-beige-sheer-dupatta-set/1.webp"
+   ],
+   "collections": [
+    "suit-set-gown"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Beige",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 60000,
+     "compareAtPrice": 239900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 60000,
+     "compareAtPrice": 239900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 60000,
+     "compareAtPrice": 239900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 60000,
+     "compareAtPrice": 239900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 60000,
+     "compareAtPrice": 239900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 60000,
+     "compareAtPrice": 239900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 60000,
+     "compareAtPrice": 239900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Beige",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Kiyara Beige Kurta with Sheer Printed Dupatta. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Beige. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Kiyara Beige Kurta with Sheer Printed Dupatta</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Beige</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:50.909Z"
+  },
+  {
+   "handle": "ahana-olive-white-print-kurta-set",
+   "sourceHandle": "ahana-olive-white-print-kurta-set",
+   "title": "Ahana Olive White-Print Kurta Set",
+   "price": 55000,
+   "compareAtPrice": 219900,
+   "images": [
+    "/images/shop/ahana-olive-white-print-kurta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Olive",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Olive",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Ahana Olive White-Print Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Olive. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Ahana Olive White-Print Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Olive</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:51.084Z"
+  },
+  {
+   "handle": "dhara-magenta-fringe-dupatta-set",
+   "sourceHandle": "dhara-magenta-fringe-dupatta-set",
+   "title": "Dhara Magenta Kurta with Fringe Dupatta",
+   "price": 65000,
+   "compareAtPrice": 259900,
+   "images": [
+    "/images/shop/dhara-magenta-fringe-dupatta-set/1.webp"
+   ],
+   "collections": [
+    "weddin-collection",
+    "suit-set-gown"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Silk Blend",
+   "color": "Magenta",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    }
+   },
+   "details": [
+    "Silk Blend 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Magenta",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Dhara Magenta Kurta with Fringe Dupatta. Silk Blend 3-piece set — kurta, bottom aur dupatta. Colour: Magenta. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Dhara Magenta Kurta with Fringe Dupatta</p><ul><li>Silk Blend 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Magenta</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:51.225Z"
+  },
+  {
+   "handle": "noor-black-floral-applique-kurta-set",
+   "sourceHandle": "noor-black-floral-applique-kurta-set",
+   "title": "Noor Black Floral Applique Kurta Set",
+   "price": 67500,
+   "compareAtPrice": 269900,
+   "images": [
+    "/images/shop/noor-black-floral-applique-kurta-set/1.webp"
+   ],
+   "collections": [
+    "party-wear-gown",
+    "new-arrivals"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Organza",
+   "color": "Black",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    }
+   },
+   "details": [
+    "Organza 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Black",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Noor Black Floral Applique Kurta Set. Organza 3-piece set — kurta, bottom aur dupatta. Colour: Black. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Noor Black Floral Applique Kurta Set</p><ul><li>Organza 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Black</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": true,
+   "publishedAt": "2026-10-25T06:04:51.396Z"
+  },
+  {
+   "handle": "zeenat-mustard-geometric-kurta-set",
+   "sourceHandle": "zeenat-mustard-geometric-kurta-set",
+   "title": "Zeenat Mustard Geometric Print Kurta Set",
+   "price": 55000,
+   "compareAtPrice": 219900,
+   "images": [
+    "/images/shop/zeenat-mustard-geometric-kurta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Mustard",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Mustard",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Zeenat Mustard Geometric Print Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Mustard. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Zeenat Mustard Geometric Print Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Mustard</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:51.569Z"
+  },
+  {
+   "handle": "avni-blue-floral-stripe-dupatta-set",
+   "sourceHandle": "avni-blue-floral-stripe-dupatta-set",
+   "title": "Avni Blue Floral Kurta with Stripe Dupatta",
+   "price": 57500,
+   "compareAtPrice": 229900,
+   "images": [
+    "/images/shop/avni-blue-floral-stripe-dupatta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set",
+    "suit-set-gown"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Blue",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Blue",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Avni Blue Floral Kurta with Stripe Dupatta. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Blue. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Avni Blue Floral Kurta with Stripe Dupatta</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Blue</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:51.746Z"
+  },
+  {
+   "handle": "ishita-navy-bloom-kurta-set",
+   "sourceHandle": "ishita-navy-bloom-kurta-set",
+   "title": "Ishita Navy Bloom Print Kurta Set",
+   "price": 57500,
+   "compareAtPrice": 229900,
+   "images": [
+    "/images/shop/ishita-navy-bloom-kurta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Navy",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Navy",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Ishita Navy Bloom Print Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Navy. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Ishita Navy Bloom Print Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Navy</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:51.905Z"
+  },
+  {
+   "handle": "naina-sunflower-batik-kurta-set",
+   "sourceHandle": "naina-sunflower-batik-kurta-set",
+   "title": "Naina Sunflower Batik Print Kurta Set",
+   "price": 57500,
+   "compareAtPrice": 229900,
+   "images": [
+    "/images/shop/naina-sunflower-batik-kurta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set",
+    "new-arrivals"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Yellow",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Yellow",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Naina Sunflower Batik Print Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Yellow. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Naina Sunflower Batik Print Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Yellow</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": true,
+   "publishedAt": "2026-10-25T06:04:52.055Z"
+  },
+  {
+   "handle": "gulmohar-red-rose-print-kurta-set",
+   "sourceHandle": "gulmohar-red-rose-print-kurta-set",
+   "title": "Gulmohar Red Rose-Print Kurta Set",
+   "price": 57500,
+   "compareAtPrice": 229900,
+   "images": [
+    "/images/shop/gulmohar-red-rose-print-kurta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set",
+    "new-arrivals"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Red",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Red",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Gulmohar Red Rose-Print Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Red. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Gulmohar Red Rose-Print Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Red</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": true,
+   "publishedAt": "2026-10-25T06:04:52.213Z"
+  },
+  {
+   "handle": "tanvi-yellow-ikat-kurta-set",
+   "sourceHandle": "tanvi-yellow-ikat-kurta-set",
+   "title": "Tanvi Yellow Ikat Print Kurta Set",
+   "price": 55000,
+   "compareAtPrice": 219900,
+   "images": [
+    "/images/shop/tanvi-yellow-ikat-kurta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Yellow",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Yellow",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Tanvi Yellow Ikat Print Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Yellow. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Tanvi Yellow Ikat Print Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Yellow</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:52.368Z"
+  },
+  {
+   "handle": "lavanya-lilac-abstract-kurta-set",
+   "sourceHandle": "lavanya-lilac-abstract-kurta-set",
+   "title": "Lavanya Lilac Abstract Print Kurta Set",
+   "price": 55000,
+   "compareAtPrice": 219900,
+   "images": [
+    "/images/shop/lavanya-lilac-abstract-kurta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Lilac",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Lilac",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Lavanya Lilac Abstract Print Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Lilac. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Lavanya Lilac Abstract Print Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Lilac</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:52.516Z"
+  },
+  {
+   "handle": "pihu-pink-block-print-kurta-set",
+   "sourceHandle": "pihu-pink-block-print-kurta-set",
+   "title": "Pihu Pink Block-Print Kurta Set",
+   "price": 55000,
+   "compareAtPrice": 219900,
+   "images": [
+    "/images/shop/pihu-pink-block-print-kurta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Pink",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Pink",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Pihu Pink Block-Print Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Pink. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Pihu Pink Block-Print Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Pink</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:52.674Z"
+  },
+  {
+   "handle": "akira-mustard-ajrakh-dupatta-set",
+   "sourceHandle": "akira-mustard-ajrakh-dupatta-set",
+   "title": "Akira Mustard Kurta with Ajrakh Dupatta",
+   "price": 57500,
+   "compareAtPrice": 229900,
+   "images": [
+    "/images/shop/akira-mustard-ajrakh-dupatta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set",
+    "suit-set-gown"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Mustard",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Mustard",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Akira Mustard Kurta with Ajrakh Dupatta. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Mustard. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Akira Mustard Kurta with Ajrakh Dupatta</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Mustard</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:52.839Z"
+  },
+  {
+   "handle": "myra-mauve-floral-kurta-set",
+   "sourceHandle": "myra-mauve-floral-kurta-set",
+   "title": "Myra Mauve Floral Print Kurta Set",
+   "price": 55000,
+   "compareAtPrice": 219900,
+   "images": [
+    "/images/shop/myra-mauve-floral-kurta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Mauve",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Mauve",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Myra Mauve Floral Print Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Mauve. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Myra Mauve Floral Print Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Mauve</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:52.987Z"
+  },
+  {
+   "handle": "iraa-blush-ikat-kurta-set",
+   "sourceHandle": "iraa-blush-ikat-kurta-set",
+   "title": "Iraa Blush Ikat Print Kurta Set",
+   "price": 55000,
+   "compareAtPrice": 219900,
+   "images": [
+    "/images/shop/iraa-blush-ikat-kurta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Blush Pink",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Blush Pink",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Iraa Blush Ikat Print Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Blush Pink. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Iraa Blush Ikat Print Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Blush Pink</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:53.139Z"
+  },
+  {
+   "handle": "siya-purple-ikat-stripe-palazzo-set",
+   "sourceHandle": "siya-purple-ikat-stripe-palazzo-set",
+   "title": "Siya Purple Ikat Kurta with Stripe Palazzo",
+   "price": 55000,
+   "compareAtPrice": 219900,
+   "images": [
+    "/images/shop/siya-purple-ikat-stripe-palazzo-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Purple",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Purple",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Siya Purple Ikat Kurta with Stripe Palazzo. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Purple. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Siya Purple Ikat Kurta with Stripe Palazzo</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Purple</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:53.288Z"
+  },
+  {
+   "handle": "janki-maroon-block-print-kurta-set",
+   "sourceHandle": "janki-maroon-block-print-kurta-set",
+   "title": "Janki Maroon Block-Print Kurta Set",
+   "price": 57500,
+   "compareAtPrice": 229900,
+   "images": [
+    "/images/shop/janki-maroon-block-print-kurta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set",
+    "suit-set-gown"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Maroon",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Maroon",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Janki Maroon Block-Print Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Maroon. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Janki Maroon Block-Print Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Maroon</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:53.450Z"
+  },
+  {
+   "handle": "ruhi-rani-pink-flare-anarkali",
+   "sourceHandle": "ruhi-rani-pink-flare-anarkali",
+   "title": "Ruhi Rani Pink Flare Anarkali Set",
+   "price": 80000,
+   "compareAtPrice": 319900,
+   "images": [
+    "/images/shop/ruhi-rani-pink-flare-anarkali/1.webp"
+   ],
+   "collections": [
+    "party-wear-gown",
+    "new-arrivals"
+   ],
+   "category": "anarkali",
+   "productType": "Suit set",
+   "fabric": "Georgette",
+   "color": "Rani Pink",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 80000,
+     "compareAtPrice": 319900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 80000,
+     "compareAtPrice": 319900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 80000,
+     "compareAtPrice": 319900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 80000,
+     "compareAtPrice": 319900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 80000,
+     "compareAtPrice": 319900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 80000,
+     "compareAtPrice": 319900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 80000,
+     "compareAtPrice": 319900,
+     "available": true
+    }
+   },
+   "details": [
+    "Georgette 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Rani Pink",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Ruhi Rani Pink Flare Anarkali Set. Georgette 3-piece set — kurta, bottom aur dupatta. Colour: Rani Pink. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Ruhi Rani Pink Flare Anarkali Set</p><ul><li>Georgette 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Rani Pink</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": true,
+   "publishedAt": "2026-10-25T06:04:53.609Z"
+  },
+  {
+   "handle": "aahana-peach-floral-kurta-set",
+   "sourceHandle": "aahana-peach-floral-kurta-set",
+   "title": "Aahana Peach Floral Kurta Set",
+   "price": 62500,
+   "compareAtPrice": 249900,
+   "images": [
+    "/images/shop/aahana-peach-floral-kurta-set/1.webp"
+   ],
+   "collections": [
+    "suit-set-gown",
+    "printed-suit-set"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Peach",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Peach",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Aahana Peach Floral Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Peach. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Aahana Peach Floral Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Peach</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:53.767Z"
+  },
+  {
+   "handle": "rhea-wine-zari-kurta-set",
+   "sourceHandle": "rhea-wine-zari-kurta-set",
+   "title": "Rhea Wine Zari Kurta Set",
+   "price": 67500,
+   "compareAtPrice": 269900,
+   "images": [
+    "/images/shop/rhea-wine-zari-kurta-set/1.webp"
+   ],
+   "collections": [
+    "weddin-collection",
+    "suit-set-gown"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Silk Blend",
+   "color": "Wine",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    }
+   },
+   "details": [
+    "Silk Blend 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Wine",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Rhea Wine Zari Kurta Set. Silk Blend 3-piece set — kurta, bottom aur dupatta. Colour: Wine. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Rhea Wine Zari Kurta Set</p><ul><li>Silk Blend 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Wine</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:53.920Z"
+  },
+  {
+   "handle": "utsav-rack-assorted-kurta-styles",
+   "sourceHandle": "utsav-rack-assorted-kurta-styles",
+   "title": "Utsav Silk Kurta Set — Assorted Shades",
+   "price": 72500,
+   "compareAtPrice": 289900,
+   "images": [
+    "/images/shop/utsav-rack-assorted-kurta-styles/1.webp"
+   ],
+   "collections": [
+    "suit-set-gown"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Silk Blend",
+   "color": "Assorted",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 72500,
+     "compareAtPrice": 289900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 72500,
+     "compareAtPrice": 289900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 72500,
+     "compareAtPrice": 289900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 72500,
+     "compareAtPrice": 289900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 72500,
+     "compareAtPrice": 289900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 72500,
+     "compareAtPrice": 289900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 72500,
+     "compareAtPrice": 289900,
+     "available": true
+    }
+   },
+   "details": [
+    "Silk Blend 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Assorted",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Utsav Silk Kurta Set — Assorted Shades. Silk Blend 3-piece set — kurta, bottom aur dupatta. Colour: Assorted. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Utsav Silk Kurta Set — Assorted Shades</p><ul><li>Silk Blend 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Assorted</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:54.163Z"
+  },
+  {
+   "handle": "vanya-emerald-booti-kurta-set",
+   "sourceHandle": "vanya-emerald-booti-kurta-set",
+   "title": "Vanya Emerald Gold-Booti Kurta Set",
+   "price": 70000,
+   "compareAtPrice": 279900,
+   "images": [
+    "/images/shop/vanya-emerald-booti-kurta-set/1.webp"
+   ],
+   "collections": [
+    "weddin-collection",
+    "suit-set-gown"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Silk Blend",
+   "color": "Emerald",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 70000,
+     "compareAtPrice": 279900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 70000,
+     "compareAtPrice": 279900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 70000,
+     "compareAtPrice": 279900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 70000,
+     "compareAtPrice": 279900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 70000,
+     "compareAtPrice": 279900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 70000,
+     "compareAtPrice": 279900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 70000,
+     "compareAtPrice": 279900,
+     "available": true
+    }
+   },
+   "details": [
+    "Silk Blend 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Emerald",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Vanya Emerald Gold-Booti Kurta Set. Silk Blend 3-piece set — kurta, bottom aur dupatta. Colour: Emerald. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Vanya Emerald Gold-Booti Kurta Set</p><ul><li>Silk Blend 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Emerald</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:54.323Z"
+  },
+  {
+   "handle": "kashish-copper-zari-border-kurta-set",
+   "sourceHandle": "kashish-copper-zari-border-kurta-set",
+   "title": "Kashish Copper Zari-Border Kurta Set",
+   "price": 67500,
+   "compareAtPrice": 269900,
+   "images": [
+    "/images/shop/kashish-copper-zari-border-kurta-set/1.webp"
+   ],
+   "collections": [
+    "weddin-collection",
+    "new-arrivals"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Silk Blend",
+   "color": "Copper",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    }
+   },
+   "details": [
+    "Silk Blend 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Copper",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Kashish Copper Zari-Border Kurta Set. Silk Blend 3-piece set — kurta, bottom aur dupatta. Colour: Copper. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Kashish Copper Zari-Border Kurta Set</p><ul><li>Silk Blend 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Copper</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": true,
+   "publishedAt": "2026-10-25T06:04:54.529Z"
+  },
+  {
+   "handle": "tara-teal-printed-kurta-set",
+   "sourceHandle": "tara-teal-printed-kurta-set",
+   "title": "Tara Teal Printed Kurta Set",
+   "price": 55000,
+   "compareAtPrice": 219900,
+   "images": [
+    "/images/shop/tara-teal-printed-kurta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Teal",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Teal",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Tara Teal Printed Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Teal. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Tara Teal Printed Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Teal</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:54.693Z"
+  },
+  {
+   "handle": "noor-maroon-floral-applique-hanger-set",
+   "sourceHandle": "noor-maroon-floral-applique-hanger-set",
+   "title": "Noor Maroon Floral Applique Kurta Set",
+   "price": 65000,
+   "compareAtPrice": 259900,
+   "images": [
+    "/images/shop/noor-maroon-floral-applique-hanger-set/1.webp"
+   ],
+   "collections": [
+    "party-wear-gown",
+    "suit-set-gown"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Organza",
+   "color": "Maroon",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    }
+   },
+   "details": [
+    "Organza 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Maroon",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Noor Maroon Floral Applique Kurta Set. Organza 3-piece set — kurta, bottom aur dupatta. Colour: Maroon. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Noor Maroon Floral Applique Kurta Set</p><ul><li>Organza 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Maroon</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:54.813Z"
+  },
+  {
+   "handle": "shreya-teal-thread-work-kurta-set",
+   "sourceHandle": "shreya-teal-thread-work-kurta-set",
+   "title": "Shreya Teal Thread-Work Kurta Set",
+   "price": 65000,
+   "compareAtPrice": 259900,
+   "images": [
+    "/images/shop/shreya-teal-thread-work-kurta-set/1.webp"
+   ],
+   "collections": [
+    "new-arrivals",
+    "suit-set-gown"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Silk Blend",
+   "color": "Teal",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    }
+   },
+   "details": [
+    "Silk Blend 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Teal",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Shreya Teal Thread-Work Kurta Set. Silk Blend 3-piece set — kurta, bottom aur dupatta. Colour: Teal. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Shreya Teal Thread-Work Kurta Set</p><ul><li>Silk Blend 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Teal</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": true,
+   "publishedAt": "2026-10-25T06:04:54.964Z"
+  },
+  {
+   "handle": "zara-black-ivory-ikat-kurta-set",
+   "sourceHandle": "zara-black-ivory-ikat-kurta-set",
+   "title": "Zara Black & Ivory Ikat Kurta Set",
+   "price": 57500,
+   "compareAtPrice": 229900,
+   "images": [
+    "/images/shop/zara-black-ivory-ikat-kurta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Black",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Black",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Zara Black & Ivory Ikat Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Black. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Zara Black & Ivory Ikat Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Black</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:55.122Z"
+  },
+  {
+   "handle": "mehak-cream-floral-kurta-set",
+   "sourceHandle": "mehak-cream-floral-kurta-set",
+   "title": "Mehak Cream Floral Print Kurta Set",
+   "price": 57500,
+   "compareAtPrice": 229900,
+   "images": [
+    "/images/shop/mehak-cream-floral-kurta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set",
+    "suit-set-gown"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Cream",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Cream",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Mehak Cream Floral Print Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Cream. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Mehak Cream Floral Print Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Cream</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:55.284Z"
+  },
+  {
+   "handle": "riddhi-purple-embroidered-yoke-set",
+   "sourceHandle": "riddhi-purple-embroidered-yoke-set",
+   "title": "Riddhi Purple Embroidered Yoke Kurta Set",
+   "price": 65000,
+   "compareAtPrice": 259900,
+   "images": [
+    "/images/shop/riddhi-purple-embroidered-yoke-set/1.webp"
+   ],
+   "collections": [
+    "new-arrivals",
+    "suit-set-gown"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Silk Blend",
+   "color": "Purple",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    }
+   },
+   "details": [
+    "Silk Blend 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Purple",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Riddhi Purple Embroidered Yoke Kurta Set. Silk Blend 3-piece set — kurta, bottom aur dupatta. Colour: Purple. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Riddhi Purple Embroidered Yoke Kurta Set</p><ul><li>Silk Blend 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Purple</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": true,
+   "publishedAt": "2026-10-25T06:04:55.430Z"
+  },
+  {
+   "handle": "anaya-black-multicolour-circle-kurta-set",
+   "sourceHandle": "anaya-black-multicolour-circle-kurta-set",
+   "title": "Anaya Black Circle-Print Kurta Set",
+   "price": 57500,
+   "compareAtPrice": 229900,
+   "images": [
+    "/images/shop/anaya-black-multicolour-circle-kurta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set",
+    "new-arrivals"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Black",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 57500,
+     "compareAtPrice": 229900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Black",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Anaya Black Circle-Print Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Black. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Anaya Black Circle-Print Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Black</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": true,
+   "publishedAt": "2026-10-25T06:04:55.577Z"
+  },
+  {
+   "handle": "saanvi-olive-white-embroidered-set",
+   "sourceHandle": "saanvi-olive-white-embroidered-set",
+   "title": "Saanvi Olive White-Embroidered Kurta Set",
+   "price": 62500,
+   "compareAtPrice": 249900,
+   "images": [
+    "/images/shop/saanvi-olive-white-embroidered-set/1.webp"
+   ],
+   "collections": [
+    "new-arrivals",
+    "suit-set-gown"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Silk Blend",
+   "color": "Olive",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    }
+   },
+   "details": [
+    "Silk Blend 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Olive",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Saanvi Olive White-Embroidered Kurta Set. Silk Blend 3-piece set — kurta, bottom aur dupatta. Colour: Olive. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Saanvi Olive White-Embroidered Kurta Set</p><ul><li>Silk Blend 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Olive</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": true,
+   "publishedAt": "2026-10-25T06:04:55.741Z"
+  },
+  {
+   "handle": "nazia-yellow-zari-kurta-set",
+   "sourceHandle": "nazia-yellow-zari-kurta-set",
+   "title": "Nazia Yellow Zari Kurta Set",
+   "price": 65000,
+   "compareAtPrice": 259900,
+   "images": [
+    "/images/shop/nazia-yellow-zari-kurta-set/1.webp"
+   ],
+   "collections": [
+    "weddin-collection",
+    "new-arrivals"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Silk Blend",
+   "color": "Yellow",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    }
+   },
+   "details": [
+    "Silk Blend 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Yellow",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Nazia Yellow Zari Kurta Set. Silk Blend 3-piece set — kurta, bottom aur dupatta. Colour: Yellow. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Nazia Yellow Zari Kurta Set</p><ul><li>Silk Blend 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Yellow</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": true,
+   "publishedAt": "2026-10-25T06:04:55.896Z"
+  },
+  {
+   "handle": "maitri-mustard-zari-dupatta-set",
+   "sourceHandle": "maitri-mustard-zari-dupatta-set",
+   "title": "Maitri Mustard Zari-Dupatta Kurta Set",
+   "price": 65000,
+   "compareAtPrice": 259900,
+   "images": [
+    "/images/shop/maitri-mustard-zari-dupatta-set/1.webp"
+   ],
+   "collections": [
+    "weddin-collection",
+    "suit-set-gown"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Silk Blend",
+   "color": "Mustard",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 65000,
+     "compareAtPrice": 259900,
+     "available": true
+    }
+   },
+   "details": [
+    "Silk Blend 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Mustard",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Maitri Mustard Zari-Dupatta Kurta Set. Silk Blend 3-piece set — kurta, bottom aur dupatta. Colour: Mustard. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Maitri Mustard Zari-Dupatta Kurta Set</p><ul><li>Silk Blend 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Mustard</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:56.057Z"
+  },
+  {
+   "handle": "iraa-deep-green-floral-anarkali",
+   "sourceHandle": "iraa-deep-green-floral-anarkali",
+   "title": "Iraa Deep Green Floral Anarkali",
+   "price": 75000,
+   "compareAtPrice": 299900,
+   "images": [
+    "/images/shop/iraa-deep-green-floral-anarkali/1.webp"
+   ],
+   "collections": [
+    "party-wear-gown",
+    "new-arrivals"
+   ],
+   "category": "anarkali",
+   "productType": "Suit set",
+   "fabric": "Georgette",
+   "color": "Deep Green",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 75000,
+     "compareAtPrice": 299900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 75000,
+     "compareAtPrice": 299900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 75000,
+     "compareAtPrice": 299900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 75000,
+     "compareAtPrice": 299900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 75000,
+     "compareAtPrice": 299900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 75000,
+     "compareAtPrice": 299900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 75000,
+     "compareAtPrice": 299900,
+     "available": true
+    }
+   },
+   "details": [
+    "Georgette 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Deep Green",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Iraa Deep Green Floral Anarkali. Georgette 3-piece set — kurta, bottom aur dupatta. Colour: Deep Green. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Iraa Deep Green Floral Anarkali</p><ul><li>Georgette 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Deep Green</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": true,
+   "publishedAt": "2026-10-25T06:04:56.224Z"
+  },
+  {
+   "handle": "naina-magenta-ikat-anarkali",
+   "sourceHandle": "naina-magenta-ikat-anarkali",
+   "title": "Naina Magenta Ikat Anarkali",
+   "price": 62500,
+   "compareAtPrice": 249900,
+   "images": [
+    "/images/shop/naina-magenta-ikat-anarkali/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set",
+    "party-wear-gown"
+   ],
+   "category": "anarkali",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Magenta",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Magenta",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Naina Magenta Ikat Anarkali. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Magenta. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Naina Magenta Ikat Anarkali</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Magenta</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:56.384Z"
+  },
+  {
+   "handle": "gulnar-lime-floral-patiala-set",
+   "sourceHandle": "gulnar-lime-floral-patiala-set",
+   "title": "Gulnar Lime Floral Kurta & Patiala Set",
+   "price": 55000,
+   "compareAtPrice": 219900,
+   "images": [
+    "/images/shop/gulnar-lime-floral-patiala-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set",
+    "new-arrivals"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Lime Green",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Lime Green",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Gulnar Lime Floral Kurta & Patiala Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Lime Green. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Gulnar Lime Floral Kurta & Patiala Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Lime Green</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": true,
+   "publishedAt": "2026-10-25T06:04:56.537Z"
+  },
+  {
+   "handle": "vibha-purple-white-ikat-kurta-set",
+   "sourceHandle": "vibha-purple-white-ikat-kurta-set",
+   "title": "Vibha Purple & White Ikat Kurta Set",
+   "price": 55000,
+   "compareAtPrice": 219900,
+   "images": [
+    "/images/shop/vibha-purple-white-ikat-kurta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Purple",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Purple",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Vibha Purple & White Ikat Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Purple. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Vibha Purple & White Ikat Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Purple</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:56.686Z"
+  },
+  {
+   "handle": "aahana-rose-gold-print-kurta-set",
+   "sourceHandle": "aahana-rose-gold-print-kurta-set",
+   "title": "Aahana Rose Gold-Print Kurta Set",
+   "price": 55000,
+   "compareAtPrice": 219900,
+   "images": [
+    "/images/shop/aahana-rose-gold-print-kurta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set",
+    "new-arrivals"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Rose Pink",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Rose Pink",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Aahana Rose Gold-Print Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Rose Pink. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Aahana Rose Gold-Print Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Rose Pink</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": true,
+   "publishedAt": "2026-10-25T06:04:56.851Z"
+  },
+  {
+   "handle": "noor-vermillion-hanger-kurta-set",
+   "sourceHandle": "noor-vermillion-hanger-kurta-set",
+   "title": "Noor Vermillion Gold-Work Kurta Set",
+   "price": 67500,
+   "compareAtPrice": 269900,
+   "images": [
+    "/images/shop/noor-vermillion-hanger-kurta-set/1.webp"
+   ],
+   "collections": [
+    "weddin-collection",
+    "new-arrivals"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Silk Blend",
+   "color": "Vermillion",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 67500,
+     "compareAtPrice": 269900,
+     "available": true
+    }
+   },
+   "details": [
+    "Silk Blend 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Vermillion",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Noor Vermillion Gold-Work Kurta Set. Silk Blend 3-piece set — kurta, bottom aur dupatta. Colour: Vermillion. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Noor Vermillion Gold-Work Kurta Set</p><ul><li>Silk Blend 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Vermillion</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": true,
+   "publishedAt": "2026-10-25T06:04:57.023Z"
+  },
+  {
+   "handle": "gulnaaz-ivory-sheer-dupatta-set",
+   "sourceHandle": "gulnaaz-ivory-sheer-dupatta-set",
+   "title": "Gulnaaz Ivory Kurta with Sheer Dupatta",
+   "price": 60000,
+   "compareAtPrice": 239900,
+   "images": [
+    "/images/shop/gulnaaz-ivory-sheer-dupatta-set/1.webp"
+   ],
+   "collections": [
+    "suit-set-gown",
+    "new-arrivals"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Ivory",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 60000,
+     "compareAtPrice": 239900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 60000,
+     "compareAtPrice": 239900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 60000,
+     "compareAtPrice": 239900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 60000,
+     "compareAtPrice": 239900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 60000,
+     "compareAtPrice": 239900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 60000,
+     "compareAtPrice": 239900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 60000,
+     "compareAtPrice": 239900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Ivory",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Gulnaaz Ivory Kurta with Sheer Dupatta. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Ivory. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Gulnaaz Ivory Kurta with Sheer Dupatta</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Ivory</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": true,
+   "publishedAt": "2026-10-25T06:04:57.181Z"
+  },
+  {
+   "handle": "mahira-white-blue-bloom-kurta-set",
+   "sourceHandle": "mahira-white-blue-bloom-kurta-set",
+   "title": "Mahira White Blue-Bloom Kurta Set",
+   "price": 55000,
+   "compareAtPrice": 219900,
+   "images": [
+    "/images/shop/mahira-white-blue-bloom-kurta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set",
+    "new-arrivals"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "White",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: White",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Mahira White Blue-Bloom Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: White. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Mahira White Blue-Bloom Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: White</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": true,
+   "publishedAt": "2026-10-25T06:04:57.340Z"
+  },
+  {
+   "handle": "zoya-black-white-block-kurta-set",
+   "sourceHandle": "zoya-black-white-block-kurta-set",
+   "title": "Zoya Black & White Block-Print Kurta Set",
+   "price": 55000,
+   "compareAtPrice": 219900,
+   "images": [
+    "/images/shop/zoya-black-white-block-kurta-set/1.webp"
+   ],
+   "collections": [
+    "printed-suit-set"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Mul Cotton",
+   "color": "Black",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 55000,
+     "compareAtPrice": 219900,
+     "available": true
+    }
+   },
+   "details": [
+    "Mul Cotton 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Black",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Zoya Black & White Block-Print Kurta Set. Mul Cotton 3-piece set — kurta, bottom aur dupatta. Colour: Black. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Zoya Black & White Block-Print Kurta Set</p><ul><li>Mul Cotton 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Black</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": false,
+   "publishedAt": "2026-10-25T06:04:57.493Z"
+  },
+  {
+   "handle": "ishani-olive-thread-work-kurta-set",
+   "sourceHandle": "ishani-olive-thread-work-kurta-set",
+   "title": "Ishani Olive Thread-Work Kurta Set",
+   "price": 62500,
+   "compareAtPrice": 249900,
+   "images": [
+    "/images/shop/ishani-olive-thread-work-kurta-set/1.webp"
+   ],
+   "collections": [
+    "new-arrivals",
+    "suit-set-gown"
+   ],
+   "category": "suit-set",
+   "productType": "Suit set",
+   "fabric": "Silk Blend",
+   "color": "Olive Brown",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 62500,
+     "compareAtPrice": 249900,
+     "available": true
+    }
+   },
+   "details": [
+    "Silk Blend 3-piece set — kurta, bottom aur dupatta",
+    "Colour: Olive Brown",
+    "Hand-finished in limited runs, Jaipur atelier",
+    "Mul cotton / silk blend — breathable, all-day comfortable",
+    "Care: gentle hand wash, iron on low heat"
+   ],
+   "description": "Ishani Olive Thread-Work Kurta Set. Silk Blend 3-piece set — kurta, bottom aur dupatta. Colour: Olive Brown. Hand-finished in limited runs, Jaipur atelier. Mul cotton / silk blend — breathable, all-day comfortable. Care: gentle hand wash, iron on low heat.",
+   "descriptionHtml": "<p>Ishani Olive Thread-Work Kurta Set</p><ul><li>Silk Blend 3-piece set — kurta, bottom aur dupatta</li><li>Colour: Olive Brown</li><li>Hand-finished in limited runs, Jaipur atelier</li><li>Mul cotton / silk blend — breathable, all-day comfortable</li><li>Care: gentle hand wash, iron on low heat</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": true,
+   "publishedAt": "2026-10-25T06:04:57.685Z"
+  },
+  {
    "handle": "rani-emerald-silk-lehenga",
    "sourceHandle": "rani-emerald-silk-lehenga",
    "title": "Rani Emerald Raw Silk Gota Lehenga Choli",
-   "price": 349900,
+   "price": 157500,
    "compareAtPrice": 629900,
    "images": [
-    "/images/own/rani-emerald-silk-lehenga-1.jpg",
-    "/images/own/rani-emerald-silk-lehenga-2.jpg",
-    "/images/own/rani-emerald-silk-lehenga-3.jpg"
+    "/images/shop/rani-emerald-silk-lehenga/1.webp",
+    "/images/shop/rani-emerald-silk-lehenga/2.webp",
+    "/images/shop/rani-emerald-silk-lehenga/3.webp"
    ],
    "collections": [
     "new-arrivals",
@@ -1582,38 +6948,38 @@
    ],
    "sizePricing": {
     "XS [34]": {
-     "price": 349900,
+     "price": 157500,
      "compareAtPrice": 629900,
      "available": true
     },
     "S [36]": {
-     "price": 349900,
+     "price": 157500,
      "compareAtPrice": 629900,
      "available": true
     },
     "M [38]": {
-     "price": 349900,
+     "price": 157500,
      "compareAtPrice": 629900,
      "available": true
     },
     "L [40]": {
-     "price": 349900,
+     "price": 157500,
      "compareAtPrice": 629900,
      "available": true
     },
     "XL [42]": {
-     "price": 359900,
-     "compareAtPrice": 639900,
+     "price": 157500,
+     "compareAtPrice": 629900,
      "available": true
     },
     "2XL [44]": {
-     "price": 359900,
-     "compareAtPrice": 639900,
+     "price": 157500,
+     "compareAtPrice": 629900,
      "available": true
     },
     "3XL [46]": {
-     "price": 359900,
-     "compareAtPrice": 639900,
+     "price": 157500,
+     "compareAtPrice": 629900,
      "available": true
     }
    },
@@ -1636,12 +7002,12 @@
    "handle": "noor-ivory-chikankari-set",
    "sourceHandle": "noor-ivory-chikankari-set",
    "title": "Noor Ivory Chikankari Kurta & Palazzo Set",
-   "price": 189900,
+   "price": 87500,
    "compareAtPrice": 349900,
    "images": [
-    "/images/own/noor-ivory-chikankari-1.jpg",
-    "/images/own/noor-ivory-chikankari-2.jpg",
-    "/images/own/noor-ivory-chikankari-3.jpg"
+    "/images/shop/noor-ivory-chikankari-set/1.webp",
+    "/images/shop/noor-ivory-chikankari-set/2.webp",
+    "/images/shop/noor-ivory-chikankari-set/3.webp"
    ],
    "collections": [
     "new-arrivals",
@@ -1663,38 +7029,38 @@
    ],
    "sizePricing": {
     "XS [34]": {
-     "price": 189900,
+     "price": 87500,
      "compareAtPrice": 349900,
      "available": true
     },
     "S [36]": {
-     "price": 189900,
+     "price": 87500,
      "compareAtPrice": 349900,
      "available": true
     },
     "M [38]": {
-     "price": 189900,
+     "price": 87500,
      "compareAtPrice": 349900,
      "available": true
     },
     "L [40]": {
-     "price": 189900,
+     "price": 87500,
      "compareAtPrice": 349900,
      "available": true
     },
     "XL [42]": {
-     "price": 199900,
-     "compareAtPrice": 359900,
+     "price": 87500,
+     "compareAtPrice": 349900,
      "available": true
     },
     "2XL [44]": {
-     "price": 199900,
-     "compareAtPrice": 359900,
+     "price": 87500,
+     "compareAtPrice": 349900,
      "available": true
     },
     "3XL [46]": {
-     "price": 199900,
-     "compareAtPrice": 359900,
+     "price": 87500,
+     "compareAtPrice": 349900,
      "available": true
     }
    },
@@ -1717,12 +7083,12 @@
    "handle": "meher-wine-velvet-anarkali",
    "sourceHandle": "meher-wine-velvet-anarkali",
    "title": "Meher Wine Velvet Zari Anarkali Set",
-   "price": 249900,
+   "price": 115000,
    "compareAtPrice": 459900,
    "images": [
-    "/images/own/meher-wine-velvet-anarkali-1.jpg",
-    "/images/own/meher-wine-velvet-anarkali-2.jpg",
-    "/images/own/meher-wine-velvet-anarkali-3.jpg"
+    "/images/shop/meher-wine-velvet-anarkali/1.webp",
+    "/images/shop/meher-wine-velvet-anarkali/2.webp",
+    "/images/shop/meher-wine-velvet-anarkali/3.webp"
    ],
    "collections": [
     "new-arrivals",
@@ -1745,38 +7111,38 @@
    ],
    "sizePricing": {
     "XS [34]": {
-     "price": 249900,
+     "price": 115000,
      "compareAtPrice": 459900,
      "available": true
     },
     "S [36]": {
-     "price": 249900,
+     "price": 115000,
      "compareAtPrice": 459900,
      "available": true
     },
     "M [38]": {
-     "price": 249900,
+     "price": 115000,
      "compareAtPrice": 459900,
      "available": true
     },
     "L [40]": {
-     "price": 249900,
+     "price": 115000,
      "compareAtPrice": 459900,
      "available": true
     },
     "XL [42]": {
-     "price": 259900,
-     "compareAtPrice": 469900,
+     "price": 115000,
+     "compareAtPrice": 459900,
      "available": true
     },
     "2XL [44]": {
-     "price": 259900,
-     "compareAtPrice": 469900,
+     "price": 115000,
+     "compareAtPrice": 459900,
      "available": true
     },
     "3XL [46]": {
-     "price": 259900,
-     "compareAtPrice": 469900,
+     "price": 115000,
+     "compareAtPrice": 459900,
      "available": true
     }
    },

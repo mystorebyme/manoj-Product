@@ -42,7 +42,9 @@ test("har catalogue product par asli discount exactly 75%", () => {
 });
 
 test("withCampaignPricing: price, MRP aur har size ka price sahi", () => {
-  const product = catalog.products[0]!;
+  // imported product (jiski price abhi campaign ke bahar hai) — own products par
+  // campaign dobara lagai jaaye to price wahi rehni chahiye (idempotent)
+  const product = catalog.products.find((item) => (item as { source?: string }).source !== "own")!;
   const priced = withCampaignPricing(product, DIWALI_2026);
   const mrp = product.compareAtPrice ?? product.price;
   assert.ok(priced.price < product.price, "campaign price kam honi chahiye");
@@ -52,6 +54,14 @@ test("withCampaignPricing: price, MRP aur har size ka price sahi", () => {
     assert.ok(entry.price <= product.sizePricing[size]!.price, `${size}: size price kam nahi hua`);
     assert.ok(entry.price < entry.compareAtPrice!, `${size}: size price MRP se kam nahi`);
   }
+});
+
+test("own product par campaign dobara lagane se price nahi badalti (idempotent)", () => {
+  const own = catalog.products.find((item) => (item as { source?: string }).source === "own");
+  assert.ok(own, "own product catalogue me hona chahiye");
+  const again = withCampaignPricing(own!, DIWALI_2026);
+  assert.equal(again.price, own!.price, "price same rehni chahiye");
+  assert.equal(realDiscountPercent(again.price, again.compareAtPrice ?? 0), 75);
 });
 
 test("MRP na ho to campaign price nahi lagti (jhoothi discount nahi)", () => {
