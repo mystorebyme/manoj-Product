@@ -182,9 +182,7 @@ export function TrackOrderForm() {
 
           {groupedCount ? (
             <div className="mt-5 space-y-2.5" data-testid="track-updates">
-              <p className="text-[10px] tracking-[.16em] text-[#a3948a] uppercase">
-                Team ke updates (sheet se)
-              </p>
+              <p className="text-[10px] tracking-[.16em] text-[#a3948a] uppercase">Team ke updates</p>
               {groups.map((group) => {
                 const done = !cancelled && current >= group.step;
                 const label = STEP_COPY[group.key]?.label ?? group.key;
@@ -273,7 +271,8 @@ export function TrackOrderForm() {
           ) : null}
 
           <p className="mt-4 text-[11px] text-[#8a7d72]" data-testid="track-source">
-            Status seedha store ke Google Sheet se aata hai — team jo update karti hai, wahi yahan dikhta hai.
+            Order ki har update yahan dikhti hai. Status ke saath email aur WhatsApp par bhi
+            bhej diya jaata hai.
           </p>
         </div>
       ) : null}

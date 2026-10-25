@@ -597,3 +597,22 @@ banata hai. Product ID sirf sheet/admin me — storefront par kahin nahi.
 - Site endpoints waise hi (backward compatible). `docs/09-devops/round-37.md`.
 - Site wiring: product page par **sheet stock** line (`lib/sheet-stock.ts`, `?action=stock`),
   row na ho to kuch nahi dikhta — purana behaviour safe.
+
+### Round 38 — asli email + saaf bhasha
+
+- **Email (r18, free `MailApp`)**: har status par customer ko poori detail wali branded email
+  (placed / confirmed / packed / shipped / delivered / cancel) — items + photo, amount,
+  courier/AWB, address, track button. Har mail pehle `MailQueue` tab me, phir turant bhejne ki
+  koshish; fail ho to **30 tak retry** (1/2/5/10/20/30/60/120/180/240 min, phir har 6 ghante,
+  trigger har 10 minute). 30 ke baad bhi na jaye to `Notifications` row + owner alert mail.
+  Owner ko `[Owner copy]` bhi jati hai. `?action=mail_queue` / `mail_test` + menu entries.
+- **Email order ko kabhi nahi rok sakti** — poora block try/catch me, order row pehle save.
+- `adminSetOrderStatus_` fix: email me **naya status + courier + AWB** jata hai (pehle purani
+  row ki copy se banti thi, isliye AWB `—` aata tha). Email me WhatsApp `+91 7740992663` sahi
+  format me (`waDisplay_`).
+- **Bhasha saaf**: "Team ke updates (sheet se)" → "Team ke updates", track page ka sheet-wala
+  paragraph → "Order ki har update yahan dikhti hai…", reviews ka "Google Sheet me save hota
+  hai" → "team check karke publish karti hai", checkout par email ki nayi line. Poori site
+  grep ki — aur koi technical line UI me nahi.
+- Test: `npm run sheet:test` **9/9**, self-test **106 check**, unit suite green.
+- Docs: `docs/09-devops/round-38.md` (owner ke liye redeploy steps).

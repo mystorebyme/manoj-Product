@@ -431,6 +431,10 @@ export function CheckoutForm() {
               <strong>Order ready!</strong> WhatsApp khul gaya hai — bas <em>Send</em> dabaiye. Nahi khula to neeche
               wale button se bhej dein. Order confirm hone par payment ki detail owner WhatsApp par bhejenge.
             </p>
+            <p className="mt-1.5 text-[11px] leading-relaxed text-[#2f6b3f]" data-testid="checkout-email-note">
+              Order ki poori detail aapke email par bhi pahunch jayegi — aur har update (confirm, packed, shipped,
+              delivered) par nayi email aayegi.
+            </p>
             <a
               href={whatsappHref}
               target="_blank"

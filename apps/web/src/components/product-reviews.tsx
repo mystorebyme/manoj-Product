@@ -130,7 +130,7 @@ export function ProductReviews({
           ) : (
             <>
               <p className="text-[12px] leading-relaxed text-[#6f6259]">
-                Apna experience likhiye — review Google Sheet me save hota hai, owner approve karke publish karta hai.
+                Apna experience likhiye — team check karke publish karti hai.
               </p>
               <div className="mt-3 flex flex-wrap items-center gap-2">
                 <span className="text-[10.5px] tracking-[.12em] text-[#8a7d72] uppercase">Rating</span>

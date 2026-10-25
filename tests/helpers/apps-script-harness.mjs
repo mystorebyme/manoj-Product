@@ -269,6 +269,8 @@ export function createHarness(options = {}) {
   const properties = new Map(Object.entries(options.properties ?? {}));
   const cache = new Map();
   const mails = [];
+  /** test ise badal kar mail fail/success kar sakta hai */
+  const mailState = { failAll: false, quota: 100 };
   const fetches = [];
   const triggers = [];
   const alerts = [];
@@ -368,6 +370,8 @@ export function createHarness(options = {}) {
         onEdit: () => builder,
         atHour: () => builder,
         everyDays: () => builder,
+        everyMinutes: () => builder,
+        everyHours: () => builder,
         create: () => {
           triggers.push({ handler, getHandlerFunction: () => handler });
           return triggers[triggers.length - 1];
@@ -383,7 +387,9 @@ export function createHarness(options = {}) {
     ContentService: contentService,
     UrlFetchApp: urlFetchApp,
     MailApp: {
+      getRemainingDailyQuota: () => mailState.quota,
       sendEmail: (message) => {
+        if (mailState.failAll) throw new Error('mail quota / network error (test)');
         mails.push(message);
       },
     },
@@ -418,7 +424,7 @@ export function createHarness(options = {}) {
   vm.createContext(context);
   vm.runInContext(source, context, { filename: "trends-sheets.gs" });
 
-  return { book, context, mails, fetches, alerts, triggers, cache, properties, range };
+  return { book, context, mails, mailState, fetches, alerts, triggers, cache, properties, range };
 }
 
 /** seed data (ProductList / Settings) ek hi jagah */

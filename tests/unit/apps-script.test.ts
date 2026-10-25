@@ -183,3 +183,104 @@ test("onEditAutoStatus: sheet me status badalne par timeline khud banti hai", ()
   assert.equal(timeline.order.step, 2);
   assert.ok(timeline.updates.some((update: { status: string }) => update.status === "packed"));
 });
+
+test("order par asli email jaati hai — placed + shipped, poori detail ke saath", () => {
+  const { context, mails, book } = freshHarness();
+  context.setup();
+  context.writeSettings_({ owner_email: "owner@trendsyounique.test" });
+  context.bustSettingsCache_();
+
+  const placed = context.placeOrder_({
+    customer: {
+      name: "Riya Sharma",
+      phone: "9876543210",
+      email: "riya@example.com",
+      address: "12, Malviya Nagar, Jaipur",
+      city: "Jaipur",
+      state: "Rajasthan",
+      pin: "302017",
+    },
+    items: [{ handle: "saniya-s-pink-gown", size: "M", qty: 2 }],
+    paymentMethod: "upi",
+  });
+  assert.equal(placed.ok, true);
+
+  // customer + owner copy
+  const toCustomer = mails.find((mail: { to: string }) => mail.to === "riya@example.com");
+  assert.ok(toCustomer, "customer ko email nahi gayi");
+  assert.match(String(toCustomer.subject), /LK-/);
+  assert.match(String(toCustomer.htmlBody), /Aapka order|Order/);
+  assert.match(String(toCustomer.htmlBody), /Pink Coloured Party Wear Gown/);
+  assert.match(String(toCustomer.htmlBody), /₹1,198|1,198/);
+  assert.ok(mails.some((mail: { to: string }) => mail.to === "owner@trendsyounique.test"), "owner copy nahi gayi");
+
+  // queue me 'sent' ho gaya
+  const queue = book.getSheetByName("MailQueue")!;
+  const head = queue.getRange(1, 1, 1, queue.getLastColumn()).getValues()[0];
+  const statuses = queue
+    .getRange(2, head.indexOf("Status") + 1, queue.getLastRow() - 1, 1)
+    .getValues()
+    .flat()
+    .map((value: string) => String(value));
+  assert.ok(statuses.every((value: string) => value === "sent"), `queue status: ${statuses.join(",")}`);
+
+  // status badla → nayi email
+  const before = mails.length;
+  context.adminSetOrderStatus_(placed.orderNumber, "shipped", "", true, { courier: "Delhivery", AWB: "AWB999" });
+  assert.ok(mails.length > before, "shipped par email nahi gayi");
+  const shipped = mails[mails.length - 1];
+  assert.match(String(shipped.subject), /ship/i);
+  assert.match(String(shipped.htmlBody), /Delhivery/);
+  assert.match(String(shipped.htmlBody), /AWB999/);
+});
+
+test("mail fail ho to queue 30 baar tak retry karti hai (aur baad me chali jaati hai)", () => {
+  const { context, mails, mailState } = freshHarness();
+  context.setup();
+  mailState.failAll = true;
+
+  const placed = context.placeOrder_({
+    customer: {
+      name: "Amit",
+      phone: "9812345678",
+      email: "amit@example.com",
+      address: "House 5, Sector 4, Jaipur",
+      city: "Jaipur",
+      state: "Rajasthan",
+      pin: "302001",
+    },
+    items: [{ handle: "saniya-s-wine-gown", size: "L", qty: 1 }],
+    paymentMethod: "cod",
+  });
+  assert.equal(placed.ok, true);
+  assert.equal(mails.length, 0, "fail hone ke bawajood mail bhej di");
+
+  const stats = context.mailQueueStats_();
+  assert.ok(stats.retry >= 1, `retry queue khaali: ${JSON.stringify(stats)}`);
+
+  // ab network theek — queue chalane par mail jaye
+  mailState.failAll = false;
+  const flushed = context.processMailQueue_(20, true);
+  assert.ok(flushed.sent >= 1, "retry ke baad mail nahi gayi");
+  assert.ok(mails.length >= 1);
+  assert.equal(context.mailQueueStats_().retry, 0);
+});
+
+test("email endpoints: mail_queue stats aur mail_test (test mail)", () => {
+  const { context, mails } = freshHarness();
+  context.setup();
+  context.writeSettings_({ owner_email: "owner@trendsyounique.test" });
+  context.bustSettingsCache_();
+
+  const queueBody = JSON.parse(
+    context.doGet({ parameter: { action: "mail_queue", token: SELFTEST_MASTER_TOKEN } }).getContent(),
+  );
+  assert.equal(queueBody.ok, true);
+  assert.equal(typeof queueBody.stats.total, "number");
+
+  const testBody = JSON.parse(
+    context.doGet({ parameter: { action: "mail_test", to: "check@example.com", token: SELFTEST_MASTER_TOKEN } }).getContent(),
+  );
+  assert.equal(testBody.ok, true, testBody.message);
+  assert.ok(mails.some((mail: { to: string }) => mail.to === "check@example.com"));
+});

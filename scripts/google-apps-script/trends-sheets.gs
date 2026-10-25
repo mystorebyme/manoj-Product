@@ -1,7 +1,7 @@
 /**
  * ═══════════════════════════════════════════════════════════════════════════
  *  TRENDS YOUNIQUE — poora store, ek Google Sheet ke andar
- *  `trends-sheets.gs` · version 2026-10-25.r17 · ~4,400 lines
+ *  `trends-sheets.gs` · version 2026-10-25.r18 · ~4,400 lines
  * ═══════════════════════════════════════════════════════════════════════════
  *
  *  Ye script aapki Google Sheet ko website ka **database + admin panel** bana
@@ -163,7 +163,7 @@ var WRITE_SHEETS = ['Orders', 'Order Items', 'Enquiries', 'Messages', 'Newslette
 var MAX_WRITE_ROWS = 40;
 
 /** Script version — `?action=ping` se dikhta hai (kaun sa code deploy hai). */
-var VERSION = '2026-10-25.r17';
+var VERSION = '2026-10-25.r18';
 
 var HEADERS = {
   Orders: [
@@ -229,6 +229,11 @@ var HEADERS = {
   AuditLog: ['Timestamp', 'Actor', 'Action', 'Sheet', 'Key', 'Before', 'After'],
   // Size-wise stock — khaali = unlimited (site par "In stock")
   Stock: ['Handle', 'Size', 'Qty', 'Updated'],
+  // Email queue — har status mail pehle yahan, phir bhejne ki koshish (30 retry tak)
+  MailQueue: [
+    'Queued At', 'Order ID', 'To', 'Template', 'Subject', 'Body', 'Attempts', 'Next Try',
+    'Status', 'Last Error',
+  ],
 };
 
 /** Settings ke default keys — website inhe padhti hai */
@@ -262,6 +267,8 @@ var DEFAULT_SETTINGS = [
   ['low_stock_alert', '3', 'Is se kam stock par low-stock list me aata hai'],
   ['tracking_note', '', 'Track page par team ki general line (khaali = nahi dikhega)'],
   ['size_chart_note', '', 'Size chart ke neeche chhoti line (jaise: XL = 44 inch bust)'],
+  ['email_updates', 'true', 'Order status ki email customer ko bhejein (true/false)'],
+  ['email_from_name', 'TRENDS YOUNIQUE', 'Email me bhejne wale ka naam'],
 ];
 
 /* ─────────────────────────── helpers ─────────────────────────── */
@@ -928,6 +935,7 @@ function setup() {
   ensureReturnsTab_();
   ensureNotificationsTab_();
   ensureAuditTab_();
+  ensureMailQueueTab_();
 
   // Reviews: Status dropdown = approval (sirf publish/approved site par jaate hain)
   try {
@@ -1066,11 +1074,20 @@ function writeReadme_() {
     ['Returns', 'Return/exchange request (7 din ke andar, Settings se badal sakte hain)'],
     ['Banners / FAQs / Categories', 'Home page content aur nav — sheet se badalta hai'],
     ['Notifications', 'Kaunsa WhatsApp/email gaya, kab gaya (record)'],
+    ['MailQueue', 'Email bhejne ki queue — Status = sent / retry / failed (owner ke liye)'],
     ['AuditLog', 'Kisne kya badla — status, coupon, stock, settings'],
     [''],
     ['Roz ka kaam', 'Orders tab me Status badal dijiye → customer ko message + track page par timeline khud ban jaati hai'],
     ['Order par 2-3 comment', 'Order Updates tab me usi Order ID + Status ki extra rows jod dijiye (site sab dikhati hai)'],
-    ['Sab theek hai?', 'Menu → TRENDS tools → 9. Sab kuch test karo (self-test) → 97 check, sab pass hone chahiye'],
+    ['Sab theek hai?', 'Menu → TRENDS tools → 9. Sab kuch test karo (self-test) → saare check pass hone chahiye'],
+    [''],
+    ['— NAYA (r18) —', 'Customer ko asli email, apne aap'],
+    ['Email kab jaati hai', 'Placed · confirmed · packed · shipped · delivered · cancel — har status par customer ko poori detail wali email'],
+    ['Email me kya aata hai', 'Order number, saari dresses (photo, colour, size, qty), amount, address, courier + AWB, track button'],
+    ['Email free hai', 'Google ke apne MailApp se jaati hai — koi paid service nahi, koi extra charge nahi'],
+    ['MailQueue', 'Har email pehle yahan queue hoti hai, phir turant bhejne ki koshish. Fail ho to khud 30 baar tak retry (har 10 minute trigger chalta hai)'],
+    ['Email band karni ho', 'Settings tab me email_updates = false'],
+    ['Email test karna ho', 'Menu → TRENDS tools → 3. Orders → Test email bhejo (apni inbox/spam dekh lein)'],
   ];
   sheet.getRange(1, 1, lines.length, 2).setValues(
     lines.map(function (row) {
@@ -1502,6 +1519,21 @@ function doGet(e) {
   if (action === 'reports') {
     return json_(reportsFor_(params.type, params.days, params.limit));
   }
+  /** email queue ka hisaab — kitni bheji, kitni bachi, kitni retry par */
+  if (action === 'mail_queue') {
+    if (params.run) {
+      return json_({
+        ok: true,
+        run: processMailQueue_(params.limit, params.force === '1' || params.force === 'true'),
+        stats: mailQueueStats_(),
+      });
+    }
+    return json_({ ok: true, stats: mailQueueStats_(), quota: mailQuota_(), version: VERSION });
+  }
+  /** test email — `?action=mail_test&to=…` (apne aap par bhej kar dekhein) */
+  if (action === 'mail_test') {
+    return json_(sendTestEmail_(String(params.to || '')));
+  }
   /** returns ki list */
   if (action === 'returns') {
     return json_({ ok: true, returns: returnsList_(params.limit), version: VERSION });
@@ -1930,6 +1962,8 @@ function onOpen() {
       ui
         .createMenu('3. Orders')
         .addItem('Order ke 5 step comments banao', 'createOrderUpdateTemplates')
+        .addItem('Email queue abhi chalao (retry)', 'runMailQueueNow')
+        .addItem('Test email bhejo', 'promptEmailTest')
         .addItem('Aaj ka summary sheet me likho', 'writeDailyDigest')
         .addItem('Low stock list', 'showLowStock')
         .addItem('Coupons ki list', 'showCoupons'),
@@ -2102,13 +2136,21 @@ function installTriggers() {
   var existing = ScriptApp.getProjectTriggers();
   existing.forEach(function (trigger) {
     var handler = trigger.getHandlerFunction();
-    if (handler === 'onEditAutoStatus' || handler === 'writeDailyDigest') {
+    if (
+      handler === 'onEditAutoStatus' ||
+      handler === 'writeDailyDigest' ||
+      handler === 'processMailQueue'
+    ) {
       ScriptApp.deleteTrigger(trigger);
     }
   });
   ScriptApp.newTrigger('onEditAutoStatus').forSpreadsheet(book_()).onEdit().create();
   ScriptApp.newTrigger('writeDailyDigest').timeBased().atHour(9).everyDays(1).create();
-  var message = 'Triggers lag gaye:\n• Status badalne par timeline + message\n• Roz 9 baje summary';
+  // email queue har 10 minute — fail hui mail apne aap retry hoti rehti hai
+  ScriptApp.newTrigger('processMailQueue').timeBased().everyMinutes(10).create();
+  var message =
+    'Triggers lag gaye:\n• Status badalne par timeline + customer email\n' +
+    '• Roz 9 baje summary\n• Har 10 minute email queue ki retry';
   try {
     SpreadsheetApp.getUi().alert(message);
   } catch (error) {
@@ -2315,6 +2357,12 @@ function money_(value) {
 }
 
 /** 10 digit mobile — +91, spaces, dash sab hata deta hai */
+/** email/site par dikhane ke liye — `+91 7740992663` */
+function waDisplay_(value) {
+  var digits = phoneDigits_(value);
+  return digits ? '+91 ' + digits : '';
+}
+
 function phoneDigits_(value) {
   var digits = String(value === null || value === undefined ? '' : value).replace(/\D/g, '');
   if (digits.length > 10) digits = digits.slice(-10);
@@ -2999,13 +3047,27 @@ function notifyOrder_(order, status, extra) {
   var link = whatsappLink_(phone, rendered.message);
 
   logNotification_('whatsapp', phone, vars.order, status, rendered.message, link ? 'link_ready' : 'no_phone');
-  var mail = text_(order['Email']);
-  if (mail) {
-    var sent = sendMailSafe_(mail, rendered.subject, rendered.message);
-    logNotification_('email', mail, vars.order, status, rendered.message, sent.ok ? 'sent' : 'failed');
+
+  /**
+   * **Asli email** — poore order ki detail ke saath (items, amount, address,
+   * courier/AWB, track link). Queue se jaati hai, isliye fail hone par 30 baar
+   * tak khud retry hoti hai (`MailQueue` tab).
+   */
+  var emailResult = { ok: false, error: 'skipped' };
+  try {
+    emailResult = sendOrderEmail_(order, status, { message: rendered.message });
+  } catch (error) {
+    // email kabhi order/timeline ko na roke
+    emailResult = { ok: false, error: String(error) };
   }
-  ownerAlert_(rendered.subject, rendered.message + '\n\nOrder: ' + vars.order);
-  return { ok: true, whatsapp: link, message: rendered.message, subject: rendered.subject };
+
+  return {
+    ok: true,
+    whatsapp: link,
+    message: rendered.message,
+    subject: rendered.subject,
+    email: emailResult,
+  };
 }
 
 /** owner ko chhota alert (email agar set hai) */
@@ -3562,9 +3624,10 @@ function adminSetOrderStatus_(orderId, status, message, visible, extra) {
     var courierCol = head.indexOf('Courier');
     if (courierCol >= 0) ordersTab.getRange(rowIndex, courierCol + 1).setValue(text_(extra.courier));
   }
-  if (extra && extra.awb) {
+  var awbValue = extra ? text_(extra.awb || extra.AWB) : '';
+  if (awbValue) {
     var awbCol = head.indexOf('AWB');
-    if (awbCol >= 0) ordersTab.getRange(rowIndex, awbCol + 1).setValue(text_(extra.awb));
+    if (awbCol >= 0) ordersTab.getRange(rowIndex, awbCol + 1).setValue(awbValue);
   }
   if (extra && extra.trackingUrl) {
     var trackCol = head.indexOf('Tracking URL');
@@ -3589,6 +3652,11 @@ function adminSetOrderStatus_(orderId, status, message, visible, extra) {
   // timeline row (message khaali ho to template se)
   var orderObject = {};
   for (var h = 0; h < head.length; h += 1) orderObject[head[h]] = rows[rowIndex - 2][h];
+  // just likhi hui values row me hain, purani `rows` copy me nahi — email me naya status/courier jaye
+  orderObject.Status = newStatus;
+  if (extra && extra.courier) orderObject.Courier = text_(extra.courier);
+  if (awbValue) orderObject.AWB = awbValue;
+  if (extra && extra.trackingUrl) orderObject['Tracking URL'] = text_(extra.trackingUrl);
   var rendered = renderTemplate_(newStatus, {
     name: text_(orderObject.Customer) || 'Customer',
     order: wanted,
@@ -4342,6 +4410,80 @@ function runSelfTests() {
     return eq(createReturn_({ order: '' }).error, 'order required');
   });
 
+  /* ── 8b. email (queue + design) ────────────────────────────────────── */
+  check('email_ok — galat email pakadta hai', function () {
+    return eq(emailOk_('galat@') === false && emailOk_('a@b.co') === true, true);
+  });
+  check('emailUpdatesEnabled_ boolean', function () {
+    return eq(typeof emailUpdatesEnabled_(), 'boolean');
+  });
+  check('mailRetryMinutes_ ladder', function () {
+    return eq(mailRetryMinutes_(1) + ':' + mailRetryMinutes_(5) + ':' + mailRetryMinutes_(40), '1:20:360');
+  });
+  check('orderEmailSubject_ me order number', function () {
+    return eq(orderEmailSubject_('shipped', { 'Order ID': 'LK-ABC123' }).indexOf('LK-ABC123') > 0, true);
+  });
+  check('emailStepIndex_ shipped = 3', function () {
+    return eq(emailStepIndex_('shipped'), 3);
+  });
+  check('emailStepIndex_ cancel = -1', function () {
+    return eq(emailStepIndex_('cancelled'), -1);
+  });
+  check('orderEmailHtml_ poora mail banata hai', function () {
+    var html = orderEmailHtml_({
+      brand: 'TRENDS YOUNIQUE',
+      tagline: 'Couture',
+      status: 'packed',
+      step: 2,
+      site: 'https://trendsyounique.fashion',
+      trackUrl: 'https://trendsyounique.fashion/track-order/',
+      helpUrl: 'https://wa.me/917740992663',
+      whatsapp: '7740992663',
+      order: {
+        'Order ID': 'LK-ABC123',
+        Customer: 'Riya',
+        Address: '12, Malviya Nagar',
+        City: 'Jaipur',
+        State: 'Rajasthan',
+        PIN: '302017',
+        Phone: '9876543210',
+        'Payment method': 'upi',
+        'Payment status': 'paid',
+        'Date & Time': nowIso_(),
+        Courier: '',
+        AWB: '',
+      },
+      items: [{ product: 'Gown', colour: 'Pink', size: 'M', qty: 1, price: 599, image: '' }],
+      totals: { subtotal: 599, discount: 0, shipping: 0, total: 599, qty: 1 },
+    });
+    return eq(
+      html.indexOf('<!doctype html>') === 0 &&
+        html.indexOf('Aapka order') > 0 &&
+        html.indexOf('Gown') > 0 &&
+        html.indexOf('Order track karein') > 0,
+      true,
+    );
+  });
+  check('mail queue me daal kar nikal sakte hain', function () {
+    var mailTab = ensureMailQueueTab_();
+    var start = mailTab.getLastRow();
+    var queued = queueMail_({
+      to: 'selftest@example.com',
+      orderId: 'LK-SELFT1',
+      template: 'selftest',
+      subject: 'Self-test mail',
+      html: '<p>test</p>',
+    });
+    var added = mailTab.getLastRow() - start;
+    // asli mail nahi bhejte — bas queue row banne/hatne ka check
+    if (added > 0) mailTab.deleteRows(start + 1, added);
+    return eq(String(queued.ok) + ':' + added, 'true:1');
+  });
+  check('mailQueueStats_ shape', function () {
+    var stats = mailQueueStats_();
+    return eq(typeof stats.total === 'number' && typeof stats.sent === 'number', true);
+  });
+
   /* ── 9. reports + content (read-only) ──────────────────────────────── */
   check('reportSummary_ shape', function () {
     var summary = reportSummary_();
@@ -4523,4 +4665,568 @@ function selfTestOnSheet() {
     // ignore
   }
   return report;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ *  BHAG 9 — EMAIL (order status automatic, queue ke saath)
+ * ---------------------------------------------------------------------------
+ *  Owner ka rule: **customer ko har status par asli email jaye** — placed,
+ *  confirmed, packed, shipped, delivered (aur cancel) — poori detail ke saath.
+ *
+ *  Email Google ke free `MailApp` se jaata hai (koi paid service nahi).
+ *
+ *  Bharosa kaise: har mail pehle `MailQueue` tab me **queue** hoti hai, phir
+ *  turant bhejne ki koshish hoti hai. Net/quota problem ho to wahi row
+ *  **30 baar tak** (MAX_MAIL_ATTEMPTS) retry hoti hai — har retry thodi der baad
+ *  (`processMailQueue`, trigger se har 10 minute). Isliye ek bhi mail "gum"
+ *  nahi hoti, aur `Notifications` tab me poora sach rehta hai.
+ * ═══════════════════════════════════════════════════════════════════════════ */
+
+/** ek mail kitni baar try hogi (owner: "20-30 fallback rakhna, ya zyada") */
+var MAX_MAIL_ATTEMPTS = 30;
+
+/**
+ * Retry ka gap (minute me) — pehle jaldi-jaldi, baad me ghante-ghante.
+ * Attempt 12 ke baad har 6 ghante.
+ */
+function mailRetryMinutes_(attempts) {
+  var ladder = [1, 2, 5, 10, 20, 30, 60, 120, 180, 240];
+  var index = Math.max(0, int_(attempts, 0) - 1);
+  if (index >= ladder.length) return 360;
+  return ladder[index];
+}
+
+/** setting se email updates chalu/band */
+function emailUpdatesEnabled_() {
+  return settingBool_('email_updates', true);
+}
+
+function ensureMailQueueTab_() {
+  var tab = ensureTab_('MailQueue');
+  if (tab.getLastRow() < 1 || isBlank_(tab.getRange(1, 1).getValue())) {
+    tab.getRange(1, 1, 1, HEADERS.MailQueue.length).setValues([HEADERS.MailQueue]);
+    tab.getRange(1, 1, 1, HEADERS.MailQueue.length).setFontWeight('bold');
+    tab.setFrozenRows(1);
+    tab.setColumnWidth(6, 420);
+    tab.setColumnWidth(10, 220);
+  }
+  return tab;
+}
+
+/** abhi kitni quota bachi hai (din me) — email bhejne se pehle dekhte hain */
+function mailQuota_() {
+  try {
+    return Number(MailApp.getRemainingDailyQuota());
+  } catch (error) {
+    return -1;
+  }
+}
+
+/**
+ * Turant mail bhejo (queue ke andar se bhi yahi chalta hai).
+ * Return `{ok}` ya `{ok:false, error}` — kabhi exception nahi.
+ */
+function sendMailNow_(to, subject, text, html, fromName) {
+  var address = text_(to);
+  if (!emailOk_(address)) return { ok: false, error: 'invalid_email' };
+  var quota = mailQuota_();
+  if (quota === 0) return { ok: false, error: 'quota_exhausted' };
+  try {
+    MailApp.sendEmail({
+      to: address,
+      subject: text_(subject, 140) || 'TRENDS YOUNIQUE',
+      body: String(text || '').slice(0, 2000),
+      htmlBody: String(html || text || ''),
+      name: text_(fromName) || setting_('email_from_name', 'TRENDS YOUNIQUE'),
+    });
+    return { ok: true };
+  } catch (error) {
+    return { ok: false, error: String(error) };
+  }
+}
+
+/** mail ko queue me daalo — bhejna `processMailQueue_()` ka kaam */
+function queueMail_(mail) {
+  var data = mail || {};
+  var to = text_(data.to);
+  if (!emailOk_(to)) return { ok: false, error: 'invalid_email' };
+  var tab = ensureMailQueueTab_();
+  var head = headersOf_(tab);
+  var row = new Array(head.length).fill('');
+  row[head.indexOf('Queued At')] = nowIso_();
+  row[head.indexOf('Order ID')] = text_(data.orderId);
+  row[head.indexOf('To')] = to;
+  row[head.indexOf('Template')] = text_(data.template);
+  row[head.indexOf('Subject')] = text_(data.subject, 140);
+  row[head.indexOf('Body')] = String(data.html || data.text || '');
+  row[head.indexOf('Attempts')] = 0;
+  row[head.indexOf('Next Try')] = nowIso_();
+  row[head.indexOf('Status')] = 'queued';
+  row[head.indexOf('Last Error')] = '';
+  tab.getRange(tab.getLastRow() + 1, 1, 1, head.length).setValues([row]);
+  return { ok: true, queued: true };
+}
+
+/**
+ * Queue chalao — jo mail bhejni hain (aur jinki retry ka time aa gaya) bhej deta hai.
+ * `limit` default 20 (Apps Script 6 minute/execution limit ke andar rehne ke liye).
+ * `force` = true to "Next Try" ka waqt dekh kar nahi rukta (owner khud chala raha hai).
+ */
+function processMailQueue_(limit, force) {
+  var tab = book_().getSheetByName('MailQueue');
+  if (!tab || tab.getLastRow() < 2) return { ok: true, sent: 0, retried: 0, failed: 0, pending: 0 };
+  var head = headersOf_(tab);
+  var rows = tab.getRange(2, 1, tab.getLastRow() - 1, head.length).getValues();
+  var col = function (name) {
+    return head.indexOf(name);
+  };
+  var max = Math.max(1, Math.min(50, int_(limit, 20)));
+  var now = Date.now();
+  var sent = 0;
+  var retried = 0;
+  var failed = 0;
+
+  for (var i = 0; i < rows.length; i += 1) {
+    if (sent + retried >= max) break;
+    var status = text_(rows[i][col('Status')]).toLowerCase();
+    if (status === 'sent' || status === 'failed') continue;
+    var attempts = int_(rows[i][col('Attempts')], 0);
+    var nextTry = rows[i][col('Next Try')];
+    var nextTime = nextTry ? new Date(nextTry).getTime() : 0;
+    if (!force && nextTime && nextTime > now) continue;
+
+    var to = text_(rows[i][col('To')]);
+    var subject = text_(rows[i][col('Subject')]);
+    var html = String(rows[i][col('Body')] || '');
+    var result = sendMailNow_(to, subject, html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').slice(0, 1500), html);
+
+    if (result.ok) {
+      tab.getRange(i + 2, col('Status') + 1).setValue('sent');
+      tab.getRange(i + 2, col('Attempts') + 1).setValue(attempts + 1);
+      tab.getRange(i + 2, col('Last Error') + 1).setValue('');
+      tab.getRange(i + 2, col('Next Try') + 1).setValue('');
+      sent += 1;
+      continue;
+    }
+
+    var nextAttempts = attempts + 1;
+    var isFinal = nextAttempts >= MAX_MAIL_ATTEMPTS || result.error === 'invalid_email';
+    tab.getRange(i + 2, col('Attempts') + 1).setValue(nextAttempts);
+    tab.getRange(i + 2, col('Last Error') + 1).setValue(text_(result.error, 200));
+    tab.getRange(i + 2, col('Status') + 1).setValue(isFinal ? 'failed' : 'retry');
+    var when = new Date(Date.now() + mailRetryMinutes_(nextAttempts) * 60 * 1000);
+    tab.getRange(i + 2, col('Next Try') + 1).setValue(isFinal ? '' : when.toISOString());
+    if (isFinal) {
+      failed += 1;
+      logNotification_('email-failed', to, text_(rows[i][col('Order ID')]), text_(rows[i][col('Template')]), subject + ' — ' + result.error, 'failed');
+      ownerAlert_('Email fail — ' + subject, 'Customer ko mail nahi gaya: ' + to + '\nReason: ' + result.error);
+    } else {
+      retried += 1;
+    }
+  }
+
+  var pending = 0;
+  for (var r = 0; r < rows.length; r += 1) {
+    var state = text_(rows[r][col('Status')]).toLowerCase();
+    if (state === 'queued' || state === 'retry') pending += 1;
+  }
+  return { ok: true, sent: sent, retried: retried, failed: failed, pending: pending, quota: mailQuota_() };
+}
+
+/** queue ka hisaab — admin/self-test ke liye */
+function mailQueueStats_() {
+  var tab = book_().getSheetByName('MailQueue');
+  var stats = { total: 0, queued: 0, retry: 0, sent: 0, failed: 0, quota: mailQuota_() };
+  if (!tab || tab.getLastRow() < 2) return stats;
+  var head = headersOf_(tab);
+  var statusCol = head.indexOf('Status');
+  if (statusCol < 0) return stats;
+  var rows = tab.getRange(2, statusCol + 1, tab.getLastRow() - 1, 1).getValues();
+  for (var i = 0; i < rows.length; i += 1) {
+    var state = text_(rows[i][0]).toLowerCase();
+    stats.total += 1;
+    if (state === 'sent') stats.sent += 1;
+    else if (state === 'failed') stats.failed += 1;
+    else if (state === 'retry') stats.retry += 1;
+    else stats.queued += 1;
+  }
+  return stats;
+}
+
+/* ─────────────────────── email ka design (HTML) ─────────────────────── */
+
+var EMAIL_STEPS = [
+  { key: 'placed', label: 'Order placed' },
+  { key: 'confirmed', label: 'Confirmed' },
+  { key: 'packed', label: 'Packed' },
+  { key: 'shipped', label: 'Shipped' },
+  { key: 'delivered', label: 'Delivered' },
+];
+
+/** status → 0..4 (cancel = -1) — tracking page jaisa hi hisaab */
+function emailStepIndex_(status) {
+  var value = String(status || '').toLowerCase();
+  if (/cancel|return|refund|rto/.test(value)) return -1;
+  if (/out for deliver/.test(value)) return 3;
+  if (/deliver|complete|handover/.test(value)) return 4;
+  if (/ship|dispatch|transit|courier|awb/.test(value)) return 3;
+  if (/pack|ready|label/.test(value)) return 2;
+  if (/confirm|process|accept|prepar/.test(value)) return 1;
+  return 0;
+}
+
+/** email ka subject — customer ko saaf pata chale kaunsa order kya hua */
+function orderEmailSubject_(status, order) {
+  var orderId = text_(order && order['Order ID']);
+  var brand = setting_('brand_name', 'TRENDS YOUNIQUE');
+  var label = {
+    placed: 'Order mil gaya',
+    confirmed: 'Order confirm ho gaya',
+    packed: 'Packing ho gayi',
+    shipped: 'Order ship ho gaya',
+    delivered: 'Order deliver ho gaya',
+    cancelled: 'Order cancel ho gaya',
+    returned: 'Return update',
+  }[String(status || '').toLowerCase()] || 'Order update';
+  return label + ' — ' + orderId + ' · ' + brand;
+}
+
+/** 5 step ki patti (email me) */
+function emailStepsHtml_(status) {
+  var current = emailStepIndex_(status);
+  var cells = EMAIL_STEPS.map(function (step, index) {
+    var done = current >= 0 && current >= index;
+    var active = current === index;
+    var colour = done ? '#6f1d2b' : '#e6dccd';
+    var textColour = done ? '#ffffff' : '#a49a90';
+    return (
+      '<td style="text-align:center;padding:0 2px">' +
+      '<div style="width:26px;height:26px;line-height:26px;margin:0 auto;border-radius:50%;' +
+      'background:' + colour + ';color:' + textColour + ';font:600 11px Arial;' +
+      (active ? 'box-shadow:0 0 0 3px #f1e4cd;' : '') + '">' +
+      (done ? '&#10003;' : String(index + 1)) +
+      '</div>' +
+      '<div style="font:9px Arial;letter-spacing:.4px;text-transform:uppercase;color:#8a7d72;padding-top:4px">' +
+      escapeHtml_(step.label) + '</div></td>'
+    );
+  }).join('');
+  return (
+    '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:18px 0 6px"><tr>' +
+    cells +
+    '</tr></table>'
+  );
+}
+
+/** email ke liye data — order + items + totals */
+function emailDataFor_(order, status) {
+  var orderId = text_(order && order['Order ID']);
+  var found = orderId ? findOrder_(orderId) : { ok: false };
+  var items = found.ok ? found.items || [] : [];
+  var total = num_(order && order['Total ₹'], 0);
+  return {
+    brand: setting_('brand_name', 'TRENDS YOUNIQUE'),
+    tagline: setting_('tagline', ''),
+    supportPhone: setting_('support_phone', ''),
+    whatsapp: setting_('whatsapp', ''),
+    site: WEBAPP_PUBLIC_BASE,
+    status: text_(status),
+    step: emailStepIndex_(status),
+    order: order || {},
+    items: items,
+    totals: {
+      subtotal: num_(order && order['Subtotal ₹'], 0),
+      discount: num_(order && order['Discount ₹'], 0),
+      shipping: num_(order && order['Shipping ₹'], 0),
+      total: total,
+      qty: num_(order && order['Qty total'], 0),
+    },
+    trackUrl: WEBAPP_PUBLIC_BASE + '/track-order/',
+    helpUrl: 'https://wa.me/91' + phoneDigits_(setting_('whatsapp', '')),
+  };
+}
+
+/**
+ * Poora branded email — table layout + inline CSS (Gmail/Outlook dono me theek
+ * dikhta hai). Har status ke liye alag head line.
+ */
+function orderEmailHtml_(data) {
+  var order = data.order || {};
+  var step = data.step;
+  var headline = {
+    placed: 'Aapka order mil gaya 🎉',
+    confirmed: 'Order confirm ho gaya ✓',
+    packed: 'Aapki dress pack ho gayi',
+    shipped: 'Aapka order raste me hai 🚚',
+    delivered: 'Order deliver ho gaya 🤍',
+    cancelled: 'Order cancel ho gaya',
+  }[String(data.status || '').toLowerCase()] || 'Aapke order ka update';
+  var subline = {
+    placed: 'Team 24 ghante me confirm karegi. Tab tak aap track page par status dekh sakti hain.',
+    confirmed: 'Taiyari shuru ho gayi hai — quality check ke baad packing hogi.',
+    packed: 'Packing ho gayi hai. Agla update ship hone par aayega (AWB ke saath).',
+    shipped: 'Courier ko de diya gaya hai. Neeche AWB number se track kar sakti hain.',
+    delivered: 'Umeed hai dress pasand aayi. Review likh kar humein zaroor batayein.',
+    cancelled: 'Order cancel ho gaya hai. Koi sawaal ho to WhatsApp par pooch lein.',
+  }[String(data.status || '').toLowerCase()] || 'Aapke order ka status update.';
+
+  var itemRows = (data.items || [])
+    .map(function (item) {
+      var image = item.image
+        ? '<img src="' + escapeHtml_(item.image) + '" width="54" height="72" alt="" ' +
+          'style="display:block;border:0;object-fit:cover;background:#f6f1ec">'
+        : '';
+      return (
+        '<tr>' +
+        '<td style="padding:8px 0;width:56px;vertical-align:top">' + image + '</td>' +
+        '<td style="padding:8px 10px;vertical-align:top;border-bottom:1px solid #f0e6d8">' +
+        '<div style="font:600 13px Arial;color:#2b2622">' + escapeHtml_(item.product) + '</div>' +
+        '<div style="font:11px Arial;color:#8a7d72;padding-top:2px">' +
+        escapeHtml_([item.colour, item.size].filter(Boolean).join(' · ') || '—') +
+        ' · Qty ' + escapeHtml_(item.qty) + '</div></td>' +
+        '<td style="padding:8px 0;vertical-align:top;border-bottom:1px solid #f0e6d8;' +
+        'font:600 13px Arial;color:#2b2622;text-align:right;white-space:nowrap">' +
+        money_(num_(item.price, 0) * num_(item.qty, 1)) + '</td></tr>'
+      );
+    })
+    .join('');
+
+  var couponRow = data.totals.discount
+    ? '<tr><td style="padding:3px 0;font:12px Arial;color:#8a7d72;text-align:right">Discount' +
+      (order.Coupon ? ' (' + escapeHtml_(order.Coupon) + ')' : '') +
+      '</td><td style="padding:3px 0 3px 12px;font:12px Arial;color:#2f7a3f;text-align:right;white-space:nowrap">-' +
+      money_(data.totals.discount) + '</td></tr>'
+    : '';
+
+  var courierBlock =
+    order.Courier || order.AWB
+      ? '<div style="margin-top:14px;padding:12px 14px;background:#faf6f2;border-left:3px solid #6f1d2b">' +
+        '<div style="font:10px Arial;letter-spacing:1.4px;text-transform:uppercase;color:#8a7d72">Courier</div>' +
+        '<div style="font:600 13px Arial;color:#2b2622;padding-top:2px">' +
+        escapeHtml_(text_(order.Courier) || '—') +
+        ' · AWB ' + escapeHtml_(text_(order.AWB) || '—') + '</div>' +
+        (order['Tracking URL']
+          ? '<a href="' + escapeHtml_(order['Tracking URL']) + '" style="font:11px Arial;color:#6f1d2b">Courier site par dekhein →</a>'
+          : '') +
+        '</div>'
+      : '';
+
+  return (
+    '<!doctype html><html><body style="margin:0;padding:0;background:#f6f1ec">' +
+    '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f6f1ec;padding:20px 10px">' +
+    '<tr><td align="center">' +
+    '<table role="presentation" width="600" cellpadding="0" cellspacing="0" ' +
+    'style="max-width:600px;width:100%;background:#ffffff;border:1px solid #eadfd0">' +
+    // header
+    '<tr><td style="padding:22px 26px 6px;text-align:center">' +
+    '<div style="font:600 19px Georgia,serif;letter-spacing:2px;color:#6f1d2b">' +
+    escapeHtml_(data.brand) + '</div>' +
+    (data.tagline
+      ? '<div style="font:10px Arial;letter-spacing:2px;text-transform:uppercase;color:#a3948a;padding-top:4px">' +
+        escapeHtml_(data.tagline) + '</div>'
+      : '') +
+    '</td></tr>' +
+    // headline
+    '<tr><td style="padding:14px 26px 0">' +
+    '<div style="font:600 17px Arial;color:#2b2622">' + escapeHtml_(headline) + '</div>' +
+    '<div style="font:12.5px Arial;line-height:1.6;color:#6f6259;padding-top:6px">' + escapeHtml_(subline) + '</div>' +
+    '<div style="font:10px Arial;letter-spacing:1.4px;text-transform:uppercase;color:#a3948a;padding-top:14px">' +
+    'Order ' + escapeHtml_(text_(order['Order ID'])) + ' · ' + escapeHtml_(fmtDate_(order['Date & Time'], false)) +
+    '</div>' +
+    emailStepsHtml_(data.status) +
+    '</td></tr>' +
+    // items
+    '<tr><td style="padding:6px 26px 0">' +
+    '<div style="font:10px Arial;letter-spacing:1.6px;text-transform:uppercase;color:#8a7d72;padding-bottom:4px">' +
+    'Aapka order (' + escapeHtml_(data.totals.qty || (data.items || []).length) + ' pieces)</div>' +
+    '<table role="presentation" width="100%" cellpadding="0" cellspacing="0">' + itemRows + '</table>' +
+    '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="padding-top:6px">' +
+    '<tr><td style="padding:3px 0;font:12px Arial;color:#8a7d72;text-align:right">Subtotal</td>' +
+    '<td style="padding:3px 0 3px 12px;font:12px Arial;color:#2b2622;text-align:right;white-space:nowrap">' +
+    money_(data.totals.subtotal) + '</td></tr>' +
+    couponRow +
+    '<tr><td style="padding:3px 0;font:12px Arial;color:#8a7d72;text-align:right">Shipping</td>' +
+    '<td style="padding:3px 0 3px 12px;font:12px Arial;color:#2b2622;text-align:right;white-space:nowrap">' +
+    (data.totals.shipping ? money_(data.totals.shipping) : 'Free') + '</td></tr>' +
+    '<tr><td style="padding:8px 0 0;font:700 14px Arial;color:#2b2622;text-align:right;border-top:1px solid #f0e6d8">Total</td>' +
+    '<td style="padding:8px 0 0 12px;font:700 14px Arial;color:#6f1d2b;text-align:right;border-top:1px solid #f0e6d8;white-space:nowrap">' +
+    money_(data.totals.total) + '</td></tr>' +
+    '</table>' +
+    courierBlock +
+    // track button
+    '<div style="padding:18px 0 4px">' +
+    '<a href="' + escapeHtml_(data.trackUrl) + '" style="display:inline-block;background:#6f1d2b;color:#ffffff;' +
+    'font:600 11px Arial;letter-spacing:1.6px;text-transform:uppercase;text-decoration:none;padding:12px 22px">' +
+    'Order track karein</a></div>' +
+    // address
+    '<div style="margin-top:16px;padding-top:14px;border-top:1px solid #f0e6d8">' +
+    '<div style="font:10px Arial;letter-spacing:1.4px;text-transform:uppercase;color:#8a7d72">Delivery address</div>' +
+    '<div style="font:12.5px Arial;line-height:1.6;color:#3d332c;padding-top:4px">' +
+    escapeHtml_(text_(order.Customer)) + '<br>' +
+    escapeHtml_(text_(order.Address)) + '<br>' +
+    escapeHtml_([text_(order.City), text_(order.State), text_(order.PIN)].filter(Boolean).join(', ')) + '<br>' +
+    escapeHtml_(text_(order.Phone)) + '</div></div>' +
+    '</td></tr>' +
+    // footer
+    '<tr><td style="padding:18px 26px 24px;background:#fdfaf5;border-top:1px solid #f0e6d8">' +
+    '<div style="font:12px Arial;color:#6f6259">Koi sawaal ho to WhatsApp kariye: ' +
+    '<a href="' + escapeHtml_(data.helpUrl) + '" style="color:#6f1d2b;text-decoration:none">' +
+    escapeHtml_(waDisplay_(data.whatsapp)) + '</a></div>' +
+    '<div style="font:11px Arial;color:#a49a90;padding-top:8px">Payment: ' +
+    escapeHtml_(text_(order['Payment method']) || '—') + ' · ' +
+    escapeHtml_(text_(order['Payment status']) || '—') +
+    ' · 7 day return</div>' +
+    '<div style="font:10px Arial;color:#bdb2a7;padding-top:10px">' +
+    escapeHtml_(data.brand) + ' · ' + escapeHtml_(data.site) +
+    ' · Ye email aapke order par apne aap bheji gayi hai.</div>' +
+    '</td></tr></table></td></tr></table></body></html>'
+  );
+}
+
+/**
+ * Order par status badla → customer ko **asli email** (queue ke through) + owner copy.
+ * Return `{ok, queued, subject, quota}`.
+ */
+function sendOrderEmail_(order, status, extraVars) {
+  var orderId = text_(order && order['Order ID']);
+  if (!orderId) return { ok: false, error: 'no_order' };
+  if (!emailUpdatesEnabled_()) return { ok: false, error: 'email_disabled' };
+
+  var customerEmail = text_(order.Email);
+  var ownerEmail = setting_('owner_email', '');
+  if (!emailOk_(customerEmail) && !emailOk_(ownerEmail)) {
+    return { ok: false, error: 'no_email' };
+  }
+
+  var data = emailDataFor_(order, status);
+  if (extraVars) {
+    if (extraVars.message) data.customMessage = extraVars.message;
+  }
+  var html = orderEmailHtml_(data);
+  var subject = orderEmailSubject_(status, order);
+
+  var queued = 0;
+  if (emailOk_(customerEmail)) {
+    var toCustomer = queueMail_({
+      to: customerEmail,
+      orderId: orderId,
+      template: 'order_' + text_(status).toLowerCase(),
+      subject: subject,
+      html: html,
+    });
+    if (toCustomer.ok) queued += 1;
+  }
+  if (emailOk_(ownerEmail)) {
+    var toOwner = queueMail_({
+      to: ownerEmail,
+      orderId: orderId,
+      template: 'order_' + text_(status).toLowerCase() + '_owner',
+      subject: '[Owner copy] ' + subject,
+      html: html,
+    });
+    if (toOwner.ok) queued += 1;
+  }
+
+  // turant bhejne ki koshish (customer ko wait na karna pade); fail ho to queue retry karegi
+  var flushed = queued ? processMailQueue_(10) : { sent: 0, retried: 0 };
+
+  logNotification_(
+    'email',
+    customerEmail || ownerEmail,
+    orderId,
+    'order_' + text_(status).toLowerCase(),
+    subject,
+    flushed.sent ? 'sent' : 'queued',
+  );
+
+  return {
+    ok: queued > 0,
+    queued: queued,
+    sent: flushed.sent || 0,
+    subject: subject,
+    quota: mailQuota_(),
+    error: queued ? '' : 'no_email',
+  };
+}
+
+/** Test email — owner khud check kar le ki mail pahunch rahi hai */
+function sendTestEmail_(to) {
+  var address = text_(to) || setting_('owner_email', '');
+  if (!emailOk_(address)) return { ok: false, error: 'invalid_email', message: 'Email id daaliye.' };
+  var sampleOrder = {
+    'Order ID': 'LK-TEST01',
+    'Date & Time': nowIso_(),
+    Status: 'shipped',
+    Customer: 'Test Customer',
+    Phone: '9876543210',
+    Email: address,
+    Address: '12, Malviya Nagar',
+    City: 'Jaipur',
+    State: 'Rajasthan',
+    PIN: '302017',
+    'Subtotal ₹': 1198,
+    'Discount ₹': 120,
+    'Shipping ₹': 0,
+    'Total ₹': 1078,
+    'Qty total': 2,
+    Coupon: 'TRENDS10',
+    'Payment method': 'upi',
+    'Payment status': 'paid',
+    Courier: 'Delhivery',
+    AWB: 'AWB12345',
+  };
+  var html = orderEmailHtml_(
+    Object.assign(emailDataFor_(sampleOrder, 'shipped'), {
+      items: [
+        {
+          product: 'Anarkali Suit Set (3 Piece)',
+          colour: 'Pink',
+          size: 'M',
+          qty: 2,
+          price: 599,
+          image: '',
+        },
+      ],
+    }),
+  );
+  var sent = sendMailNow_(address, 'Test — ' + orderEmailSubject_('shipped', sampleOrder), 'Test email', html);
+  logNotification_('email-test', address, 'LK-TEST01', 'test', 'Test email', sent.ok ? 'sent' : 'failed');
+  return {
+    ok: sent.ok,
+    error: sent.error || '',
+    to: address,
+    quota: mailQuota_(),
+    message: sent.ok ? 'Test email chala gaya — inbox (aur spam) dekh lein.' : 'Email nahi gaya: ' + sent.error,
+  };
+}
+
+/** Menu: email adress poochh kar test mail bhejta hai */
+function promptEmailTest() {
+  var ui = SpreadsheetApp.getUi();
+  var response = ui.prompt(
+    'Test email',
+    'Kis email par test bhejein? (khaali chhodne par owner_email use hoga)',
+    ui.ButtonSet.OK_CANCEL,
+  );
+  if (response.getSelectedButton() !== ui.Button.OK) return { ok: false, error: 'cancelled' };
+  var result = sendTestEmail_(response.getResponseText());
+  ui.alert(result.message + (result.quota >= 0 ? '\n\nAaj ki bachi quota: ' + result.quota + ' mail' : ''));
+  return result;
+}
+
+/** Menu: queue abhi chalao (pending/retry mails) */
+function runMailQueueNow() {
+  var result = processMailQueue_(40, true);
+  try {
+    SpreadsheetApp.getUi().alert(
+      'Email queue chala:\n' +
+        'Bheji: ' + result.sent + '\n' +
+        'Retry par: ' + result.retried + '\n' +
+        'Fail: ' + result.failed + '\n' +
+        'Bachi hui: ' + result.pending +
+        (result.quota >= 0 ? '\n\nAaj ki quota: ' + result.quota : ''),
+    );
+  } catch (error) {
+    // ignore
+  }
+  return result;
 }
