@@ -19,6 +19,14 @@ export const SHEET_WEBAPP_URL_DEFAULT =
 /** Write-only token — Apps Script ke `WRITE_TOKEN` se bilkul same hona chahiye. */
 export const SHEET_WRITE_TOKEN_DEFAULT = "tyw-cb77177528f9474049ffa98fead4cee1";
 
+/**
+ * Transition token — jab tak owner script ka naya version deploy nahi karte, purani
+ * deployment sirf apne pichhle token (`CHANGE-ME-…`) ko accept karti hai. Relay dono
+ * tokens ke saath POST bhejta hai; server sirf **sahi** wale ko accept karta hai,
+ * isliye duplicate row nahi banti. Naya version deploy hone ke baad ise hata dena.
+ */
+export const SHEET_LEGACY_WRITE_TOKEN = "CHANGE-ME-trends-write-token";
+
 export function sheetWebAppUrl(): string {
   const fromEnv = (process.env.NEXT_PUBLIC_SHEET_WEBAPP_URL ?? "").trim();
   return fromEnv || SHEET_WEBAPP_URL_DEFAULT;

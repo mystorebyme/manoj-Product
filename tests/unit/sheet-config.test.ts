@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 
 import {
+  SHEET_LEGACY_WRITE_TOKEN,
   SHEET_WEBAPP_URL_DEFAULT,
   SHEET_WRITE_TOKEN_DEFAULT,
   sheetWebAppUrl,
@@ -39,6 +40,10 @@ test("script me master token committed nahi hai", () => {
     master === "PASTE-MASTER-TOKEN-HERE" || !/^tym-[0-9a-f]{40}$/.test(master),
     "master token repo me commit nahi hona chahiye",
   );
+});
+
+test("transition token primary token se alag hai (duplicate row na bane)", () => {
+  assert.notEqual(SHEET_LEGACY_WRITE_TOKEN, SHEET_WRITE_TOKEN_DEFAULT);
 });
 
 test("env override default ko replace karta hai", () => {
