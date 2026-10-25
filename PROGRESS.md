@@ -447,3 +447,14 @@ kyunki khaali collection = jhootha nav. Inventory aane par add honge.
 
 Docs: `docs/09-devops/campaigns.md` (mahine ka rotation + naya campaign + env switches).
 Tests: **145 unit + 40 integration + 9**, typecheck clean, catalog verify clean.
+
+### Round 25 (cont.) — titles saaf, nav collections, build pipeline
+
+- `scripts/clean-titles.mjs` — ALL-CAPS → Title Case, "Beutifull/Lehnga/Waite/Sequence/Jari/Pent"
+  spelling fix, duplicate words ("Anarkali Anarkali"), keyword-stuffed 110+ akshar titles.
+  **234 titles** update (teeno catalogue copies + seeds). Handles/URLs waise hi — koi
+  purana link nahi toota.
+- `scripts/build-catalog.mjs` ab build ke waqt bhi wahi `cleanTitle()` lagata hai (generated
+  copy dobara ganda na ho). Local variable rename (`plainTitle`) — import shadow nahi hota.
+- `lib/collections.ts` (client nav) aur home ke circle labels saaf: Anarkali Suits, Lehenga
+  Chunni & Choli Sets, Suit Sets & Gowns, Printed Suits, Wedding & Festive Wear.

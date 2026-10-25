@@ -16,6 +16,7 @@
  * Snapshot refresh: `node scripts/catalog-sync/fetch-live.mjs` (ya GitHub Actions → Catalog sync).
  */
 import fs from "node:fs";
+import { cleanTitle } from "./clean-titles.mjs";
 import path from "node:path";
 import { normalizeSizes, canonicalSize } from "./lib/sizes.mjs";
 import { applySalePricing } from "./lib/sale-pricing.mjs";
@@ -428,8 +429,8 @@ const readExtra = (name, key) => {
     if (usedHandles.has(handle)) handle = `${handle}-${source.id}`;
     usedHandles.add(handle);
 
-    const cleanTitle = stripEmoji(source.title.trim()).replace(/\s{2,}/g, " ");
-    const descriptionHtml = sanitizeHtml(source.body_html) || `<p>${cleanTitle}</p>`;
+    const plainTitle = stripEmoji(source.title.trim()).replace(/\s{2,}/g, " ");
+    const descriptionHtml = sanitizeHtml(source.body_html) || `<p>${plainTitle}</p>`;
     const details = htmlToLines(descriptionHtml).slice(0, 14);
     // `frontpage` live store ka home-page grouping hai (nav collection nahi) — featured flag me jaata hai
     const collections = [...liveCollectionsForProduct].filter((handle) => handle !== "frontpage").sort();
@@ -437,7 +438,8 @@ const readExtra = (name, key) => {
     products.push({
       handle,
       sourceHandle: source.handle,
-      title: stripEmoji(source.title.trim()).replace(/\s{2,}/g, " "),
+      // saaf naam: ALL-CAPS, double words aur common misspellings fix (clean-titles.mjs)
+      title: cleanTitle(stripEmoji(source.title.trim()).replace(/\s{2,}/g, " ")),
       price,
       compareAtPrice,
       images,
@@ -634,9 +636,9 @@ const readExtra = (name, key) => {
   // live collections order + titles, jaisa store me hai
   const COLLECTION_COPY = {
     "new-arrivals": { title: "New Arrivals", subtitle: "Freshly dropped festive favourites", sortOrder: 1 },
-    "party-wear-gown": { title: "Anarkali Suit", subtitle: "Designer Anarkali Suits", sortOrder: 2 },
+    "party-wear-gown": { title: "Anarkali Suits", subtitle: "Designer anarkali suits, floor-length flare", sortOrder: 2 },
     "trends-signature": { title: "Trends Signature", subtitle: "Handpicked by our stylists", sortOrder: 3 },
-    "lehnga-choli": { title: "Lehenga Choli", subtitle: "Our Range of Designer Lehenga Choli", sortOrder: 4 },
+    "lehnga-choli": { title: "Lehenga Chunni & Choli Sets", subtitle: "Wedding-ready lehenga choli sets", sortOrder: 4 },
     "printed-suit-set": { title: "Printed Suit Set", subtitle: "Everyday ethnic ease", sortOrder: 5 },
     "trending": { title: "Trending", subtitle: "Top view in this week", sortOrder: 6 },
     "weddin-collection": { title: "Wedding Collection", subtitle: "Bridal & trousseau edit", sortOrder: 7 },
