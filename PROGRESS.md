@@ -557,3 +557,17 @@ root base path, cache + security headers) aur `docs/09-devops/netlify.md` — im
 domain (`trendsyounique.fashion`) ke DNS steps, HTTPS, sheet check, troubleshooting.
 Track-order page ab bina server wali hosting par jhootha "Open live tracking" link nahi
 dikhati (status WhatsApp se).
+
+## Round 36 — har product ki ID + saari image links (sheet audit)
+
+`docs/09-devops/round-36.md`. Published link se saare 15 tab check kiye (`pub?output=csv`
+500 deta hai, isliye Sheets API se audit). Kami: `Products` me ID column hi nahi tha,
+`ProductImages`/`MainImage` me sirf sample rows, koi `ImagesAll` tab nahi.
+
+Apps Script **r15**: `Products` me `Product ID`, `ProductImages`/`MainImage` me bhi
+(column aakhir me — data shift nahi), menu **6 = ImagesAll** (2738 image rows, ID ke
+saath), **7 = backfillAllProductIds** (Products/MainImage/ProductImages/Reviews),
+`syncProductImages` ab ID ke saath + duplicate-safe, `writeCsvTab_`/`fetchFirst_`
+(IMPORTDATA badi file par #N/A deta hai, isliye UrlFetch + GitHub raw fallback).
+`export-products-for-sheet.mjs` ab `products-images.csv` (2738 rows) + `ids` map bhi
+banata hai. Product ID sirf sheet/admin me — storefront par kahin nahi.

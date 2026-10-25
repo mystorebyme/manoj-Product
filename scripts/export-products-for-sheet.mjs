@@ -96,7 +96,46 @@ const csv = [
   .map((line) => line.map(csvCell).join(","))
   .join("\n");
 
+/**
+ * `products-images.csv` — **har image ki ek row** (ID + Handle + Title + Position + link).
+ * Isse sheet me har product ki saari photos (5 ho ya 20) ID ke saath dikh jaati hain.
+ * Sheet ka `ImagesAll` tab isi ko `IMPORTDATA` karta hai.
+ */
+const imageRows = [];
+for (const [index, product] of products.entries()) {
+  const id = String(product.id ?? "");
+  (product.images ?? []).forEach((src, position) => {
+    const url = absolute(src);
+    if (url) imageRows.push([id, product.handle, product.title, position + 1, url]);
+  });
+  // product list order barabar rahe — `index` sirf loop ke liye
+  void index;
+}
+
+const imageHeader = ["ID", "Handle", "Title", "Position", "Image"];
+const imagesCsv = [imageHeader, ...imageRows]
+  .map((line) => line.map(csvCell).join(","))
+  .join("\n");
+
 fs.mkdirSync(OUT_DIR, { recursive: true });
+fs.writeFileSync(path.join(OUT_DIR, "products-images.csv"), `${imagesCsv}\n`, "utf8");
+fs.writeFileSync(
+  path.join(OUT_DIR, "products-images.json"),
+  `${JSON.stringify(
+    {
+      meta: {
+        note: "Har product ki saari images (ID ke saath) — scripts/export-products-for-sheet.mjs",
+        generatedAt: new Date().toISOString(),
+        images: imageRows.length,
+        columns: imageHeader,
+      },
+      rows: imageRows,
+    },
+    null,
+    0,
+  )}\n`,
+  "utf8",
+);
 fs.writeFileSync(path.join(OUT_DIR, "products-sheet.csv"), `${csv}\n`, "utf8");
 fs.writeFileSync(
   path.join(OUT_DIR, "products-sheet.json"),
@@ -112,6 +151,8 @@ fs.writeFileSync(
       images: Object.fromEntries(
         products.map((product) => [product.handle, (product.images ?? []).map(absolute).filter(Boolean)]),
       ),
+      // handle → product ID (sheet me har row ke saath id lagane ke liye)
+      ids: Object.fromEntries(products.map((product) => [product.handle, String(product.id ?? "")])),
       products: rows,
     },
     null,
@@ -120,4 +161,7 @@ fs.writeFileSync(
   "utf8",
 );
 
-console.log(`products-sheet: ${rows.length} products, ${Math.round(Buffer.byteLength(csv) / 1024)} KB → apps/web/public/data/products-sheet.{csv,json}`);
+console.log(
+  `products-sheet: ${rows.length} products, ${imageRows.length} image links, ` +
+    `${Math.round(Buffer.byteLength(csv) / 1024)} KB → apps/web/public/data/products-sheet.{csv,json} + products-images.{csv,json}`,
+);

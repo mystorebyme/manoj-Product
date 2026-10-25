@@ -20,10 +20,15 @@
  *                 `IMPORTDATA` se khud bharti hai — menu: TRENDS tools → 1.
  *   MainImage   → Handle + Image URL — site us product ki **main photo** wahi
  *                 dikhati hai (home, collection, product page).
- *   ProductImages → har product ki **saari photos** (Handle | Position | Image).
+ *   ProductImages → har product ki **saari photos** (Product ID | Handle | Position | Image).
  *                 Image badalne par wahi photo lagti hai, `delete` likhne par wo
  *                 photo site se hat jaati hai, nayi row add karne par nayi photo
  *                 jud jaati hai. (Ye admin ka control hai, customer ko nahi dikhta.)
+ *   ImagesAll   → **har product ki har photo** ek row me (ID · Handle · Title ·
+ *                 Position · Image) — sirf padhne ke liye, menu se khud bharti hai.
+ *   Product ID  → har product ki pehchaan (Products / MainImage / ProductImages /
+ *                 Reviews / Order Items). **Sirf admin ke liye** — storefront par
+ *                 customer ko kabhi nahi dikhti.
  *
  * SETUP (ek baar, 5 minute) — steps 0-madad ke liye docs/09-devops/google-sheets.md:
  *   1. Sheet kholiye → Extensions → Apps Script.
@@ -92,7 +97,7 @@ var WRITE_SHEETS = ['Orders', 'Order Items', 'Enquiries', 'Messages', 'Newslette
 var MAX_WRITE_ROWS = 40;
 
 /** Script version — `?action=ping` se dikhta hai (kaun sa code deploy hai). */
-var VERSION = '2026-10-25.r14';
+var VERSION = '2026-10-25.r15';
 
 var HEADERS = {
   Orders: [
@@ -108,6 +113,8 @@ var HEADERS = {
   Products: [
     'Handle', 'Product name', 'Price ₹', 'MRP ₹', 'Discount %', 'Sizes', 'Colours', 'Images',
     'Collection', 'Category', 'Fabric', 'Description', 'Stock', 'Status', 'Updated',
+    // admin ke liye pehchaan — site par customer ko kabhi nahi dikhta
+    'Product ID',
   ],
   Enquiries: [
     'Date & Time', 'Enquiry ID', 'Type', 'Customer', 'Phone', 'Items', 'Qty total',
@@ -212,9 +219,17 @@ function headersOf_(sheet) {
  * apex domain par IMPORTDATA #REF! deta hai), isliye
  * sheet khud update rehti hai (row by row likhne ki zaroorat nahi).
  */
-var PRODUCT_LIST_URL = 'https://www.trendsyounique.fashion/data/products-sheet.csv';
+var PRODUCT_LIST_URLS = [
+  'https://www.trendsyounique.fashion/data/products-sheet.csv',
+  'https://raw.githubusercontent.com/mystorebyme/manoj-Product/main/apps/web/public/data/products-sheet.csv',
+];
+var PRODUCT_LIST_URL = PRODUCT_LIST_URLS[0];
 /** har product ki saari image links (Apps Script se seedha padhi jaati hain) */
-var PRODUCT_IMAGES_URL = 'https://www.trendsyounique.fashion/data/products-sheet.json';
+var PRODUCT_IMAGES_URLS = [
+  'https://www.trendsyounique.fashion/data/products-images.json',
+  'https://raw.githubusercontent.com/mystorebyme/manoj-Product/main/apps/web/public/data/products-images.json',
+];
+var PRODUCT_IMAGES_URL = PRODUCT_IMAGES_URLS[0];
 
 function ensureProductListTab_() {
   var book = book_();
@@ -229,20 +244,199 @@ function ensureProductListTab_() {
   return tab;
 }
 
+/**
+ * Data files ke URL — pehla try hota hai, na chale to agla.
+ * (Kabhi kabhi site ka URL Google ko block/miss lagta hai, GitHub raw backup rehta hai.)
+ */
+var PRODUCT_IMAGES_CSV_URLS = [
+  'https://www.trendsyounique.fashion/data/products-images.csv',
+  'https://raw.githubusercontent.com/mystorebyme/manoj-Product/main/apps/web/public/data/products-images.csv',
+];
+var PRODUCT_IMAGES_CSV = PRODUCT_IMAGES_CSV_URLS[0];
+
+/**
+ * Kisi tab me column (header) na ho to aakhir me jod deta hai — data shift nahi hota.
+ * Purane tabs me `Product ID` isi tarah add hoti hai.
+ */
+function ensureColumn_(tab, headerName) {
+  var head = headersOf_(tab);
+  if (head.indexOf(headerName) >= 0) return head.indexOf(headerName);
+  var column = Math.max(1, tab.getLastColumn() + 1);
+  tab.getRange(1, column).setValue(headerName).setFontWeight('bold');
+  return column - 1;
+}
+
+/** ProductList (Handle → ID) se map — har row me id lagane ke liye */
+function productIdByHandle_() {
+  var map = {};
+  var list = book_().getSheetByName('ProductList');
+  if (!list || list.getLastRow() < 2) return map;
+  var head = headersOf_(list);
+  var idCol = head.indexOf('ID');
+  var handleCol = head.indexOf('Handle');
+  if (idCol < 0 || handleCol < 0) return map;
+  var rows = list.getRange(2, 1, list.getLastRow() - 1, head.length).getValues();
+  for (var i = 0; i < rows.length; i++) {
+    var id = String(rows[i][idCol] || '').trim();
+    var handle = String(rows[i][handleCol] || '').trim();
+    if (id && handle) map[handle] = id;
+  }
+  return map;
+}
+
+/** Sheet me maujood sabse bada ID + 1 (naya product aaye to agli id) */
+function nextProductId_(used) {
+  var max = 1000;
+  var map = used || productIdByHandle_();
+  Object.keys(map).forEach(function (handle) {
+    var value = Number(String(map[handle] || '').replace(/\D/g, ''));
+    if (value > max) max = value;
+  });
+  var tabs = ['Products', 'ProductImages', 'MainImage', 'Reviews'];
+  tabs.forEach(function (name) {
+    var tab = book_().getSheetByName(name);
+    if (!tab || tab.getLastRow() < 2) return;
+    var head = headersOf_(tab);
+    var col = head.indexOf('Product ID');
+    if (col < 0) return;
+    var values = tab.getRange(2, col + 1, tab.getLastRow() - 1, 1).getValues();
+    for (var i = 0; i < values.length; i++) {
+      var value = Number(String(values[i][0] || '').replace(/\D/g, ''));
+      if (value > max) max = value;
+    }
+  });
+  return max + 1;
+}
+
+/** chhota CSV parser — `"..."` quotes aur `""` escape dono sambhalta hai */
+function parseCsv_(text) {
+  var rows = [];
+  var row = [];
+  var cell = '';
+  var quoted = false;
+  for (var i = 0; i < text.length; i++) {
+    var ch = text.charAt(i);
+    if (quoted) {
+      if (ch === '"') {
+        if (text.charAt(i + 1) === '"') {
+          cell += '"';
+          i += 1;
+        } else {
+          quoted = false;
+        }
+      } else {
+        cell += ch;
+      }
+    } else if (ch === '"') {
+      quoted = true;
+    } else if (ch === ',') {
+      row.push(cell);
+      cell = '';
+    } else if (ch === '\n') {
+      row.push(cell);
+      rows.push(row);
+      row = [];
+      cell = '';
+    } else if (ch !== '\r') {
+      cell += ch;
+    }
+  }
+  if (cell.length || row.length) {
+    row.push(cell);
+    rows.push(row);
+  }
+  return rows.filter(function (line) {
+    return line.join('').trim() !== '';
+  });
+}
+
+/**
+ * CSV ko seedha tab me likh deta hai (URL → values). `IMPORTDATA` kabhi kabhi
+ * badi file par #N/A de deta hai, isliye yeh fallback pakka hai.
+ */
+function fetchFirst_(urls) {
+  var lastError = '';
+  for (var i = 0; i < urls.length; i++) {
+    try {
+      var response = UrlFetchApp.fetch(urls[i], { muteHttpExceptions: true, followRedirects: true });
+      if (response.getResponseCode() === 200) return response.getContentText();
+      lastError = response.getResponseCode() + ' — ' + urls[i];
+    } catch (error) {
+      lastError = String(error) + ' — ' + urls[i];
+    }
+  }
+  throw new Error('Data file nahi mili. Aakhri error: ' + lastError);
+}
+
+function writeCsvTab_(tabName, urls) {
+  var text = fetchFirst_(typeof urls === 'string' ? [urls] : urls);
+  var rows = parseCsv_(text);
+  if (rows.length < 2) throw new Error('CSV khali aayi — ' + urls);
+  var tab = ensureTab_(tabName);
+  tab.clear();
+  tab.getRange(1, 1, rows.length, rows[0].length).setValues(rows);
+  tab.getRange(1, 1, 1, rows[0].length).setFontWeight('bold');
+  tab.setFrozenRows(1);
+  return rows.length - 1;
+}
+
+/** tab na ho to bana deta hai, warna wahi lautata hai */
+function ensureTab_(name) {
+  var book = book_();
+  var tab = book.getSheetByName(name);
+  if (!tab) {
+    tab = book.insertSheet(name);
+    tab.setFrozenRows(1);
+  }
+  return tab;
+}
+
+/**
+ * `ImagesAll` tab — **har product ki har photo** ek row me
+ * (`ID · Handle · Title · Position · Image`), ID ke saath.
+ */
+function ensureImagesAllTab_() {
+  var tab = ensureTab_('ImagesAll');
+  if (tab.getLastRow() < 2) {
+    tab.getRange(1, 1, 1, 5).setValues([['ID', 'Handle', 'Title', 'Position', 'Image']]);
+    tab.getRange(1, 1, 1, 5).setFontWeight('bold');
+    tab.setColumnWidth(5, 640);
+  }
+  return tab;
+}
+
+/** Menu: saari images ek jagah (har photo, ID ke saath) */
+function syncAllImages() {
+  var tab = ensureImagesAllTab_();
+  var rows = writeCsvTab_('ImagesAll', PRODUCT_IMAGES_CSV_URLS);
+  SpreadsheetApp.flush();
+  try {
+    SpreadsheetApp.getUi().alert(
+      'ImagesAll taiyaar — ' + rows + ' image rows (ID ke saath).\n\n' +
+        'Har product ki saari photos yahan hain (5 ho ya 20).\n' +
+        'Photo badalni/hatani ho to `ProductImages` tab use kariye — site turant badal jaati hai.',
+    );
+  } catch (error) {
+    // ignore
+  }
+  return { ok: true, rows: rows };
+}
+
 function ensureProductImagesTab_() {
   var book = book_();
   var tab = book.getSheetByName('ProductImages');
   if (!tab) {
     tab = book.insertSheet('ProductImages');
-    tab.appendRow(['Handle', 'Position', 'Image', 'Note']);
+    tab.appendRow(['Handle', 'Position', 'Image', 'Note', 'Product ID']);
     tab.setFrozenRows(1);
     tab.getRange(1, 1, 1, 4).setFontWeight('bold');
     tab.setColumnWidth(1, 320);
     tab.setColumnWidth(2, 90);
     tab.setColumnWidth(3, 520);
     tab.setColumnWidth(4, 260);
-    tab.getRange(2, 2, 400, 1).setNumberFormat('0');
+    tab.getRange(2, 3, 400, 1).setNumberFormat('0');
   }
+  ensureColumn_(tab, 'Product ID');
   return tab;
 }
 
@@ -252,38 +446,52 @@ function ensureProductImagesTab_() {
  */
 function syncProductImages() {
   var tab = ensureProductImagesTab_();
-  var response = UrlFetchApp.fetch(PRODUCT_IMAGES_URL, { muteHttpExceptions: true });
-  if (response.getResponseCode() !== 200) {
-    throw new Error('Product images list nahi mili (' + response.getResponseCode() + ')');
-  }
-  var payload = JSON.parse(response.getContentText());
-  var images = payload.images || {};
+  var payload = JSON.parse(fetchFirst_(PRODUCT_IMAGES_URLS));
+  var rowsIn = payload.rows || [];
 
+  ensureColumn_(tab, 'Product ID');
   var head = headersOf_(tab);
-  var handleCol = Math.max(0, head.indexOf('Handle'));
+  var idCol = head.indexOf('Product ID');
+  var handleCol = head.indexOf('Handle');
+  if (handleCol < 0) handleCol = 1;
+  var positionCol = head.indexOf('Position');
+  if (positionCol < 0) positionCol = 2;
+
+  // pehle se maujood handle+position — dobara likhkar duplicate nahi banate
   var existing = {};
   if (tab.getLastRow() > 1) {
-    var values = tab.getRange(2, handleCol + 1, tab.getLastRow() - 1, 1).getValues();
+    var values = tab.getRange(2, 1, tab.getLastRow() - 1, head.length).getValues();
     for (var i = 0; i < values.length; i++) {
-      var handle = String(values[i][0] || '').trim();
-      if (handle) existing[handle] = true;
+      var key = String(values[i][handleCol] || '').trim() + '#' + String(values[i][positionCol] || '').trim();
+      if (key !== '#') existing[key] = true;
     }
   }
 
   var rows = [];
-  Object.keys(images).forEach(function (handle) {
-    if (existing[handle]) return;
-    (images[handle] || []).forEach(function (url, index) {
-      rows.push([handle, index + 1, url, '']);
-    });
+  rowsIn.forEach(function (row) {
+    var id = String(row[0] || '').trim();
+    var handle = String(row[1] || '').trim();
+    var position = String(row[3] || '').trim();
+    var url = String(row[4] || '').trim();
+    if (!handle || !url) return;
+    if (existing[handle + '#' + position]) return;
+    var row = new Array(head.length).fill('');
+    row[handleCol] = handle;
+    row[positionCol] = position;
+    row[head.indexOf('Image')] = url;
+    if (idCol >= 0) row[idCol] = id;
+    rows.push(row);
   });
+
   if (rows.length) {
-    tab.getRange(tab.getLastRow() + 1, 1, rows.length, 4).setValues(rows);
+    tab.getRange(tab.getLastRow() + 1, 1, rows.length, head.length).setValues(rows);
+    if (idCol >= 0) tab.getRange(2, idCol + 1, tab.getLastRow() - 1, 1).setNumberFormat('@');
   }
 
   try {
     SpreadsheetApp.getUi().alert(
-      'ProductImages: ' + rows.length + ' photo rows add hue.\n\n' +
+      'ProductImages: ' + rows.length + ' photo rows add hue (ID ke saath).\n\n' +
+        'Har product ki saari photos yahan hain — 5 ho ya 20.\n' +
         'Photo badalni ho → us row ka Image cell badal dijiye.\n' +
         'Photo hatani ho → us row ke Image cell me `delete` likh dijiye.\n' +
         'Nayi photo → nayi row: Handle + next Position + image link.',
@@ -291,7 +499,70 @@ function syncProductImages() {
   } catch (error) {
     // sheet ke bahar se chala
   }
-  return { ok: true, added: rows.length };
+  return { ok: true, added: rows.length, total: rowsIn.length };
+}
+
+/**
+ * Menu: **har product ki ID** — Products / MainImage / ProductImages / Reviews sab me.
+ * ID sirf admin ke liye hai (site par customer ko nahi dikhti).
+ */
+function backfillAllProductIds() {
+  var idByHandle = productIdByHandle_();
+  var next = nextProductId_(idByHandle);
+  var report = [];
+
+  function fill(tabName, handleHeader) {
+    var tab = book_().getSheetByName(tabName);
+    if (!tab || tab.getLastRow() < 2) return 0;
+    var col = ensureColumn_(tab, 'Product ID');
+    var head = headersOf_(tab);
+    var handleCol = head.indexOf(handleHeader);
+    if (handleCol < 0) return 0;
+    var values = tab.getRange(2, 1, tab.getLastRow() - 1, head.length).getValues();
+    var changed = 0;
+    for (var i = 0; i < values.length; i++) {
+      var handle = String(values[i][handleCol] || '').trim();
+      var current = String(values[i][col] || '').trim();
+      if (!handle) continue;
+      if (current) {
+        if (!idByHandle[handle]) idByHandle[handle] = current;
+        continue;
+      }
+      var id = idByHandle[handle];
+      if (!id) {
+        id = String(next++);
+        idByHandle[handle] = id;
+      }
+      values[i][col] = id;
+      changed += 1;
+    }
+    if (changed) {
+      tab.getRange(2, col + 1, values.length, 1).setValues(
+        values.map(function (row) {
+          return [row[col]];
+        }),
+      );
+      tab.getRange(2, col + 1, values.length, 1).setNumberFormat('@');
+    }
+    report.push(tabName + ': ' + changed);
+    return changed;
+  }
+
+  fill('Products', 'Handle');
+  fill('MainImage', 'Handle');
+  fill('ProductImages', 'Handle');
+  fill('Reviews', 'Handle');
+  fill('Reviews', 'Product Handle');
+
+  try {
+    SpreadsheetApp.getUi().alert(
+      'Product ID bhar gayi (sirf admin ke liye).\n\n' + report.join('\n') +
+        '\n\nYe IDs site par customer ko nahi dikhti.',
+    );
+  } catch (error) {
+    // ignore
+  }
+  return { ok: true, report: report };
 }
 
 function ensureMainImageTab_() {
@@ -306,6 +577,7 @@ function ensureMainImageTab_() {
     tab.setColumnWidth(2, 420);
     tab.setColumnWidth(3, 260);
   }
+  ensureColumn_(tab, 'Product ID');
   return tab;
 }
 
@@ -315,6 +587,8 @@ function syncProductList() {
   tab.getRange(1, 1).setFormula('=IMPORTDATA("' + PRODUCT_LIST_URL + '")');
   SpreadsheetApp.flush();
   var rows = Math.max(0, tab.getLastRow() - 1);
+  // IMPORTDATA kabhi #N/A de deta hai (badi file) — tabhi seedha CSV likh dete hain
+  if (rows < 10) rows = writeCsvTab_('ProductList', PRODUCT_LIST_URLS);
   try {
     SpreadsheetApp.getUi().alert(
       'ProductList taiyaar hai — ' + rows + ' items.\n\n' +
@@ -405,6 +679,7 @@ function setup() {
   ensureProductListTab_();
   ensureMainImageTab_();
   ensureProductImagesTab_();
+  ensureImagesAllTab_();
 
   // Reviews: Status dropdown = approval (sirf publish/approved site par jaate hain)
   try {
@@ -1253,6 +1528,8 @@ function onOpen() {
       .addItem('3. Reviews: approval kaise karein', 'showReviewHelp')
       .addItem('4. Purane reviews me Product ID bharo', 'backfillReviewProductIds')
       .addItem('5. Saari products ki images list bharo', 'syncProductImages')
+      .addItem('6. Saari images ek jagah (ImagesAll)', 'syncAllImages')
+      .addItem('7. Har product ki ID bharo (admin-only)', 'backfillAllProductIds')
       .addToUi();
   } catch (error) {
     // sheet ke bahar se call hua (web app) — menu ki zaroorat nahi
