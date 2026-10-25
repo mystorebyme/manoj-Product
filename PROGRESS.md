@@ -628,3 +628,19 @@ banata hai. Product ID sirf sheet/admin me — storefront par kahin nahi.
   `sendOwnerNotice_` se poori detail wali mail (Web3Forms/FormSubmit), 20+ slots round-robin
   (har alert agla account), `web3forms_auto` slot (Pro autoresponder = customer ko bhi).
   Customer ki free mail Brevo/EmailJS/Resend/Mailjet/Elastic Email se. Test 16/16, self-test 115.
+
+### Round 39 — Cloudflare Pages migration (repo side done)
+
+- **Audit:** production = Next.js 16 static export (`scripts/pages/build-preview.mjs` → `dist/`,
+  4768 files / 135 MB, koi server route nahi — `src/app/api` build ke waqt hata diya jaata hai).
+  Server-side code (Postgres, pdfkit, OTP) production build me nahi jaata.
+- **Cloudflare config:** `apps/web/public/_headers` (security headers + CSP report-only +
+  `_next/static`/`images` immutable, HTML `must-revalidate`, cart/checkout/account/track-order
+  `no-store`), aur `build-preview.mjs` use `dist/_headers` me guarantee ke saath copy karta hai.
+- **DNS verified (DoH):** domain pehle se Cloudflare par — NS `karsyn/duke.ns.cloudflare.com`,
+  apex A = Cloudflare proxy IPs. Nameservers badalne ki zaroorat nahi; sirf Pages custom domain
+  activate karna hai (rollback: record wapas purane host par).
+- **Docs:** `docs/09-devops/cloudflare-pages.md` — build settings, env vars, custom domain + www
+  301 rule, limits, test checklist, rollback, CLI raasta.
+- **Blocker:** Cloudflare login/API token agent ke paas nahi hai → project create + domain
+  activate owner karega (10–15 min).

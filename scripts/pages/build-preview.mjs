@@ -103,6 +103,16 @@ try {
   fs.cpSync(out, dist, { recursive: true });
   // GitHub Pages Jekyll ko bypass kare
   fs.writeFileSync(path.join(dist, ".nojekyll"), "");
+
+  /**
+   * Cloudflare Pages ke headers (`_headers`). Next static export `public/` ko
+   * copy karta hai, par underscore se shuru hone wali files par bharosa nahi
+   * karte — yahan guarantee ke liye dobara likh dete hain.
+   */
+  const headersFile = path.join(APP, "public/_headers");
+  if (fs.existsSync(headersFile)) {
+    fs.copyFileSync(headersFile, path.join(dist, "_headers"));
+  }
   console.log(`static preview ready: ${dist} (${BASE_PATH || "/"})`);
 } finally {
   fs.rmSync(path.join(APP_DIR, "search"), { recursive: true, force: true });

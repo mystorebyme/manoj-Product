@@ -1,3 +1,7 @@
+> **Note (hosting migration):** is repo ka primary hosting target ab **Cloudflare Pages** hai —
+> `docs/09-devops/cloudflare-pages.md` dekhein. Ye Netlify setup **rollback ke liye** jaan-boojh
+> kar chhoda gaya hai (build command + `dist` wahi hai, dono jagah chalta hai).
+>
 # Netlify par site + apna domain (`trendsyounique.fashion`)
 
 Ye repo Netlify ke liye ready hai — `netlify.toml` repo me hai, koi setting haath se
