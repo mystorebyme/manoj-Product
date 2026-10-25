@@ -1,4 +1,4 @@
-# Render blueprint — https://likshaclothing.onrender.com
+# Render blueprint — TRENDS YOUNIQUE (storefront + admin + Postgres)
 #
 # Teen cheezein: storefront (public) + admin (private URL) + ek Postgres,
 # aur ek static "preview" site (bina login/checkout, sirf pages dekhne ke liye).
@@ -13,20 +13,20 @@
 #    (STORE_API_URL), taaki customer ka tracking page turant update ho.
 
 databases:
-  - name: liksha-db
-    databaseName: liksha
-    user: liksha
+  - name: trends-younique-db
+    databaseName: trends_younique
+    user: trends
     plan: free
     region: singapore
     postgresMajorVersion: "16"
 
 services:
   - type: web
-    name: liksha-storefront
+    name: trends-younique-storefront
     runtime: node
     plan: free
     region: singapore
-    branch: arena/f713eef1-tannu-product
+    branch: arena/e13f4af5-manoj-product
     buildCommand: npm ci && npm run catalog:build && npm run build --workspace @liksha/web
     # Har boot par migrate (idempotent, advisory lock) — phir server start.
     startCommand: npm run db:migrate; npm run start --workspace @liksha/web
@@ -38,7 +38,7 @@ services:
       - key: NEXT_TELEMETRY_DISABLED
         value: "1"
       - key: NEXT_PUBLIC_SITE_URL
-        value: https://likshaclothing.onrender.com
+        value: https://trends-younique-storefront.onrender.com
       - key: OTP_DEV_MODE
         value: "on"
       - key: OTP_TOKEN_SECRET
@@ -47,7 +47,7 @@ services:
         generateValue: true
       - key: DATABASE_URL
         fromDatabase:
-          name: liksha-db
+          name: trends-younique-db
           property: connectionString
       # Owner ki Google Sheet (settings read + orders/payments/messages append).
       # Apps Script deploy karke /exec URL aur token yahan daaliye.
@@ -63,11 +63,11 @@ services:
         value: TRENDS YOUNIQUE
 
   - type: web
-    name: liksha-admin
+    name: trends-younique-admin
     runtime: node
     plan: free
     region: singapore
-    branch: arena/f713eef1-tannu-product
+    branch: arena/e13f4af5-manoj-product
     buildCommand: npm ci && npm run catalog:build && npm run build --workspace @liksha/admin
     startCommand: npm run start --workspace @liksha/admin
     autoDeploy: true
@@ -79,26 +79,26 @@ services:
       - key: ADMIN_SESSION_SECRET
         generateValue: true
       - key: ADMIN_EMAIL
-        value: admin@likshaclothing.com
+        value: admin@trendsyounique.com
       - key: ADMIN_PASSWORD
         sync: false # Render dashboard me set kariye
       - key: ADMIN_API_TOKEN
         fromService:
-          name: liksha-storefront
+          name: trends-younique-storefront
           type: web
           envVarKey: ADMIN_API_TOKEN
       - key: STORE_API_URL
-        value: https://likshaclothing.onrender.com
+        value: https://trends-younique-storefront.onrender.com
       - key: NEXT_PUBLIC_STORE_URL
-        value: https://likshaclothing.onrender.com
+        value: https://trends-younique-storefront.onrender.com
 
   # Static preview — sirf browse karne ke liye (GitHub Pages jaisa).
   # Cart/checkout/order-tracking yahan nahi chalte, wo storefront par hain.
   - type: web
-    name: liksha-preview
+    name: trends-younique-preview
     runtime: static
     plan: free
-    branch: arena/f713eef1-tannu-product
+    branch: arena/e13f4af5-manoj-product
     buildCommand: npm ci && node scripts/pages/build-preview.mjs
     staticPublishPath: dist
     autoDeploy: true

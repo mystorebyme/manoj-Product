@@ -97,6 +97,19 @@ deploy URL se test karein; theek lage to use production bana dein.
 > Isi wajah se `treand.netlify.app` par purana design dikh raha tha (email, CDN photos,
 > purane circles) — wo build `main` se bana tha, is branch se nahi.
 
+## 2d. Admin kaise kholein (Netlify par admin **nahi** hota)
+
+Static export me login/server nahi hota, isliye `netlify.app/admin` ya
+`trendsyounique.fashion/admin` dono 404 dete hain — ye jaan-boojh kar hai.
+Admin chalane ke do raste (dono domain se pehle aur baad same):
+
+1. **Laptop par (aaj, free):** `ADMIN_PASSWORD='ApnaPassword' npm run dev:admin`
+   → `http://localhost:3001/login`. Edit ke baad `git push` → Netlify auto-deploy.
+2. **24×7 (optional):** Render blueprint (`render.yaml`) →
+   `trends-younique-admin.onrender.com`, chaho to `admin.trendsyounique.fashion`.
+
+Poora detail + FAQ: [`admin-access.md`](./admin-access.md)
+
 ## 3. Netlify par kya chalta hai (aur kya nahi)
 
 | Cheez | Netlify (static) |
