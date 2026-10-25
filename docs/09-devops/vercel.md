@@ -7,7 +7,7 @@
 - Project: `trends-younique` (`prj_EQ3QLpdZAFF6fnLQSHjOte7p4Crb`)
 - Account/team: `prkigothwal@gmail.com` → team **Prakash's projects** (`prakashs-projects-ad474173`, Hobby plan)
 - Branch: `arena/e13f4af5-manoj-product` (production)
-- Last good deploy: `dpl_5tdFKb5TMP1UNo5Gnr4eJrixbNmA` (READY / PROMOTED)
+- Last good deploy: `dpl_Bty3GTmMmvcV4Zoc1NoYYm3oA6oK` (Round 33, READY / PROMOTED)
 
 ## Settings jo set hain
 
@@ -44,6 +44,27 @@ khud ban jaata hai.
 
 Vercel ka filesystem read-only hai, isliye admin (`apps/admin`) yahan nahi chalega —
 `localhost:3001` ya Render. Dekhein [`admin-access.md`](./admin-access.md).
+
+## ⚠️ Push kaafi nahi — deploy trigger karna padta hai
+
+Project me `gitProviderOptions.createDeployments = "disabled"` hai, isliye `git push`
+se deployment **khud nahi** banti. Har push ke baad naya deployment banana padta hai
+(Vercel connector se `create_deployment`, ya CLI/REST se):
+
+```json
+{
+  "name": "trends-younique",
+  "target": "production",
+  "gitSource": {
+    "type": "github",
+    "ref": "arena/e13f4af5-manoj-product",
+    "repoId": "1432425230"
+  }
+}
+```
+
+`repoId` = 1432425230 (`mystorebyme/manoj-Product`), team `team_Uy1pjnl8Qgh0P8nw55xpEvsO`.
+Git source ke bina API `projectSettings is required` error deti hai.
 
 ## Auto-deploy (optional, ek click)
 
