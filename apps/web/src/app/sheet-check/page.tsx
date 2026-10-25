@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { SHEET_WEBAPP_URL_DEFAULT, SHEET_WRITE_TOKEN_DEFAULT } from "@/lib/sheet-config";
+import { sheetWebAppUrl, sheetWriteToken } from "@/lib/sheet-config";
 import { appendUrl, flushSheetQueue, pendingRelayCount } from "@/lib/sheet-relay";
 
 /**
@@ -11,6 +11,10 @@ import { appendUrl, flushSheetQueue, pendingRelayCount } from "@/lib/sheet-relay
  * isi wajah se owner ko lagta tha sab theek hai. Ab har step ka asli jawab dikhta
  * hai, aur step 4 Apps Script se `{ok:true,written:1}` aane par hi ✅ hota hai.
  */
+
+/** Asli (effective) config — env override ho to wahi dikhega, defaults nahi */
+const SHEET_URL = sheetWebAppUrl();
+const WRITE_TOKEN = sheetWriteToken();
 
 type Step = { name: string; state: "idle" | "busy" | "ok" | "fail"; detail?: string };
 
@@ -31,7 +35,19 @@ export default function SheetCheckPage() {
   const [pending, setPending] = useState(0);
   const [running, setRunning] = useState(false);
 
-  useEffect(() => setPending(pendingRelayCount()), []);
+  useEffect(() => {
+    setPending(pendingRelayCount());
+    // page khulte hi script version dikhado (r8/r9 turant pata chale)
+    void fetch(`${SHEET_URL}?action=ping`, { cache: "no-store" })
+      .then((response) => response.json())
+      .then((body: { ok?: boolean; version?: string }) => {
+        setStep(0, {
+          state: body.ok ? "ok" : "fail",
+          detail: body.ok ? `version ${body.version ?? "?"}` : "purana deployment",
+        });
+      })
+      .catch(() => setStep(0, { state: "fail", detail: "Apps Script se baat nahi hui" }));
+  }, []);
 
   function setStep(index: number, patch: Partial<Step>) {
     setSteps((current) => current.map((step, i) => (i === index ? { ...step, ...patch } : step)));
@@ -39,7 +55,7 @@ export default function SheetCheckPage() {
 
   async function run() {
     setRunning(true);
-    const url = SHEET_WEBAPP_URL_DEFAULT;
+    const url = SHEET_URL;
 
     setStep(0, { state: "busy" });
     try {
@@ -57,7 +73,7 @@ export default function SheetCheckPage() {
     setStep(1, { state: "busy" });
     try {
       const body = await getJson(
-        `${url}?action=verify_write&token=${encodeURIComponent(SHEET_WRITE_TOKEN_DEFAULT)}`,
+        `${url}?action=verify_write&token=${encodeURIComponent(WRITE_TOKEN)}`,
       );
       setStep(
         1,
@@ -85,7 +101,7 @@ export default function SheetCheckPage() {
     setTestRef(ref);
     try {
       const response = await fetch(
-        appendUrl(SHEET_WEBAPP_URL_DEFAULT, SHEET_WRITE_TOKEN_DEFAULT, [
+        appendUrl(SHEET_URL, WRITE_TOKEN, [
           {
             sheet: "Orders",
             row: {
@@ -149,11 +165,11 @@ export default function SheetCheckPage() {
       <dl className="mt-6 space-y-1 border border-[#e6dac7] bg-[#fdfaf5] p-4 text-[12px]">
         <div className="flex gap-2">
           <dt className="w-24 shrink-0 text-[#8a7d72]">Web app</dt>
-          <dd className="break-all">{`${SHEET_WEBAPP_URL_DEFAULT.slice(0, 58)}…`}</dd>
+          <dd className="break-all">{SHEET_URL}</dd>
         </div>
         <div className="flex gap-2">
           <dt className="w-24 shrink-0 text-[#8a7d72]">Write token</dt>
-          <dd className="break-all">{`${SHEET_WRITE_TOKEN_DEFAULT.slice(0, 10)}…${SHEET_WRITE_TOKEN_DEFAULT.slice(-4)}`}</dd>
+          <dd className="break-all">{`${WRITE_TOKEN.slice(0, 10)}…${WRITE_TOKEN.slice(-4)}`}</dd>
         </div>
         <div className="flex gap-2">
           <dt className="w-24 shrink-0 text-[#8a7d72]">Pending rows</dt>
