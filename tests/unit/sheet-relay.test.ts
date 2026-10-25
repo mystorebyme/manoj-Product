@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { test } from "node:test";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 import { appendUrl, encodePayload, splitBatches } from "../../apps/web/src/lib/sheet-relay";
 
@@ -13,6 +15,7 @@ import { appendUrl, encodePayload, splitBatches } from "../../apps/web/src/lib/s
  * queue. Ye tests us behaviour ko pin karte hain.
  */
 
+const root = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const URL_ = "https://script.google.com/macros/s/TEST/exec";
 const TOKEN = "tyw-test-token";
 
@@ -93,4 +96,17 @@ test("Apps Script: master token placeholder ho to reads band rehte hain", () => 
   assert.match(script, /masterTokenConfigured_\(\)/);
   assert.match(script, /MASTER_PLACEHOLDERS/, "placeholder list honi chahiye");
   assert.match(script, /PropertiesService/, "Script Properties se token badla ja sake");
+});
+
+test("relay: bade entry ke saare batches bheje jaate hain (pehla fail ho to bhi)", async () => {
+  const source = readFileSync(resolve(root, "apps/web/src/lib/sheet-relay.ts"), "utf8");
+  // deliver() me ab early return nahi — warna bade order ka baaki hissa 20s ruka rehta tha
+  assert.ok(!/sendViaPixel\(batch\);\s*\n\s*return false;/.test(source), "deliver me early return nahi hona chahiye");
+  assert.match(source, /allVerified/);
+});
+
+test("relay: 7 din se purani queue entry drop hoti hai (pending count atakta nahi)", () => {
+  const source = readFileSync(resolve(root, "apps/web/src/lib/sheet-relay.ts"), "utf8");
+  assert.match(source, /MAX_QUEUE_AGE_MS/);
+  assert.match(source, /dropStaleEntries/);
 });

@@ -217,8 +217,15 @@ export function splitBatches(rows: { sheet: string; row: Row }[]): { sheet: stri
   return batches;
 }
 
-/** Ek queue entry ko bhejne ki koshish — success par queue se hata do */
+/**
+ * Ek queue entry ko bhejne ki koshish — success par queue se hata do.
+ *
+ * Har batch alag se jaata hai: pehla batch fail hone par baaki batches ko chhodna
+ * nahi chahiye (pehle `return false` tha, isliye bade orders ka baaki hissa agle
+ * flush tak ruka rehta tha).
+ */
 async function deliver(entry: RelayEntry): Promise<boolean> {
+  let allVerified = true;
   for (const batch of splitBatches(entry.rows)) {
     // ek hi row itni badi ho ki URL limit cross ho jaye → GET skip (400 aata hai)
     if (encodePayload(batch).length <= MAX_GET_PAYLOAD) {
@@ -231,10 +238,20 @@ async function deliver(entry: RelayEntry): Promise<boolean> {
     sendViaBeacon(batch);
     sendViaForm(batch);
     sendViaPixel(batch);
-    return false;
+    allVerified = false;
   }
-  dequeue(entry.id);
-  return true;
+  if (allVerified) dequeue(entry.id);
+  return allVerified;
+}
+
+/** Server side dedupe hai, isliye bahut purani (7 din+) queue entry chhod dena safe hai */
+const MAX_QUEUE_AGE_MS = 7 * 24 * 60 * 60 * 1000;
+
+function dropStaleEntries(queue: RelayEntry[]): RelayEntry[] {
+  const cutoff = Date.now() - MAX_QUEUE_AGE_MS;
+  const alive = queue.filter((entry) => entry.at >= cutoff);
+  if (alive.length !== queue.length) writeQueue(alive);
+  return alive;
 }
 
 /**
@@ -244,7 +261,7 @@ async function deliver(entry: RelayEntry): Promise<boolean> {
 export async function flushSheetQueue(force = false): Promise<number> {
   if (!sheetRelayEnabled() || typeof window === "undefined") return 0;
   let sent = 0;
-  for (const entry of readQueue()) {
+  for (const entry of dropStaleEntries(readQueue())) {
     if (!force && entry.attempts > 0 && Date.now() - entry.at < RETRY_AFTER_MS) continue;
     if (entry.attempts >= MAX_ATTEMPTS) continue;
     const queue = readQueue();
