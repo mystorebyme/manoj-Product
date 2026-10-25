@@ -360,7 +360,8 @@ const readExtra = (name, key) => {
   const ratings = reviewRatings();
   const usedHandles = new Set();
   const products = [];
-  const stats = { images: 0, sizes: new Set(), noImage: [], duplicateImages: [] };
+  const stats = {
+    duplicates: [], images: 0, sizes: new Set(), noImage: [], duplicateImages: [] };
   /** poore catalogue me ek image sirf ek product par */
   const usedImages = new Set();
 
@@ -623,6 +624,43 @@ const readExtra = (name, key) => {
   const groupedCount = Object.values(colourGroups).reduce((sum, group) => sum + group.colours.length, 0);
   if (groupedCount) {
     console.log(`colour groups: ${Object.keys(colourGroups).length} designs / ${groupedCount} colourways`);
+  }
+
+  /* ---------- duplicate products hatado (same photos, do handles) ---------- */
+  // do store snapshots (main + extra) me kuch designs dobara aate hain — same photos,
+  // alag handle aur alag price. Aise pair me se ek hi rakho (main store wala jeetta hai),
+  // warna grid me ek hi dress do baar dikhti hai.
+  const photoSetKey = (product) =>
+    product.images
+      .slice(0, 3)
+      .map((src) => src.split("/").slice(-2).join("/"))
+      .join("|");
+  const keptByPhotoSet = new Map();
+  const duplicateHandles = new Set();
+  for (const product of products) {
+    if (!product.images.length) continue;
+    const key = photoSetKey(product);
+    const kept = keptByPhotoSet.get(key);
+    if (!kept) {
+      keptByPhotoSet.set(key, product);
+      continue;
+    }
+    if (kept.source === "extra" && product.source !== "extra") {
+      duplicateHandles.add(kept.handle);
+      keptByPhotoSet.set(key, product);
+    } else {
+      duplicateHandles.add(product.handle);
+    }
+  }
+  if (duplicateHandles.size) {
+    const before = products.length;
+    for (let index = products.length - 1; index >= 0; index -= 1) {
+      if (duplicateHandles.has(products[index].handle)) {
+        stats.duplicates.push(products[index].handle);
+        products.splice(index, 1);
+      }
+    }
+    console.log(`duplicate products removed: ${before - products.length}`);
   }
 
   /** listed products: ek group ka sirf representative (cards duplicate na dikhein) */

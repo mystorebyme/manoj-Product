@@ -64,3 +64,10 @@ test("naya override naam kaam karta hai (future deployment ke liye)", () => {
   if (before === undefined) delete process.env.NEXT_PUBLIC_SHEET_URL_OVERRIDE;
   else process.env.NEXT_PUBLIC_SHEET_URL_OVERRIDE = before;
 });
+
+test("public/sheet-endpoint.json sheet-config se match karta hai (live deploy check)", () => {
+  const file = readFileSync(resolve(root, "apps/web/public/sheet-endpoint.json"), "utf8");
+  const json = JSON.parse(file) as { webAppUrl: string; writeTokenPrefix: string };
+  assert.equal(json.webAppUrl, SHEET_WEBAPP_URL_DEFAULT);
+  assert.ok(SHEET_WRITE_TOKEN_DEFAULT.startsWith(json.writeTokenPrefix));
+});

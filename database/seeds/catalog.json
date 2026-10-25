@@ -7,10 +7,10 @@
   "moneyUnit": "paise",
   "builtAt": "2026-10-24T16:20:52.051Z",
   "snapshotAt": "2026-10-24T06:51:35.543Z",
-  "productCount": 517,
+  "productCount": 513,
   "liveProductCount": 287,
-  "extraProductCount": 159,
-  "listedProductCount": 433,
+  "extraProductCount": 155,
+  "listedProductCount": 429,
   "colourGroupCount": 12,
   "imageCount": 2991,
   "ownProductCount": 71
@@ -22,7 +22,7 @@
    "subtitle": "Freshly dropped festive favourites",
    "image": "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/DSC08096_JPG.jpg",
    "sortOrder": 1,
-   "productCount": 399
+   "productCount": 396
   },
   {
    "handle": "party-wear-gown",
@@ -30,7 +30,7 @@
    "subtitle": "Designer Anarkali Suits",
    "image": "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_9512.webp",
    "sortOrder": 2,
-   "productCount": 276
+   "productCount": 272
   },
   {
    "handle": "trends-signature",
@@ -38,7 +38,7 @@
    "subtitle": "Handpicked by our stylists",
    "image": "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/DSC08059_JPG.jpg",
    "sortOrder": 3,
-   "productCount": 129
+   "productCount": 126
   },
   {
    "handle": "lehnga-choli",
@@ -54,7 +54,7 @@
    "subtitle": "Everyday ethnic ease",
    "image": "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_8778_3062c1c0-4a26-4ac6-9ae4-93acf7da5361.jpg",
    "sortOrder": 5,
-   "productCount": 55
+   "productCount": 53
   },
   {
    "handle": "trending",
@@ -34779,169 +34779,6 @@
    "publishedAt": "2025-03-15T12:30:35+05:30"
   },
   {
-   "handle": "prachis-pink-havy-vichitra-royal-elegant-suit-set-copy-8228835983492",
-   "sourceHandle": "prachis-pink-havy-vichitra-royal-elegant-suit-set-copy",
-   "title": "Prachi's' Black Havy Vichitra Royal Elegant Suit Set",
-   "price": 54900,
-   "compareAtPrice": 183000,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/WhatsApp_Image_2025-02-08_at_3.11.10_PM_1.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/WhatsAppImage2025-02-08at3.11.10PM.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/WhatsAppImage2025-02-08at3.11.10PM_1.webp"
-   ],
-   "collections": [
-    "new-arrivals",
-    "party-wear-gown"
-   ],
-   "category": "anarkali",
-   "productType": "Anarkali suit",
-   "fabric": "Vichitra Silk",
-   "color": "Black",
-   "sizes": [
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]",
-    "3XL [46]"
-   ],
-   "sizePricing": {
-    "S [36]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "M [38]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "L [40]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "3XL [46]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    }
-   },
-   "details": [
-    "KURTA:",
-    "Fabric – Pur Vichitra Silk",
-    "Kurta Length – 50-51 Inches ”",
-    "Sleeves – 22“ Chudi sleeves",
-    "PALAZZO:",
-    "Fabric – Pur Vichitra Silk",
-    "Length – 39 Inch (Full Stitched)",
-    "DUPATTA :",
-    "Fabric – Pur Vichitra Silk",
-    "Length – 2.4″ meter"
-   ],
-   "description": "KURTA: Fabric – Pur Vichitra Silk Kurta Length – 50-51 Inches ” Sleeves – 22“ Chudi sleeves PALAZZO: Fabric – Pur Vichitra Silk Length – 39 Inch (Full Stitched) DUPATTA : Fabric – Pur Vichitra Silk Length – 2.4″ meter",
-   "descriptionHtml": "<p><b><i>KURTA:</i></b></p>\n<ul>\n<li>Fabric – <span>Pur Vichitra Silk</span>\n</li>\n<li>Kurta Length – <span>50-51 Inches</span> ”</li>\n<li><br></li>\n<li><br></li>\n<li>Sleeves – 22“ Chudi sleeves</li>\n</ul>\n<p><b><i>PALAZZO:</i></b></p>\n<ul>\n<li>Fabric – <span>Pur Vichitra Silk</span>\n</li>\n<li>Length –<span> 39 Inch <strong>(Full Stitched)</strong> </span>\n</li>\n</ul>\n<p><b><i>DUPATTA :</i></b></p>\n<ul>\n<li>Fabric –<span> Pur Vichitra Silk</span>\n</li>\n<li>Length – 2.4″ meter<br><b><i></i></b>\n</li>\n</ul>",
-   "source": "extra",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2025-03-11T18:21:18+05:30"
-  },
-  {
-   "handle": "premium-quality-roman-silk-gown-anarkali-suit-set-copy-8228835819652",
-   "sourceHandle": "premium-quality-roman-silk-gown-anarkali-suit-set-copy",
-   "title": "Premium Quality Roman Silk Gown Anarkali Suit Set",
-   "price": 64900,
-   "compareAtPrice": 216333,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/YellowWomenClothingPromoMobileVideo_21.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/YellowWomenClothingPromoMobileVideo_20.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/YellowWomenClothingPromoMobileVideo_22.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/YellowWomenClothingPromoMobileVideo_23.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/Yellow_Women_Clothing_Promo_Mobile_Video_25.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/YellowWomenClothingPromoMobileVideo_24.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/YellowWomenClothingPromoMobileVideo_19.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/Yellow_Women_Clothing_Promo_Mobile_Video_26.jpg"
-   ],
-   "collections": [
-    "trends-signature",
-    "party-wear-gown",
-    "printed-suit-set"
-   ],
-   "category": "anarkali",
-   "productType": "Anarkali suit",
-   "fabric": "Silk",
-   "color": "As Shown",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "S [36]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "M [38]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "L [40]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    }
-   },
-   "details": [
-    "Anarkali Fabric: Heavy Pure Romansilk Chanderi Fabric",
-    "yoke Lace Work, full Churidar Sleeves ,Padded, side Zipper, four Layer Gathering",
-    "Anarkali Flair: 9 Mtr Plus Fully Flair",
-    "Anarkali Inner: Pure Microscrape Full Lining",
-    "Anarkali Length: 54 Inch Approx.",
-    "Pent Fabric: Pure Roman Silk Chanderi Fabric Free Size Fully Stitched",
-    "Dupatta Fabric: 36 Inch Chanderi Banarasi Jacquard Dupatta Fabric"
-   ],
-   "description": "Anarkali Fabric: Heavy Pure Romansilk Chanderi Fabric yoke Lace Work, full Churidar Sleeves ,Padded, side Zipper, four Layer Gathering Anarkali Flair: 9 Mtr Plus Fully Flair Anarkali Inner: Pure Microscrape Full Lining Anarkali Length: 54 Inch Approx. Pent Fabric: Pure Roman Silk Chanderi Fabric Free Size Fully Stitched Dupatta Fabric: 36 Inch Chanderi Banarasi Jacquard Dupatta Fabric",
-   "descriptionHtml": "<p><span><strong>Anarkali Fabric:</strong> Heavy Pure Romansilk Chanderi Fabric<br>yoke Lace Work, full Churidar Sleeves ,Padded, side Zipper, four Layer Gathering<br><strong>Anarkali Flair:</strong> 9 Mtr Plus Fully Flair <br><strong>Anarkali Inner:</strong> Pure Microscrape Full Lining <br><strong>Anarkali Length:</strong> 54 Inch Approx.</span></p>\n<p><span><strong>Pent Fabric:</strong> Pure Roman Silk Chanderi Fabric Free Size Fully Stitched</span></p>\n<p><span><strong>Dupatta Fabric:</strong> 36 Inch Chanderi Banarasi Jacquard Dupatta Fabric </span></p>",
-   "source": "extra",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2025-06-28T16:31:35+05:30"
-  },
-  {
    "handle": "black-faux-blooming-anarkali-style-sarara-suit-set-copy",
    "sourceHandle": "black-faux-blooming-anarkali-style-sarara-suit-set-copy",
    "title": "White Faux Blooming Anarkali Style Sarara Suit Set",
@@ -42774,186 +42611,6 @@
    "inStock": true,
    "featured": false,
    "publishedAt": "2025-05-17T21:21:00+05:30"
-  },
-  {
-   "handle": "hazels-anarkali-partywear-suit-set-8228836245636",
-   "sourceHandle": "hazels-anarkali-partywear-suit-set",
-   "title": "Hazel's Anarkali PartyWear Suit Set",
-   "price": 59900,
-   "compareAtPrice": 199667,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/55746.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/55755.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/55761.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/55739.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/55734_5f26180c-dbba-4f46-ab0a-aaf343e8150b.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/55752.jpg"
-   ],
-   "collections": [
-    "trends-signature",
-    "new-arrivals",
-    "party-wear-gown"
-   ],
-   "category": "anarkali",
-   "productType": "Anarkali suit",
-   "fabric": "Georgette",
-   "color": "As Shown",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]",
-    "3XL [46]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "S [36]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "M [38]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "L [40]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "3XL [46]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    }
-   },
-   "details": [
-    "Kurta :",
-    "Fabric – Georgette fabric with allover embroidery",
-    "Kurta Length –50-52”",
-    "Front Neck – 7",
-    "Back Neck – 10 inches",
-    "Sleeves 20-22 full sleeves",
-    "Pants :",
-    "Fabric – Cotton",
-    "Length – 38-40”",
-    "Dupatta :",
-    "Fabric – Georgette",
-    "Length – 2.3 mtr",
-    "KURTA",
-    "STANDARD SIZE"
-   ],
-   "description": "Kurta : Fabric – Georgette fabric with allover embroidery Kurta Length –50-52” Front Neck – 7 Back Neck – 10 inches Sleeves 20-22 full sleeves Pants : Fabric – Cotton Length – 38-40” Dupatta : Fabric – Georgette Length – 2.3 mtr KURTA STANDARD SIZE",
-   "descriptionHtml": "<p><b><i>Kurta :</i></b></p>\n<ul>\n<li>Fabric – Georgette fabric with allover embroidery<br>\n</li>\n<li>Kurta Length –50-52”</li>\n<li>Front Neck – 7</li>\n<li>Back Neck – 10 inches</li>\n<li>Sleeves  20-22 full sleeves</li>\n</ul>\n<p><b><i>Pants :</i></b></p>\n<ul>\n<li>Fabric – Cotton</li>\n<li>Length – 38-40”</li>\n</ul>\n<p><b><i>Dupatta :</i></b></p>\n<ul>\n<li>Fabric – Georgette</li>\n<li>Length – 2.3 mtr<br>\n<ul>\n<li>KURTA</li>\n</ul>\n<br>\n<ul>\n<li><br></li>\n</ul>\n<div>\n<div>\n<div>\n<table>\n<tbody>\n<tr>\n<td>STANDARD SIZE</td>\n<td>BUST</td>\n<td>WAIST</td>\n<td>HIPS</td>\n</tr>\n<tr>\n<td></td>\n<td>INCHES</td>\n<td>INCHES</td>\n<td>INCHES</td>\n</tr>\n<tr>\n<td>XS</td>\n<td>34</td>\n<td>32</td>\n<td>36</td>\n</tr>\n<tr>\n<td>S</td>\n<td>36</td>\n<td>34</td>\n<td>38</td>\n</tr>\n<tr>\n<td>M</td>\n<td>38</td>\n<td>36</td>\n<td>40</td>\n</tr>\n<tr>\n<td>L</td>\n<td>40</td>\n<td>38</td>\n<td>42</td>\n</tr>\n<tr>\n<td>XL</td>\n<td>42</td>\n<td>40</td>\n<td>44</td>\n</tr>\n<tr>\n<td>XXL</td>\n<td>44</td>\n<td>42</td>\n<td>46</td>\n</tr>\n<tr>\n<td>3XL</td>\n<td>46</td>\n<td>44</td>\n<td>48</td>\n</tr>\n</tbody>\n</table>\n</div>\n</div>\n</div>\n</li>\n</ul>",
-   "source": "extra",
-   "rating": 4.6,
-   "reviewCount": 5,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2025-03-11T18:21:48+05:30"
-  },
-  {
-   "handle": "premium-quality-9-needle-gown-anarkali-suit-set-copy-8228835426436",
-   "sourceHandle": "premium-quality-9-needle-gown-anarkali-suit-set-copy",
-   "title": "Premium Quality Roman Silk Gown Anarkali Suit Set",
-   "price": 54900,
-   "compareAtPrice": 183000,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/YellowWomenClothingPromoMobileVideo_c0becb8c-22f0-4a06-a3cb-7a0ccb395e90.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/YellowWomenClothingPromoMobileVideo_1.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/YellowWomenClothingPromoMobileVideo_6.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/YellowWomenClothingPromoMobileVideo_2.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/YellowWomenClothingPromoMobileVideo_5.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/YellowWomenClothingPromoMobileVideo_4.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/Yellow_Women_Clothing_Promo_Mobile_Video_9.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/YellowWomenClothingPromoMobileVideo_3.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/YellowWomenClothingPromoMobileVideo_8.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/YellowWomenClothingPromoMobileVideo_7.jpg"
-   ],
-   "collections": [
-    "trends-signature",
-    "new-arrivals",
-    "party-wear-gown",
-    "printed-suit-set"
-   ],
-   "category": "anarkali",
-   "productType": "Anarkali suit",
-   "fabric": "Silk",
-   "color": "As Shown",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "S [36]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "M [38]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "L [40]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    }
-   },
-   "details": [
-    "Anarkali Fabric: Heavy Pure Romansilk Chanderi Fabric",
-    "yoke Lace Work, full Churidar Sleeves ,Padded, side Zipper, four Layer Gathering",
-    "Anarkali Flair: 9 Mtr Plus Fully Flair",
-    "Anarkali Inner: Pure Microscrape Full Lining",
-    "Anarkali Length: 54 Inch Approx.",
-    "Pent Fabric: Pure Roman Silk Chanderi Fabric Free Size Fully Stitched",
-    "Dupatta Fabric: 36 Inch Chanderi Banarasi Jacquard Dupatta Fabric"
-   ],
-   "description": "Anarkali Fabric: Heavy Pure Romansilk Chanderi Fabric yoke Lace Work, full Churidar Sleeves ,Padded, side Zipper, four Layer Gathering Anarkali Flair: 9 Mtr Plus Fully Flair Anarkali Inner: Pure Microscrape Full Lining Anarkali Length: 54 Inch Approx. Pent Fabric: Pure Roman Silk Chanderi Fabric Free Size Fully Stitched Dupatta Fabric: 36 Inch Chanderi Banarasi Jacquard Dupatta Fabric",
-   "descriptionHtml": "<p><span><strong>Anarkali Fabric:</strong> Heavy Pure Romansilk Chanderi Fabric<br>yoke Lace Work, full Churidar Sleeves ,Padded, side Zipper, four Layer Gathering<br><strong>Anarkali Flair:</strong> 9 Mtr Plus Fully Flair <br><strong>Anarkali Inner:</strong> Pure Microscrape Full Lining <br><strong>Anarkali Length:</strong> 54 Inch Approx.</span></p>\n\n<p><span><strong>Pent Fabric:</strong> Pure Roman Silk Chanderi Fabric Free Size Fully Stitched</span></p>\n\n<p><span><strong>Dupatta Fabric:</strong> 36 Inch Chanderi Banarasi Jacquard Dupatta Fabric </span></p>",
-   "source": "extra",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2025-06-28T16:32:17+05:30"
   },
   {
    "handle": "prachis-pink-havy-vichitra-royal-elegant-suit-set",

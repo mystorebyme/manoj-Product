@@ -1,0 +1,6 @@
+{
+  "purpose": "Live deploy check — yahi Apps Script deployment site use karti hai. apps/web/src/lib/sheet-config.ts se match karta hai (unit test guard karta hai).",
+  "webAppUrl": "https://script.google.com/macros/s/AKfycbwQxTH7BIhPkYvlTi7SWzUnh5WD2mP-AijXB2vrfLr9j3TvcD7fW3XtM4N9406VYDhO/exec",
+  "writeTokenPrefix": "tyw-cb7717",
+  "spreadsheetId": "1ag5Ivpw8GWkX8oE5_KLe77GFR4KP-7uQFKsmjeZ2xVY"
+}

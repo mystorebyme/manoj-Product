@@ -32,7 +32,36 @@ rehti hai — sirf owner ke edits ruk jaate hain, koi order fail nahi hota.
 
 Owner ne report kiya tha: **contact form, checkout, kuch bhi sheet me nahi aata**.
 
-Root cause (r9 me fix):
+### Asli wajah (25 Oct, prove ho gayi)
+
+Site **galat Apps Script deployment** par bhej rahi thi. GitHub ke repo variables
+(`SHEET_WEBAPP_URL`, `SHEET_WRITE_TOKEN`) me jo URL tha, uska jawab har request par
+`{"ok":false,"error":"unauthorized"}` aata tha — **`tyc-…` / `tyw-…` token match nahi
+kar raha tha**, isliye koi row kabhi likhi hi nahi gayi. Sheet me sirf purane
+`TY-TEST*` / `TY-SELFTEST*` rows the (wo bhi kisi aur deployment ne likhe the).
+
+Proof (GitHub Actions runner se, browser jaisa hi rasta):
+
+| Request | Jawab |
+| --- | --- |
+| purane URL par `?action=ping` | `{"ok":false,"error":"unauthorized"}` |
+| **sahi URL** par POST `text/plain` (browser form jaisa) | row **`TY-POSTPROBE-…`** sheet ke `Orders` tab me aa gayi ✅ |
+| **sahi URL** par `?action=append` (GET, r9 feature) | r8 deployed hai, isliye abhi support nahi |
+
+Fix (is repo me ho gaya):
+
+- `apps/web/src/lib/sheet-config.ts` me **verified** URL + write token code me hain;
+  purane `SHEET_*` env variables **ignore** hote hain (naye naam:
+  `NEXT_PUBLIC_SHEET_URL_OVERRIDE`, `NEXT_PUBLIC_SHEET_TOKEN_OVERRIDE`).
+  `apps/web/public/sheet-endpoint.json` live deploy par yahi URL dikhata hai, aur
+  ek unit test dono ko match karata hai — dobara galat deployment lagne par CI fail.
+- `.github/workflows/pages.yml` se stale variables hata diye.
+- `npm run test:unit` me `sheet-config` test: purana env asar na kare.
+
+> **Kabhi bhi** URL/token badalne hon: sirf `sheet-config.ts` (ya override env) badlein,
+> aur `/sheet-check/` par step 1–4 green dekhein.
+
+### Baaki 4 wajah (r9 ki hardening)
 
 1. **Browser POST ka jawab verify nahi ho sakta.** Apps Script `doPost` par CORS
    preflight nahi hota aur 302 redirect ke baad jawab opaque hota hai — isliye site
