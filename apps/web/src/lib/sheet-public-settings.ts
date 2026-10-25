@@ -26,6 +26,9 @@ export type SheetPublicSettings = {
   maxQtyPerItem?: number;
   maxQtyBulk?: number;
   maxQtyPerOrder?: number;
+  /** comma se alag list — owner `Settings` tab me likhta hai */
+  blockedStates?: string;
+  blockedPincodes?: string;
 };
 
 const CACHE_KEY = "trends:sheet-settings:v1";

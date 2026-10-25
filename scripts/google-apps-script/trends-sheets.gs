@@ -20,6 +20,10 @@
  *                 `IMPORTDATA` se khud bharti hai — menu: TRENDS tools → 1.
  *   MainImage   → Handle + Image URL — site us product ki **main photo** wahi
  *                 dikhati hai (home, collection, product page).
+ *   ProductImages → har product ki **saari photos** (Handle | Position | Image).
+ *                 Image badalne par wahi photo lagti hai, `delete` likhne par wo
+ *                 photo site se hat jaati hai, nayi row add karne par nayi photo
+ *                 jud jaati hai. (Ye admin ka control hai, customer ko nahi dikhta.)
  *
  * SETUP (ek baar, 5 minute) — steps 0-madad ke liye docs/09-devops/google-sheets.md:
  *   1. Sheet kholiye → Extensions → Apps Script.
@@ -84,11 +88,11 @@ var EFFECTIVE_WRITE_TOKEN = prop_('WRITE_TOKEN') || WRITE_TOKEN;
 var SPREADSHEET_ID = prop_('SPREADSHEET_ID');
 /** placeholder = "owner ne abhi apna token nahi daala" (read band rehta hai) */
 var MASTER_PLACEHOLDERS = ['', 'PASTE-MASTER-TOKEN-HERE', 'CHANGE-ME-trends-token'];
-var WRITE_SHEETS = ['Orders', 'Order Items', 'Enquiries', 'Messages', 'Newsletter', 'Reviews'];
+var WRITE_SHEETS = ['Orders', 'Order Items', 'Enquiries', 'Messages', 'Newsletter', 'Reviews', 'AddressCheck'];
 var MAX_WRITE_ROWS = 40;
 
 /** Script version — `?action=ping` se dikhta hai (kaun sa code deploy hai). */
-var VERSION = '2026-10-25.r12';
+var VERSION = '2026-10-25.r14';
 
 var HEADERS = {
   Orders: [
@@ -118,7 +122,17 @@ var HEADERS = {
   Newsletter: ['Timestamp', 'Email', 'Source'],
   // `Product ID` = site ka product id (jaise 1042) — review ko sahi product par
   // lagane ka sabse pakka tarika (handle badal jaye to bhi kaam karta hai).
-  Reviews: ['Timestamp', 'Handle', 'Product', 'Name', 'Rating', 'Title', 'Body', 'Status', 'Source', 'Product ID'],
+  // `Product ID` pehle column me hai (live sheet isi order par hai) — setup dobara
+  // chalne par header rewrite nahi hota, isliye data kabhi shift nahi hota.
+  Reviews: ['Product ID', 'Timestamp', 'Handle', 'Product', 'Name', 'Rating', 'Title', 'Body', 'Status', 'Source'],
+  // Address ↔ PIN verification ka log (customer ko kabhi nahi dikhta).
+  // Owner isi se decide karta hai kaunsa state / PIN block karna hai.
+  AddressCheck: [
+    'Timestamp', 'Result', 'Customer', 'Phone', 'Address', 'City', 'State chosen', 'PIN',
+    'PIN state', 'District', 'Blocked', 'Source page',
+  ],
+  // Order tracking ke messages — owner yahan row likhta hai, site par timeline me dikhta hai.
+  'Order Updates': ['Order ID', 'Date & Time', 'Status', 'Message', 'Visible'],
 };
 
 /** Settings ke default keys — website inhe padhti hai */
@@ -138,6 +152,8 @@ var DEFAULT_SETTINGS = [
   ['max_qty_per_order', '15', 'Poore order/cart me max pieces'],
   ['max_qty_bulk', '30', 'XL aur usse bade size par max quantity'],
   ['admin_url', '', 'Owner ke liye admin panel ka link (public me kabhi nahi)'],
+  ['blocked_states', '', 'In states me delivery band (comma se alag, jaise: Kerala, Assam)'],
+  ['blocked_pincodes', '', 'In PIN codes par delivery band (comma se alag, jaise: 682001, 560001)'],
 ];
 
 /* ─────────────────────────── helpers ─────────────────────────── */
@@ -197,6 +213,8 @@ function headersOf_(sheet) {
  * sheet khud update rehti hai (row by row likhne ki zaroorat nahi).
  */
 var PRODUCT_LIST_URL = 'https://www.trendsyounique.fashion/data/products-sheet.csv';
+/** har product ki saari image links (Apps Script se seedha padhi jaati hain) */
+var PRODUCT_IMAGES_URL = 'https://www.trendsyounique.fashion/data/products-sheet.json';
 
 function ensureProductListTab_() {
   var book = book_();
@@ -209,6 +227,71 @@ function ensureProductListTab_() {
     tab.getRange(1, 1).setFormula('=IMPORTDATA("' + PRODUCT_LIST_URL + '")');
   }
   return tab;
+}
+
+function ensureProductImagesTab_() {
+  var book = book_();
+  var tab = book.getSheetByName('ProductImages');
+  if (!tab) {
+    tab = book.insertSheet('ProductImages');
+    tab.appendRow(['Handle', 'Position', 'Image', 'Note']);
+    tab.setFrozenRows(1);
+    tab.getRange(1, 1, 1, 4).setFontWeight('bold');
+    tab.setColumnWidth(1, 320);
+    tab.setColumnWidth(2, 90);
+    tab.setColumnWidth(3, 520);
+    tab.setColumnWidth(4, 260);
+    tab.getRange(2, 2, 400, 1).setNumberFormat('0');
+  }
+  return tab;
+}
+
+/**
+ * Menu: `ProductImages` tab me **saari photos** (handle + position + link) bhar deta hai.
+ * Jo handle pehle se tab me hai uski rows chhedta nahi (owner ki editing safe rehti hai).
+ */
+function syncProductImages() {
+  var tab = ensureProductImagesTab_();
+  var response = UrlFetchApp.fetch(PRODUCT_IMAGES_URL, { muteHttpExceptions: true });
+  if (response.getResponseCode() !== 200) {
+    throw new Error('Product images list nahi mili (' + response.getResponseCode() + ')');
+  }
+  var payload = JSON.parse(response.getContentText());
+  var images = payload.images || {};
+
+  var head = headersOf_(tab);
+  var handleCol = Math.max(0, head.indexOf('Handle'));
+  var existing = {};
+  if (tab.getLastRow() > 1) {
+    var values = tab.getRange(2, handleCol + 1, tab.getLastRow() - 1, 1).getValues();
+    for (var i = 0; i < values.length; i++) {
+      var handle = String(values[i][0] || '').trim();
+      if (handle) existing[handle] = true;
+    }
+  }
+
+  var rows = [];
+  Object.keys(images).forEach(function (handle) {
+    if (existing[handle]) return;
+    (images[handle] || []).forEach(function (url, index) {
+      rows.push([handle, index + 1, url, '']);
+    });
+  });
+  if (rows.length) {
+    tab.getRange(tab.getLastRow() + 1, 1, rows.length, 4).setValues(rows);
+  }
+
+  try {
+    SpreadsheetApp.getUi().alert(
+      'ProductImages: ' + rows.length + ' photo rows add hue.\n\n' +
+        'Photo badalni ho → us row ka Image cell badal dijiye.\n' +
+        'Photo hatani ho → us row ke Image cell me `delete` likh dijiye.\n' +
+        'Nayi photo → nayi row: Handle + next Position + image link.',
+    );
+  } catch (error) {
+    // sheet ke bahar se chala
+  }
+  return { ok: true, added: rows.length };
 }
 
 function ensureMainImageTab_() {
@@ -321,6 +404,7 @@ function setup() {
   // product list (site ke saare items + id) aur main-image overrides
   ensureProductListTab_();
   ensureMainImageTab_();
+  ensureProductImagesTab_();
 
   // Reviews: Status dropdown = approval (sirf publish/approved site par jaate hain)
   try {
@@ -336,6 +420,41 @@ function setup() {
     }
   } catch (error) {
     // validation fail ho to bhi setup chalta rahe
+  }
+
+  // Orders: Status dropdown — tracking ke 5 step yahi se badalte hain
+  try {
+    var ordersTab = sheet_('Orders');
+    var orderStatusCol = headersOf_(ordersTab).indexOf('Status') + 1;
+    if (orderStatusCol > 0) {
+      ordersTab.getRange(2, orderStatusCol, 999, 1).setDataValidation(
+        SpreadsheetApp.newDataValidation()
+          .requireValueInList(
+            ['placed', 'confirmed', 'packed', 'shipped', 'delivered', 'cancelled'],
+            true,
+          )
+          .setAllowInvalid(true)
+          .build(),
+      );
+    }
+  } catch (error) {
+    // validation fail ho to bhi setup chalta rahe
+  }
+
+  // Order Updates: Visible dropdown (khaali = dikhega)
+  try {
+    var updatesTab = sheet_('Order Updates');
+    var visibleCol = headersOf_(updatesTab).indexOf('Visible') + 1;
+    if (visibleCol > 0) {
+      updatesTab.getRange(2, visibleCol, 999, 1).setDataValidation(
+        SpreadsheetApp.newDataValidation()
+          .requireValueInList(['yes', 'no'], true)
+          .setAllowInvalid(true)
+          .build(),
+      );
+    }
+  } catch (error) {
+    // ignore
   }
 
   var settings = sheet_('Settings');
@@ -408,6 +527,11 @@ function writeReadme_() {
     ['Settings', 'WhatsApp number, UPI, announcement, quantity limits — site 15 second me utha leti hai'],
     ['Messages', 'Contact form ke messages'],
     ['Newsletter', 'Email subscribers'],
+    ['ProductImages', 'Har product ki saari photos (Handle | Position | Image) — photo badalna, `delete` likh kar hatana, nayi row se jodna'],
+    ['MainImage', 'Sirf main photo (home card + product page ki pehli photo)'],
+    ['ProductList', 'Saare products ID ke saath (IMPORTDATA se khud bharta hai)'],
+    ['AddressCheck', 'Address ka state aur PIN code mel khata hai ya nahi — mismatch yahan aata hai (customer ko nahi dikhta)'],
+    ['Order Updates', 'Order tracking ke messages — Order ID | Date | Status | Message | Visible (yes/no)'],
     [''],
     ['Settings tab badalne ke baad', 'Kuch nahi karna — website khud refresh kar leti hai (redeploy nahi).'],
     ['Apps Script code badla ho to', 'Deploy → Manage deployments → Edit → New version → Deploy (URL wahi rehta hai).'],
@@ -450,13 +574,15 @@ function publicSettings_() {
   var all = readSettings_();
   var pick = ['brand_name', 'tagline', 'support_phone', 'whatsapp', 'support_email',
     'upi_id', 'upi_name', 'announcement', 'free_shipping', 'shipping_fee',
-    'max_qty_per_item', 'max_qty_bulk', 'max_qty_per_order'];
+    'max_qty_per_item', 'max_qty_bulk', 'max_qty_per_order',
+    'blocked_states', 'blocked_pincodes'];
   var camel = {
     brand_name: 'brandName', tagline: 'tagline', support_phone: 'supportPhone',
     whatsapp: 'whatsapp', support_email: 'supportEmail', upi_id: 'upiId',
     upi_name: 'upiName', announcement: 'announcement', free_shipping: 'freeShipping',
     shipping_fee: 'shippingFee', max_qty_per_item: 'maxQtyPerItem',
     max_qty_bulk: 'maxQtyBulk', max_qty_per_order: 'maxQtyPerOrder',
+    blocked_states: 'blockedStates', blocked_pincodes: 'blockedPincodes',
   };
   var out = {};
   pick.forEach(function (key) {
@@ -596,6 +722,153 @@ function doGet(e) {
     }
     return json_({ ok: true, images: images, version: VERSION, time: new Date().toISOString() });
   }
+
+  /**
+   * Product ki saari photos sheet se — `ProductImages` tab.
+   *   { handle: { "1": "https://…", "3": "delete" } }
+   * Customer ko sirf photos dikhti hain (ye action bhi sirf image links deta hai).
+   */
+  if (action === 'images_public') {
+    var galleryTab = book_().getSheetByName('ProductImages');
+    var gallery = {};
+    if (galleryTab && galleryTab.getLastRow() > 1) {
+      var galleryHead = headersOf_(galleryTab).map(function (value) {
+        return String(value).trim().toLowerCase();
+      });
+      var gHandle = galleryHead.indexOf('handle');
+      var gPos = galleryHead.indexOf('position');
+      var gImage = galleryHead.indexOf('image');
+      if (gImage < 0) gImage = galleryHead.indexOf('image url');
+      var gRows = galleryTab.getRange(2, 1, galleryTab.getLastRow() - 1, galleryHead.length).getValues();
+      for (var gr = 0; gr < gRows.length; gr += 1) {
+        var gH = String(gRows[gr][gHandle] || '').trim();
+        var gP = Math.round(Number(gRows[gr][gPos]));
+        var gUrl = String(gRows[gr][gImage] || '').trim();
+        if (!gH || !(gP > 0) || !gUrl) continue;
+        var gValue = /^(delete|remove|hatao|-)$/i.test(gUrl)
+          ? 'delete'
+          : /^https?:\/\//i.test(gUrl)
+            ? gUrl
+            : '';
+        if (!gValue) continue;
+        if (!gallery[gH]) gallery[gH] = {};
+        gallery[gH][gP] = gValue;
+      }
+    }
+    return json_({ ok: true, items: gallery, version: VERSION, time: new Date().toISOString() });
+  }
+  /**
+   * Order tracking — `?action=order_status&order=LK-XXXX&phone=98XXXXXXXX`
+   *
+   * Order number + registered phone dono match hone par hi jawab milta hai
+   * (warna koi bhi kisi ka order dekh leta). Customer ko sirf apna order dikhta hai.
+   *
+   * Steps 5 hote hain (placed → confirmed → packed → shipped → delivered) aur
+   * `Order Updates` tab ki messages timeline me aati hain — owner wahan status
+   * ya message likhta hai, site turant wahi dikhati hai.
+   */
+  if (action === 'order_status') {
+    var wantedOrder = String(params.order || '').trim().toUpperCase();
+    var wantedPhone = String(params.phone || '').replace(/\D/g, '').slice(-10);
+    if (!wantedOrder) return json_({ ok: false, error: 'order number daaliye' });
+    if (wantedPhone.length !== 10) {
+      return json_({ ok: false, error: 'registered 10 digit mobile number daaliye' });
+    }
+
+    var ordersTab = sheet_('Orders');
+    var orderHead = headersOf_(ordersTab);
+    var orderLast = ordersTab.getLastRow();
+    if (orderLast < 2) return json_({ ok: false, error: 'abhi koi order nahi hai' });
+    var orderRows = ordersTab.getRange(2, 1, orderLast - 1, orderHead.length).getValues();
+    var order = null;
+    for (var oi = orderRows.length - 1; oi >= 0; oi -= 1) {
+      var asObject = {};
+      for (var hi = 0; hi < orderHead.length; hi += 1) asObject[orderHead[hi]] = orderRows[oi][hi];
+      if (String(asObject['Order ID'] || '').trim().toUpperCase() !== wantedOrder) continue;
+      var rowPhone = String(asObject['Phone'] || '').replace(/\D/g, '').slice(-10);
+      if (rowPhone !== wantedPhone) {
+        return json_({ ok: false, error: 'is order number par ye mobile number registered nahi hai' });
+      }
+      order = asObject;
+      break;
+    }
+    if (!order) return json_({ ok: false, error: 'is number ka koi order nahi mila' });
+
+    // items
+    var itemsTab = sheet_('Order Items');
+    var items = [];
+    var itemLast = itemsTab.getLastRow();
+    if (itemLast > 1) {
+      var itemHead = headersOf_(itemsTab);
+      var itemRows = itemsTab.getRange(2, 1, itemLast - 1, itemHead.length).getValues();
+      for (var ii = 0; ii < itemRows.length; ii += 1) {
+        var item = {};
+        for (var ih = 0; ih < itemHead.length; ih += 1) item[itemHead[ih]] = itemRows[ii][ih];
+        if (String(item['Order ID'] || '').trim().toUpperCase() !== wantedOrder) continue;
+        items.push({
+          product: String(item['Product'] || ''),
+          handle: String(item['Handle'] || ''),
+          colour: String(item['Colour'] || ''),
+          size: String(item['Size'] || ''),
+          qty: Number(item['Qty']) || 1,
+          price: Number(item['Price ₹']) || 0,
+          image: String(item['Image'] || ''),
+          link: String(item['Product link'] || ''),
+        });
+      }
+    }
+
+    // owner ke messages (sirf Visible)
+    var updatesTab = book_().getSheetByName('Order Updates');
+    var updates = [];
+    if (updatesTab && updatesTab.getLastRow() > 1) {
+      var upHead = headersOf_(updatesTab);
+      var upRows = updatesTab.getRange(2, 1, updatesTab.getLastRow() - 1, upHead.length).getValues();
+      for (var ui = 0; ui < upRows.length; ui += 1) {
+        var up = {};
+        for (var uh = 0; uh < upHead.length; uh += 1) up[upHead[uh]] = upRows[ui][uh];
+        if (String(up['Order ID'] || '').trim().toUpperCase() !== wantedOrder) continue;
+        var visible = up['Visible'];
+        var shown = visible === '' || visible === null || visible === undefined
+          ? true
+          : /^(yes|true|1|show|visible)$/i.test(String(visible).trim());
+        if (!shown) continue;
+        updates.push({
+          at: up['Date & Time'] ? String(up['Date & Time']) : '',
+          status: String(up['Status'] || ''),
+          message: String(up['Message'] || ''),
+        });
+      }
+      updates.sort(function (a, b) {
+        return String(a.at).localeCompare(String(b.at));
+      });
+    }
+
+    return json_({
+      ok: true,
+      order: {
+        orderNumber: String(order['Order ID'] || ''),
+        placedAt: order['Date & Time'] ? String(order['Date & Time']) : '',
+        status: String(order['Status'] || 'placed'),
+        paymentMethod: String(order['Payment method'] || ''),
+        paymentStatus: String(order['Payment status'] || ''),
+        total: Number(order['Total ₹']) || 0,
+        qty: Number(order['Qty total']) || 0,
+        city: String(order['City'] || ''),
+        state: String(order['State'] || ''),
+        courier: String(order['Courier'] || ''),
+        awb: String(order['AWB'] || ''),
+        trackingUrl: String(order['Tracking URL'] || ''),
+        note: String(order['Notes'] || ''),
+      },
+      steps: ['placed', 'confirmed', 'packed', 'shipped', 'delivered'],
+      items: items,
+      updates: updates,
+      version: VERSION,
+      time: new Date().toISOString(),
+    });
+  }
+
   if (action === 'import_reviews') {
     // Owner ke liye: saare purane reviews site ke JSON se sheet me (master token).
     // Sheet menu se bhi: TRENDS tools → Import all reviews (script editor me chalayein).
@@ -979,6 +1252,7 @@ function onOpen() {
       .addItem('2. Import all reviews', 'importAllReviews')
       .addItem('3. Reviews: approval kaise karein', 'showReviewHelp')
       .addItem('4. Purane reviews me Product ID bharo', 'backfillReviewProductIds')
+      .addItem('5. Saari products ki images list bharo', 'syncProductImages')
       .addToUi();
   } catch (error) {
     // sheet ke bahar se call hua (web app) — menu ki zaroorat nahi

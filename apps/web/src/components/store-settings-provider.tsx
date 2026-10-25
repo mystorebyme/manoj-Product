@@ -33,6 +33,9 @@ export type PublicSettings = {
   brandName?: string;
   tagline?: string;
   updatedAt?: string;
+  /** delivery blocks — owner ke `Settings` tab se (state/PIN band karne ke liye) */
+  blockedStates?: string | string[];
+  blockedPincodes?: string | string[];
 };
 
 export const DEFAULT_PUBLIC_SETTINGS: PublicSettings = {
@@ -88,7 +91,10 @@ export function StoreSettingsProvider({ children }: { children: ReactNode }) {
     }
     try {
       const response = await fetch(apiUrl("/api/settings"), { cache: "no-store" });
-      if (!response.ok) return;
+      if (!response.ok) {
+        await mergeSheetSettings();
+        return;
+      }
       const parsed = await readJson<{ data?: Partial<PublicSettings> }>(response);
       const data = parsed.data?.data;
       if (!data) return;
@@ -96,6 +102,8 @@ export function StoreSettingsProvider({ children }: { children: ReactNode }) {
         ...current,
         ...Object.fromEntries(Object.entries(data).filter(([, value]) => value !== undefined && value !== "")),
       }) as PublicSettings);
+      // Sheet owner ka final control hai — API ke baad sheet ki values upar rehti hain
+      await mergeSheetSettings();
     } catch {
       // offline / API down — sheet se try karo, warna defaults
       await mergeSheetSettings();

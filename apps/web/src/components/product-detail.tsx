@@ -11,10 +11,9 @@ import { categoryHref, categoryLabel } from "@/lib/categories";
 import { colourSwatch } from "@/lib/colour";
 import type { ColourOption, Product } from "@/types/catalog";
 import { ProductGallery } from "@/components/product-gallery";
-import { useSheetMainImage } from "@/lib/sheet-products";
+import { useSheetGallery, useSheetMainImage } from "@/lib/sheet-products";
 import { Stars } from "@/components/product-reviews";
 import { useStoreSettings } from "@/components/store-settings-provider";
-import { BuyProtected } from "@/components/buy-protected";
 import {
   logWhatsAppEnquiry,
   productWhatsAppMessage,
@@ -65,12 +64,18 @@ export function ProductDetail({
 
   const [activeHandle, setActiveHandle] = useState(product.handle);
   const active = variants.find((variant) => variant.handle === activeHandle) ?? variants[0]!;
-  // Sheet `MainImage` tab se pehli photo badal sakti hai — baaki gallery waisi hi
+  // Sheet se photos: `ProductImages` tab se koi bhi photo replace/delete/add ho sakti
+  // hai, aur `MainImage` tab se pehli photo alag set hoti hai.
+  const sheetGallery = useSheetGallery(active.handle, active.images);
   const sheetMainImage = useSheetMainImage(active.handle, active.images[0] ?? "");
-  const galleryImages = useMemo(
-    () => [sheetMainImage, ...active.images.slice(1)].filter(Boolean),
-    [sheetMainImage, active.images],
-  );
+  const galleryImages = useMemo(() => {
+    const list = [...sheetGallery];
+    if (sheetMainImage && list[0] !== sheetMainImage) {
+      if (list.length) list[0] = sheetMainImage;
+      else list.push(sheetMainImage);
+    }
+    return list.filter(Boolean);
+  }, [sheetGallery, sheetMainImage]);
 
   const firstAvailable =
     active.sizes.find((size) => active.sizePricing?.[size]?.available) ?? active.sizes[0] ?? "Free Size";
@@ -228,7 +233,10 @@ export function ProductDetail({
   ];
 
   return (
-    <div className="group grid gap-8 md:grid-cols-2 md:gap-8 lg:grid-cols-[1.05fr_1fr] lg:gap-12">
+    <div
+      className="group grid gap-8 md:grid-cols-2 md:gap-8 lg:grid-cols-[1.05fr_1fr] lg:gap-12"
+      data-product-id={product.id ?? undefined}
+    >
       <ProductGallery
         key={active.handle}
         images={galleryImages}
@@ -242,7 +250,6 @@ export function ProductDetail({
             {categoryLabel(product.category)}
           </Link>
           {product.productType ? <span className="text-[#c9bdb1]"> · {product.productType}</span> : null}
-          {product.id ? <span className="text-[#c9bdb1]"> · ID {product.id}</span> : null}
         </p>
         <h1 className="mt-1.5 font-display text-[22px] leading-snug font-medium text-[#14100e] sm:text-[26px] lg:text-[30px]">
           {product.title}
@@ -506,7 +513,6 @@ export function ProductDetail({
           Poochhein — size, fabric ya delivery?
         </a>
 
-        <BuyProtected />
 
         <p className="mt-3 text-[11px] tracking-[.06em] text-[#8a7d72]">
           Free shipping across India · 7 days return · payment link on WhatsApp

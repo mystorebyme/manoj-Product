@@ -7,14 +7,14 @@ import { formatPrice, imageUrl } from "@/lib/format";
 import { SafeImage } from "@/components/safe-image";
 import { useStoreSettings } from "@/components/store-settings-provider";
 import { readJson } from "@/lib/http-json";
-import { checkPincodeOffline } from "@/lib/pincode-offline";
+import { addressStates, verifyAddress, type AddressVerdict } from "@/lib/address-check";
 import {
   checkoutWhatsAppMessage,
   logWhatsAppEnquiry,
   whatsappLink,
   whatsappNumber,
 } from "@/lib/whatsapp";
-import { newOrderRef, relayOrderToSheet } from "@/lib/sheet-relay";
+import { newOrderRef, relayOrderToSheet, relayRows } from "@/lib/sheet-relay";
 
 const indianStates = [
   "Andhra Pradesh", "Assam", "Bihar", "Chandigarh", "Chhattisgarh", "Delhi", "Goa", "Gujarat",
@@ -26,25 +26,24 @@ const indianStates = [
 export function CheckoutForm() {
   const { lines, subtotal, count, isOpen, closeCart, removeLine } = useCart();
   // campaign/sale price already final hai — koi extra coupon nahi
-  const { whatsapp } = useStoreSettings();
+  const { whatsapp, blockedStates, blockedPincodes } = useStoreSettings();
   const [whatsappHref, setWhatsappHref] = useState<string | null>(null);
   // ek hi submission par ek hi enquiry/order row (dobara click se duplicate na bane)
   const enquiryLogged = useRef(false);
   const orderRefOnce = useRef<string | null>(null);
   // OTP step hata diya gaya hai (owner request) — order sirf details par
   const [error, setError] = useState<string | null>(null);
-  // delivery check — admin ke rules + India Post data se
-  const [pinStatus, setPinStatus] = useState<
-    { ok: boolean; message: string; state: string | null; district: string | null } | null
-  >(null);
+  // delivery check — PIN ka asli state (India Post data) + owner ke blocks
+  const [pinStatus, setPinStatus] = useState<AddressVerdict | null>(null);
   const [pinBusy, setPinBusy] = useState(false);
+  const [states, setStates] = useState<string[]>(indianStates);
   const [form, setForm] = useState({
     customerName: "",
     email: "",
     phone: "",
     address: "",
     city: "",
-    state: "Gujarat",
+    state: "Rajasthan",
     pincode: "",
     notes: "",
   });
@@ -53,7 +52,25 @@ export function CheckoutForm() {
     if (isOpen) closeCart();
   }, [isOpen, closeCart]);
 
-  // 6 digit poore hone par apne aap check — galat/blocked pincode par aage nahi jaane dete
+  // state list seedha India Post data se (jo state pincode data me hai wahi dropdown me)
+  useEffect(() => {
+    let alive = true;
+    void addressStates().then((list) => {
+      if (alive && list.length) setStates(list);
+    });
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  /**
+   * PIN + state ka mel yahin check hota hai:
+   *   - PIN India Post me hai?
+   *   - Owner ne wo state/PIN block kiya hai?
+   *   - PIN ka state aur chuna hua state ek hai? (Rajasthan address + Kerala PIN = block)
+   * Har check sheet ke `AddressCheck` tab me log hota hai, taaki owner dekh sake
+   * kis state/PIN par galat address aa rahe hain.
+   */
   useEffect(() => {
     const pin = form.pincode;
     if (pin.length !== 6) {
@@ -63,23 +80,35 @@ export function CheckoutForm() {
     let active = true;
     setPinBusy(true);
     const timer = setTimeout(() => {
-      fetch(`/api/delivery/check?pincode=${encodeURIComponent(pin)}`, { cache: "no-store" })
-        .then((response) => readJson<{ data?: { serviceable: boolean; message: string; state: string | null; district: string | null } }>(response))
-        .then(async (parsed) => {
+      void verifyAddress(form.state, pin, {
+        states: blockedStates,
+        pincodes: blockedPincodes,
+      })
+        .then((verdict) => {
           if (!active) return;
-          // API na ho (static Pages) ya reply kharab ho to India Post data se khud check
-          const result = parsed.data?.data ?? (await checkPincodeOffline(pin));
-          if (!active) return;
-          setPinStatus({ ok: result.serviceable, message: result.message, state: result.state, district: result.district });
-          // state auto-fill: admin ne jis state ko allow kiya hai wahi select rahe
-          if (result.serviceable && result.state) update("state", result.state);
-        })
-        .catch(async () => {
-          if (!active) return;
-          const result = await checkPincodeOffline(pin);
-          if (!active) return;
-          setPinStatus({ ok: result.serviceable, message: result.message, state: result.state, district: result.district });
-          if (result.serviceable && result.state) update("state", result.state);
+          setPinStatus(verdict);
+          // verification ka record owner ki sheet me (sirf admin dekhta hai)
+          if (verdict.pinState) {
+            relayRows([
+              {
+                sheet: "AddressCheck",
+                row: {
+                  Timestamp: new Date().toISOString(),
+                  Result: verdict.ok ? "ok" : verdict.mismatch ? "state-mismatch" : verdict.blocked ? `blocked-${verdict.blocked}` : "unknown-pin",
+                  Customer: form.customerName,
+                  Phone: form.phone,
+                  Address: form.address,
+                  City: form.city,
+                  "State chosen": form.state,
+                  PIN: pin,
+                  "PIN state": verdict.pinState,
+                  District: verdict.district,
+                  Blocked: verdict.blocked ?? "",
+                  "Source page": "/checkout",
+                },
+              },
+            ]);
+          }
         })
         .finally(() => {
           if (active) setPinBusy(false);
@@ -90,7 +119,8 @@ export function CheckoutForm() {
       clearTimeout(timer);
       setPinBusy(false);
     };
-  }, [form.pincode]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form.pincode, form.state, blockedStates, blockedPincodes]);
 
   const discount = 0;
   const total = Math.max(0, subtotal - discount);
@@ -218,7 +248,11 @@ export function CheckoutForm() {
       return;
     }
     if (!pinStatus.ok) {
-      setError(pinStatus.message);
+      setError(
+        pinStatus.mismatch
+          ? `${pinStatus.message} (Address ka state aur PIN code ek hi state ka hona chahiye.)`
+          : pinStatus.message,
+      );
       return;
     }
     setError(null);
@@ -289,7 +323,7 @@ export function CheckoutForm() {
                 onChange={(event) => update("state", event.target.value)}
                 className="mt-1 h-11 w-full border border-[#ded1c0] bg-white px-3 text-[13px] outline-none focus:border-[#6f1d2b]"
               >
-                {indianStates.map((state) => (
+                {states.map((state) => (
                   <option key={state} value={state}>
                     {state}
                   </option>
@@ -311,9 +345,19 @@ export function CheckoutForm() {
                   data-testid="pincode-status"
                 >
                   {pinStatus.ok
-                    ? `Deliverable${pinStatus.district ? ` — ${pinStatus.district}, ${pinStatus.state}` : ""}. Free shipping, 4-7 business days.`
+                    ? `Deliverable${pinStatus.district ? ` — ${pinStatus.district}, ${pinStatus.pinState}` : ""}. Free shipping, 4-7 business days.`
                     : pinStatus.message}
                 </p>
+              ) : null}
+              {pinStatus?.mismatch && pinStatus.pinState ? (
+                <button
+                  type="button"
+                  onClick={() => update("state", pinStatus.pinState!)}
+                  data-testid="fix-state"
+                  className="mt-1.5 inline-flex items-center border border-[#6f1d2b] px-3 py-1.5 text-[10.5px] font-semibold tracking-[.12em] text-[#6f1d2b] uppercase"
+                >
+                  State {pinStatus.pinState} kariye
+                </button>
               ) : null}
             </div>
             <Field label="Order notes (optional)" value={form.notes} onChange={(v) => update("notes", v)} />
