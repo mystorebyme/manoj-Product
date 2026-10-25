@@ -24,7 +24,12 @@ liye hai.
 (default photo link), Images, Collections, URL.
 
 Ye tab **khud bharti hai**: cell `A1` me
-`=IMPORTDATA("https://trendsyounique.fashion/data/products-sheet.csv")`.
+`=IMPORTDATA("https://www.trendsyounique.fashion/data/products-sheet.csv")`.
+
+> **`www` hi use kariye.** Apex domain (`trendsyounique.fashion`) par Google ka
+> `IMPORTDATA` `#REF!` deta hai (Google ki taraf se fetch fail hota hai, site par file
+> maujood hai). `www.trendsyounique.fashion` par wahi file 477 rows ke saath import
+> hoti hai — 25 Oct 2026 ko sheet me test karke confirm kiya.
 CSV site ke build se banti hai (`npm run sheet:products` →
 `apps/web/public/data/products-sheet.csv`), isliye list hamesha site ke saath match
 karti hai.
@@ -41,7 +46,10 @@ Menu se bhi bhar sakte hain: **TRENDS tools → 1. Saare products ki list bharo*
 - Site se aaya review khud `Product ID` bharta hai.
 - Aap jab manually review likhein, ID `ProductList` tab se copy karke daal dijiye —
   **ya sirf Handle** daaliye, dono se review sahi product par lagta hai.
-- Purani 1684 rows ki ID column `ProductList` se lookup karke bhar di gayi hai.
+- Purani 1684 rows ki ID column bharne ke liye ek click: **TRENDS tools → 4. Purane
+  reviews me Product ID bharo** (`backfillReviewProductIds`). Handle se ID dhoondh kar
+  likhta hai, pehle se bhari cells chhedta nahi.
+- ID khaali ho (ya galat ho) tab bhi review **Handle** se sahi product par lagta hai.
 
 ## 4. Approval — sirf approved review site par
 
@@ -78,13 +86,14 @@ premium-ivory-royal-zari-work-kali-cut-anarkali-suit-set | https://cdn…/naya-p
 - hover/focus par rotation rukti hai (padhne ke liye), dots se kisi bhi review par jump
 - koi dummy review nahi — sirf asli/approved
 
-## 7. Apps Script — r11
+## 7. Apps Script — r12
 
 `scripts/google-apps-script/trends-sheets.gs`:
 
 - `Reviews` headers me `Product ID`, approval-only reading (`reviewApproved_`)
 - naye public actions: `reviews_all` (home ticker), `products_public` (MainImage)
-- menu: **1. Saare products ki list bharo · 2. Import all reviews · 3. Approval help**
+- menu: **1. Saare products ki list bharo · 2. Import all reviews · 3. Approval help ·
+  4. Purane reviews me Product ID bharo**
 - `setup()` `ProductList` + `MainImage` tabs banata hai aur Status dropdown lagata hai
 
 Deploy: Extensions → Apps Script → poora code paste → **Deploy → Manage deployments →

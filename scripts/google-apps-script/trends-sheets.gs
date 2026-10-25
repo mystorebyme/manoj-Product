@@ -88,7 +88,7 @@ var WRITE_SHEETS = ['Orders', 'Order Items', 'Enquiries', 'Messages', 'Newslette
 var MAX_WRITE_ROWS = 40;
 
 /** Script version — `?action=ping` se dikhta hai (kaun sa code deploy hai). */
-var VERSION = '2026-10-25.r11';
+var VERSION = '2026-10-25.r12';
 
 var HEADERS = {
   Orders: [
@@ -192,10 +192,11 @@ function headersOf_(sheet) {
 
 /**
  * Site par jo bhi products hain, unki poori list — **ID ke saath**.
- * Data site ke `/data/products-sheet.csv` se `IMPORTDATA` karta hai, isliye
+ * Data site ke `/data/products-sheet.csv` se `IMPORTDATA` karta hai (www URL —
+ * apex domain par IMPORTDATA #REF! deta hai), isliye
  * sheet khud update rehti hai (row by row likhne ki zaroorat nahi).
  */
-var PRODUCT_LIST_URL = 'https://trendsyounique.fashion/data/products-sheet.csv';
+var PRODUCT_LIST_URL = 'https://www.trendsyounique.fashion/data/products-sheet.csv';
 
 function ensureProductListTab_() {
   var book = book_();
@@ -241,6 +242,61 @@ function syncProductList() {
     // sheet ke bahar se chala — koi baat nahi
   }
   return { ok: true, rows: rows, url: PRODUCT_LIST_URL };
+}
+
+/**
+ * Menu: `Reviews` tab ke **Product ID** column (J) ko ProductList se bhar deta hai.
+ * Handle se ID dhoondh kar likhta hai — jo cell pehle se bhari hai use chhedta nahi.
+ */
+function backfillReviewProductIds() {
+  var list = ensureProductListTab_();
+  SpreadsheetApp.flush();
+  var map = {};
+  var listRows = Math.max(0, list.getLastRow() - 1);
+  if (listRows > 0) {
+    var ids = list.getRange(2, 1, listRows, 2).getValues(); // ID | Handle
+    for (var i = 0; i < ids.length; i++) {
+      var id = String(ids[i][0] || '').trim();
+      var handle = String(ids[i][1] || '').trim().toLowerCase();
+      if (id && handle) map[handle] = id;
+    }
+  }
+
+  var tab = sheet_('Reviews');
+  var head = headersOf_(tab);
+  var col = head.indexOf('Product ID') + 1;
+  if (!col) {
+    throw new Error('Reviews tab me `Product ID` column nahi mila — pehle setup() chalaiye.');
+  }
+  var last = tab.getLastRow();
+  if (last < 2) return { ok: true, filled: 0 };
+
+  var handleCol = head.indexOf('Handle') + 1;
+  var rows = tab.getRange(2, 1, last - 1, head.length).getValues();
+  var out = [];
+  var filled = 0;
+  var missing = 0;
+  for (var r = 0; r < rows.length; r++) {
+    var current = String(rows[r][col - 1] || '').trim();
+    var handle = String(rows[r][handleCol - 1] || '').trim().toLowerCase();
+    var id = current || map[handle] || '';
+    if (!current && id) filled++;
+    if (!id) missing++;
+    out.push([id]);
+  }
+  tab.getRange(2, col, out.length, 1).setValues(out);
+
+  try {
+    SpreadsheetApp.getUi().alert(
+      'Product ID bhare gaye: ' + filled + '\n' +
+        'Handle se match nahi hue: ' + missing + '\n\n' +
+        'Match na hone wale reviews ka handle ProductList me hai hi nahi — ' +
+        'unka product delete ho gaya hoga.',
+    );
+  } catch (error) {
+    // ignore
+  }
+  return { ok: true, filled: filled, missing: missing };
 }
 
 /* ─────────────────────────── setup ─────────────────────────── */
@@ -908,7 +964,7 @@ function testHealth() {
 /* ------------------------------------------------------------------ */
 
 /** Site ka public export (scripts/reviews-sync/export-for-sheet.mjs) */
-var REVIEWS_IMPORT_URL = 'https://trendsyounique.fashion/data/reviews-import.json';
+var REVIEWS_IMPORT_URL = 'https://www.trendsyounique.fashion/data/reviews-import.json';
 
 /**
  * Sheet khulte hi custom menu — owner ko code chalane ki zaroorat nahi.
@@ -922,6 +978,7 @@ function onOpen() {
       .addItem('1. Saare products ki list bharo (ID ke saath)', 'syncProductList')
       .addItem('2. Import all reviews', 'importAllReviews')
       .addItem('3. Reviews: approval kaise karein', 'showReviewHelp')
+      .addItem('4. Purane reviews me Product ID bharo', 'backfillReviewProductIds')
       .addToUi();
   } catch (error) {
     // sheet ke bahar se call hua (web app) — menu ki zaroorat nahi
