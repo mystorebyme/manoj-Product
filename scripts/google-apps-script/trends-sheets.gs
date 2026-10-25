@@ -14,6 +14,13 @@
  *   Messages    → contact form ke messages.
  *   Newsletter  → email subscribers.
  *
+ *   Reviews     → har review ke saath **Product ID**; `Status` = publish/approved
+ *                 hone par hi site par dikhta hai (yahi approval hai).
+ *   ProductList → saare products ki list (ID, Handle, Title, Price, Main image).
+ *                 `IMPORTDATA` se khud bharti hai — menu: TRENDS tools → 1.
+ *   MainImage   → Handle + Image URL — site us product ki **main photo** wahi
+ *                 dikhati hai (home, collection, product page).
+ *
  * SETUP (ek baar, 5 minute) — steps 0-madad ke liye docs/09-devops/google-sheets.md:
  *   1. Sheet kholiye → Extensions → Apps Script.
  *   2. Is file ka poora code paste kariye.
@@ -81,7 +88,7 @@ var WRITE_SHEETS = ['Orders', 'Order Items', 'Enquiries', 'Messages', 'Newslette
 var MAX_WRITE_ROWS = 40;
 
 /** Script version — `?action=ping` se dikhta hai (kaun sa code deploy hai). */
-var VERSION = '2026-10-25.r10';
+var VERSION = '2026-10-25.r11';
 
 var HEADERS = {
   Orders: [
@@ -109,7 +116,9 @@ var HEADERS = {
   Settings: ['key', 'value', 'notes'],
   Messages: ['Timestamp', 'Name', 'Email', 'Phone', 'Subject', 'Message', 'Status'],
   Newsletter: ['Timestamp', 'Email', 'Source'],
-  Reviews: ['Timestamp', 'Handle', 'Product', 'Name', 'Rating', 'Title', 'Body', 'Status', 'Source'],
+  // `Product ID` = site ka product id (jaise 1042) — review ko sahi product par
+  // lagane ka sabse pakka tarika (handle badal jaye to bhi kaam karta hai).
+  Reviews: ['Timestamp', 'Handle', 'Product', 'Name', 'Rating', 'Title', 'Body', 'Status', 'Source', 'Product ID'],
 };
 
 /** Settings ke default keys — website inhe padhti hai */
@@ -137,6 +146,12 @@ function json_(payload) {
   return ContentService.createTextOutput(JSON.stringify(payload)).setMimeType(
     ContentService.MimeType.JSON,
   );
+}
+
+/** Sheet ka Status column — sirf inhi values par review site par jaata hai */
+function reviewApproved_(value) {
+  var status = String(value || '').trim().toLowerCase();
+  return /^(publish|published|approved|approve|live|yes|true|1)$/.test(status);
 }
 
 function book_() {
@@ -173,6 +188,61 @@ function headersOf_(sheet) {
   });
 }
 
+/* ─────────────── product list + main image (sheet se) ─────────────── */
+
+/**
+ * Site par jo bhi products hain, unki poori list — **ID ke saath**.
+ * Data site ke `/data/products-sheet.csv` se `IMPORTDATA` karta hai, isliye
+ * sheet khud update rehti hai (row by row likhne ki zaroorat nahi).
+ */
+var PRODUCT_LIST_URL = 'https://trendsyounique.fashion/data/products-sheet.csv';
+
+function ensureProductListTab_() {
+  var book = book_();
+  var tab = book.getSheetByName('ProductList');
+  if (!tab) {
+    tab = book.insertSheet('ProductList');
+    tab.setFrozenRows(1);
+  }
+  if (tab.getLastRow() < 2 || String(tab.getRange(1, 1).getValue()).indexOf('=') === 0) {
+    tab.getRange(1, 1).setFormula('=IMPORTDATA("' + PRODUCT_LIST_URL + '")');
+  }
+  return tab;
+}
+
+function ensureMainImageTab_() {
+  var book = book_();
+  var tab = book.getSheetByName('MainImage');
+  if (!tab) {
+    tab = book.insertSheet('MainImage');
+    tab.appendRow(['Handle', 'Image', 'Note']);
+    tab.setFrozenRows(1);
+    tab.getRange(1, 1, 1, 3).setFontWeight('bold');
+    tab.setColumnWidth(1, 320);
+    tab.setColumnWidth(2, 420);
+    tab.setColumnWidth(3, 260);
+  }
+  return tab;
+}
+
+/** Menu: ProductList tab me saare products (ID + photo link) bhar deta hai */
+function syncProductList() {
+  var tab = ensureProductListTab_();
+  tab.getRange(1, 1).setFormula('=IMPORTDATA("' + PRODUCT_LIST_URL + '")');
+  SpreadsheetApp.flush();
+  var rows = Math.max(0, tab.getLastRow() - 1);
+  try {
+    SpreadsheetApp.getUi().alert(
+      'ProductList taiyaar hai — ' + rows + ' items.\n\n' +
+        'Isme ID, Handle, Title, Price, Main Image (default photo link) hai.\n' +
+        'Main photo badalni ho to `MainImage` tab me Handle + naya Image URL daaliye.',
+    );
+  } catch (error) {
+    // sheet ke bahar se chala — koi baat nahi
+  }
+  return { ok: true, rows: rows, url: PRODUCT_LIST_URL };
+}
+
 /* ─────────────────────────── setup ─────────────────────────── */
 
 /**
@@ -191,6 +261,26 @@ function setup() {
     }
     sheet.setColumnWidth(1, 150);
   });
+
+  // product list (site ke saare items + id) aur main-image overrides
+  ensureProductListTab_();
+  ensureMainImageTab_();
+
+  // Reviews: Status dropdown = approval (sirf publish/approved site par jaate hain)
+  try {
+    var reviewsTab = sheet_('Reviews');
+    var statusCol = headersOf_(reviewsTab).indexOf('Status') + 1;
+    if (statusCol > 0) {
+      reviewsTab.getRange(2, statusCol, 999, 1).setDataValidation(
+        SpreadsheetApp.newDataValidation()
+          .requireValueInList(['publish', 'approved', 'pending', 'reject'], true)
+          .setAllowInvalid(true)
+          .build(),
+      );
+    }
+  } catch (error) {
+    // validation fail ho to bhi setup chalta rahe
+  }
 
   var settings = sheet_('Settings');
   if (settings.getLastRow() === 0) settings.appendRow(['key', 'value', 'notes']);
@@ -377,12 +467,21 @@ function doGet(e) {
     ]);
     return json_({ ok: true, written: written, ref: ref, time: new Date().toISOString() });
   }
-  if (action === 'reviews') {
-    // Public: sirf wahi reviews jo owner ne Status = publish kiya hai (koi contact detail nahi)
-    var handle = String(params.handle || '');
+  /**
+   * Public reviews — **sirf approved**.
+   *   ?action=reviews&handle=<handle>&id=<product id>
+   *   ?action=reviews_all&limit=60      (home page ka 1-second rotation)
+   *
+   * Approval: `Status` = publish / approved / live. Khaali ya pending = chhupa.
+   */
+  if (action === 'reviews' || action === 'reviews_all') {
+    var wantHandle = String(params.handle || '').trim();
+    var wantId = String(params.id || '').trim();
+    var all = action === 'reviews_all';
+    var limit = Math.max(1, Math.min(200, Number(params.limit) || 60));
     var tab = sheet_('Reviews');
     var last = tab.getLastRow();
-    if (last < 2) return json_({ ok: true, handle: handle, reviews: [] });
+    if (last < 2) return json_({ ok: true, reviews: [], version: VERSION });
     var head = headersOf_(tab);
     var rows = tab.getRange(2, 1, last - 1, head.length).getValues();
     var published = rows
@@ -392,13 +491,18 @@ function doGet(e) {
         return object;
       })
       .filter(function (row) {
-        // Status khaali = live (owner review likh kar Status bharna bhool jaye to bhi dikhe).
-        // "pending"/"reject" likhne par hi chhup jaata hai.
-        var status = String(row.Status || '').trim().toLowerCase();
-        if (status && !/^(publish|published|approved|live)$/.test(status)) return false;
-        return !handle || String(row.Handle || '') === handle;
+        if (!reviewApproved_(row.Status)) return false;
+        if (all) return true;
+        var rowHandle = String(row.Handle || '').trim();
+        var rowId = String(row['Product ID'] || '').trim();
+        if (wantId && rowId && rowId === wantId) return true;
+        if (wantHandle && rowHandle && rowHandle === wantHandle) return true;
+        return !wantHandle && !wantId;
       })
-      .slice(-30)
+      .sort(function (a, b) {
+        return String(b.Timestamp || '').localeCompare(String(a.Timestamp || ''));
+      })
+      .slice(0, all ? limit : 30)
       .map(function (row) {
         return {
           name: String(row.Name || 'Customer'),
@@ -406,9 +510,35 @@ function doGet(e) {
           title: String(row.Title || ''),
           body: String(row.Body || ''),
           date: row.Timestamp ? new Date(row.Timestamp).toISOString().slice(0, 10) : '',
+          handle: String(row.Handle || ''),
+          productId: String(row['Product ID'] || ''),
         };
       });
-    return json_({ ok: true, handle: handle, reviews: published, version: VERSION });
+    return json_({ ok: true, handle: wantHandle, reviews: published, version: VERSION });
+  }
+
+  /**
+   * Product ki main photo sheet se — `MainImage` tab (Handle | Image URL).
+   * Public: sirf image links, koi order/customer data nahi.
+   */
+  if (action === 'products_public') {
+    var imageTab = book_().getSheetByName('MainImage');
+    var images = {};
+    if (imageTab && imageTab.getLastRow() > 1) {
+      var imageHead = headersOf_(imageTab);
+      var handleCol = Math.max(0, imageHead.indexOf('Handle'));
+      var imageCol = imageHead.indexOf('Image');
+      if (imageCol < 0) imageCol = Math.max(1, imageHead.indexOf('Image URL'));
+      var imageRows = imageTab.getRange(2, 1, imageTab.getLastRow() - 1, imageHead.length).getValues();
+      for (var r = 0; r < imageRows.length; r += 1) {
+        var rowHandle = String(imageRows[r][handleCol] || '').trim();
+        var rowImage = String(imageRows[r][imageCol] || '').trim();
+        if (!rowHandle || !rowImage) continue;
+        if (!/^https?:\/\//i.test(rowImage)) continue;
+        images[rowHandle] = rowImage;
+      }
+    }
+    return json_({ ok: true, images: images, version: VERSION, time: new Date().toISOString() });
   }
   if (action === 'import_reviews') {
     // Owner ke liye: saare purane reviews site ke JSON se sheet me (master token).
@@ -789,8 +919,9 @@ function onOpen() {
   try {
     SpreadsheetApp.getUi()
       .createMenu('TRENDS tools')
-      .addItem('Import all reviews', 'importAllReviews')
-      .addItem('Reviews: khaali Status = live', 'showReviewHelp')
+      .addItem('1. Saare products ki list bharo (ID ke saath)', 'syncProductList')
+      .addItem('2. Import all reviews', 'importAllReviews')
+      .addItem('3. Reviews: approval kaise karein', 'showReviewHelp')
       .addToUi();
   } catch (error) {
     // sheet ke bahar se call hua (web app) — menu ki zaroorat nahi
@@ -800,10 +931,11 @@ function onOpen() {
 function showReviewHelp() {
   try {
     SpreadsheetApp.getUi().alert(
-      'Reviews tab\n\n' +
-        'Status khaali = site par live.\n' +
-        'Status = pending / reject = site par nahi dikhega.\n\n' +
-        'Handle column me product ka handle hona chahiye (product page ke URL ka aakhri hissa).',
+      'Reviews tab — approval\n\n' +
+        'Status = publish / approved → site par live.\n' +
+        'Status khaali, pending ya reject → site par nahi dikhega.\n\n' +
+        'Product ID column me product ki id (jaise 1042) — ProductList tab se copy kariye.\n' +
+        'ID khaali ho to Handle se product pehchana jaata hai.',
     );
   } catch (error) {
     // ignore
@@ -860,6 +992,7 @@ function importAllReviews() {
         if (name === 'Body') return row.body || '';
         if (name === 'Status') return row.status || 'publish';
         if (name === 'Source') return row.source || 'trustoo';
+        if (name === 'Product ID') return row.productId || '';
         return '';
       });
     });

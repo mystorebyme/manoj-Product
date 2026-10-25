@@ -11,6 +11,7 @@ import { categoryHref, categoryLabel } from "@/lib/categories";
 import { colourSwatch } from "@/lib/colour";
 import type { ColourOption, Product } from "@/types/catalog";
 import { ProductGallery } from "@/components/product-gallery";
+import { useSheetMainImage } from "@/lib/sheet-products";
 import { Stars } from "@/components/product-reviews";
 import { useStoreSettings } from "@/components/store-settings-provider";
 import { BuyProtected } from "@/components/buy-protected";
@@ -64,6 +65,12 @@ export function ProductDetail({
 
   const [activeHandle, setActiveHandle] = useState(product.handle);
   const active = variants.find((variant) => variant.handle === activeHandle) ?? variants[0]!;
+  // Sheet `MainImage` tab se pehli photo badal sakti hai — baaki gallery waisi hi
+  const sheetMainImage = useSheetMainImage(active.handle, active.images[0] ?? "");
+  const galleryImages = useMemo(
+    () => [sheetMainImage, ...active.images.slice(1)].filter(Boolean),
+    [sheetMainImage, active.images],
+  );
 
   const firstAvailable =
     active.sizes.find((size) => active.sizePricing?.[size]?.available) ?? active.sizes[0] ?? "Free Size";
@@ -224,7 +231,7 @@ export function ProductDetail({
     <div className="group grid gap-8 md:grid-cols-2 md:gap-8 lg:grid-cols-[1.05fr_1fr] lg:gap-12">
       <ProductGallery
         key={active.handle}
-        images={active.images}
+        images={galleryImages}
         title={product.title}
         badge={off > 0 ? `Save ${off}%` : null}
       />
@@ -235,6 +242,7 @@ export function ProductDetail({
             {categoryLabel(product.category)}
           </Link>
           {product.productType ? <span className="text-[#c9bdb1]"> · {product.productType}</span> : null}
+          {product.id ? <span className="text-[#c9bdb1]"> · ID {product.id}</span> : null}
         </p>
         <h1 className="mt-1.5 font-display text-[22px] leading-snug font-medium text-[#14100e] sm:text-[26px] lg:text-[30px]">
           {product.title}

@@ -105,7 +105,12 @@ export default async function ProductPage({
         reviewCount={reviewBlock.count}
       />
 
-      <ProductReviews block={reviewBlock} productTitle={product.title} productHandle={product.handle} />
+      <ProductReviews
+        block={reviewBlock}
+        productTitle={product.title}
+        productHandle={product.handle}
+        productId={product.id}
+      />
 
       <section className="mt-14 border-t border-[#ece1d3] pt-9">
         <div className="text-center">

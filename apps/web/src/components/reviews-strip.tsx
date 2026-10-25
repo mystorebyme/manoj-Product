@@ -1,13 +1,23 @@
-import Link from "next/link";
 import { latestReviews, shopRating } from "@/lib/reviews";
+import { ReviewsTicker } from "@/components/reviews-ticker";
 import { Stars } from "@/components/stars";
 
 /**
- * Home par customer reviews strip — live store ke Trustoo carousel jaisa.
- * Reviews sync hone par hi dikhta hai (koi dummy review nahi).
+ * Home par customer reviews — **har 1 second** ek naya approved review rotate
+ * hota hai (client component). Reviews sync + Google Sheet ke approved reviews,
+ * dono se aate hain (koi dummy review nahi).
  */
 export function ReviewsStrip() {
-  const reviews = latestReviews(6);
+  const reviews = latestReviews(40).map((review) => ({
+    id: review.id,
+    author: review.author,
+    rating: review.rating,
+    title: review.title,
+    body: review.body,
+    productHandle: review.productHandle,
+    productTitle: review.productTitle,
+    date: review.date,
+  }));
   if (!reviews.length) return null;
 
   return (
@@ -25,28 +35,7 @@ export function ReviewsStrip() {
           </div>
         </div>
 
-        <div className="no-scrollbar mt-6 flex gap-4 overflow-x-auto pb-2">
-          {reviews.map((review) => (
-            <figure
-              key={`${review.productHandle}-${review.id}`}
-              className="w-[260px] shrink-0 border border-[#eadfce] bg-white p-4 sm:w-[300px]"
-            >
-              <Stars value={review.rating} size={14} />
-              {review.title ? <p className="mt-2 text-[12.5px] font-medium">{review.title}</p> : null}
-              <blockquote className="mt-1 line-clamp-4 text-[12px] leading-relaxed text-[#3d332c]">
-                {review.body}
-              </blockquote>
-              <figcaption className="mt-2 flex items-center justify-between text-[10.5px] text-[#8a7d72]">
-                <span>{review.author}</span>
-                {review.productHandle ? (
-                  <Link href={`/products/${review.productHandle}`} className="text-[#6f1d2b] underline">
-                    View piece
-                  </Link>
-                ) : null}
-              </figcaption>
-            </figure>
-          ))}
-        </div>
+        <ReviewsTicker items={reviews} />
       </div>
     </section>
   );

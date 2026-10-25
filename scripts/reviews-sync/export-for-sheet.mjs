@@ -27,6 +27,8 @@ const clean = (value, max) => String(value ?? "").replace(/\s+/g, " ").trim().sl
 const reviews = JSON.parse(fs.readFileSync(REVIEWS, "utf8"));
 const catalog = JSON.parse(fs.readFileSync(CATALOG, "utf8"));
 const titles = new Map(catalog.products.map((product) => [product.handle, product.title]));
+/** sheet ka `Product ID` column — review ko sahi product par lagane ka pakka tarika */
+const productIds = new Map(catalog.products.map((product) => [product.handle, String(product.id ?? "")]));
 
 /**
  * Duplicate listing hataane par uska handle catalog se nikal jaata hai.
@@ -69,6 +71,7 @@ for (const [handle, block] of Object.entries(reviews.products ?? {})) {
     rows.push({
       timestamp: review.date ? `${review.date}T00:00:00Z` : "",
       handle: target,
+      productId: productIds.get(target) ?? productIds.get(handle) ?? "",
       product: titles.get(target) ?? titles.get(handle) ?? "",
       name: clean(review.author, 40) || "Customer",
       rating: Math.max(1, Math.min(5, Math.round(Number(review.rating) || 5))),

@@ -16,6 +16,11 @@ export interface SizePricing {
 }
 
 export interface Product {
+  /**
+   * Owner-facing stable product id (jaise `1042`) — reviews, sheet aur orders
+   * me isi se product pehchana jaata hai, kyunki handle badal sakta hai.
+   */
+  id?: string;
   /** URL-safe ASCII slug (emoji/space strip karke) */
   handle: string;
   /** original likshaclothing.com handle — traceability ke liye */

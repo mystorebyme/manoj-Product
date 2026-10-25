@@ -10,6 +10,7 @@ import { SafeImage } from "@/components/safe-image";
 import { Stars } from "@/components/stars";
 import { colourSwatch } from "@/lib/colour";
 import { coloursFor } from "@/lib/colour-index";
+import { useSheetMainImage } from "@/lib/sheet-products";
 
 /**
  * Product card — premium editorial layout:
@@ -32,7 +33,8 @@ export function ProductCard({
   const wished = isWished(product.handle);
   const colourOptions = colours ?? coloursFor(product.handle);
   const off = discountPercent(product.price, product.compareAtPrice);
-  const primary = product.images[0];
+  // owner Sheet ke `MainImage` tab se main photo badal sakta hai
+  const primary = useSheetMainImage(product.handle, product.images[0]);
   const hoverImage = product.images[1] ?? null;
   const mediaRef = useRef<HTMLDivElement>(null);
   const frame = useRef<number | null>(null);

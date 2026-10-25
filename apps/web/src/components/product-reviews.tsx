@@ -24,10 +24,13 @@ export function ProductReviews({
   block,
   productTitle,
   productHandle,
+  productId,
 }: {
   block: ProductReviewBlock;
   productTitle: string;
   productHandle: string;
+  /** sheet ke `Product ID` column ke liye — isi se review sahi product par aata hai */
+  productId?: string;
 }) {
   const [filter, setFilter] = useState<number | null>(null);
   const [showForm, setShowForm] = useState(false);
@@ -38,13 +41,13 @@ export function ProductReviews({
 
   useEffect(() => {
     let alive = true;
-    void fetchPublishedReviews(productHandle).then((reviews) => {
+    void fetchPublishedReviews(productHandle, productId).then((reviews) => {
       if (alive && reviews.length) setSheetReviews(reviews);
     });
     return () => {
       alive = false;
     };
-  }, [productHandle]);
+  }, [productHandle, productId]);
 
   // sheet reviews ko usi shape me le aao jise baaki UI padhta hai
   const merged = useMemo<ProductReviewBlock>(() => {
@@ -107,6 +110,7 @@ export function ProductReviews({
             }
             submitReview({
               handle: productHandle,
+              productId,
               productTitle,
               name: form.name.trim(),
               rating: form.rating,
