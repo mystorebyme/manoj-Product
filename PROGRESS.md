@@ -504,3 +504,56 @@ Tests: **163 unit + 40 integration + 9**, typecheck + build clean, local e2e smo
 **Owner ke liye baaki (optional):** Apps Script me repo ka r9 code paste karke
 *Manage deployments → Edit → New version → Deploy* karein. Usse step 4 ka jawab bhi verify hoga
 (GET write). Data **abhi bhi** aa raha hai — POST rasta purane deployment par bhi chalta hai.
+
+
+## Round 28 — "products load nahi hue" ka asli bug, single-image card, email/Instagram off, Netlify
+
+### 1. "Aur products load nahi hue. Dobara try kariye." — root cause
+
+`collection-browser.tsx` me:
+
+```ts
+const all = await readJson<Product[]>(response);   // ❌ readJson { data, error } deta hai
+if (!Array.isArray(all)) throw new Error("catalog parse failed");
+```
+
+`readJson()` wrapper object deta hai, array nahi — isliye `Array.isArray()` **hamesha false**
+tha. GitHub Pages / Netlify (static, koi API nahi) par "Load more" aur sort/price filter
+har click par error dete the. Ab:
+
+- `lib/local-catalog.ts` — filter/sort/price-bucket/search/pagination ek jagah (pure functions)
+- `lib/catalog-page.ts` — pehle `/api/products`, fail ho to `catalog-lite.json`
+- search grid (`product-grid-client.tsx`) par pehle koi fallback hi nahi tha — ab hai
+- `catalog-lite.json` me `listed` flag (server jaisa exact count) → "Load more (N left)" ka
+  number server se bilkul match (425/425 new arrivals)
+- tests: pagination/duplicate-free, price buckets, sort, search, API-404 fallback,
+  count parity per collection, aur bug ka regression guard
+
+### 2. Product card — single image
+
+Sirf ek photo wale products par **image badalti nahi** (pehle hover par cross-fade ka
+system tha). Ab wahi photo cursor ke saath halki float karti hai (`--cursor-x/y`,
+`scale 1.045`), `prefers-reduced-motion` aur touch devices par off. Multi-image cards
+par pehle jaisa cross-fade.
+
+### 3. Admin — main image chuno
+
+Product edit → image manager: **Main** (main image) aur **↑ / ↓** reorder. `images[0]` hi
+card, search aur PDP par pehli photo hoti hai. Naya product form par bhi saaf likha hai.
+Actions: `setProductMainImageAction`, `moveProductImageAction` (override me images order).
+
+### 4. Website se support email hata, Instagram hata, 7 day return
+
+- Email: footer, contact page, header drawer, account page, policy/privacy text,
+  contact form ka mailto, JSON-LD — sab se hata. Sirf WhatsApp + call.
+- Instagram link (`designer_clothing_9`) hata — owner apna handle baad me dega.
+- "7 day easy exchange" / "7 days replacement" → **"7 day return"** (home trust strip,
+  announcement, checkout, product page, invoice, policy page title).
+
+### 5. Netlify + apna domain
+
+`netlify.toml` (build `npm ci && node scripts/pages/build-preview.mjs`, publish `dist`,
+root base path, cache + security headers) aur `docs/09-devops/netlify.md` — import,
+domain (`trendsyounique.fashion`) ke DNS steps, HTTPS, sheet check, troubleshooting.
+Track-order page ab bina server wali hosting par jhootha "Open live tracking" link nahi
+dikhati (status WhatsApp se).
