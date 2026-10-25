@@ -22,7 +22,9 @@ type LibraryValue = {
 
 const WishlistContext = createContext<LibraryValue | null>(null);
 
-const WISHLIST_KEY = "liksha:wishlist:v1";
+const WISHLIST_KEY = "trends:wishlist:v1";
+/** purana (cloned project ka) key — ek baar migrate karke hamesha ke liye hata dete hain */
+const LEGACY_WISHLIST_KEY = "liksha:wishlist:v1";
 
 function read(key: string): string[] {
   if (typeof window === "undefined") return [];
@@ -40,7 +42,21 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    setWishlist(read(WISHLIST_KEY));
+    const current = read(WISHLIST_KEY);
+    if (current.length) {
+      setWishlist(current);
+    } else {
+      // pehli visit: purane key se wishlist le aao, taaki customer ka data na tute
+      const legacy = read(LEGACY_WISHLIST_KEY);
+      setWishlist(legacy);
+      if (legacy.length) {
+        try {
+          window.localStorage.removeItem(LEGACY_WISHLIST_KEY);
+        } catch {
+          /* ignore */
+        }
+      }
+    }
     setReady(true);
   }, []);
 

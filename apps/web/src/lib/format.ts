@@ -1,5 +1,5 @@
 /**
- * Local asset (public/ folder) ka URL. GitHub Pages par site `/tannu-product-/`
+ * Local asset (public/ folder) ka URL. GitHub Pages par site `/manoj-Product/`
  * ke neeche rehti hai, isliye base path add karna zaroori hai — warna image 404.
  */
 const ASSET_BASE = process.env.NEXT_PUBLIC_PAGES_BASE_PATH ?? "";

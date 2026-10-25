@@ -212,7 +212,7 @@ export function searchSuggestions(term: string, limit = 6): string[] {
     .slice(0, limit);
 }
 
-/** Search page ke liye "recommended" picks — trending pehle, phir Liksha's choice. */
+/** Search page ke liye "recommended" picks — trending pehle, phir TRENDS YOUNIQUE ka stylist pick. */
 export function recommendedProducts(limit = 8): Product[] {
   const trending = listed(products).filter((product) => product.collections.includes("trending"));
   const picks = listed(products).filter((product) => product.collections.includes("trends-signature"));

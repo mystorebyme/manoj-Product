@@ -352,7 +352,7 @@ export function ProductDetail({
                 ? `Bade size (${size.split(" ")[0]}) me extra fabric lagta hai — price Rs. ${Math.round(
                     (sizePricing!.price - active.price) / 100,
                   )} zyada.`
-                : "XL aur usse bade sizes par price thoda zyada hota hai."}
+                : "Kuch sizes par price alag hai — apna size chun kar exact price dekhein."}
             </p>
           ) : (
             <p className="mt-2 text-[11px] text-[#8a7d72]">Har size par same price — XS se 3XL tak.</p>

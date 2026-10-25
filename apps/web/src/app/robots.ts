@@ -8,7 +8,7 @@ export default function robots(): MetadataRoute.Robots {
   const base = siteConfig.url.replace(/\/$/, "");
   return {
     rules: [
-      { userAgent: "*", allow: "/", disallow: ["/api/", "/orders/", "/checkout", "/account"] },
+      { userAgent: "*", allow: "/", disallow: ["/api/", "/orders/", "/checkout", "/account", "/sheet-check", "/admin/"] },
     ],
     sitemap: `${base}/sitemap.xml`,
     host: base,
