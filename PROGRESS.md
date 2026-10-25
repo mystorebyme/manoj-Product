@@ -461,3 +461,46 @@ Tests: **145 unit + 40 integration + 9**, typecheck clean, catalog verify clean.
 
 Round 25 (cont.): price filter buckets campaign ke hisaab se (Under 500 / 500-800 /
 800-1200 / 1200+) — pehle Rs. 2,500+ ke buckets sab khaali dikhte the.
+
+## Round 27 — "sheet me data nahi aa raha" ka asli root cause + bug sweep
+
+**Root cause (prove kiya, guess nahi):** live site **galat Apps Script deployment** par bhej rahi
+thi. GitHub repo variables me jo `SHEET_WEBAPP_URL` tha, uska jawab har request par
+`{"ok":false,"error":"unauthorized"}` aata tha — isliye order, contact form, enquiry, newsletter,
+review… kuch bhi sheet tak nahi pahuncha. Sheet me sirf purane self-test rows the.
+
+Proof (GitHub Actions runner se, browser jaisa hi POST): **sahi** deployment par row turant
+`Orders` me aa gayi; purane par `unauthorized`. Per-tab matrix:
+`Orders ✅ · Order Items ✅ · Enquiries ✅ · Messages ✅ · Newsletter ✅ · Reviews ✅ ·
+Payments ⛔ (by design — browser write token us tab ko chhoo hi nahi sakta)`.
+
+Fix:
+- `lib/sheet-config.ts` — verified URL + write token **code me**; purane `SHEET_*` env ignore,
+  naye safe override (`NEXT_PUBLIC_SHEET_URL_OVERRIDE` / `_TOKEN_OVERRIDE`).
+  `public/sheet-endpoint.json` + unit test = live deploy par galat URL dobara nahi lag sakta.
+- `pages.yml` se stale variables hata diye.
+- `google-sheets.ts`: GET append (jawab verify) → POST fallback.
+- relay: GET-first, phir beacon, phir form, phir 1px pixel; har batch alag (bade order ka
+  baaki hissa 20s nahi rukta), 7 din purani row drop, storage keys `trends:*`.
+- `/sheet-check/`: r8 par bhi sach — GET verify na ho to POST se test row, aur page **noindex**.
+
+**Bug sweep (chhote bugs jo mile):**
+- `STORE_UPI_ID` ka banaya hua fallback (`trendsyounique@upi`) → khaali par UPI card hi nahi;
+  `.env.example`/`render.yaml`/legacy .gs me **doosre project ki UPI id** thi — hata di (galat
+  account me paisa ja sakta tha).
+- Order page par "Pay via UPI below" likha tha par koi UPI card render hi nahi hota tha → saaf
+  COD/WhatsApp copy, dead imports hataye.
+- 4 duplicate products (same photos, do handles — main + extra store) → dedupe + build-script
+  pass + unit test (catalogue 517 → 513).
+- `clean-titles`: "PartyWear/SuitSet/Lehenga choli" ab saaf ("Party Wear Suit Set", …).
+- Product page par jhootha "prepaid only" → "COD available"; size-price note sirf sach hone par.
+- Wishlist/cache/queue keys `liksha:*`/`nyx:*` → `trends:*` (migration ke saath), CSS tokens
+  `--ty-*`.
+- `robots.txt`: `/sheet-check`, `/admin/` disallow.
+
+Tests: **163 unit + 40 integration + 9**, typecheck + build clean, local e2e smoke 88 / round16 37
+/ links 40 / responsive 38 — fail 0.
+
+**Owner ke liye baaki (optional):** Apps Script me repo ka r9 code paste karke
+*Manage deployments → Edit → New version → Deploy* karein. Usse step 4 ka jawab bhi verify hoga
+(GET write). Data **abhi bhi** aa raha hai — POST rasta purane deployment par bhi chalta hai.
