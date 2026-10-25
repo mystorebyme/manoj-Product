@@ -21,11 +21,19 @@ Jo kami mili:
 
 | Tab | Pehle | Ab |
 | --- | --- | --- |
-| `ProductList` | ID · Handle · Title · Price (477 rows) | wahi — **har product ki ID yahan already thi** |
+| `ProductList` | 4 column dikh rahe the (ID · Handle · Title · Price) | **10 column, 477 rows** — `Images` me har product ki saari links, `Image count`, URL |
 | `Products` | 8 column, **koi `Product ID` column nahi**, koi product row nahi | `Product ID` column (P) add, IDs menu se bharti hain |
 | `ProductImages` | sirf 3-4 sample row, **ID nahi** | `Product ID` column (E) + saari images (menu 5) |
 | `MainImage` | sirf 1 sample row, ID nahi | `Product ID` column (D) + IDs |
-| `ImagesAll` | tab hi nahi tha | **naya tab** — har photo ek row me (ID · Handle · Title · Position · Image) |
+| `ImagesAll` | tab hi nahi tha | **naya tab, live filled — 2738 image rows** (ID · Handle · Title · Position · Image) |
+
+R36 me moolya (live, verify kiya):
+
+- `ProductList` — **477 products**, column A–J bhari hui (ID 1001–1477).
+- `ImagesAll` — **2738 rows**, har row me `ID` + `Handle` + `Position` + poora image link.
+  Matlab har product ki 2–20 photos, sab sheet me ID ke saath.
+- `Products` / `MainImage` / `ProductImages` — `Product ID` column ban gaya; `MainImage`
+  aur `ProductImages` ki maujooda rows me ID bhar di (1407, 1001, 1002 …).
 
 ## 2. Apps Script r15 (yahi "sab fix" karta hai)
 
@@ -64,14 +72,24 @@ Naya/updated:
 
 ## 4. Owner ke 2 minute ke step
 
+`ImagesAll` aur `ProductList` **already bhare hue hain** (agent ne khud bhar diye), isliye
+sirf ye karna hai:
+
 1. Sheet → Extensions → Apps Script → poora `trends-sheets.gs` paste → **Save**.
 2. Run → `setup` (headers/dropdown theek karta hai, data chhedta nahi).
-3. `TRENDS tools` menu → **6. Saari images ek jagah (ImagesAll)** → 2738 rows aa jaayengi.
-4. Menu → **7. Har product ki ID bharo (admin-only)** → Products/MainImage/ProductImages/
-   Reviews sab me ID.
-5. Menu → **5. Saari products ki images list bharo** → `ProductImages` tab (photo
-   badalne/hatane ka control) bhi poori bhar jaati hai.
+3. `TRENDS tools` menu → **7. Har product ki ID bharo (admin-only)** — `Reviews` ke 1684
+   purane review rows me bhi ID aa jaayegi (baaki tabs already bhari hain).
+4. Menu → **6. Saari images ek jagah (ImagesAll)** — optional; abhi `ImagesAll` GitHub ke
+   data file se bhara hai. Ek baar click karne par wahi data site ke URL se aata hai
+   (permanent, branch delete hone par bhi chalta rahega).
+5. Menu → **5. Saari products ki images list bharo** — `ProductImages` tab (photo
+   badalne/hatane ka control) bhi poori bhar jaati hai. **Iske baad koi photo badalni ho to
+   yahin kariye.**
 6. Deploy → Manage deployments → **New version** (warna live site purana code hi bhejti hai).
+
+> `IMPORTDATA` ka note: site ke `/data/*.csv` URL par Google kabhi `#N/A` de deta hai
+> (R36 me hua). Isliye `ImagesAll` filhaal GitHub ke raw data file se bhara hai aur
+> Apps Script ka naya `writeCsvTab_()` URL fail hone par GitHub raw se le leta hai.
 
 ## 5. Product ID public par nahi
 
