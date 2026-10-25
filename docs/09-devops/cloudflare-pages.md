@@ -148,17 +148,21 @@ Purani hosting (Netlify/Vercel) ka deploy **delete na karein**. Wapas jaana ho t
 
 ## 5. Free plan limits (Cloudflare Pages) — is app par asar
 
+Sab official docs se (Sep 2026 update) — [Pages limits](https://developers.cloudflare.com/pages/platform/limits/),
+[static asset pricing](https://developers.cloudflare.com/pages/functions/pricing/):
+
 | Limit | Free plan | Is app par asar |
 | --- | --- | --- |
-| Bandwidth | **Unlimited** | ✅ 135 MB site, images CDN se |
-| Requests | **Unlimited** (static) | ✅ |
-| Builds | **500 / month** | ✅ ~16/din — kaafi |
+| Static asset requests | **free + unlimited** (official) | ✅ har page/image CDN se |
+| Bandwidth | Pages par billable nahi (free unlimited) | ✅ 135 MB site, images bhi isi me |
+| Builds | **500 / month**, **1 at a time** | ✅ ~16/din; ek saath do push → doosra wait |
+| Build timeout | 20 minutes | ✅ hamara ~4–6 min |
 | Files per deployment | **20,000** | ✅ 4,768 |
-| File size | **25 MB** | ✅ sabse badi 0.8 MB |
-| Concurrent builds | 1 | ⚠️ do push ek saath → doosra wait karega |
-| Build time limit | 20 min | ✅ hamara ~4–6 min |
-| Custom domains | 100 / project | ✅ |
-| Workers (Functions) | 100k requests/din | is app me use hi nahi ho rahe |
+| Single file size | **25 MiB** | ✅ sabse badi 0.8 MB |
+| `_headers` rules | **100 rules**, har header **≤2,000 chars** | ✅ 18 rules, sabse lamba 699 chars |
+| `_redirects` | 2,000 static + 100 dynamic | use hi nahi ho raha |
+| Custom domains | **100 / project** | ✅ 2 |
+| Functions (Workers) | 100,000 requests/din | is app me Functions hain hi nahi |
 
 Traffic: 1 lakh monthly visitors bhi static plan par aaram se chalte hain — har visitor ke
 liye koi backend call nahi hoti (data browser se Apps Script/Sheet par jaata hai, jo Google
