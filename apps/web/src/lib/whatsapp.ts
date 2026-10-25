@@ -1,5 +1,6 @@
 import type { Order } from "@liksha/types";
-import { siteConfig } from "@/config/site";
+import { siteConfig } from "../config/site";
+import { relayEnquiryToSheet } from "./sheet-relay";
 
 /**
  * WhatsApp — dukaan ka sabse zaroori order channel.
@@ -93,6 +94,82 @@ export function cartWhatsAppMessage(lines: WhatsAppLine[], origin = currentSiteU
   return parts.join("\n");
 }
 
+export type CheckoutWhatsAppInput = {
+  items: WhatsAppLine[];
+  total: number;
+  name: string;
+  phone: string;
+  email?: string | null;
+  address: string;
+  city: string;
+  state: string;
+  pincode: string;
+  notes?: string | null;
+  upiId?: string | null;
+  orderRef?: string | null;
+  origin?: string;
+};
+
+/**
+ * Checkout ka **poora** order message — yahi owner ko WhatsApp par jaata hai.
+ *
+ * Har item ke saath: naam · colour · size · qty · line total · **product link**,
+ * aur neeche customer ka naam, phone, email, poora address, notes aur total.
+ * Isse owner bina kuch poochhe order ready kar sakta hai.
+ */
+export function checkoutWhatsAppMessage(input: CheckoutWhatsAppInput): string {
+  const origin = input.origin ?? currentSiteUrl();
+  const pieces = input.items.reduce((sum, line) => sum + line.quantity, 0);
+  const parts: string[] = [];
+  parts.push(`*${siteConfig.name} — new order* 🛍️`);
+  if (input.orderRef) parts.push(`Order ref: *${input.orderRef}*`);
+  parts.push("");
+  parts.push(`*Items (${input.items.length} · ${pieces} pcs)*`);
+  input.items.forEach((line, index) => {
+    parts.push(
+      `${index + 1}. *${line.title}*` +
+        (line.colour ? `\n   Colour: ${line.colour}` : "") +
+        `\n   Size: ${line.size || "-"} · Qty: ${line.quantity}` +
+        `\n   Price: ${money(line.price)} × ${line.quantity} = ${money(line.price * line.quantity)}` +
+        `\n   Link: ${origin}/products/${line.handle}`,
+    );
+  });
+  parts.push("");
+  parts.push(`*Total: ${money(input.total)}* (free shipping)`);
+  parts.push("");
+  parts.push("*Customer details*");
+  parts.push(`Name: ${input.name || "-"}`);
+  parts.push(`Phone: ${input.phone || "-"}`);
+  if (input.email) parts.push(`Email: ${input.email}`);
+  parts.push(
+    `Address: ${[input.address, input.city, input.state, input.pincode].filter(Boolean).join(", ")}`,
+  );
+  if (input.notes) parts.push(`Notes: ${input.notes}`);
+  if (input.upiId) parts.push(`\nPayment: UPI ${input.upiId} (screenshot yahin bhej raha/rahi hoon)`);
+  parts.push("");
+  parts.push("Please confirm this order and share the payment/confirm message. Thank you!");
+  return parts.join("\n");
+}
+
+/** Product page se owner se sawaal — item ka link saath jaata hai. */
+export function questionWhatsAppMessage(line: WhatsAppLine, origin = currentSiteUrl()): string {
+  return [
+    `*${siteConfig.name} — product question*`,
+    "",
+    `*${line.title}*`,
+    line.colour ? `Colour: ${line.colour}` : null,
+    line.size ? `Size: ${line.size}` : null,
+    `Link: ${origin}/products/${line.handle}`,
+    "",
+    "Hi, mujhe is item ke baare me kuch poochhna hai —",
+    "• Fabric / work kya hai?",
+    "• Delivery kitne din me hogi?",
+    "• Kya ye size me available hai?",
+  ]
+    .filter((part): part is string => part !== null)
+    .join("\n");
+}
+
 /** Order place hone ke baad confirmation message. */
 export function orderWhatsAppMessage(order: Order, origin = siteConfig.url): string {
   const lines: string[] = [];
@@ -151,10 +228,33 @@ export type EnquiryPayload = {
  */
 export function logWhatsAppEnquiry(payload: EnquiryPayload): void {
   if (typeof window === "undefined") return;
-  const body = JSON.stringify({
-    ...payload,
-    source: `${window.location.pathname}`.slice(0, 200),
+  const source = `${window.location.pathname}`.slice(0, 200);
+  const body = JSON.stringify({ ...payload, source });
+
+  /**
+   * Sheet relay — GitHub Pages (static) par `/api/enquiry` hoti hi nahi, isliye
+   * enquiry seedha Apps Script par bhi bhejte hain. Server ho to dono jagah
+   * pahunchti hai (sheet relay configure na ho to ye line kuch nahi karti).
+   */
+  relayEnquiryToSheet({
+    id: `ENQ-${Date.now().toString(36).toUpperCase()}${Math.random().toString(36).slice(2, 5).toUpperCase()}`,
+    createdAt: new Date().toISOString(),
+    type: payload.type,
+    items: payload.items.map((item) => ({
+      title: item.title,
+      handle: item.handle,
+      colour: item.colour ?? null,
+      size: item.size ?? null,
+      quantity: item.quantity,
+      price: item.price,
+    })),
+    total: payload.total,
+    customer: payload.customer ?? null,
+    phone: payload.phone ?? null,
+    note: payload.note ?? null,
+    source,
   });
+
   try {
     if (navigator.sendBeacon) {
       const blob = new Blob([body], { type: "application/json" });

@@ -13,7 +13,13 @@ import { UpiQr } from "@/components/upi-qr";
 import { UpiApps } from "@/components/upi-apps";
 import { postJson, readJson } from "@/lib/http-json";
 import { checkPincodeOffline } from "@/lib/pincode-offline";
-import { logWhatsAppEnquiry } from "@/lib/whatsapp";
+import {
+  checkoutWhatsAppMessage,
+  logWhatsAppEnquiry,
+  whatsappLink,
+  whatsappNumber,
+} from "@/lib/whatsapp";
+import { newOrderRef, relayOrderToSheet } from "@/lib/sheet-relay";
 
 const indianStates = [
   "Andhra Pradesh", "Assam", "Bihar", "Chandigarh", "Chhattisgarh", "Delhi", "Goa", "Gujarat",
@@ -101,57 +107,99 @@ export function CheckoutForm() {
     setForm((current) => ({ ...current, [field]: value }));
   }
 
-  /** static preview / server down — poora order WhatsApp par (owner usi se confirm karta hai) */
-  function whatsappOrderLink(): string {
-    // detail sheet/DB me bhi jaye — sirf WhatsApp chat par depend na rahe
+  /**
+   * **Primary flow: order seedha WhatsApp par.**
+   *
+   * Customer details bharta hai → "Send order on WhatsApp" dabata hai →
+   * poora order (item link, colour, size, qty, price + address) owner ke
+   * WhatsApp par chala jaata hai, aur usi waqt DB + Google Sheet me row save hoti hai.
+   */
+  function sendOrderOnWhatsApp(): void {
+    if (lines.length === 0) return;
+    const missing = validateDetails();
+    if (missing) {
+      setError(missing);
+      return;
+    }
+    setError(null);
+
+    const orderRef = newOrderRef();
+    const payload = lines.map((line) => ({
+      title: line.title,
+      handle: line.handle,
+      colour: line.colour ?? null,
+      size: line.size ?? null,
+      quantity: line.quantity,
+      price: line.price,
+    }));
+
+    // 1) DB + sheet (server ho to API, warna browser relay)
     if (!enquiryLogged.current) {
       enquiryLogged.current = true;
       logWhatsAppEnquiry({
         type: "checkout",
-        items: lines.map((line) => ({
-          title: line.title,
-          handle: line.handle,
-          colour: line.colour ?? null,
-          size: line.size ?? null,
-          quantity: line.quantity,
-          price: line.price,
-        })),
+        items: payload,
         total,
-        customer: form.customerName || null,
-        phone: form.phone || null,
-        note: [
-          form.address,
-          form.city,
-          form.state,
-          form.pincode,
-          form.notes,
-        ]
+        customer: form.customerName,
+        phone: form.phone,
+        note: [form.address, form.city, form.state, form.pincode, form.notes]
           .filter(Boolean)
           .join(", ")
           .slice(0, 480),
       });
     }
-    const itemLines = lines
-      .map((line) => `• ${line.title} — size ${line.size}${line.colour ? `, ${line.colour}` : ""} × ${line.quantity}`)
-      .join("\n");
-    const text = [
-      "Hi TRENDS YOUNIQUE, I want to place this order:",
-      "",
-      itemLines,
-      "",
-      `Total: ${formatPrice(total)} (prepaid, UPI: ${upiId})`,
-      "",
-      `Name: ${form.customerName}`,
-      `Phone: ${form.phone}`,
-      `Email: ${form.email}`,
-      `Address: ${form.address}, ${form.city}, ${form.state} — ${form.pincode}`,
-      form.notes ? `Notes: ${form.notes}` : "",
-      "",
-      "I will share the UPI payment screenshot here.",
-    ]
-      .filter(Boolean)
-      .join("\n");
-    return `https://wa.me/91${whatsapp.replace(/\D/g, "").slice(-10)}?text=${encodeURIComponent(text)}`;
+    relayOrderToSheet({
+      orderRef,
+      customerName: form.customerName,
+      phone: form.phone,
+      email: form.email,
+      address: form.address,
+      city: form.city,
+      state: form.state,
+      pincode: form.pincode,
+      notes: form.notes,
+      items: lines.map((line) => ({
+        title: line.title,
+        handle: line.handle,
+        colour: line.colour ?? null,
+        size: line.size ?? null,
+        quantity: line.quantity,
+        price: line.price,
+        image: line.image,
+      })),
+      total,
+    });
+
+    // 2) WhatsApp — poora detail pre-filled
+    const href = whatsappLink(
+      checkoutWhatsAppMessage({
+        items: payload,
+        total,
+        name: form.customerName,
+        phone: form.phone,
+        email: form.email,
+        address: form.address,
+        city: form.city,
+        state: form.state,
+        pincode: form.pincode,
+        notes: form.notes,
+        upiId,
+        orderRef,
+      }),
+      whatsappNumber(whatsapp),
+    );
+    setWhatsappHref(href);
+    window.open(href, "_blank", "noopener");
+  }
+
+  /** WhatsApp se pehle zaroori fields — customer ko saaf message */
+  function validateDetails(): string | null {
+    if (form.customerName.trim().length < 2) return "Poora naam daaliye.";
+    if (form.phone.replace(/\D/g, "").length !== 10) return "10 digit WhatsApp number daaliye (is par hum confirm karenge).";
+    if (form.address.trim().length < 10) return "Poora address daaliye — house number, street, area.";
+    if (form.city.trim().length < 2) return "City daaliye.";
+    if (form.pincode.replace(/\D/g, "").length !== 6) return "6 digit pincode daaliye.";
+    return null;
   }
 
   async function submit(event: React.FormEvent) {
@@ -169,9 +217,9 @@ export function CheckoutForm() {
     setWhatsappHref(null);
     enquiryLogged.current = false;
 
-    // GitHub Pages par server nahi hai — order WhatsApp par jaata hai, 404/network error nahi
+    // GitHub Pages par server nahi hai — order seedha WhatsApp par
     if (!API_AVAILABLE) {
-      setWhatsappHref(whatsappOrderLink());
+      sendOrderOnWhatsApp();
       return;
     }
 
@@ -198,8 +246,11 @@ export function CheckoutForm() {
       );
 
       if (!result.data?.orderNumber) {
-        setError(result.data?.error ?? result.error ?? "Order place nahi hua. Details check karke dobara try kariye.");
-        setWhatsappHref(whatsappOrderLink());
+        setError(
+          result.data?.error ??
+            result.error ??
+            "Order place nahi hua. Details check karke dobara try kariye, ya WhatsApp par bhej dijiye.",
+        );
         setSubmitting(false);
         return;
       }
@@ -208,7 +259,6 @@ export function CheckoutForm() {
     } catch (error) {
       console.warn("order submit failed", error);
       setError("Order server tak nahi pahuncha. Dobara try kariye, ya WhatsApp par order bhej dijiye — wahan hum turant confirm karte hain.");
-      setWhatsappHref(whatsappOrderLink());
       setSubmitting(false);
     }
   }
@@ -384,9 +434,9 @@ export function CheckoutForm() {
         {whatsappHref ? (
           <div className="mt-3 border border-[#c9dcc9] bg-[#eef7ee] p-3" data-testid="checkout-whatsapp">
             <p className="text-[11.5px] leading-relaxed text-[#2f6b3f]">
-              Your order is ready — send it on WhatsApp to confirm. Pay{" "}
-              <strong>{formatPrice(total)}</strong> to UPI <strong className="break-all">{upiId}</strong> and share
-              the screenshot there.
+              <strong>Order ready!</strong> WhatsApp khul gaya hai — bas <em>Send</em> dabaiye. Nahi khula to neeche
+              wale button se bhej dein. Payment <strong>{formatPrice(total)}</strong> UPI{" "}
+              <strong className="break-all">{upiId}</strong> par karke screenshot wahin bhej dijiye.
             </p>
             <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-start">
               <div className="w-[128px] shrink-0 rounded-sm border border-[#c9dcc9] bg-white p-1">
@@ -418,22 +468,42 @@ export function CheckoutForm() {
                   href={whatsappHref}
                   target="_blank"
                   rel="noreferrer"
-                  className="mt-2.5 inline-flex h-10 items-center justify-center bg-[#25D366] px-4 text-[10.5px] font-semibold tracking-[.12em] text-white uppercase"
+                  data-testid="checkout-whatsapp-link"
+                  className="mt-2.5 inline-flex h-11 w-full items-center justify-center gap-2 bg-[#25D366] px-4 text-[10.5px] font-semibold tracking-[.12em] text-white uppercase sm:w-auto"
                 >
-                  Send order on WhatsApp
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                    <path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.2 14.1c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1a11.6 11.6 0 0 1-5.9-5.2c-.4-.7-.6-1.4-.6-2 0-.6.3-1.2.6-1.6.2-.2.4-.3.6-.3h.5c.2 0 .4 0 .5.4l.7 1.7c.1.2 0 .4-.1.6l-.4.5c-.1.1-.2.3-.1.5a7.5 7.5 0 0 0 3.3 2.9c.2.1.4.1.5-.1l.6-.7c.2-.2.3-.2.5-.1l1.6.8c.2.1.4.2.4.4 0 .2 0 .9-.2 1.4Z" />
+                  </svg>
+                  Open WhatsApp again
                 </a>
               </div>
             </div>
           </div>
         ) : null}
 
+        {/* Main CTA — order WhatsApp par (owner wahin confirm karta hai) */}
+        <button
+          type="button"
+          onClick={sendOrderOnWhatsApp}
+          data-testid="checkout-whatsapp-send"
+          className="mt-4 flex w-full items-center justify-center gap-2 bg-[#25D366] py-3.5 text-[11.5px] font-semibold tracking-[.14em] text-white uppercase transition hover:bg-[#1eb757]"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+            <path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.2 14.1c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1a11.6 11.6 0 0 1-5.9-5.2c-.4-.7-.6-1.4-.6-2 0-.6.3-1.2.6-1.6.2-.2.4-.3.6-.3h.5c.2 0 .4 0 .5.4l.7 1.7c.1.2 0 .4-.1.6l-.4.5c-.1.1-.2.3-.1.5a7.5 7.5 0 0 0 3.3 2.9c.2.1.4.1.5-.1l.6-.7c.2-.2.3-.2.5-.1l1.6.8c.2.1.4.2.4.4 0 .2 0 .9-.2 1.4Z" />
+          </svg>
+          Send order on WhatsApp · {formatPrice(total)}
+        </button>
+        <p className="mt-1.5 text-center text-[10.5px] leading-relaxed text-[#8a7d72]">
+          Detail (item link, colour, size, qty, address) pre-filled jaati hai — bas Send dabaiye.
+        </p>
+
         <button
           type="submit"
           data-testid="checkout-submit"
           disabled={submitting}
-          className="mt-4 w-full bg-[#6f1d2b] py-3 text-[11.5px] font-semibold tracking-[.16em] text-white uppercase disabled:opacity-60"
+          className="mt-3 w-full border border-[#6f1d2b] py-3 text-[11.5px] font-semibold tracking-[.16em] text-[#6f1d2b] uppercase disabled:opacity-60"
         >
-          {submitting ? "Placing order…" : `Place order · ${formatPrice(total)}`}
+          {submitting ? "Placing order…" : `Pay online & place order · ${formatPrice(total)}`}
         </button>
         <p className="mt-2 text-center text-[10.5px] leading-relaxed text-[#8a7d72]">
           Final price is already sale price — no coupon needed. By placing this order you agree to our{" "}

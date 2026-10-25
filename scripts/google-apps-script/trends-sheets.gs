@@ -31,8 +31,24 @@
  * URL wahi rehta hai.
  */
 
-/** Apna secret token yahan daaliye (website ke GOOGLE_SHEETS_TOKEN se bilkul same) */
+/**
+ * Apna secret token yahan daaliye (website ke GOOGLE_SHEETS_TOKEN se bilkul same).
+ * Ye **master** token hai — settings padhna/likhna aur rows add karna, sab allowed.
+ */
 var TOKEN = 'CHANGE-ME-trends-token';
+
+/**
+ * **Write-only token** — sirf rows add kar sakta hai (padh nahi sakta).
+ *
+ * GitHub Pages (static site) par server hota hi nahi, isliye browser se seedha
+ * yahan POST aata hai aur ye token site ke JS me hota hai. Isliye ise sirf
+ * `WRITE_SHEETS` me hi likhne ki permission hai, row cap hai, aur settings/
+ * recent/health is token se nahi khulte. Kuch galat lage to ise badal kar
+ * redeploy kar dein — purana token turant band ho jaayega.
+ */
+var WRITE_TOKEN = 'CHANGE-ME-trends-write-token';
+var WRITE_SHEETS = ['Orders', 'Order Items', 'Enquiries', 'Messages', 'Newsletter'];
+var MAX_WRITE_ROWS = 40;
 
 var HEADERS = {
   Orders: [
@@ -352,11 +368,19 @@ function doPost(e) {
   } catch (error) {
     return json_({ ok: false, error: 'invalid json' });
   }
-  if (TOKEN && String(body.token || '') !== TOKEN) {
+  var given = String(body.token || '');
+  var masterOk = Boolean(TOKEN) && given === TOKEN;
+  var writeOk = Boolean(WRITE_TOKEN) && given === WRITE_TOKEN;
+  if (!masterOk && !writeOk) {
     return json_({ ok: false, error: 'unauthorized' });
   }
 
   try {
+    // settings badalna / padhna sirf master token se
+    if (!masterOk && body.action !== 'append') {
+      return json_({ ok: false, error: 'unauthorized' });
+    }
+
     if (body.action === 'settings_save') {
       var count = writeSettings_(body.settings || {});
       return json_({ ok: true, written: count, settings: readSettings_() });
@@ -372,6 +396,15 @@ function doPost(e) {
     if (body.action === 'append') {
       var rows = Array.isArray(body.rows) ? body.rows : [];
       if (!rows.length) return json_({ ok: false, error: 'no rows' });
+      if (!masterOk) {
+        // write-only token: allowlist + row cap (spam/bulk abuse se bachav)
+        rows = rows
+          .filter(function (entry) {
+            return WRITE_SHEETS.indexOf(String(entry.sheet || '')) >= 0;
+          })
+          .slice(0, MAX_WRITE_ROWS);
+        if (!rows.length) return json_({ ok: false, error: 'sheet not allowed' });
+      }
       return json_({ ok: true, written: appendRows_(rows), time: new Date().toISOString() });
     }
   } catch (error) {

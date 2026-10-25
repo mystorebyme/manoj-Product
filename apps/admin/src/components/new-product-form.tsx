@@ -82,8 +82,14 @@ export function NewProductForm({ error }: { error?: string }) {
               onChange={(event) => onFiles(event.target.files)}
               data-testid="product-photos"
             />
-            <strong>Photos choose kariye</strong>
-            <span>JPG / PNG / WEBP · max 8 MB each · pehli photo card par dikhegi</span>
+            <strong>Photos choose kariye (4–6 best)</strong>
+            <span>
+              JPG / PNG / WEBP · max 8 MB each · pehli photo card par dikhegi
+            </span>
+            <span className="small muted" style={{ display: "block", marginTop: 4 }}>
+              Salah: front full-length, back, dupatta/work ka close-up, aur ek wearing shot — customer ko
+              sabse zyada yahi photos pasand aati hain (12 tak lag sakti hain).
+            </span>
           </label>
 
           {previews.length ? (

@@ -13,7 +13,13 @@ import type { ColourOption, Product } from "@/types/catalog";
 import { ProductGallery } from "@/components/product-gallery";
 import { Stars } from "@/components/product-reviews";
 import { useStoreSettings } from "@/components/store-settings-provider";
-import { logWhatsAppEnquiry, productWhatsAppMessage, whatsappLink, whatsappNumber } from "@/lib/whatsapp";
+import {
+  logWhatsAppEnquiry,
+  productWhatsAppMessage,
+  questionWhatsAppMessage,
+  whatsappLink,
+  whatsappNumber,
+} from "@/lib/whatsapp";
 import { lineLimit } from "@liksha/validation";
 import { checkPincodeOffline } from "@/lib/pincode-offline";
 
@@ -440,6 +446,48 @@ export function ProductDetail({
             Order on WhatsApp
           </a>
         </div>
+
+        {/* item ke baare me sawaal — owner se seedha WhatsApp par */}
+        <a
+          href={whatsappLink(
+            questionWhatsAppMessage({
+              title: active.title ?? product.title,
+              handle: active.handle,
+              colour: active.name,
+              size,
+              quantity,
+              price,
+            }),
+            whatsappNumber(whatsapp),
+          )}
+          onClick={() =>
+            logWhatsAppEnquiry({
+              type: "product",
+              items: [
+                {
+                  title: active.title ?? product.title,
+                  handle: active.handle,
+                  colour: active.name,
+                  size,
+                  quantity: 1,
+                  price,
+                },
+              ],
+              total: price,
+              note: "Product question",
+            })
+          }
+          target="_blank"
+          rel="noreferrer"
+          data-testid="pdp-whatsapp-question"
+          className="mt-2.5 flex w-full items-center justify-center gap-2 border border-dashed border-[#c9b9a2] py-2.5 text-[10.5px] font-medium tracking-[.12em] text-[#6f6259] uppercase transition hover:border-[#6f1d2b] hover:text-[#6f1d2b]"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden>
+            <path d="M21 12a8 8 0 0 1-8 8H7l-4 3v-6a8 8 0 0 1 8-8h2a8 8 0 0 1 8 3Z" />
+            <path d="M9.5 11.5h5M9.5 14.5h3" />
+          </svg>
+          Poochhein — size, fabric ya delivery?
+        </a>
 
         <p className="mt-3 text-[11px] tracking-[.06em] text-[#8a7d72]">
           Free shipping across India · 7 days replacement · prepaid only

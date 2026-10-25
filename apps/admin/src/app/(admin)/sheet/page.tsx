@@ -62,6 +62,52 @@ export default async function SheetPage() {
         )}
       </div>
 
+      {/* ── Setup guide — owner yahin se copy karke 5 minute me connect kar sakta hai ── */}
+      <div className="panel" data-testid="sheet-setup-steps">
+        <div className="panel-head">
+          <h2>Sheet setup — 5 minute (ek hi baar)</h2>
+          <span className="badge">Apps Script</span>
+        </div>
+        <div className="panel-body">
+          <ol style={{ margin: "0 0 10px", paddingLeft: 20, lineHeight: 1.9 }}>
+            <li>
+              Sheet kholiye → menu <strong>Extensions → Apps Script</strong>.
+            </li>
+            <li>
+              Repo ki file <span className="mono">scripts/google-apps-script/trends-sheets.gs</span> ka{" "}
+              <strong>poora code</strong> paste kariye (purana code hata dijiye).
+            </li>
+            <li>
+              Sabse upar do line badliye: <span className="mono">TOKEN</span> aur{" "}
+              <span className="mono">WRITE_TOKEN</span> — dono me apna lamba random word (jaise{" "}
+              <span className="mono">trends-9f3k2m-2026</span>).
+            </li>
+            <li>
+              <strong>Save → Run → <span className="mono">setup</span></strong> → permission maange to{" "}
+              <em>Review permissions → Allow</em>. (Isse saari tabs + headers + Settings ban jaate hain.)
+            </li>
+            <li>
+              <strong>Deploy → New deployment → Web app</strong> · Execute as <strong>Me</strong> · Who has access{" "}
+              <strong>Anyone</strong> → Deploy → <span className="mono">…/exec</span> URL copy.
+            </li>
+            <li>
+              Settings me daaliye: <span className="mono">NEXT_PUBLIC_SHEET_WEBAPP_URL</span> = wahi{" "}
+              <span className="mono">/exec</span> URL,{" "}
+              <span className="mono">NEXT_PUBLIC_SHEET_WRITE_TOKEN</span> = <span className="mono">WRITE_TOKEN</span>{" "}
+              ki value. (GitHub Pages par: repo → Settings → Variables → Actions me{" "}
+              <span className="mono">SHEET_WEBAPP_URL</span> + <span className="mono">SHEET_WRITE_TOKEN</span> naam se.)
+            </li>
+            <li>
+              Dobara deploy kariye — pehla order aate hi yahan &quot;Connected&quot; dikhne lagega.
+            </li>
+          </ol>
+          <p className="small muted" style={{ margin: 0 }}>
+            Code badalne par: <strong>Deploy → Manage deployments → Edit → New version → Deploy</strong> (URL wahi
+            rehta hai). Poora guide: <span className="mono">docs/09-devops/google-sheets.md</span>
+          </p>
+        </div>
+      </div>
+
       <div className="panel">
         <div className="panel-head">
           <h2>Admin panel link</h2>
@@ -81,7 +127,7 @@ export default async function SheetPage() {
           ) : (
             <p className="small muted" style={{ margin: 0 }}>
               Sheet ke <span className="mono">Settings</span> tab me <span className="mono">admin_url</span> row me
-              apna admin panel ka link daaliye (jaise https://admin.designerclothes.in) — yahan dikhne lagega.
+              apne admin panel ka link daaliye — yahan dikhne lagega.
             </p>
           )}
         </div>

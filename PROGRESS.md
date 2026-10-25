@@ -260,3 +260,24 @@ Sab kuch ek hi pass me: brand, WhatsApp order flow, admin panel, sheet database.
 - Manual (dev servers): product save → PDP 200 / listing / `/api/products`; order with
   colour → stored order + order page + WhatsApp link; settings round-trip (10/30/15 →
   8/25/12 → restore); admin pages 200 with session.
+
+## Round 18 — WhatsApp-first checkout, sheet relay aur "poochhein" (2026-10-25)
+
+Owner: "cart me add karke buy kare to WhatsApp par le jaaye, buy-now bhi wahi, aur sheet me
+data save nahi ho raha — setup kaise karun?" Isliye flow poora WhatsApp-first kiya.
+
+- **Checkout:** naya primary CTA **"Send order on WhatsApp"** — naam/phone/address/pincode
+  validate karke poora order (item link · colour · size · qty · price + address + notes +
+  total + UPI) pre-filled WhatsApp me kholta hai. Usi click par enquiry/order DB me aur
+  sheet me bhi chala jaata hai. Online payment (`Pay online & place order`) secondary.
+- **PDP:** "Buy it now" → checkout (detail bharne ke liye), "Order on WhatsApp" (ek click),
+  aur naya **"Poochhein — size, fabric ya delivery?"** button jo item ke link ke saath
+  owner se sawaal bhejta hai.
+- **Sheet relay (static hosting ka fix):** GitHub Pages par Node server nahi hota, isliye
+  `lib/sheet-relay.ts` browser se seedha Apps Script par rows bhejta hai
+  (`no-cors`, write-only token). Server ho to pehle jaisa API path bhi chalta hai.
+- **Apps Script:** naya `WRITE_TOKEN` (append-only), `WRITE_SHEETS` allowlist, 40 row cap.
+- **Admin:** Google Sheet page par "Sheet setup — 5 minute" steps + naye product form me
+  4–6 photos ki salah. Naya guide: `docs/09-devops/sheet-setup-5-min.md`.
+- Tests: `tests/unit/whatsapp-order.test.ts` (5) — message me link/colour/size/qty/address
+  aur "undefined" na aane ki guarantee. Unit 121/0, integration 40/0.

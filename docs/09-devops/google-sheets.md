@@ -25,6 +25,9 @@ rehti hai — sirf owner ke edits ruk jaate hain, koi order fail nahi hota.
 > Sheet ko sirf owner ke Google account ke saath share rakhein — "Anyone with link" band.
 > Sheet id/URL/token **kabhi** frontend bundle me nahi jaate (sirf server env).
 
+> **Sabse chhota rasta:** `docs/09-devops/sheet-setup-5-min.md` — step-by-step, copy-paste.
+> Admin panel me bhi **Google Sheet → "Sheet setup — 5 minute"** par wahi steps dikhte hain.
+
 ## 1. Apps Script setup (owner, ~5 minute)
 
 1. Upar wali sheet kholiye → **Extensions → Apps Script**.
@@ -33,7 +36,8 @@ rehti hai — sirf owner ke edits ruk jaate hain, koi order fail nahi hota.
 3. Sabse upar wali line badliye:
 
    ```js
-   var TOKEN = 'CHANGE-ME-trends-token';   // apna lamba random word, jaise trends-9f3k2m-2026
+   var TOKEN = 'CHANGE-ME-trends-token';              // master (server padhne ke liye)
+   var WRITE_TOKEN = 'CHANGE-ME-trends-write-token';  // browser se rows add (write-only)
    ```
 
 4. **Save → Run → `setup`** → permission maange to *Review permissions → Allow*.
@@ -52,6 +56,18 @@ rehti hai — sirf owner ke edits ruk jaate hain, koi order fail nahi hota.
    ```
 
    Redeploy kariye. `GET /api/settings` me `"source": "google-sheet"` dikhne lage to connect ho gaya.
+
+   **Static hosting (GitHub Pages) par** server hota hi nahi, isliye rows seedha browser se
+   Apps Script par jaati hain. Uske liye repo → *Settings → Variables → Actions*:
+
+   | Name | Value |
+   | --- | --- |
+   | `SHEET_WEBAPP_URL` | wahi `/exec` URL |
+   | `SHEET_WRITE_TOKEN` | `WRITE_TOKEN` ki value |
+
+   `WRITE_TOKEN` sirf `Orders` / `Order Items` / `Enquiries` / `Messages` / `Newsletter` me
+   rows **add** kar sakta hai (padhna/settings nahi, aur 40 rows per request ka cap) —
+   isliye ye browser bundle me hone par bhi sheet ka data leak nahi karta.
 
 > Code badalne par: **Deploy → Manage deployments → Edit → New version → Deploy**. URL wahi rehta hai.
 
