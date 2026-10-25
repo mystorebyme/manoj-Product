@@ -78,11 +78,22 @@ for (const group of groups) {
   );
 
   const fabric = group.fabric;
+  // fabric ke hisaab se comfortable, sach wali baat (har product par same filler nahi)
+  const fabricNote = {
+    "Mul Cotton": "Mul cotton — soft, breathable, poora din comfortable",
+    "Silk Blend": "Silk blend — halka sheen, shaadi aur function ke liye perfect",
+    Georgette: "Georgette — flowy drape, light on the shoulder",
+    Organza: "Organza — crisp sheer finish, dupatta me extra grace",
+  }[fabric] ?? `${fabric} — light aur comfortable`;
+  const silhouette =
+    group.category === "anarkali"
+      ? "Anarkali kurta with churidar and matching dupatta"
+      : "Kurta, pant/plazzo aur dupatta — teen piece set";
   const details = [
-    `${fabric} 3-piece set — kurta, bottom aur dupatta`,
+    `${silhouette} (${fabric})`,
     `Colour: ${group.colour}`,
+    fabricNote,
     "Hand-finished in limited runs, Jaipur atelier",
-    "Mul cotton / silk blend — breathable, all-day comfortable",
     "Care: gentle hand wash, iron on low heat",
   ];
 

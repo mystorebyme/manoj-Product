@@ -82,6 +82,10 @@ export function ProductDetail({
   const off = discountPercent(price, compareAt);
   const savings = useMemo(() => (compareAt ? compareAt - price : 0), [compareAt, price]);
   const bigSizeSurcharge = Boolean(sizePricing && sizePricing.price > active.price);
+  /** kya kisi bhi size par price alag hai? (own products me flat price — note nahi dikhana) */
+  const anySizePriceDiffers = (Object.values(active.sizePricing ?? {}) as { price: number }[]).some(
+    (entry) => entry.price !== active.price,
+  );
 
   function changeColour(handle: string) {
     if (handle === activeHandle) return;
@@ -342,13 +346,17 @@ export function ProductDetail({
               );
             })}
           </div>
-          <p className="mt-2 text-[11px] text-[#8a7d72]">
-            {bigSizeSurcharge
-              ? `Bade size (${size.split(" ")[0]}) me extra fabric lagta hai — price Rs. ${Math.round(
-                  (sizePricing!.price - active.price) / 100,
-                )} zyada.`
-              : "XL aur usse bade sizes par price thoda zyada hota hai."}
-          </p>
+          {bigSizeSurcharge || anySizePriceDiffers ? (
+            <p className="mt-2 text-[11px] text-[#8a7d72]">
+              {bigSizeSurcharge
+                ? `Bade size (${size.split(" ")[0]}) me extra fabric lagta hai — price Rs. ${Math.round(
+                    (sizePricing!.price - active.price) / 100,
+                  )} zyada.`
+                : "XL aur usse bade sizes par price thoda zyada hota hai."}
+            </p>
+          ) : (
+            <p className="mt-2 text-[11px] text-[#8a7d72]">Har size par same price — XS se 3XL tak.</p>
+          )}
           {sizeSoldOut ? (
             <p className="mt-1 text-[11.5px] text-[#b3261e]">
               {size} is out of stock — WhatsApp 8005900581 for the next drop.
