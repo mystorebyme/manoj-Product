@@ -34,8 +34,9 @@ export function CheckoutForm() {
   // festive sale me final price already 499–699 hai — koi extra coupon nahi
   const { upiId, upiName, whatsapp } = useStoreSettings();
   const [whatsappHref, setWhatsappHref] = useState<string | null>(null);
-  // ek hi submission par ek hi enquiry log ho (link dobara banne par duplicate na bane)
+  // ek hi submission par ek hi enquiry/order row (dobara click se duplicate na bane)
   const enquiryLogged = useRef(false);
+  const orderRefOnce = useRef<string | null>(null);
   // sirf prepaid — COD option hata diya gaya hai
   const payment = "prepaid" as const;
   const [submitting, setSubmitting] = useState(false);
@@ -123,7 +124,10 @@ export function CheckoutForm() {
     }
     setError(null);
 
-    const orderRef = newOrderRef();
+    // ek hi cart ke liye ek hi ref — dobara click par wahi ref, nayi row nahi
+    const firstSend = orderRefOnce.current === null;
+    const orderRef = orderRefOnce.current ?? newOrderRef();
+    orderRefOnce.current = orderRef;
     const payload = lines.map((line) => ({
       title: line.title,
       handle: line.handle,
@@ -133,8 +137,8 @@ export function CheckoutForm() {
       price: line.price,
     }));
 
-    // 1) DB + sheet (server ho to API, warna browser relay)
-    if (!enquiryLogged.current) {
+    // 1) DB + sheet (server ho to API, warna browser relay) — sirf pehli baar
+    if (firstSend && !enquiryLogged.current) {
       enquiryLogged.current = true;
       logWhatsAppEnquiry({
         type: "checkout",
@@ -148,7 +152,7 @@ export function CheckoutForm() {
           .slice(0, 480),
       });
     }
-    relayOrderToSheet({
+    if (firstSend) relayOrderToSheet({
       orderRef,
       customerName: form.customerName,
       phone: form.phone,
@@ -216,6 +220,7 @@ export function CheckoutForm() {
     setError(null);
     setWhatsappHref(null);
     enquiryLogged.current = false;
+    orderRefOnce.current = null;
 
     // GitHub Pages par server nahi hai — order seedha WhatsApp par
     if (!API_AVAILABLE) {
