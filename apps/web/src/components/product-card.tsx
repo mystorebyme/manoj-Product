@@ -178,10 +178,11 @@ export function ProductCard({
           </p>
         ) : null}
         <div className="mt-1.5 flex items-center justify-center gap-1.5 text-[12px]">
+          {/* pehle sale price (jo dena hai), phir MRP struck — product page jaisa hi order */}
+          <span className="font-semibold text-[#6f1d2b]">{formatPrice(product.price)}</span>
           {product.compareAtPrice && product.compareAtPrice > product.price ? (
             <span className="text-[#a49a90] line-through">{formatPrice(product.compareAtPrice)}</span>
           ) : null}
-          <span className="font-semibold text-[#6f1d2b]">{formatPrice(product.price)}</span>
         </div>
         {colourOptions.length > 1 ? (
           <div className="mt-1.5 flex items-center justify-center gap-1.5">
