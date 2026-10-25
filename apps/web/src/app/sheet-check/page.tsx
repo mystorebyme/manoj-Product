@@ -28,7 +28,7 @@ export default function SheetCheckPage() {
     { name: "Deployment zinda hai (`action=ping`)", state: "idle" },
     { name: "Write token match (`action=verify_write`)", state: "idle" },
     { name: "Public settings (`action=public`)", state: "idle" },
-    { name: "Sheet me test row likhna (GET → jawab verify)", state: "idle" },
+    { name: "Sheet me test row likhna (GET verify, warna POST)", state: "idle" },
     { name: "Pending rows browser se bhejna", state: "idle" },
   ]);
   const [testRef, setTestRef] = useState<string | null>(null);
@@ -99,6 +99,8 @@ export default function SheetCheckPage() {
     setStep(3, { state: "busy" });
     const ref = `TY-CHECK-${Date.now()}`;
     setTestRef(ref);
+    // 1) GET write (r9) — jawab verify hota hai, isliye yahi "sach" hai
+    let verified = false;
     try {
       const response = await fetch(
         appendUrl(SHEET_URL, WRITE_TOKEN, [
@@ -118,26 +120,65 @@ export default function SheetCheckPage() {
         { cache: "no-store" },
       );
       const body = (await response.json()) as { ok?: boolean; written?: number; error?: string };
-      setStep(
-        3,
-        body.ok
-          ? {
-              state: "ok",
-              detail:
-                (body.written ?? 0) > 0
-                  ? `row likhi gayi (ref ${ref})`
-                  : "row pehle se thi (duplicate nahi likhi)",
-            }
-          : {
-              state: "fail",
-              detail:
-                body.error === "unknown action"
-                  ? "Apps Script me naya (r9) code paste nahi hua — repo ki trends-sheets.gs copy karein, phir Deploy → Manage deployments → New version"
-                  : `${body.error ?? "unknown"} — sheet/deployment check karein`,
-            },
-      );
+      if (body.ok) {
+        verified = true;
+        setStep(3, {
+          state: "ok",
+          detail:
+            (body.written ?? 0) > 0
+              ? `row likhi gayi (ref ${ref})`
+              : "row pehle se thi (duplicate nahi likhi)",
+        });
+      } else {
+        setStep(3, {
+          state: "fail",
+          detail:
+            body.error === "unknown action"
+              ? "purana deployment (r9 nahi) — neeche POST fallback try kiya"
+              : `${body.error ?? "unknown"} — sheet/deployment check karein`,
+        });
+      }
     } catch {
       setStep(3, { state: "fail", detail: "GET write fail — CORS ya deployment" });
+    }
+
+    // 2) POST fallback — purane deployment (r8) par bhi row chali jaati hai.
+    //    Browser ko jawab nahi milta (opaque), isliye "bheji gayi" hi likhte hain.
+    if (!verified) {
+      try {
+        await fetch(SHEET_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "content-type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            token: WRITE_TOKEN,
+            action: "append",
+            rows: [
+              {
+                sheet: "Orders",
+                row: {
+                  "Order ID": ref,
+                  "Date & Time": new Date().toISOString(),
+                  Event: "browser-check-post",
+                  Status: "test",
+                  Customer: "Sheet check page",
+                  "Total ₹": 1,
+                  Source: "sheet-check",
+                },
+              },
+            ],
+          }),
+        });
+        setStep(3, {
+          state: "ok",
+          detail: `row POST se bheji (ref ${ref}) — Orders tab me dikhegi. r9 deploy karte hi yahi step verify hoga.`,
+        });
+      } catch {
+        setStep(3, {
+          state: "fail",
+          detail: `GET aur POST dono fail — Apps Script deployment ("Anyone" access) check karein, ref ${ref}`,
+        });
+      }
     }
 
     setStep(4, { state: "busy" });
@@ -158,8 +199,9 @@ export default function SheetCheckPage() {
       <h1 className="mt-2 font-display text-[30px]">Google Sheet connection test</h1>
       <p className="mt-2 text-[13px] leading-relaxed text-[#6f6259]">
         Ye page aapke browser se seedha Google Sheet tak ka rasta test karta hai — bilkul waise hi jaise ek
-        customer ka order jaata hai. Step 4 me Apps Script se <code>{`{ok:true, written:1}`}</code> aana
-        chahiye; tabhi sheet ke <strong>Orders</strong> tab me <code>{testRef ?? "TY-CHECK-…"}</code> row dikhegi.
+        customer ka order jaata hai. Step 4 me ek test row bheji jaati hai: naye (r9) deployment par
+        <code>{`{ok:true, written:1}`}</code> aata hai, purane par POST se row phir bhi chali jaati hai —
+        dono me sheet ke <strong>Orders</strong> tab me <code>{testRef ?? "TY-CHECK-…"}</code> row dikhegi.
       </p>
 
       <dl className="mt-6 space-y-1 border border-[#e6dac7] bg-[#fdfaf5] p-4 text-[12px]">
@@ -194,7 +236,9 @@ export default function SheetCheckPage() {
         <ol className="mt-2 list-decimal space-y-1 pl-5">
           <li>Sheet → Extensions → Apps Script → poora purana code hata kar repo ki <code>scripts/google-apps-script/trends-sheets.gs</code> paste karein.</li>
           <li>Deploy → <strong>Manage deployments</strong> → pencil (Edit) → Version: <strong>New version</strong> → Deploy.</li>
-          <li>Yahan <strong>Run check</strong> dabayein — step 1 me version <code>2026-10-25.r9</code> aur step 4 me <code>row likhi gayi</code> aana chahiye.</li>
+          <li>Yahan <strong>Run check</strong> dabayein — step 4 me <code>row likhi gayi</code> aana chahiye
+            (r9 deploy hone par jawab bhi verify hota hai; purane par POST se row jaati hai).</li>
+          <li>Phir <strong>Orders</strong> tab me <code>TY-CHECK-…</code> row dekh kar confirm karein.</li>
         </ol>
       </div>
 

@@ -79,6 +79,21 @@ Fix (is repo me ho gaya):
    *Script Properties* se set hota hai: `MASTER_TOKEN` (aur chaho to `WRITE_TOKEN`,
    `SPREADSHEET_ID`). Placeholder rehne par reads band rehte hain.
 
+### Verified write matrix (25 Oct, GitHub runner se asli POST)
+
+| Tab | Row pahunchi? | Notes |
+| --- | --- | --- |
+| `Orders` | ✅ | checkout + sheet-check page |
+| `Order Items` | ✅ | har item ki alag row (size, qty, price) |
+| `Enquiries` | ✅ | product page ka "pooch" / WhatsApp intent |
+| `Messages` | ✅ | contact form |
+| `Newsletter` | ✅ | footer signup |
+| `Reviews` | ✅ | review form |
+| `Payments` | ⛔ (by design) | browser write token is tab ko chhoo hi nahi sakta — sirf server (master token) likhta hai, warna koi UPI reference forge kar sakta |
+
+`WRITE_SHEETS` (Apps Script) me yahi allowlist hai: `Orders, Order Items, Enquiries,
+Messages, Newsletter, Reviews`. Naya tab chahiye to script + ye table dono update karein.
+
 **5-minute fix (owner):**
 
 1. Sheet → **Extensions → Apps Script** → purana code hata kar repo ki
