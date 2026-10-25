@@ -5,6 +5,9 @@ import fs from "node:fs";
 import path from "node:path";
 import { dataFile } from "@/lib/data-dir";
 import { siteConfig } from "@/config/site";
+import { manualUpiUri, storeUpiId } from "./upi-config";
+
+export { manualUpiUri, storeUpiId };
 
 /**
  * Payments — sirf backend decide karta hai ki paisa aaya ya nahi.
@@ -130,20 +133,6 @@ async function razorpayRequest<T>(
     throw new Error(`${response.status} ${text.slice(0, 160)}`);
   }
   return (await response.json()) as T;
-}
-
-/** store ka UPI — gateway down ho to bhi customer pay kar sake, par order manual verify ke baad confirm */
-export function manualUpiUri(amountPaise: number, orderNumber: string): string {
-  const vpa = process.env.STORE_UPI_ID ?? "trendsyounique@upi";
-  const name = process.env.STORE_UPI_NAME ?? "TRENDS YOUNIQUE";
-  const params = new URLSearchParams({
-    pa: vpa,
-    pn: name,
-    am: (amountPaise / 100).toFixed(2),
-    cu: "INR",
-    tn: `Order ${orderNumber}`,
-  });
-  return `upi://pay?${params.toString()}`;
 }
 
 /**
@@ -285,13 +274,15 @@ export async function createPaymentLink(
     }
   }
 
-  const upiUri = manualUpiUri(order.total, order.orderNumber);
+  const upiId = storeUpiId();
+  const upiUri = manualUpiUri(order.total, order.orderNumber) ?? undefined;
   return {
     mode: "manual",
     provider: "manual",
-    upiId: process.env.STORE_UPI_ID ?? "trendsyounique@upi",
+    upiId,
     upiUri,
-    message:
-      "UPI se pay kariye — payment backend verify hote hi order confirm ho jaayega. WhatsApp par bhi screenshot bhej sakte hain.",
+    message: upiId
+      ? "UPI se pay kariye — payment verify hote hi order confirm ho jaayega. WhatsApp par screenshot bhi bhej sakte hain."
+      : "Abhi online payment band hai. Order WhatsApp par confirm kariye — tracking aur payment link hum bhej denge.",
   };
 }

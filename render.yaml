@@ -56,10 +56,11 @@ services:
       - key: GOOGLE_SHEETS_TOKEN
         sync: false
       # Payment yahan aata hai (Google Sheet settings sheet ise override karti hai)
+      # UPI: owner apni asli id Render dashboard se daale (repo me kabhi nahi).
       - key: STORE_UPI_ID
-        value: dhakadgourav@fam
+        sync: false
       - key: STORE_UPI_NAME
-        value: Liksha Clothing
+        value: TRENDS YOUNIQUE
 
   - type: web
     name: liksha-admin

@@ -369,12 +369,12 @@ master token) chalaata rahega.
 ## Round 24 — online payment poora hata, sheet write double-transport, self-check page
 
 Owner ki shikayat: checkout par UPI/QR + "Pay online & place order" dikh raha tha aur UPI ID
-**kisi aur ki** (`dhakadgourav@fam`, cloned project se) thi. Website par online payment
+**kisi aur ki** (cloned project se aayi hui) thi. Website par online payment
 bilkul nahi hona chahiye.
 
 - Checkout se **Payment section, UPI QR, UPI apps, "Pay online & place order" button** — sab hata.
   Ab sirf: order details → **Send order on WhatsApp**. Payment owner WhatsApp par batata hai.
-- `dhakadgourav@fam` saare defaults se hata (web + admin + store-settings + tests).
+- Purane project ki UPI id saare defaults se hata di (web + admin + store-settings + tests + render.yaml).
 - `checkoutWhatsAppMessage` se payment/UPI line gayab (test bhi update).
 - Orders page se UPI payment block hata.
 

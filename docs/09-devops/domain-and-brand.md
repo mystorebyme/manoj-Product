@@ -29,7 +29,8 @@
   - Pipeline + breakpoints: `scripts/brand/build-responsive-assets.mjs`, `docs/05-design/responsive-assets.md`
 - Phone / WhatsApp: `8005900581` (Settings sheet se override ho sakta hai:
   `support_phone`, `whatsapp`).
-- UPI: `dhakadgourav@fam` (`upi_id`, `upi_name` sheet se).
+- UPI: **owner ki apni UPI id** — Sheet `Settings` ke `upi_id` / `upi_name`, ya `STORE_UPI_ID` env.
+  Khaali ho to site par UPI card nahi khulta (koi placeholder VPA nahi dikhta).
 - Instagram (abhi sirf URL text, link nahi): `https://www.instagram.com/designer_clothing_9`
   (`siteConfig.socials.instagram`). WhatsApp hi working social link hai.
 
@@ -46,7 +47,7 @@ callback — sab isi se bante hain (`apps/web/src/config/site.ts`).
 | `NEXT_PUBLIC_SITE_URL` | `https://designerclothes.in` | canonical + `metadataBase`, `sitemap.xml`, `robots.txt` host, product/offer JSON-LD URL, UPI callback URL, WhatsApp order link fallback |
 | `NEXT_PUBLIC_LIVE_STORE_URL` | `https://designerclothes.in` | "Buy on live store" type fallback links |
 | `ADMIN_PANEL_URL` | `https://admin.designerclothes.in` | admin button/link (sheet ki `admin_url` row isko override karti hai) |
-| `STORE_UPI_ID` / `STORE_UPI_NAME` | `dhakadgourav@fam` / `Designer Clothing` | UPI QR (sheet `upi_id`/`upi_name` override karte hain) |
+| `STORE_UPI_ID` / `STORE_UPI_NAME` | *(khaali — owner khud daalta hai)* / `TRENDS YOUNIQUE` | UPI QR (sheet `upi_id`/`upi_name` override karte hain) |
 | `ADMIN_API_TOKEN` | 32+ char random | admin → storefront API auth |
 | `GOOGLE_SHEETS_WEBAPP_URL` / `GOOGLE_SHEETS_TOKEN` | Apps Script `/exec` | owner settings + order/payment log |
 | `CONTACT_EMAIL` | `care@trendsyounique.com` | contact form delivery |

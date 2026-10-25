@@ -7,9 +7,6 @@ import { formatDate, formatPrice, imageUrl } from "@/lib/format";
 import { ORDER_STATUS_COPY, siteConfig } from "@/config/site";
 import { SafeImage } from "@/components/safe-image";
 import { orderWhatsAppLink } from "@/lib/whatsapp";
-import { getStoreSettings } from "@/lib/store-settings";
-import { UpiPayment } from "@/components/upi-payment";
-import { signUpiReturn } from "@/lib/upi-return";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Order confirmed", robots: { index: false } };
@@ -17,7 +14,6 @@ export const metadata: Metadata = { title: "Order confirmed", robots: { index: f
 export default async function OrderPage({ params }: { params: Promise<{ orderNumber: string }> }) {
   const { orderNumber } = await params;
   const order = await getOrder(orderNumber);
-  const settings = await getStoreSettings();
   const headerList = await headers();
   const fallbackHost = new URL(siteConfig.url).host;
   const host = headerList.get("x-forwarded-host") ?? headerList.get("host") ?? fallbackHost;
@@ -48,7 +44,7 @@ export default async function OrderPage({ params }: { params: Promise<{ orderNum
               ? "Your order is confirmed. Please pay the COD amount at delivery."
               : order.paymentStatus === "paid"
                 ? "Payment received — thank you! Your order is confirmed and being prepared for dispatch."
-                : "Your order is reserved. Pay via UPI below — returning from your UPI app confirms it instantly."}
+                : "Your order is reserved — pay on delivery, or confirm it on WhatsApp and our team will share the payment details."}
           </p>
           <a
             href={orderWhatsAppLink(order, siteUrl)}
