@@ -110,10 +110,12 @@ Admin chalane ke do raste (dono domain se pehle aur baad same):
 
 Poora detail + FAQ: [`admin-access.md`](./admin-access.md)
 
-## 2e. Vercel par bhi deploy (optional)
+## 2e. Vercel par bhi deploy — ab LIVE hai
 
-Vercel project `trends-younique` ready hai (build + 5 env vars set), par Vercel ka
-GitHub App iss repo ko nahi dekh raha — ek permission click chahiye.
+**https://trends-younique.vercel.app** (project `trends-younique`, branch
+`arena/e13f4af5-manoj-product`, static `dist` build).
+`trendsyounique.fashion` + `www` Vercel par add ho chuke hain — **sirf GoDaddy DNS**
+(A `76.76.21.21`, CNAME `www` → `cname.vercel-dns.com`) baaki hai.
 Detail: [`vercel.md`](./vercel.md)
 
 ## 3. Netlify par kya chalta hai (aur kya nahi)

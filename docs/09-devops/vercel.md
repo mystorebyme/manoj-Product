@@ -1,53 +1,52 @@
-# Vercel — setup status (TRENDS YOUNIQUE)
+# Vercel — LIVE status (TRENDS YOUNIQUE)
 
-## Ab kya-kya ho chuka hai (maine khud kiya)
+## ✅ Link (abhi live)
 
-| Cheez | Status |
+**https://trends-younique.vercel.app**
+
+- Project: `trends-younique` (`prj_EQ3QLpdZAFF6fnLQSHjOte7p4Crb`)
+- Account/team: `prkigothwal@gmail.com` → team **Prakash's projects** (`prakashs-projects-ad474173`, Hobby plan)
+- Branch: `arena/e13f4af5-manoj-product` (production)
+- Last good deploy: `dpl_5tdFKb5TMP1UNo5Gnr4eJrixbNmA` (READY / PROMOTED)
+
+## Settings jo set hain
+
+| Setting | Value |
 | --- | --- |
-| Vercel project `trends-younique` | ✅ bana (`prj_EQ3QLpdZAFF6fnLQSHjOte7p4Crb`) |
-| Build command | ✅ `npm ci && node scripts/pages/build-preview.mjs` |
-| Output directory | ✅ `dist` (wahi static build jo Netlify/Pages par test hua) |
-| Install command | ✅ `npm ci --no-audit --no-fund` |
-| Env vars (5) | ✅ SITE_URL, GSC, CAMPAIGN_ID/START/END |
-| Domain | ⏳ `trends-younique.vercel.app` (deployment ke baad active hoga) |
-| Git connection | ❌ **blocked** — Vercel ka GitHub App `mystorebyme/manoj-Product` repo dekhta hi nahi |
+| Framework preset | `vite` → isliye `dist/` **static** output serve hota hai (nextjs preset `.next` maangta hai) |
+| Install command | `npm ci --include=dev --no-audit --no-fund` (Vercel `NODE_ENV=production` set karta hai, warna tailwind devDep skip ho jaata) |
+| Build command | `node scripts/pages/build-preview.mjs` |
+| Output directory | `dist` |
+| Env vars | `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_GSC_VERIFICATION`, `NEXT_PUBLIC_CAMPAIGN_ID/_START/_END` |
 
-## Blocker (ek click aapka)
+`PAGES_BASE_PATH` / `NEXT_PUBLIC_API_BASE_URL` khaali (root domain + koi Node API nahi).
 
-Vercel → **Add New → Project → Import Git Repository** → agar repo list me na dikhe to
-**"Adjust GitHub App Permissions"** → GitHub par `mystorebyme` org → **Repository
-access** me `manoj-Product` ko allow karein → Vercel me wapas aakar **Import**.
+## Domain — add ho gaya, DNS baaki
 
-Ya seedha: <https://github.com/settings/installations> → **Vercel** → **Configure** →
-Repository access → `manoj-Product` add → Save.
+`trendsyounique.fashion` **aur** `www.trendsyounique.fashion` project par add ho gaye
+(Vercel par verified). DNS abhi **GoDaddy** par hai (nameservers `ns37/ns38.domaincontrol.com`)
+aur parking IPs (`3.33.130.190`, `15.197.148.33`) par ja raha hai — isliye `misconfigured: true`.
 
-> Ye permission main API se nahi de sakta (GitHub App install org admin ka kaam hai).
-> Iske baad **baaki sab main khud kar dunga**: production branch
-> `arena/e13f4af5-manoj-product`, env check, deploy, verify, aur chahein to
-> `trendsyounique.fashion` domain bhi.
+GoDaddy → **My Products → Domain → DNS** me do record:
 
-## Deploy ke baad kya milega
+| Type | Name | Value | TTL |
+| --- | --- | --- | --- |
+| A | `@` | `76.76.21.21` | default |
+| CNAME | `www` | `cname.vercel-dns.com` | default |
 
-- **Link:** `https://trends-younique.vercel.app`
-- Same static build jo abhi test hai: browse, cart, qty limits, checkout → WhatsApp,
-  Google Sheet writes, Diwali campaign, local product photos, 7 day return.
-- Admin **Vercel par nahi chalega** (Vercel ka filesystem read-only hai; admin
-  `overrides.json` + photo uploads disk par likhta hai). Admin local/Render —
-  dekhein [`admin-access.md`](./admin-access.md).
+Purane parking records (GoDaddy "Parked" A/CNAME) delete kar dein. 10–30 min me HTTPS
+khud ban jaata hai.
 
-## Custom domain `trendsyounique.fashion`
+> DNS badalne ke baad main `NEXT_PUBLIC_SITE_URL` ko `https://trendsyounique.fashion`
+> kar dunga + redeploy — tab canonical/OG/sitemap domain par chale jayenge.
 
-Vercel par domain add karna easy hai (main kar dunga), par **DNS aapke registrar par**
-hai — do raste:
+## Admin par Vercel
 
-1. **Nameservers** → `ns1.vercel-dns.com`, `ns2.vercel-dns.com` (registrar me badlein)
-2. **Records** → `A 76.76.21.21` (root) + `CNAME www → cname.vercel-dns.com`
+Vercel ka filesystem read-only hai, isliye admin (`apps/admin`) yahan nahi chalega —
+`localhost:3001` ya Render. Dekhein [`admin-access.md`](./admin-access.md).
 
-Ek hi host par rakhein — Netlify aur Vercel dono par same domain nahi laga sakte.
+## Auto-deploy (optional, ek click)
 
-## Kyun static build (SSR nahi)
-
-`apps/web` SSR bhi chalta hai, par checkout/order API Postgres maangta hai (`DATABASE_URL`);
-bina DB ke order `.data/` file me likhne ki koshish hoti hai jo Vercel par read-only
-hota hai. Static build me checkout seedha **WhatsApp + Google Sheet** par jaata hai —
-wahi tested flow. SSR + Postgres chahiye to bata dein, alag se karenge.
+Project → **Settings → Git** → Connect `mystorebyme/manoj-Product` → Production branch
+`arena/e13f4af5-manoj-product`. Uske baad har `git push` par deploy khud ho jayega.
+(Abhi deploys API se trigger hote hain, isliye push ke baad mujhe bolna padta hai.)
