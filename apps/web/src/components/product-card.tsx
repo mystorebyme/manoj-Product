@@ -94,6 +94,7 @@ export function ProductCard({
               <SafeImage
                 src={imageUrl(hoverImage, 600)}
                 alt=""
+                failureMode="hide"
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                 className="card-media-alt absolute inset-0 h-full w-full object-cover"
               />

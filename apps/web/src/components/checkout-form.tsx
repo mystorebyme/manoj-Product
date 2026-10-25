@@ -382,7 +382,11 @@ export function CheckoutForm() {
           {lines.map((line) => (
             <li key={line.key} className="flex gap-2.5 py-2.5">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <SafeImage src={imageUrl(line.image, 200)} alt={line.title} className="h-16 w-12 shrink-0 object-cover" />
+              <SafeImage
+                src={imageUrl(line.image, 240)}
+                alt={line.title}
+                className="h-20 w-14 shrink-0 object-cover"
+              />
               <div className="flex-1">
                 <p className="line-clamp-2 text-[11.5px] leading-snug">{line.title}</p>
                 <p className="mt-0.5 text-[10.5px] text-[#8a7d72]">

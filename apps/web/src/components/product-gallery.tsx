@@ -88,13 +88,13 @@ export function ProductGallery({
               onClick={() => setIndex(imageIndex)}
               aria-label={`View image ${imageIndex + 1} of ${gallery.length}`}
               aria-current={index === imageIndex}
-              className={`relative h-20 w-16 shrink-0 overflow-hidden border bg-[#f6f1ec] transition sm:h-[96px] sm:w-full ${
+              className={`relative h-24 w-[76px] shrink-0 overflow-hidden border bg-[#f6f1ec] transition sm:h-[104px] sm:w-full ${
                 index === imageIndex
                   ? "border-[#6f1d2b] opacity-100"
                   : "border-transparent opacity-75 hover:border-[#d9c6b4] hover:opacity-100"
               }`}
             >
-              <SafeImage src={imageUrl(image, 200)} alt="" className="h-full w-full object-cover" />
+              <SafeImage src={imageUrl(image, 320)} alt="" className="h-full w-full object-cover" />
             </button>
           ))}
         </div>
@@ -294,11 +294,11 @@ export function ProductGallery({
                   type="button"
                   onClick={() => setIndex(imageIndex)}
                   aria-label={`Go to image ${imageIndex + 1}`}
-                  className={`h-14 w-11 shrink-0 overflow-hidden border-2 transition ${
+                  className={`h-16 w-12 shrink-0 overflow-hidden border-2 transition ${
                     index === imageIndex ? "border-white" : "border-transparent opacity-60 hover:opacity-100"
                   }`}
                 >
-                  <img src={imageUrl(image, 160)} alt="" className="h-full w-full object-cover" />
+                  <SafeImage src={imageUrl(image, 240)} alt="" className="h-full w-full object-cover" />
                 </button>
               ))}
             </div>

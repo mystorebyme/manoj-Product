@@ -219,10 +219,10 @@ export function TrackOrderForm() {
               <ul className="divide-y divide-[#f2e9dd]">
                 {result.items!.map((item, index) => (
                   <li key={`${item.handle}-${item.size}-${index}`} className="flex gap-3 p-3">
-                    <div className="h-16 w-12 shrink-0 overflow-hidden bg-[#f6f1ec]">
+                    <div className="h-20 w-14 shrink-0 overflow-hidden bg-[#f6f1ec]">
                       {item.image ? (
                         <SafeImage
-                          src={imageUrl(item.image, 200)}
+                          src={imageUrl(item.image, 240)}
                           alt={item.product}
                           className="h-full w-full object-cover"
                         />

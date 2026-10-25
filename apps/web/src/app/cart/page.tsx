@@ -87,7 +87,11 @@ export default function CartPage() {
                   <div className="col-span-2 flex gap-3 sm:col-span-1">
                     <Link href={`/products/${line.handle}`} className="shrink-0">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <SafeImage src={line.image} alt={line.title} className="h-28 w-[84px] object-cover" />
+                      <SafeImage
+                        src={imageUrl(line.image, 320)}
+                        alt={line.title}
+                        className="h-32 w-24 object-cover"
+                      />
                     </Link>
                     <div className="flex flex-col">
                       <Link

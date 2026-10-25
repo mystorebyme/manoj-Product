@@ -88,10 +88,18 @@ Naya public action: **`?action=order_status&order=LK-XXXX&phone=98XXXXXXXX`**
   `placed / confirmed / packed / shipped / delivered / cancelled`.
 - Tracking static hosting par bhi chalti hai (sheet se seedha) — redeploy nahi chahiye.
 
-## 6. Mini image
+## 6. Mini images (teeno jagah) — theek kar diye
 
-Is round me thumbnails/gallery code chhua nahi gaya — owner se confirm karke agla
-step (kis jagah ki chhoti image kharab dikh rahi hai) fix hoga.
+| Jagah | Pehle | Ab |
+| --- | --- | --- |
+| Product page thumbnail patti | 64×80 px, source 200 px | **76×96 px** (desktop 104 px), source **320 px** |
+| Full-screen viewer ki thumbnails | raw `<img>`, source 160 px | `SafeImage` + source **240 px**, 64×48 → 64×48 se bada |
+| Card ka hover (doosri) photo | CDN fail par brand placeholder | fail hone par **chhup jaati hai** — neeche wali asli photo dikhti hai, broken icon nahi |
+| Cart / checkout line images | 56×80 / 48×64 | **96×128 / 56×80**, source 320/240 px |
+| Tracking ke item images | 48×64, source 200 | **56×80**, source 240 px |
+
+`SafeImage` me naya `failureMode="hide"` option hai — jahan fallback placeholder ki
+jagah image chhupani ho (card hover) wahan use hota hai.
 
 ---
 
