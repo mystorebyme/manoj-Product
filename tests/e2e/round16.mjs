@@ -76,7 +76,7 @@ async function main() {
     "unknown order explains 'Order nahi mila'",
     /Order nahi mila/i.test(missingOrder.text) && /Try another number/i.test(missingOrder.text),
   );
-  check("not-found order offers WhatsApp support", /wa\.me\/918005900581/.test(missingOrder.text));
+  check("not-found order offers WhatsApp support", /wa\.me\/917740992663/.test(missingOrder.text));
 
   /* ── 3. reviews: no fake sample data ────────────────────────────────── */
   const catalog = JSON.parse((await get("/api/products?limit=48&sort=price-low")).text);

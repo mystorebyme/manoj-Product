@@ -52,19 +52,6 @@
     }
    ]
   },
-  "kishika-color-anarkali-suit-set-sleeves-fabric-attached": {
-   "handle": "kishika-yellow-color-anarkali-suit-set-sleeves-fabric-attached",
-   "colours": [
-    {
-     "name": "Maroon",
-     "handle": "niyara-maroon-color-anarkali-suit-set"
-    },
-    {
-     "name": "Yellow",
-     "handle": "kishika-yellow-color-anarkali-suit-set-sleeves-fabric-attached"
-    }
-   ]
-  },
   "sandhiya-premium-quality-anarkali-suit-set": {
    "handle": "priyankas-new-gown-with-dupatta-collaction-lw-9150",
    "colours": [
@@ -117,19 +104,6 @@
     }
    ]
   },
-  "premium-quality-bandhej-anarkali-suit-set": {
-   "handle": "premium-quality-anarkali-suit-set-copy-3",
-   "colours": [
-    {
-     "name": "Pink",
-     "handle": "premium-quality-bandhej-green-anarkali-suit-set-copy"
-    },
-    {
-     "name": "Red",
-     "handle": "premium-quality-anarkali-suit-set-copy-3"
-    }
-   ]
-  },
   "peacock-design-heavy-traditional-crop-top-with-shrug": {
    "handle": "peacock-design-heavy-traditional-crop-top-with-shrug-purple",
    "colours": [
@@ -170,8 +144,6 @@
   "premium-maroon-anarkali-suit-set": "premium-anarkali-suit-set",
   "maroon-coloured-designer-anarkali-suit": "coloured-designer-anarkali-suit",
   "red-coloured-designer-anarkali-suit": "coloured-designer-anarkali-suit",
-  "niyara-maroon-color-anarkali-suit-set": "kishika-color-anarkali-suit-set-sleeves-fabric-attached",
-  "kishika-yellow-color-anarkali-suit-set-sleeves-fabric-attached": "kishika-color-anarkali-suit-set-sleeves-fabric-attached",
   "sandhiya-black-premium-quality-anarkali-suit-set": "sandhiya-premium-quality-anarkali-suit-set",
   "priyankas-new-gown-with-dupatta-collaction-lw-9150": "sandhiya-premium-quality-anarkali-suit-set",
   "premium-quality-lukhnowi-peach-suit-set-copy": "premium-quality-lukhnowi-suit-set",
@@ -180,8 +152,6 @@
   "premium-quality-roman-silk-pink-anarkali-suit-set-copy": "premium-quality-roman-silk-anarkali-suit-set",
   "premium-quality-lukhnowi-green-suit-set-copy": "premium-quality-5-layers-anarkali-suit-set",
   "premium-quality-5-layers-blue-anarkali-suit-set-copy": "premium-quality-5-layers-anarkali-suit-set",
-  "premium-quality-bandhej-green-anarkali-suit-set-copy": "premium-quality-bandhej-anarkali-suit-set",
-  "premium-quality-anarkali-suit-set-copy-3": "premium-quality-bandhej-anarkali-suit-set",
   "peacock-design-heavy-traditional-crop-top-with-shrug-cream": "peacock-design-heavy-traditional-crop-top-with-shrug",
   "peacock-design-heavy-traditional-crop-top-with-shrug-sky-blue": "peacock-design-heavy-traditional-crop-top-with-shrug",
   "peacock-design-heavy-traditional-crop-top-with-shrug-purple": "peacock-design-heavy-traditional-crop-top-with-shrug",

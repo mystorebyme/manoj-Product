@@ -6,6 +6,15 @@ import { Stars } from "@/components/stars";
 import { ratingBreakdown, type ProductReviewBlock, type Review } from "@/lib/reviews";
 import { fetchPublishedReviews, submitReview, type SheetReview } from "@/lib/sheet-reviews";
 
+/** same review do jagah se na aaye — text ka pehla hissa hi kaafi hai */
+function normalizeReviewText(value: string): string {
+  return String(value ?? "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim()
+    .slice(0, 80);
+}
+
 /**
  * Product reviews — live store ke Trustoo widget jaisa layout:
  * bada average + stars, 5★→1★ distribution bars, photo reviews ka carousel,
@@ -39,15 +48,20 @@ export function ProductReviews({
 
   // sheet reviews ko usi shape me le aao jise baaki UI padhta hai
   const merged = useMemo<ProductReviewBlock>(() => {
-    const extra: Review[] = sheetReviews.map((review, index) => ({
-      id: `sheet-${index}`,
-      author: review.name || "Customer",
-      rating: Number(review.rating) || 5,
-      title: review.title || undefined,
-      body: review.body,
-      date: review.date,
-      verified: false,
-    }));
+    // Sheet me wahi reviews ho sakte hain jo abhi site ke sync file me hain
+    // (owner ne "Import all reviews" chalaya) — duplicate do baar na dikhe.
+    const known = new Set(block.reviews.map((review) => normalizeReviewText(review.body)));
+    const extra: Review[] = sheetReviews
+      .filter((review) => !known.has(normalizeReviewText(review.body)))
+      .map((review, index) => ({
+        id: `sheet-${index}`,
+        author: review.name || "Customer",
+        rating: Number(review.rating) || 5,
+        title: review.title || undefined,
+        body: review.body,
+        date: review.date,
+        verified: false,
+      }));
     const reviews = [...extra, ...block.reviews];
     const count = block.count + extra.length;
     const total = block.rating * Math.max(0, block.count - block.reviews.length) +

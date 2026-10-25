@@ -7,7 +7,7 @@ const wrap = (title: string, body: string) => `<!doctype html>
     <p style="letter-spacing:4px;font-size:9px;color:#862222;margin:0 0 18px">CLOTHING</p>
     <h1 style="font-family:Georgia,serif;font-size:24px;margin:0 0 12px">${title}</h1>
     ${body}
-    <p style="margin-top:24px;font-size:12px;color:#6b6259">Questions? WhatsApp 8005900581 · care@trendsyounique.com</p>
+    <p style="margin-top:24px;font-size:12px;color:#6b6259">Questions? WhatsApp 7740992663 · care@trendsyounique.com</p>
   </div>
 </body></html>`;
 

@@ -25,10 +25,10 @@
 | `codFee` | 5000 | order total |
 | `freeShipping` | true | shipping line |
 | `upiId` | likshaclothing@upi | manual fallback |
-| `supportPhone` | 8005900581 | header, order page |
+| `supportPhone` | 7740992663 | header, order page |
 | `supportEmail` | care@trendsyounique.com | contact |
 | `announcement` | "Free shipping on all orders" | top bar |
-| `whatsappNumber` | 918005900581 | CTAs |
+| `whatsappNumber` | 917740992663 | CTAs |
 
 ## Field-level PII
 

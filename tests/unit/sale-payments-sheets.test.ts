@@ -92,14 +92,14 @@ test("sheet settings parser handles Apps Script shapes", () => {
     ok: true,
     settings: {
       upi_id: "store@upi",
-      support_phone: "8005900581",
+      support_phone: "7740992663",
       support_email: "Info.likshaclothing@gmail.com",
       announcement: "Diwali Sale — Flat 70% OFF",
       free_shipping: "yes",
     },
   });
   assert.equal(parsed?.upiId, "store@upi");
-  assert.equal(parsed?.supportPhone, "8005900581");
+  assert.equal(parsed?.supportPhone, "7740992663");
   assert.equal(parsed?.freeShipping, true);
   assert.equal(normaliseSheetSettings({ ok: false }), null);
   assert.equal(normaliseSheetSettings({ settings: {} }), null);
@@ -119,7 +119,7 @@ test("order sheet row carries payment + tracking details", () => {
       couponCode: null,
       items: [{ title: "Anarkali", size: "S [36]", quantity: 1 }],
       customerName: "Test Customer",
-      phone: "8005900581",
+      phone: "7740992663",
       email: "test@example.com",
       address: "12 MG Road",
       city: "Jaipur",
@@ -143,14 +143,14 @@ test("order sheet row carries payment + tracking details", () => {
   assert.equal(row["Tracking URL"], "https://track.example/1");
   assert.equal(row["Email"], "test@example.com");
   assert.equal(row["Address"], "12 MG Road");
-  assert.match(String(row["WhatsApp"]), /^https:\/\/wa\.me\/918005900581$/);
+  assert.match(String(row["WhatsApp"]), /^https:\/\/wa\.me\/917740992663$/);
 
   const payment = paymentSheetRow(
     {
       orderNumber: "LK-ABC123",
       status: "shipped",
       customerName: "Test Customer",
-      phone: "8005900581",
+      phone: "7740992663",
       total: 49_900,
       paymentStatus: "paid",
       payment: { reference: "412345678901", gateway: "manual-upi" },

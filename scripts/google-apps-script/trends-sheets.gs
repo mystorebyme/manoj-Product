@@ -81,7 +81,7 @@ var WRITE_SHEETS = ['Orders', 'Order Items', 'Enquiries', 'Messages', 'Newslette
 var MAX_WRITE_ROWS = 40;
 
 /** Script version — `?action=ping` se dikhta hai (kaun sa code deploy hai). */
-var VERSION = '2026-10-25.r9';
+var VERSION = '2026-10-25.r10';
 
 var HEADERS = {
   Orders: [
@@ -116,8 +116,8 @@ var HEADERS = {
 var DEFAULT_SETTINGS = [
   ['brand_name', 'TRENDS YOUNIQUE', 'Header / invoice / WhatsApp name'],
   ['tagline', 'Couture for the woman who arrives', 'Home hero sub-line'],
-  ['support_phone', '8005900581', 'Footer + contact page'],
-  ['whatsapp', '8005900581', 'Sabhi WhatsApp order links yahin se (10 digit)'],
+  ['support_phone', '7740992663', 'Footer + contact page'],
+  ['whatsapp', '7740992663', 'Sabhi WhatsApp order links yahin se (10 digit)'],
   ['support_email', '', 'Contact / footer mailto'],
   ['upi_id', '', 'Checkout QR + UPI ID (khaali = UPI card chhupa rahega)'],
   ['upi_name', 'TRENDS YOUNIQUE', 'UPI app me payee name'],
@@ -392,8 +392,10 @@ function doGet(e) {
         return object;
       })
       .filter(function (row) {
-        var status = String(row.Status || '').toLowerCase();
-        if (!/^(publish|published|approved|live)$/.test(status)) return false;
+        // Status khaali = live (owner review likh kar Status bharna bhool jaye to bhi dikhe).
+        // "pending"/"reject" likhne par hi chhup jaata hai.
+        var status = String(row.Status || '').trim().toLowerCase();
+        if (status && !/^(publish|published|approved|live)$/.test(status)) return false;
         return !handle || String(row.Handle || '') === handle;
       })
       .slice(-30)
@@ -408,6 +410,22 @@ function doGet(e) {
       });
     return json_({ ok: true, handle: handle, reviews: published, version: VERSION });
   }
+  if (action === 'import_reviews') {
+    // Owner ke liye: saare purane reviews site ke JSON se sheet me (master token).
+    // Sheet menu se bhi: TRENDS tools → Import all reviews (script editor me chalayein).
+    if (!masterTokenConfigured_() || String(params.token || '') !== MASTER_TOKEN) {
+      return json_({ ok: false, error: 'unauthorized' });
+    }
+    return json_(importAllReviews());
+  }
+  if (action === 'reviews_menu') {
+    // Browser me URL khol kar turant import (GET se hi, deploy dobara nahi karna padta)
+    if (!masterTokenConfigured_() || String(params.token || '') !== MASTER_TOKEN) {
+      return json_({ ok: false, error: 'unauthorized' });
+    }
+    return json_(importAllReviews());
+  }
+
   /**
    * **GET se row likhna** — browser ke liye sabse bharosemand rasta.
    *
@@ -752,4 +770,109 @@ function testAppend() {
 /** Sheet ki health — kaunsi tab me kitni rows hain. */
 function testHealth() {
   Logger.log(JSON.stringify(counts_()));
+}
+
+
+/* ------------------------------------------------------------------ */
+/* Reviews import — purane reviews ek baar me sheet me                */
+/* ------------------------------------------------------------------ */
+
+/** Site ka public export (scripts/reviews-sync/export-for-sheet.mjs) */
+var REVIEWS_IMPORT_URL = 'https://trendsyounique.fashion/data/reviews-import.json';
+
+/**
+ * Sheet khulte hi custom menu — owner ko code chalane ki zaroorat nahi.
+ * (Menu dikhne ke liye script ko sheet se bound hona chahiye, ya standalone
+ *  script me bhi function run ho sakta hai: Editor → Run → importAllReviews.)
+ */
+function onOpen() {
+  try {
+    SpreadsheetApp.getUi()
+      .createMenu('TRENDS tools')
+      .addItem('Import all reviews', 'importAllReviews')
+      .addItem('Reviews: khaali Status = live', 'showReviewHelp')
+      .addToUi();
+  } catch (error) {
+    // sheet ke bahar se call hua (web app) — menu ki zaroorat nahi
+  }
+}
+
+function showReviewHelp() {
+  try {
+    SpreadsheetApp.getUi().alert(
+      'Reviews tab\n\n' +
+        'Status khaali = site par live.\n' +
+        'Status = pending / reject = site par nahi dikhega.\n\n' +
+        'Handle column me product ka handle hona chahiye (product page ke URL ka aakhri hissa).',
+    );
+  } catch (error) {
+    // ignore
+  }
+}
+
+/**
+ * Saare reviews site ke JSON se `Reviews` tab me.
+ * - duplicate (same handle + same text) skip
+ * - Status = publish
+ * - 400-400 rows ke batch me likhta hai (Apps Script ki 6 min limit ke andar)
+ */
+function importAllReviews() {
+  var tab = sheet_('Reviews');
+  var head = headersOf_(tab);
+  var last = tab.getLastRow();
+  var existing = last > 1 ? tab.getRange(2, 1, last - 1, head.length).getValues() : [];
+  var seen = {};
+  function keyOf(handle, body) {
+    return String(handle || '').trim() + '::' + String(body || '').replace(/\s+/g, ' ').trim().toLowerCase().slice(0, 160);
+  }
+  for (var i = 0; i < existing.length; i += 1) {
+    var handleCell = existing[i][head.indexOf('Handle')];
+    var bodyCell = existing[i][head.indexOf('Body')];
+    seen[keyOf(handleCell, bodyCell)] = true;
+  }
+
+  var response = UrlFetchApp.fetch(REVIEWS_IMPORT_URL, { muteHttpExceptions: true });
+  if (response.getResponseCode() !== 200) {
+    return { ok: false, error: 'fetch_failed', status: response.getResponseCode() };
+  }
+  var payload = JSON.parse(response.getContentText());
+  var rows = (payload && payload.rows) || [];
+  if (!rows.length) return { ok: false, error: 'no_rows' };
+
+  var pending = rows.filter(function (row) {
+    return !seen[keyOf(row.handle, row.body)];
+  });
+  if (!pending.length) {
+    return { ok: true, url: REVIEWS_IMPORT_URL, source: rows.length, added: 0, skipped: rows.length };
+  }
+
+  var CHUNK = 400;
+  var added = 0;
+  for (var start = 0; start < pending.length; start += CHUNK) {
+    var slice = pending.slice(start, start + CHUNK).map(function (row) {
+      return head.map(function (name) {
+        if (name === 'Timestamp') return row.timestamp || new Date().toISOString();
+        if (name === 'Handle') return row.handle || '';
+        if (name === 'Product') return row.product || '';
+        if (name === 'Name') return row.name || 'Customer';
+        if (name === 'Rating') return Number(row.rating) || 5;
+        if (name === 'Title') return row.title || '';
+        if (name === 'Body') return row.body || '';
+        if (name === 'Status') return row.status || 'publish';
+        if (name === 'Source') return row.source || 'trustoo';
+        return '';
+      });
+    });
+    tab.getRange(tab.getLastRow() + 1, 1, slice.length, head.length).setValues(slice);
+    added += slice.length;
+  }
+
+  return {
+    ok: true,
+    url: REVIEWS_IMPORT_URL,
+    source: rows.length,
+    added: added,
+    skipped: rows.length - added,
+    total: tab.getLastRow() - 1,
+  };
 }

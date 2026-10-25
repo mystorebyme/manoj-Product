@@ -2,6 +2,7 @@ import type { NextRequest } from "next/server";
 import { ensureInvoice, getOrder } from "@/lib/orders";
 import { buildInvoice } from "@/lib/invoice";
 import { renderInvoicePdf } from "@/lib/invoice-pdf";
+import { getStoreSettings } from "@/lib/store-settings";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -31,7 +32,13 @@ export async function GET(request: NextRequest, context: { params: Promise<{ ord
   }
 
   const { order: withInvoice, invoice } = await ensureInvoice(orderNumber);
-  const view = buildInvoice(withInvoice, invoice.number, invoice.issuedAt);
+  const settings = await getStoreSettings();
+  const view = buildInvoice(withInvoice, invoice.number, invoice.issuedAt, {
+    name: settings.brandName,
+    phone: settings.supportPhone,
+    email: settings.supportEmail,
+    gstin: settings.gstin,
+  });
   const pdf = await renderInvoicePdf(view);
 
   return new Response(new Uint8Array(pdf), {

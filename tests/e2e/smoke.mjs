@@ -45,7 +45,7 @@ async function main() {
   check("home 200", home.status === 200, `status ${home.status}`);
   check("home lists products", /\/products\/[a-z0-9-]+/.test(home.text));
   check("home has brand name", /TRENDS YOUNIQUE/i.test(home.text));
-  check("home has support number", home.text.includes("8005900581"));
+  check("home has support number", home.text.includes("7740992663"));
   check("home has the live announcement bar", /announcement-bar/.test(home.text));
   check(
     "home has no service-tile strip (removed on request)",

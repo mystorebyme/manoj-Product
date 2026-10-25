@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ensureInvoice, getOrder } from "@/lib/orders";
 import { buildInvoice } from "@/lib/invoice";
+import { getStoreSettings } from "@/lib/store-settings";
 import { amountInWords } from "@/lib/amount-in-words";
 import { formatDate } from "@/lib/format";
 import { logoUrl } from "@/config/site";
@@ -64,7 +65,13 @@ export default async function InvoicePage({
   }
 
   const { order: withInvoice, invoice } = await ensureInvoice(order.orderNumber);
-  const view = buildInvoice(withInvoice, invoice.number, invoice.issuedAt);
+  const settings = await getStoreSettings();
+  const view = buildInvoice(withInvoice, invoice.number, invoice.issuedAt, {
+    name: settings.brandName,
+    phone: settings.supportPhone,
+    email: settings.supportEmail,
+    gstin: settings.gstin,
+  });
   const rows = [...view.lines, ...(view.shippingLine ? [view.shippingLine] : [])];
 
   return (

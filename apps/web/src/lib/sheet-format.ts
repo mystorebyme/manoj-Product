@@ -79,7 +79,7 @@ export function normaliseSheetSettings(payload: unknown): SheetSettings | null {
 
 const inr = (paise: number) => Math.round(paise) / 100;
 
-/** `8005900581` → `wa.me/918005900581` (sheet me clickable link ban jaata hai) */
+/** `7740992663` → `wa.me/917740992663` (sheet me clickable link ban jaata hai) */
 export function sheetWhatsAppLink(phone: string | null | undefined): string {
   const digits = String(phone ?? "").replace(/\D/g, "");
   const last10 = digits.slice(-10);

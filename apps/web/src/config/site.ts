@@ -82,9 +82,9 @@ export const siteConfig = {
   tagline: "Couture for the woman who arrives",
   description:
     "TRENDS YOUNIQUE — designer anarkali suits, lehenga choli and printed suit sets, hand-finished for weddings and festivals. Order on WhatsApp, free shipping across India.",
-  phone: "+91 8005900581",
+  phone: "+91 7740992663",
   /** 10 digit — `91` app khud lagata hai */
-  whatsapp: "8005900581",
+  whatsapp: "7740992663",
   email: "care@trendsyounique.com",
   address: "Jaipur, Rajasthan, India",
   /** owner-confirmed domain (2026) — env se override ho sakta hai */

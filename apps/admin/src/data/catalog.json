@@ -7,12 +7,12 @@
   "moneyUnit": "paise",
   "builtAt": "2026-10-24T16:20:52.051Z",
   "snapshotAt": "2026-10-24T06:51:35.543Z",
-  "productCount": 513,
-  "liveProductCount": 287,
-  "extraProductCount": 155,
-  "listedProductCount": 429,
+  "productCount": 477,
+  "liveProductCount": 271,
+  "extraProductCount": 135,
+  "listedProductCount": 477,
   "colourGroupCount": 12,
-  "imageCount": 2991,
+  "imageCount": 2738,
   "ownProductCount": 71
  },
  "collections": [
@@ -22,7 +22,7 @@
    "subtitle": "Freshly dropped festive favourites",
    "image": "/images/shop/meera-mint-green-gota-pearl-kurta-set/5.webp",
    "sortOrder": 1,
-   "productCount": 396
+   "productCount": 404
   },
   {
    "handle": "party-wear-gown",
@@ -30,7 +30,7 @@
    "subtitle": "Designer Anarkali Suits",
    "image": "/images/shop/dhriti-green-leaf-print-dupatta-anarkali/1.webp",
    "sortOrder": 2,
-   "productCount": 272
+   "productCount": 275
   },
   {
    "handle": "trends-signature",
@@ -38,7 +38,7 @@
    "subtitle": "Handpicked by our stylists",
    "image": "/images/shop/meher-wine-velvet-anarkali/1.webp",
    "sortOrder": 3,
-   "productCount": 126
+   "productCount": 131
   },
   {
    "handle": "lehnga-choli",
@@ -46,7 +46,7 @@
    "subtitle": "Our Range of Designer Lehenga Choli",
    "image": "/images/shop/rani-emerald-silk-lehenga/1.webp",
    "sortOrder": 4,
-   "productCount": 29
+   "productCount": 31
   },
   {
    "handle": "printed-suit-set",
@@ -54,15 +54,15 @@
    "subtitle": "Everyday ethnic ease",
    "image": "/images/shop/pari-pink-ikat-print-kurta-set/1.webp",
    "sortOrder": 5,
-   "productCount": 53
+   "productCount": 98
   },
   {
    "handle": "trending",
    "title": "Trending",
-   "subtitle": "Top view in this week",
-   "image": "/images/shop/rani-emerald-silk-lehenga/1.webp",
+   "subtitle": "Top rated this week",
+   "image": "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/312751141_626486779205170_5599680611515396374_n.jpg",
    "sortOrder": 6,
-   "productCount": 5
+   "productCount": 15
   },
   {
    "handle": "weddin-collection",
@@ -70,7 +70,7 @@
    "subtitle": "Bridal & trousseau edit",
    "image": "/images/shop/noor-ivory-chikankari-set/1.webp",
    "sortOrder": 7,
-   "productCount": 19
+   "productCount": 29
   },
   {
    "handle": "sale",
@@ -78,7 +78,7 @@
    "subtitle": "Limited-time festive prices",
    "image": "/images/shop/ruhi-wine-anarkali-floral-sleeve-set/3.webp",
    "sortOrder": 8,
-   "productCount": 29
+   "productCount": 25
   },
   {
    "handle": "saree",
@@ -94,7 +94,7 @@
    "subtitle": "",
    "image": "/images/shop/meher-wine-velvet-anarkali/2.webp",
    "sortOrder": 100,
-   "productCount": 35
+   "productCount": 27
   },
   {
    "handle": "suit-set-gown",
@@ -102,7 +102,7 @@
    "subtitle": "",
    "image": "/images/shop/tara-brown-zari-tree-kurta-set/1.webp",
    "sortOrder": 101,
-   "productCount": 107
+   "productCount": 119
   }
  ],
  "colourGroups": {
@@ -7823,98 +7823,6 @@
    "publishedAt": "2026-10-07T05:00:20-04:00"
   },
   {
-   "handle": "aaradhya-faux-blooming-zari-sequins-anarkali-suit-set",
-   "sourceHandle": "aaradhya-faux-blooming-zari-sequins-anarkali-suit-set",
-   "title": "Aaradhya Faux Blooming Zari Sequins Anarkali Suit Set",
-   "price": 69900,
-   "compareAtPrice": 233000,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/photo_6210722319081085182_y.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/photo_6210722319081085185_y.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/photo_6210722319081085180_y.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/photo_6210722319081085186_y.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/photo_6210722319081085181_y.jpg"
-   ],
-   "collections": [
-    "new-arrivals",
-    "party-wear-gown"
-   ],
-   "category": "anarkali",
-   "productType": "Anarkali suit",
-   "fabric": "Cotton",
-   "color": "Red",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]",
-    "3XL [46]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "S [36]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "M [38]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "L [40]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "3XL [46]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    }
-   },
-   "details": [
-    "Designer Anarkali Suit Set",
-    "A premium and elegant Anarkali Suit Set crafted with beautiful Zari & Sequins embroidery work on luxurious Faux Blooming fabric. The graceful Anarkali silhouette, detailed embroidery and matching dupatta make it perfect for festive occasions, weddings and special celebrations.",
-    "TOP",
-    "Fabric: Faux Blooming with Embroidered Zari & Sequins Work",
-    "Sizes: XS [34] , S [36] , M [38] , L [40] , XL [42] , XXL [44] , 3XL [46]",
-    "Length: 50–52 Inches",
-    "Front Neck: 7 Inches",
-    "Back Neck: 10 Inches",
-    "Lining: Micro Cotton – Full Inner from Top to Bottom",
-    "Sleeves: Sleeveless",
-    "PANT",
-    "Fabric: Micro Cotton",
-    "Length: 38 Inches",
-    "DUPATTA"
-   ],
-   "description": "Designer Anarkali Suit Set A premium and elegant Anarkali Suit Set crafted with beautiful Zari & Sequins embroidery work on luxurious Faux Blooming fabric. The graceful Anarkali silhouette, detailed embroidery and matching dupatta make it perfect for festive occasions, weddings and special celebrations. TOP Fabric: Faux Blooming with Embroidered Zari & Sequins Work Sizes: XS [34] , S [36] , M [38]",
-   "descriptionHtml": "<p><strong><span>Designer Anarkali Suit Set</span></strong></p>\n<p><span>A premium and elegant Anarkali Suit Set crafted with beautiful </span><strong><span>Zari &amp; Sequins embroidery work</span></strong><span> on luxurious Faux Blooming fabric. The graceful Anarkali silhouette, detailed embroidery and matching dupatta make it perfect for festive occasions, weddings and special celebrations.</span></p>\n<p><strong><span>TOP</span></strong></p>\n<ul>\n<li>\n<strong><span>Fabric:</span></strong><span> Faux Blooming with Embroidered Zari &amp; Sequins Work</span>\n</li>\n<li>\n<strong><span>Sizes:</span></strong><span> XS <span>[34]</span>, S <span>[36]</span>, M <span>[38]</span>, L <span>[40]</span>, XL <span>[42]</span>, XXL <span>[44]</span>, 3XL <span>[46]</span></span>\n</li>\n<li>\n<strong><span>Length:</span></strong><span> 50–52 Inches</span>\n</li>\n<li>\n<strong><span>Front Neck:</span></strong><span> 7 Inches</span>\n</li>\n<li>\n<strong><span>Back Neck:</span></strong><span> 10 Inches</span>\n</li>\n<li>\n<strong><span>Lining:</span></strong><span> Micro Cotton – Full Inner from Top to Bottom</span>\n</li>\n<li>\n<strong><span>Sleeves:</span></strong><span> Sleeveless</span>\n</li>\n</ul>\n<p><strong><span>PANT</span></strong></p>\n<ul>\n<li>\n<strong><span>Fabric:</span></strong><span> Micro Cotton</span>\n</li>\n<li>\n<strong><span>Length:</span></strong><span> 38 Inches</span>\n</li>\n</ul>\n<p><strong><span>DUPATTA</span></strong></p>\n<ul>\n<li>\n<strong><span>Fabric:</span></strong><span> Faux Blooming with Embroidered Zari &amp; Sequins Work</span>\n</li>\n<li>\n<strong><span>Length:</span></strong><span> 2.25 Meters</span>\n</li>\n</ul>\n<p><strong><span>Perfect For:</span></strong><span> Weddings, Festivals, Parties, Functions &amp; Special Occasions.</span></p>\n<p><span>A stylish and graceful choice for women who love elegant traditional fashion with a premium designer look.</span></p>",
-   "source": "liksha",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2026-10-07T04:54:16-04:00"
-  },
-  {
    "handle": "kumkum-elegant-anarkali-suit-set",
    "sourceHandle": "kumkum-elegant-anarkali-suit-set",
    "title": "Kumkum Elegant Anarkali Suit Set",
@@ -8276,100 +8184,6 @@
    "publishedAt": "2026-09-29T02:58:28-04:00"
   },
   {
-   "handle": "rang-f-royale-blooming-lehenga-suit-set",
-   "sourceHandle": "rang-f-royale-blooming-lehenga-suit-set",
-   "title": "Rang-f-royale Blooming Lehenga Suit Set",
-   "price": 69900,
-   "compareAtPrice": 233000,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/photo_6167693120506630697_y.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/photo_6167693120506630698_y.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/photo_6167693120506630699_y.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/photo_6167693120506630700_y.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/photo_6167693120506630701_y.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/photo_6167693120506630702_y.jpg"
-   ],
-   "collections": [
-    "lehnga-choli",
-    "new-arrivals",
-    "party-wear-gown"
-   ],
-   "category": "lehnga",
-   "productType": "Anarkali suit",
-   "fabric": "Chinon Silk",
-   "color": "As Shown",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]",
-    "3XL [46]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "S [36]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "M [38]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "L [40]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "3XL [46]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    }
-   },
-   "details": [
-    "TOP DETAILS",
-    "• Fabric: Premium Chinon Silk",
-    "• Length: 32 Inches",
-    "• Work: 3/9mm Sequins + Zari Embroidery + Elegant Lace Work",
-    "• Lining: Full Cotton Inner – Top to Bottom",
-    "• Sleeves: Beautiful Lace Work Sleeves",
-    "LEHENGA DETAILS",
-    "• Color: Rani Pink Faux Blooming",
-    "• Fabric: Faux Blooming & Chinon",
-    "• Work: 3/9mm Sequins + Zari Embroidery + Lace Work",
-    "• Lining: Soft Cotton",
-    "• Stitching: Fully Stitched & Ready to Wear",
-    "DUPATTA DETAILS",
-    "• Fabric: Premium Chinon"
-   ],
-   "description": "TOP DETAILS • Fabric: Premium Chinon Silk • Length: 32 Inches • Work: 3/9mm Sequins + Zari Embroidery + Elegant Lace Work • Lining: Full Cotton Inner – Top to Bottom • Sleeves: Beautiful Lace Work Sleeves LEHENGA DETAILS • Color: Rani Pink Faux Blooming • Fabric: Faux Blooming & Chinon • Work: 3/9mm Sequins + Zari Embroidery + Lace Work • Lining: Soft Cotton • Stitching: Fully Stitched & Ready to ",
-   "descriptionHtml": "<h3> TOP DETAILS</h3>\n<p>• <strong>Fabric:</strong> Premium Chinon Silk<br>• <strong>Length:</strong> 32 Inches<br>• <strong>Work:</strong> 3/9mm Sequins + Zari Embroidery + Elegant Lace Work<br>• <strong>Lining:</strong> Full Cotton Inner – Top to Bottom<br>• <strong>Sleeves:</strong> Beautiful Lace Work Sleeves</p>\n<h3> LEHENGA DETAILS</h3>\n<p>• <strong>Color:</strong> Rani Pink Faux Blooming <br>• <strong>Fabric:</strong> Faux Blooming &amp; Chinon<br>• <strong>Work:</strong> 3/9mm Sequins + Zari Embroidery + Lace Work<br>• <strong>Lining:</strong> Soft Cotton<br>• <strong>Stitching:</strong> Fully Stitched &amp; Ready to Wear</p>\n<h3> DUPATTA DETAILS</h3>\n<p>• <strong>Fabric:</strong> Premium Chinon<br>• <strong>Work:</strong> Digital Print + Zari Embroidery + Heavy Lace Work<br>• <strong>Length:</strong> 2.25 Meters</p>\n<h3> AVAILABLE SIZES</h3>\n<p><strong>XS [34] | S [36] | M [38] | L [40] | XL [42] | 2XL [44] | 3XL [46]</strong></p>\n<h3> PACKAGE INCLUDES</h3>\n<p> 1 × Top<br> 1 × Lehenga<br> 1 × Dupatta</p>\n<p> <strong>Approx. Weight:</strong> 1 KG</p>\n<p> <strong>Premium Finish • Fully Stitched • Ready to Wear</strong> </p>",
-   "source": "liksha",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2026-09-26T02:28:00-04:00"
-  },
-  {
    "handle": "rang-e-royale-blooming-lehenga-suit-set",
    "sourceHandle": "rang-e-royale-blooming-lehenga-suit-set",
    "title": "Rang-f-royale Blooming Lehenga Suit Set",
@@ -8462,97 +8276,6 @@
    "inStock": true,
    "featured": false,
    "publishedAt": "2026-09-23T06:03:29-04:00"
-  },
-  {
-   "handle": "malveera-premium-quality-anarkali-suit-set",
-   "sourceHandle": "malveera-premium-quality-anarkali-suit-set",
-   "title": "Malveera Premium Quality Anarkali Suit Set",
-   "price": 49900,
-   "compareAtPrice": 124750,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/WhatsAppImage2026-07-14at11.58.53AM.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/WhatsAppImage2026-07-14at11.58.53AM_1.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/WhatsAppImage2026-07-14at11.59.13AM.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/WhatsAppImage2026-07-14at11.59.10AM.jpg"
-   ],
-   "collections": [
-    "new-arrivals",
-    "party-wear-gown"
-   ],
-   "category": "anarkali",
-   "productType": "Anarkali suit",
-   "fabric": "Silk",
-   "color": "As Shown",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]",
-    "3XL [46]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    },
-    "S [36]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    },
-    "M [38]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    },
-    "L [40]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    },
-    "3XL [46]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    }
-   },
-   "details": [
-    "Premium Embroidered Silk Gown Set",
-    "Code: TD-6125",
-    "Available Sizes: XS (34), S (36), M (38), L (40), XL (42), XXL (44), 3XL (46)",
-    "Gown",
-    "Fabric: Heavy Silk",
-    "Work: Rich Embroidery Zari with 3mm Multi Sequins Work",
-    "Lining: Soft Cotton (Full Inner from Top to Bottom)",
-    "Sleeves: 3/4 Sleeves with Moti Lace",
-    "Pant",
-    "Fabric: Heavy Silk",
-    "Work: Embroidery Zari with 3mm Sequins Work",
-    "Length: 36–38 Inches",
-    "Dupatta",
-    "Fabric: Organza"
-   ],
-   "description": "Premium Embroidered Silk Gown Set Code: TD-6125 Available Sizes: XS (34), S (36), M (38), L (40), XL (42), XXL (44), 3XL (46) Gown Fabric: Heavy Silk Work: Rich Embroidery Zari with 3mm Multi Sequins Work Lining: Soft Cotton (Full Inner from Top to Bottom) Sleeves: 3/4 Sleeves with Moti Lace Pant Fabric: Heavy Silk Work: Embroidery Zari with 3mm Sequins Work Length: 36–38 Inches Dupatta Fabric: Or",
-   "descriptionHtml": "<p><strong> Premium Embroidered Silk Gown Set </strong></p>\n<p><strong> Code:</strong> TD-6125</p>\n<p><strong> Available Sizes:</strong> XS (34), S (36), M (38), L (40), XL (42), XXL (44), 3XL (46)</p>\n<h3> Gown</h3>\n<ul>\n<li>\n<p><strong>Fabric:</strong> Heavy Silk</p>\n</li>\n<li>\n<p><strong>Work:</strong> Rich Embroidery Zari with 3mm Multi Sequins Work</p>\n</li>\n<li>\n<p><strong>Lining:</strong> Soft Cotton (Full Inner from Top to Bottom)</p>\n</li>\n<li>\n<p><strong>Sleeves:</strong> 3/4 Sleeves with Moti Lace</p>\n</li>\n</ul>\n<h3> Pant</h3>\n<ul>\n<li>\n<p><strong>Fabric:</strong> Heavy Silk</p>\n</li>\n<li>\n<p><strong>Work:</strong> Embroidery Zari with 3mm Sequins Work</p>\n</li>\n<li>\n<p><strong>Length:</strong> 36–38 Inches</p>\n</li>\n</ul>\n<h3> Dupatta</h3>\n<ul>\n<li>\n<p><strong>Fabric:</strong> Organza</p>\n</li>\n<li>\n<p><strong>Design:</strong> Digital Print Border with Embroidered Lace Work and Dhupiyan Border Lace</p>\n</li>\n<li>\n<p><strong>Length:</strong> 2.20 Meters</p>\n</li>\n</ul>\n<h3> Package Includes</h3>\n<ul>\n<li>\n<p>1 Gown</p>\n</li>\n<li>\n<p>1 Pant</p>\n</li>\n<li>\n<p>1 Dupatta</p>\n</li>\n</ul>\n<p><strong> Weight:</strong> Approx. 1.10 kg</p>\n<p> A beautifully crafted ethnic outfit featuring premium heavy silk, elegant zari embroidery, and sparkling sequins—perfect for weddings, festive celebrations, parties, and special occasions.</p>",
-   "source": "liksha",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2026-09-19T06:26:55-04:00"
   },
   {
    "handle": "vibhutis-wine-coloured-anarkali-suit-set-td06",
@@ -10632,97 +10355,6 @@
    "publishedAt": "2026-08-03T07:25:01-04:00"
   },
   {
-   "handle": "mita-heavy-traditional-embroidered-koti-anarkali-suit-set",
-   "sourceHandle": "mita-heavy-traditional-embroidered-koti-anarkali-suit-set",
-   "title": "Mita Heavy Traditional Embroidered Koti Anarkali Suit Set",
-   "price": 64900,
-   "compareAtPrice": 216333,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/545fe8d2-4bcb-475b-9cd3-100b03118c45_1800x1800_f98a725b-d6f7-49b3-ac2e-75c30f10f5da.webp",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/6036452d-585d-4c6c-a1cf-593abb11de0d_1000x_60b1613d-63ac-4f17-9ae5-9e0292692b9e.webp",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/d54e7d6e-0fd4-4d70-8b9b-a023aa36be47_1800x1800_73f3da40-7f99-404f-8d75-6ae2e41e1c19.webp",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/552c749e-0736-4008-8e19-0b13194a0c4b_1800x1800_e6e1311c-c4dc-4f19-a230-ec607f7b5311.webp",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/048b81f3-957f-4fe4-b4ec-536c79d0af05_1800x1800_f6b97af6-ede3-4574-85e5-5c88320a8978.webp"
-   ],
-   "collections": [
-    "new-arrivals",
-    "party-wear-gown"
-   ],
-   "category": "anarkali",
-   "productType": "Anarkali suit",
-   "fabric": "Silk",
-   "color": "As Shown",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]",
-    "3XL [46]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "S [36]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "M [38]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "L [40]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "3XL [46]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    }
-   },
-   "details": [
-    "Koti Fabric & Work:",
-    "Pure Cosmos Silk with Embroidery Work",
-    "Kurta Length: 51–52 inches",
-    "Neck Type: Round Neck",
-    "Sleeves: Full Sleeves (22 inches)",
-    "Pants",
-    "Fabric: Micro Cotton",
-    "Length: 39–40 inches",
-    "Dupatta",
-    "Fabric & Work:",
-    "Cosmos Silk",
-    "(Fancy Lace Border)",
-    "Length: 2.3 meters"
-   ],
-   "description": "Koti Fabric & Work: Pure Cosmos Silk with Embroidery Work Kurta Length: 51–52 inches Neck Type: Round Neck Sleeves: Full Sleeves (22 inches) Pants Fabric: Micro Cotton Length: 39–40 inches Dupatta Fabric & Work: Cosmos Silk (Fancy Lace Border) Length: 2.3 meters",
-   "descriptionHtml": "<p>Koti Fabric &amp; Work:<br>Pure<span>Cosmos Silk </span>with  Embroidery Work</p>\n<p>Kurta Length: 51–52 inches<br>Neck Type: Round Neck<br>Sleeves: Full Sleeves (22 inches)</p>\n<p> Pants</p>\n<p>Fabric: <span>Micro Cotton</span><br>Length: 39–40 inches</p>\n<p> Dupatta</p>\n<p>Fabric &amp; Work:<br><span>Cosmos Silk</span><br>(Fancy Lace Border)</p>\n<p>Length: 2.3 meters</p>",
-   "source": "liksha",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2026-08-03T07:17:26-04:00"
-  },
-  {
    "handle": "rikva-premium-vichitra-royal-elegant-suit-set",
    "sourceHandle": "rikva-premium-vichitra-royal-elegant-suit-set",
    "title": "Rikva Premium Vichitra Royal Elegant Suit Set",
@@ -10739,7 +10371,8 @@
    ],
    "collections": [
     "new-arrivals",
-    "party-wear-gown"
+    "party-wear-gown",
+    "trending"
    ],
    "category": "anarkali",
    "productType": "Anarkali suit",
@@ -10813,7 +10446,7 @@
    "rating": 5,
    "reviewCount": 27,
    "inStock": true,
-   "featured": false,
+   "featured": true,
    "publishedAt": "2026-08-03T07:16:48-04:00"
   },
   {
@@ -11084,99 +10717,6 @@
    "inStock": true,
    "featured": false,
    "publishedAt": "2026-08-03T03:05:17-04:00"
-  },
-  {
-   "handle": "purple-embroidered-anarkali-gown-set",
-   "sourceHandle": "purple-embroidered-anarkali-gown-set",
-   "title": "Purple Embroidered Anarkali Gown Set",
-   "price": 64900,
-   "compareAtPrice": 216333,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_3525.png",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_3526.png",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_3533.png",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_3527.png",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_3531.png",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_3530.png"
-   ],
-   "collections": [
-    "new-arrivals",
-    "party-wear-gown"
-   ],
-   "category": "gown",
-   "productType": "GOWN",
-   "fabric": "Silk",
-   "color": "Purple",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]",
-    "3XL [46]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": false
-    },
-    "S [36]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": false
-    },
-    "M [38]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": false
-    },
-    "L [40]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": false
-    },
-    "XL [42]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": false
-    },
-    "2XL [44]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": false
-    },
-    "3XL [46]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": false
-    }
-   },
-   "details": [
-    "Premium Purple Heavy Silk Embroidered Anarkali Suit Set",
-    "Step into elegance with this beautifully crafted Premium Heavy Silk Anarkali Suit Set . Designed with exquisite embroidery, intricate 3mm cording and sequins work, this luxurious outfit is perfect for weddings, festive celebrations, parties, and special occasions. Paired with a matching silk dupatta and comfortable micro pant, it offers a graceful and royal look.",
-    "Product Details",
-    "Fabric: Heavy Silk",
-    "Work: Embroidery with 3mm Cording & Sequins Work",
-    "Inner: Soft Cotton Lining (Top to Bottom)",
-    "Neck: V-Neck Design",
-    "Sleeves: Full Sleeves with Embroidery",
-    "Gown Length: 50–52 Inches",
-    "Pant Fabric: Heavy Micro (38 Inches)",
-    "Dupatta: Heavy Silk with Embroidered Lace & Sequins Work (2.30 Meters)",
-    "Available Sizes",
-    "XS (34), S (36), M (38), L (40), XL (42), XXL (44), 3XL (46)",
-    "Package Includes"
-   ],
-   "description": "Premium Purple Heavy Silk Embroidered Anarkali Suit Set Step into elegance with this beautifully crafted Premium Heavy Silk Anarkali Suit Set . Designed with exquisite embroidery, intricate 3mm cording and sequins work, this luxurious outfit is perfect for weddings, festive celebrations, parties, and special occasions. Paired with a matching silk dupatta and comfortable micro pant, it offers a gra",
-   "descriptionHtml": "Premium Purple Heavy Silk Embroidered Anarkali Suit Set<span></span>\n\n<p>Step into elegance with this beautifully crafted <strong>Premium Heavy Silk Anarkali Suit Set</strong>. Designed with exquisite embroidery, intricate 3mm cording and sequins work, this luxurious outfit is perfect for weddings, festive celebrations, parties, and special occasions. Paired with a matching silk dupatta and comfortable micro pant, it offers a graceful and royal look.</p>\n<h3> Product Details</h3>\n<ul>\n<li>\n<strong>Fabric:</strong> Heavy Silk</li>\n<li>\n<strong>Work:</strong> Embroidery with 3mm Cording &amp; Sequins Work</li>\n<li>\n<strong>Inner:</strong> Soft Cotton Lining (Top to Bottom)</li>\n<li>\n<strong>Neck:</strong> V-Neck Design</li>\n<li>\n<strong>Sleeves:</strong> Full Sleeves with Embroidery</li>\n<li>\n<strong>Gown Length:</strong> 50–52 Inches</li>\n<li>\n<strong>Pant Fabric:</strong> Heavy Micro (38 Inches)</li>\n<li>\n<strong>Dupatta:</strong> Heavy Silk with Embroidered Lace &amp; Sequins Work (2.30 Meters)</li>\n</ul>\n<h3> Available Sizes</h3>\n<p><strong>XS (34), S (36), M (38), L (40), XL (42), XXL (44), 3XL (46)</strong></p>\n<h3> Package Includes</h3>\n<ul>\n<li>1 Heavy Silk Embroidered Anarkali Gown</li>\n<li>1 Matching Heavy Micro Pant</li>\n<li>1 Heavy Silk Embroidered Dupatta</li>\n</ul>\n<h3> Perfect For</h3>\n<p>Wedding • Festive Wear • Party Wear • Traditional Functions • Engagement • Reception</p>",
-   "source": "liksha",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": false,
-   "featured": false,
-   "publishedAt": "2026-07-27T07:41:44-04:00"
   },
   {
    "handle": "nehas-pink-slit-suit-set",
@@ -11915,105 +11455,6 @@
    "inStock": true,
    "featured": false,
    "publishedAt": "2026-06-27T13:19:17-04:00"
-  },
-  {
-   "handle": "ivory-and-maroon-elegant-top-bottom-dupatta-suit-set",
-   "sourceHandle": "ivory-and-maroon-elegant-top-bottom-dupatta-suit-set",
-   "title": "Ivory and Maroon Elegant Top Bottom Dupatta Suit Set",
-   "price": 64900,
-   "compareAtPrice": 216333,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/Regalinivoryandmaroon_thisskirtsetblendstimelesselegancewitheffortlesscharm.Madeto_10.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/Regalinivoryandmaroon_thisskirtsetblendstimelesselegancewitheffortlesscharm.Madeto_11.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/Regalinivoryandmaroon_thisskirtsetblendstimelesselegancewitheffortlesscharm.Madeto_9.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/Regalinivoryandmaroon_thisskirtsetblendstimelesselegancewitheffortlesscharm.Madeto_8.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/Regalinivoryandmaroon_thisskirtsetblendstimelesselegancewitheffortlesscharm.Madeto_7.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/Regalinivoryandmaroon_thisskirtsetblendstimelesselegancewitheffortlesscharm.Madeto_6.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/Regalinivoryandmaroon_thisskirtsetblendstimelesselegancewitheffortlesscharm.Madeto_5.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/Regalinivoryandmaroon_thisskirtsetblendstimelesselegancewitheffortlesscharm.Madeto_4.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/Regalinivoryandmaroon_thisskirtsetblendstimelesselegancewitheffortlesscharm.Madeto_3.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/Regal_in_ivory_and_maroon_this_skirt_set_blends_timeless_elegance_with_effortless_charm.Made_to_1.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/Regal_in_ivory_and_maroon_this_skirt_set_blends_timeless_elegance_with_effortless_charm.Made_to_2.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/Regal_in_ivory_and_maroon_this_skirt_set_blends_timeless_elegance_with_effortless_charm.Made_to.jpg"
-   ],
-   "collections": [
-    "new-arrivals",
-    "party-wear-gown"
-   ],
-   "category": "anarkali",
-   "productType": "Anarkali suit",
-   "fabric": "Vichitra Silk",
-   "color": "Ivory",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]",
-    "3XL [46]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "S [36]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "M [38]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "L [40]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "3XL [46]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    }
-   },
-   "details": [
-    "PREMIUM DESIGNER LEHENGA SET",
-    "TOP",
-    "• Fabric: Vichitra Silk",
-    "• Work: Sequins & Zari Embroidery with Lace Work",
-    "• Length: 32\"",
-    "• Full Cotton Inner",
-    "• Lace Sleeves",
-    "LEHENGA",
-    "• Fabric: Blooming",
-    "• Zari Embroidery with Lace Work",
-    "• Cotton Inner",
-    "• Fully Stitched",
-    "DUPATTA",
-    "• Blooming Fabric"
-   ],
-   "description": "PREMIUM DESIGNER LEHENGA SET TOP • Fabric: Vichitra Silk • Work: Sequins & Zari Embroidery with Lace Work • Length: 32\" • Full Cotton Inner • Lace Sleeves LEHENGA • Fabric: Blooming • Zari Embroidery with Lace Work • Cotton Inner • Fully Stitched DUPATTA • Blooming Fabric",
-   "descriptionHtml": "<p><span> PREMIUM DESIGNER LEHENGA SET </span></p>\n<p><span> TOP</span><br><span>• Fabric: Vichitra Silk</span><br><span>• Work: Sequins &amp; Zari Embroidery with Lace Work</span><br><span>• Length: 32\"</span><br><span>• Full Cotton Inner</span><br><span>• Lace Sleeves</span></p>\n<p><span> LEHENGA</span><br><span>• Fabric: Blooming</span><br><span>• Zari Embroidery with Lace Work</span><br><span>• Cotton Inner</span><br><span>• Fully Stitched</span></p>\n<p><span> DUPATTA</span><br><span>• Blooming Fabric</span><br><span>• Heavy Zari Embroidered Lace Work</span><br><span>• Length: 2.25 Mtr</span></p>\n<p><span> Sizes Available:</span><br><span>XS | S | M | L | XL | XXL | 3XL</span></p>\n<p><span> Premium Quality | Fully Stitched | Ready to Wear </span></p>",
-   "source": "liksha",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2026-06-27T13:18:17-04:00"
   },
   {
    "handle": "kaumya-neon-elegant-sharara-suit-set",
@@ -13215,107 +12656,9 @@
    "publishedAt": "2026-03-27T07:50:15-04:00"
   },
   {
-   "handle": "krishvas-exclusive-blue-floral-organza-anarkali-suit-set",
-   "sourceHandle": "krishvas-exclusive-blue-floral-organza-anarkali-suit-set",
-   "title": "Krishva's Exclusive Blue Floral Organza Anarkali Suit Set",
-   "price": 59900,
-   "compareAtPrice": 199667,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/WhatsAppImage2026-03-27at11.33.04AM_caa2578f-511a-48bf-a15e-87ad27b0acfb.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/WhatsAppImage2026-03-27at11.34.54AM_188b8856-2960-4539-87c3-32d152042dd5.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/WhatsAppImage2026-03-27at11.37.39AM_4b4055ab-5ed7-4c01-b412-1669a052a2d3.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/WhatsAppImage2026-03-27at11.37.57AM_ae50acfe-bed8-45e4-bd5b-527696b7beec.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/WhatsAppImage2026-03-27at11.36.25AM_d45f3cd6-16ab-4c62-845e-983f5df17999.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/WhatsAppImage2026-03-27at11.38.27AM_dd10abff-1a91-449e-a11f-b88b3fd759a7.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/WhatsAppImage2026-03-27at11.36.50AM_af6ba28a-08a3-444c-81de-3cb5768fc423.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/WhatsAppImage2026-03-27at11.33.33AM_f6cdafae-de8a-40c0-a52c-424d077ab8e0.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/WhatsAppImage2026-03-27at11.35.58AM_4b33f3e7-4b40-44d4-ad31-09906540db87.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/WhatsAppImage2026-03-27at11.35.20AM_699ca7f6-c367-451a-8154-2d2f18585a7f.jpg"
-   ],
-   "collections": [
-    "trends-signature",
-    "new-arrivals",
-    "party-wear-gown"
-   ],
-   "category": "anarkali",
-   "productType": "Anarkali suit",
-   "fabric": "Organza",
-   "color": "Blue",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]",
-    "3XL [46]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "S [36]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "M [38]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "L [40]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "3XL [46]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    }
-   },
-   "details": [
-    "Product Description",
-    "Gown Details:",
-    "• Fabric & Work: Premium Teby Organza with Rich Zari Embroidery & Sequins Work",
-    "• Lining: Soft Cotton Full Inner (Top to Bottom) for Comfort",
-    "• Sleeves: Stylish Sleeves with Elegant Lace Finish",
-    "Pant Details:",
-    "• Fabric: Micro Cotton",
-    "• Length: 38 Inches (Approx)",
-    "Dupatta Details:",
-    "• Fabric: Teby Organza with Beautiful Lace Work",
-    "• Work: Heavy Embroidery with Designer Cutwork Border",
-    "• Length: 2.25 Meter",
-    "Perfect For:",
-    "Festive Wear | Wedding Functions | Party Wear | Special Occasions"
-   ],
-   "description": "Product Description Gown Details: • Fabric & Work: Premium Teby Organza with Rich Zari Embroidery & Sequins Work • Lining: Soft Cotton Full Inner (Top to Bottom) for Comfort • Sleeves: Stylish Sleeves with Elegant Lace Finish Pant Details: • Fabric: Micro Cotton • Length: 38 Inches (Approx) Dupatta Details: • Fabric: Teby Organza with Beautiful Lace Work • Work: Heavy Embroidery with Designer Cutw",
-   "descriptionHtml": "<h3><span><strong> Product Description </strong></span></h3>\n<p><strong> Gown Details:</strong><br>• Fabric &amp; Work: Premium Teby Organza with Rich Zari Embroidery &amp; Sequins Work<br>• Lining: Soft Cotton Full Inner (Top to Bottom) for Comfort<br>• Sleeves: Stylish Sleeves with Elegant Lace Finish</p>\n<p><strong> Pant Details:</strong><br>• Fabric: Micro Cotton<br>• Length: 38 Inches (Approx)</p>\n<p><strong> Dupatta Details:</strong><br>• Fabric: Teby Organza with Beautiful Lace Work<br>• Work: Heavy Embroidery with Designer Cutwork Border<br>• Length: 2.25 Meter</p>\n\n<h3><span><strong> Perfect For:</strong></span></h3>\n<p>Festive Wear | Wedding Functions | Party Wear | Special Occasions</p>",
-   "source": "liksha",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2026-03-27T02:34:13-04:00"
-  },
-  {
    "handle": "rayon-gown-kurta-and-pent-set-ac-7005",
    "sourceHandle": "rayon-gown-kurta-and-pent-set-ac-7005",
-   "title": "Rayon Gown Kurta and Pant Set Ac-7005",
+   "title": "Rayon Gown Kurta and Pant Set",
    "price": 64900,
    "compareAtPrice": 216333,
    "images": [
@@ -14275,7 +13618,7 @@
   {
    "handle": "pinakis-new-anarkali-suit-set",
    "sourceHandle": "pinakis-new-anarkali-suit-set",
-   "title": "Pinaki's New Anarkali Suit Set - 147",
+   "title": "Pinaki's New Anarkali Suit Set",
    "price": 64900,
    "compareAtPrice": 216333,
    "images": [
@@ -15982,7 +15325,7 @@
   {
    "handle": "orange-shades-premium-quality-anarkali-suit-set",
    "sourceHandle": "orange-shades-premium-quality-anarkali-suit-set",
-   "title": "Orange Shades Premium Quality Anarkali Suit Set",
+   "title": "Orange Shades Premium Anarkali Suit Set",
    "price": 49900,
    "compareAtPrice": 124750,
    "images": [
@@ -15995,7 +15338,8 @@
    ],
    "collections": [
     "new-arrivals",
-    "party-wear-gown"
+    "party-wear-gown",
+    "trending"
    ],
    "category": "anarkali",
    "productType": "Anarkali suit",
@@ -16069,7 +15413,7 @@
    "rating": 4.7,
    "reviewCount": 38,
    "inStock": true,
-   "featured": false,
+   "featured": true,
    "publishedAt": "2025-12-15T12:35:02-05:00"
   },
   {
@@ -17628,7 +16972,7 @@
   {
    "handle": "premium-readymade-suit-set-td-6008",
    "sourceHandle": "premium-readymade-suit-set-td-6008",
-   "title": "Premium Readymade Black & Red Suit Set Td-6008",
+   "title": "Premium Readymade Black & Red Suit Set",
    "price": 59900,
    "compareAtPrice": 199667,
    "images": [
@@ -19539,91 +18883,6 @@
    "publishedAt": "2025-08-24T02:45:01-04:00"
   },
   {
-   "handle": "niyara-maroon-color-anarkali-suit-set",
-   "sourceHandle": "niyara-maroon-color-anarkali-suit-set",
-   "title": "Kishika Maroon Color Anarkali Suit Set [Sleeves Fabric Attached]",
-   "price": 49900,
-   "compareAtPrice": 124750,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_2389.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_2385.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_2405.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_2410.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_2402.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_2374.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_2371.jpg"
-   ],
-   "collections": [
-    "trends-signature",
-    "new-arrivals",
-    "party-wear-gown"
-   ],
-   "category": "anarkali",
-   "productType": "Anarkali suit",
-   "fabric": "Silk",
-   "color": "Maroon",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    },
-    "S [36]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    },
-    "M [38]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    },
-    "L [40]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    }
-   },
-   "details": [
-    "ANARKALI FABRIC : HEAVY PURE ROMANSILK CHANDERI FABRIC",
-    "YOKE FANCY LACE WORK,SLEEVES FABRIC ATTACHED INSIDE,PADDED,SIDE ZIPPER,",
-    "GOWN FLAIR :4mtr plus fully flair",
-    "ANARKALI INNER : PURE MICROSCRAPE FULL LINING",
-    "DUPPTA FABRIC : SOFT NYLON NET DUPPTA WITH BOADER FANCY MIRROR LACE DUPPATA FABRIC 2.20 CUT",
-    "ANARKALI LENGTH :48 inch approx",
-    "PENT FABRIC :PURE ROMANSILK CHANDERI FABRIC FREE SIZE FULLY STTICHED WITH ONE SIDE POCKET",
-    "SIZE :XS(34) S(36) M(38) L(40) XL(42) And XXL(44) Fully stitched ready to wear"
-   ],
-   "description": "ANARKALI FABRIC : HEAVY PURE ROMANSILK CHANDERI FABRIC YOKE FANCY LACE WORK,SLEEVES FABRIC ATTACHED INSIDE,PADDED,SIDE ZIPPER, GOWN FLAIR :4mtr plus fully flair ANARKALI INNER : PURE MICROSCRAPE FULL LINING DUPPTA FABRIC : SOFT NYLON NET DUPPTA WITH BOADER FANCY MIRROR LACE DUPPATA FABRIC 2.20 CUT ANARKALI LENGTH :48 inch approx PENT FABRIC :PURE ROMANSILK CHANDERI FABRIC FREE SIZE FULLY STTICHED ",
-   "descriptionHtml": "<p><span> </span><b><strong>ANARKALI FABRIC</strong></b><span> </span><span>:</span><span>HEAVY PURE ROMANSILK CHANDERI FABRIC</span></p>\n<br></p>\n<p><span> </span><b><strong>YOKE FANCY LACE WORK,SLEEVES FABRIC ATTACHED INSIDE,PADDED,SIDE ZIPPER,</strong></b><span> </span></p>\n<br></p>\n<p><span> </span><b><strong>GOWN FLAIR</strong></b><span> </span><span>:4mtr plus fully flair</span></p>\n<br></p>\n<p><span> </span><b><strong>ANARKALI INNER</strong></b><span> </span><span>: PURE MICROSCRAPE FULL LINING</span></p>\n<br></p>\n<p><span> </span><b><strong>DUPPTA FABRIC</strong></b><span> </span><span>: SOFT NYLON NET DUPPTA WITH BOADER FANCY MIRROR LACE DUPPATA FABRIC 2.20 CUT</span></p>\n<br></p>\n<p><span> </span><b><strong>ANARKALI LENGTH</strong></b><span> </span><span>:48 inch approx</span></p>\n<br></p>\n<p><span> </span><b><strong>PENT FABRIC</strong></b><span> </span><span>:PURE ROMANSILK CHANDERI FABRIC FREE SIZE FULLY STTICHED WITH ONE SIDE POCKET</span></p>\n<br></p>\n<p><span> </span><b><strong>SIZE</strong></b><span> </span><span>:XS(34) S(36) M(38) L(40) XL(42) And XXL(44) Fully stitched ready to wear</span></p>\n<br></p>\n<p> </p>",
-   "source": "liksha",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2025-08-22T09:48:55-04:00",
-   "colourGroup": "kishika-color-anarkali-suit-set-sleeves-fabric-attached",
-   "colourName": "Maroon"
-  },
-  {
    "handle": "niyara-sky-color-anarkali-suit-set",
    "sourceHandle": "niyara-sky-color-anarkali-suit-set",
    "title": "Niyara Sky Color Anarkali Suit Set",
@@ -19802,7 +19061,7 @@
   {
    "handle": "minisa-designer-embroidered-zari-sequins-work-gown",
    "sourceHandle": "minisa-designer-embroidered-zari-sequins-work-gown",
-   "title": "Minisa Designer Embroidered Zari Sequins Work Gown",
+   "title": "Minisa Designer Zari Sequin Embroidered Gown",
    "price": 64900,
    "compareAtPrice": 216333,
    "images": [
@@ -19817,7 +19076,8 @@
    ],
    "collections": [
     "new-arrivals",
-    "party-wear-gown"
+    "party-wear-gown",
+    "trending"
    ],
    "category": "gown",
    "productType": "Anarkali suit",
@@ -19891,7 +19151,7 @@
    "rating": 5,
    "reviewCount": 30,
    "inStock": true,
-   "featured": false,
+   "featured": true,
    "publishedAt": "2025-07-30T06:26:28-04:00"
   },
   {
@@ -20552,9 +19812,10 @@
     "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_5371_1.png"
    ],
    "collections": [
-    "trends-signature",
     "new-arrivals",
-    "party-wear-gown"
+    "party-wear-gown",
+    "trending",
+    "trends-signature"
    ],
    "category": "anarkali",
    "productType": "Anarkali suit",
@@ -20628,13 +19889,13 @@
    "rating": 4.8,
    "reviewCount": 26,
    "inStock": true,
-   "featured": false,
+   "featured": true,
    "publishedAt": "2025-06-08T01:11:51-04:00"
   },
   {
    "handle": "aarushi-heavy-pure-cinon-silk-gown",
    "sourceHandle": "aarushi-heavy-pure-cinon-silk-gown",
-   "title": "Aarushi Heavy Pure Vichitra Silk Gown",
+   "title": "Aarushi Heavy Pure Chinon Silk Gown",
    "price": 49900,
    "compareAtPrice": 124750,
    "images": [
@@ -20650,7 +19911,8 @@
    ],
    "collections": [
     "new-arrivals",
-    "party-wear-gown"
+    "party-wear-gown",
+    "trending"
    ],
    "category": "gown",
    "productType": "Anarkali suit",
@@ -20724,7 +19986,7 @@
    "rating": 4.8,
    "reviewCount": 52,
    "inStock": true,
-   "featured": false,
+   "featured": true,
    "publishedAt": "2025-05-23T06:33:23-04:00"
   },
   {
@@ -20987,9 +20249,10 @@
     "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/312666633_162974136345869_7256421930909001870_n.jpg"
    ],
    "collections": [
-    "trends-signature",
     "new-arrivals",
-    "party-wear-gown"
+    "party-wear-gown",
+    "trending",
+    "trends-signature"
    ],
    "category": "anarkali",
    "productType": "Anarkali suit",
@@ -21063,7 +20326,7 @@
    "rating": 5,
    "reviewCount": 23,
    "inStock": true,
-   "featured": false,
+   "featured": true,
    "publishedAt": "2025-04-21T02:57:32-04:00"
   },
   {
@@ -21195,7 +20458,7 @@
   {
    "handle": "nehas-premium-anarkali-suit-set",
    "sourceHandle": "nehas-premium-anarkali-suit-set",
-   "title": "Neha Heavy Pure Vichitra Anarkali Suit Set",
+   "title": "Neha's Premium Anarkali Suit Set",
    "price": 64900,
    "compareAtPrice": 216333,
    "images": [
@@ -21206,7 +20469,8 @@
    ],
    "collections": [
     "new-arrivals",
-    "party-wear-gown"
+    "party-wear-gown",
+    "trending"
    ],
    "category": "anarkali",
    "productType": "Anarkali suit",
@@ -21280,99 +20544,8 @@
    "rating": 4.7,
    "reviewCount": 55,
    "inStock": true,
-   "featured": false,
+   "featured": true,
    "publishedAt": "2025-04-03T12:05:03-04:00"
-  },
-  {
-   "handle": "madhvi-heavy-embroidered-maxi-set",
-   "sourceHandle": "madhvi-heavy-embroidered-maxi-set",
-   "title": "Madhvi Heavy Embroidered Maxi Set",
-   "price": 54900,
-   "compareAtPrice": 183000,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_1325_35dc0b08-e5b3-4dce-8c66-7c8baf2834c0.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_1324_7432f968-eab4-449e-9579-d952fa7f11bf.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_1322_3fd0b9b8-9e51-4a50-97f8-50a5339569f9.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_1323_0ea58b7b-a8c8-4d7b-9714-3cf375392c68.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_1326_6666ddf9-cc9b-4a03-971a-012d4020494b.jpg"
-   ],
-   "collections": [
-    "new-arrivals",
-    "party-wear-gown"
-   ],
-   "category": "anarkali",
-   "productType": "Anarkali suit",
-   "fabric": "Georgette",
-   "color": "As Shown",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]",
-    "3XL [46]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "S [36]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "M [38]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "L [40]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "3XL [46]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    }
-   },
-   "details": [
-    "Madhvi Heavy Embroidered Maxi Set",
-    "Model Height: 5.5",
-    "Care: DRY CLEAN",
-    "Shipping Info: 2 Day Dispatch Time",
-    "Kurta :",
-    "Fabric – Georgette fabric with allover embroidery",
-    "Kurta Length – 50-52”",
-    "Front Neck – 7",
-    "Back Neck – 8 inches",
-    "Sleeves 22 full sleeves",
-    "Dupatta :",
-    "Fabric – Georgette",
-    "Length – 2.5 mtr"
-   ],
-   "description": "Madhvi Heavy Embroidered Maxi Set Model Height: 5.5 Care: DRY CLEAN Shipping Info: 2 Day Dispatch Time Kurta : Fabric – Georgette fabric with allover embroidery Kurta Length – 50-52” Front Neck – 7 Back Neck – 8 inches Sleeves 22 full sleeves Dupatta : Fabric – Georgette Length – 2.5 mtr",
-   "descriptionHtml": "<p><b><i>Madhvi Heavy Embroidered Maxi Set<br>Model Height: </i></b>5.5</p>\n<p><b><i>Care:</i></b> <em>DRY CLEAN</em></p>\n<p><b><i>Shipping Info:</i></b><span> 2 Day Dispatch Time</span></p>\n<p><b><i>Kurta :</i></b></p>\n<ul>\n<li>Fabric – Georgette fabric with allover embroidery<br>\n</li>\n<li>Kurta Length – 50-52”</li>\n<li>Front Neck – 7</li>\n<li>Back Neck – 8 inches</li>\n<li>Sleeves  22 full sleeves</li>\n</ul>\n<p><b><i>Dupatta :</i></b></p>\n<ul>\n<li>Fabric – Georgette</li>\n<li>Length – 2.5 mtr</li>\n</ul>",
-   "source": "liksha",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2025-04-03T03:25:24-04:00"
   },
   {
    "handle": "premium-designer-velvet-suit-set-rajwadi",
@@ -22590,7 +21763,7 @@
   {
    "handle": "prachis-red-havy-vichitra-royal-elegant-suit-set-copy",
    "sourceHandle": "prachis-red-havy-vichitra-royal-elegant-suit-set-copy",
-   "title": "Prachi Pink Premium Vichitra Royal Elegant Suit Set",
+   "title": "Prachi's Red Heavy Vichitra Royal Suit Set",
    "price": 54900,
    "compareAtPrice": 183000,
    "images": [
@@ -22600,7 +21773,8 @@
    ],
    "collections": [
     "new-arrivals",
-    "party-wear-gown"
+    "party-wear-gown",
+    "trending"
    ],
    "category": "anarkali",
    "productType": "Anarkali suit",
@@ -22674,7 +21848,7 @@
    "rating": 4.7,
    "reviewCount": 38,
    "inStock": true,
-   "featured": false,
+   "featured": true,
    "publishedAt": "2025-02-10T01:45:52-05:00"
   },
   {
@@ -22733,101 +21907,6 @@
    "inStock": true,
    "featured": false,
    "publishedAt": "2025-02-01T00:41:07-05:00"
-  },
-  {
-   "handle": "adeena-black-faux-blooming-anarkali-style-sarara-suit-set-copy",
-   "sourceHandle": "adeena-black-faux-blooming-anarkali-style-sarara-suit-set-copy",
-   "title": "Aafia White Faux Blooming Anarkali Style Sarara Suit Set",
-   "price": 69900,
-   "compareAtPrice": 233000,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/Picsart_25-01-28_13-03-20-570.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/Picsart_25-01-28_13-03-58-022.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/Picsart_25-01-28_13-02-41-840.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_5226.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_5231.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_5227.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_5229.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_5230.jpg"
-   ],
-   "collections": [
-    "new-arrivals",
-    "party-wear-gown"
-   ],
-   "category": "lehnga",
-   "productType": "suit set",
-   "fabric": "Banarasi Silk",
-   "color": "White",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]",
-    "3XL [46]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "S [36]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "M [38]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "L [40]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "3XL [46]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    }
-   },
-   "details": [
-    "Adeena Waite Faux Blooming Anarkali Style Sarara Suit Set",
-    "Model is Wearing: S Size",
-    "Model Height: 5.5",
-    "Care: DRY CLEAN",
-    "KURTA-",
-    "Fabric – Faux Blooming With Heavy 3/9mm Sequins & Thread Embroidered work",
-    "Kurta Length – 48 ”",
-    "Front Neck – 7 “",
-    "Back Neck – 10“",
-    "Sleeves – 19 “(Front slit )",
-    "PANT-Sarara",
-    "Fabric – Faux Blooming Febric with Inner",
-    "Length – 38”T",
-    "Dupatta :"
-   ],
-   "description": "Adeena Waite Faux Blooming Anarkali Style Sarara Suit Set Model is Wearing: S Size Model Height: 5.5 Care: DRY CLEAN KURTA- Fabric – Faux Blooming With Heavy 3/9mm Sequins & Thread Embroidered work Kurta Length – 48 ” Front Neck – 7 “ Back Neck – 10“ Sleeves – 19 “(Front slit ) PANT-Sarara Fabric – Faux Blooming Febric with Inner Length – 38”T Dupatta :",
-   "descriptionHtml": "<p>Adeena Waite Faux Blooming Anarkali Style Sarara Suit Set <br> </p>\n<p><b><i>Model is Wearing:</i></b> S Size</p>\n<p><b><i>Model Height: </i></b>5.5</p>\n<p><b><i>Care:</i></b> <em>DRY CLEAN</em></p>\n\n<p><b><i>KURTA-</i></b></p>\n<ul>\n<li>\n<ul>\n<li>Fabric – Faux Blooming With Heavy 3/9mm Sequins &amp; Thread Embroidered work</li>\n<li>Kurta Length – 48 ”</li>\n<li>Front Neck – 7 “</li>\n<li>Back Neck – 10“</li>\n<li>Sleeves – 19 “(Front slit )</li>\n</ul>\n</li>\n</ul>\n<p><b><i>PANT-Sarara </i></b></p>\n<ul>\n<li>Fabric – Faux Blooming Febric  with Inner</li>\n<li>Length – 38”T</li>\n</ul>\n<p><b><i>Dupatta :<br></i></b> <br>Fabric – Faux Blooming Febric</p>\n<p>Length – Faux Blooming Febric  with Inner</p>\n\n<p>  \" 5 to 10% color variation \"</p>",
-   "source": "liksha",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2025-01-28T02:56:02-05:00"
   },
   {
    "handle": "devine-maslin-anarkali-style-plazzo-suit-set-copy-1",
@@ -23719,96 +22798,6 @@
    "publishedAt": "2025-01-23T04:21:39-05:00",
    "colourGroup": "premium-quality-bandhej-anarkali-suit-set",
    "colourName": "Pink"
-  },
-  {
-   "handle": "premium-quality-anarkali-suit-set-copy-3",
-   "sourceHandle": "premium-quality-anarkali-suit-set-copy-3",
-   "title": "Premium Quality Bandhej Red Anarkali Suit Set",
-   "price": 69900,
-   "compareAtPrice": 233000,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_8055.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_8062.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_8067.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_8055_a2bfe7ef-01f3-42c3-a0ba-d145da97d3f5.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_8056.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_8061.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_8063.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_8066.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_8077.jpg"
-   ],
-   "collections": [
-    "trends-signature",
-    "new-arrivals",
-    "party-wear-gown",
-    "printed-suit-set"
-   ],
-   "category": "anarkali",
-   "productType": "Anarkali suit",
-   "fabric": "Cotton",
-   "color": "Red",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "S [36]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "M [38]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "L [40]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    }
-   },
-   "details": [
-    "Premium Quality Bandhej Anarkali Suit Set",
-    "ANARKALI FABRIC PURE SOFT LIGHTWEIGHT CHIFFON FABRIC INNER MICRO COTTON",
-    "FLAIR 8 mtr fully flair approx",
-    "LENGTH 54inch apporx",
-    "FULL LENGTH GOWN,PADDED,FULL SLEEVES",
-    "GOWN INNER MICRO COTTON FULL INNER",
-    "DUPPTA 2.3 MTR PURE SOFT LIGHTWEIGHT CHIFFON BANDHEJ PRINT BOADER FANCY LACE WORK",
-    "SIZE XS(34) S(36) M(38) L(40) XL(42) AND XXL(44)",
-    "FULLY STTICHED READY TO WEAR",
-    "WEIGHT 700 gram"
-   ],
-   "description": "Premium Quality Bandhej Anarkali Suit Set ANARKALI FABRIC PURE SOFT LIGHTWEIGHT CHIFFON FABRIC INNER MICRO COTTON FLAIR 8 mtr fully flair approx LENGTH 54inch apporx FULL LENGTH GOWN,PADDED,FULL SLEEVES GOWN INNER MICRO COTTON FULL INNER DUPPTA 2.3 MTR PURE SOFT LIGHTWEIGHT CHIFFON BANDHEJ PRINT BOADER FANCY LACE WORK SIZE XS(34) S(36) M(38) L(40) XL(42) AND XXL(44) FULLY STTICHED READY TO WEAR WE",
-   "descriptionHtml": "Premium Quality Bandhej Anarkali Suit Set<br>\n\n<p><span><strong>ANARKALI FABRIC</strong> PURE SOFT LIGHTWEIGHT CHIFFON FABRIC INNER MICRO COTTON</span></p>\n<p><span> </span></p>\n<p><span><strong>FLAIR</strong> 8 mtr fully flair approx </span></p>\n<p><span> </span></p>\n<p><span><strong>LENGTH</strong> 54inch apporx </span></p>\n<p><span> </span></p>\n<p><span><strong>FULL LENGTH GOWN,PADDED,FULL SLEEVES</strong> </span></p>\n<p><span> </span></p>\n<p><span><strong>GOWN INNER</strong> MICRO COTTON FULL INNER </span></p>\n<p><span> </span></p>\n<p><span><strong>DUPPTA</strong> 2.3 MTR PURE SOFT LIGHTWEIGHT CHIFFON<span>  </span>BANDHEJ PRINT BOADER FANCY LACE WORK </span></p>\n<p><span> </span></p>\n<p><span><strong>SIZE</strong> XS(34) S(36) M(38) L(40) XL(42) AND XXL(44) </span></p>\n<p><span>FULLY STTICHED READY TO WEAR</span></p>\n<p><span> </span></p>\n<p><span><strong>WEIGHT</strong> 700 gram</span></p>\n<br>",
-   "source": "liksha",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2025-01-23T04:13:53-05:00",
-   "colourGroup": "premium-quality-bandhej-anarkali-suit-set",
-   "colourName": "Red"
   },
   {
    "handle": "premium-quality-anarkali-suit-set-copy-1",
@@ -24703,99 +23692,6 @@
    "publishedAt": "2024-11-12T10:15:16-05:00"
   },
   {
-   "handle": "nravya-purple-embroidered-suit-set",
-   "sourceHandle": "nravya-purple-embroidered-suit-set",
-   "title": "Navya purple embroidered suit set 6039",
-   "price": 69900,
-   "compareAtPrice": 233000,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_0138.webp",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_0140.webp",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_0139.webp",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_0137.webp",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_0136.webp"
-   ],
-   "collections": [
-    "new-arrivals",
-    "party-wear-gown",
-    "sale"
-   ],
-   "category": "anarkali",
-   "productType": "Anarkali suit",
-   "fabric": "Georgette",
-   "color": "Purple",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]",
-    "3XL [46]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "S [36]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "M [38]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "L [40]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "3XL [46]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    }
-   },
-   "details": [
-    "Nravya purple embroidered suit set",
-    "Model is Wearing: S Size",
-    "Model Height: 5.5",
-    "Care: DRY CLEAN",
-    "Shipping Info: Same Day Fast Dispatch",
-    "Kurta :",
-    "Fabric – Georgette fabric with allover embroidery",
-    "kali cut",
-    "Kurta Length – 47-48”",
-    "Front Neck – 7",
-    "Back Neck – 8 inches",
-    "Sleeves 22 full sleeves",
-    "Pants :",
-    "Fabric – Cotton"
-   ],
-   "description": "Nravya purple embroidered suit set Model is Wearing: S Size Model Height: 5.5 Care: DRY CLEAN Shipping Info: Same Day Fast Dispatch Kurta : Fabric – Georgette fabric with allover embroidery kali cut Kurta Length – 47-48” Front Neck – 7 Back Neck – 8 inches Sleeves 22 full sleeves Pants : Fabric – Cotton",
-   "descriptionHtml": "<p>Nravya purple embroidered suit set<br></p>\n<p><b><i>Model is Wearing:</i></b><span> S Size</span><br></p>\n<p><b><i>Model Height: </i></b>5.5</p>\n<p><b><i>Care:</i></b> <em>DRY CLEAN</em></p>\n<p><b><i>Shipping Info:</i></b><span> Same Day Fast Dispatch</span></p>\n<p><b><i>Kurta :</i></b></p>\n<ul>\n<li>Fabric – Georgette fabric with allover embroidery</li>\n<li>kali cut</li>\n<li>Kurta Length – 47-48”</li>\n<li>Front Neck – 7</li>\n<li>Back Neck – 8 inches</li>\n<li>Sleeves  22 full sleeves</li>\n</ul>\n<p><b><i>Pants :</i></b></p>\n<ul>\n<li>Fabric – Cotton</li>\n<li>Length – 38-40”</li>\n</ul>\n<p><b><i>Dupatta :</i></b></p>\n<ul>\n<li>Fabric – Georgette</li>\n<li>Length – 2.5 mtr<br>\n<ul>\n<li>KURTA</li>\n<li><br></li>\n</ul>\n<div>\n<div>\n<table>\n<tbody>\n<tr>\n<td>STANDARD SIZE</td>\n<td>BUST</td>\n<td>WAIST</td>\n<td>HIPS</td>\n</tr>\n<tr>\n<td></td>\n<td>INCHES</td>\n<td>INCHES</td>\n<td>INCHES</td>\n</tr>\n<tr>\n<td>XS</td>\n<td>34</td>\n<td>32</td>\n<td>36</td>\n</tr>\n<tr>\n<td>S</td>\n<td>36</td>\n<td>34</td>\n<td>38</td>\n</tr>\n<tr>\n<td>M</td>\n<td>38</td>\n<td>36</td>\n<td>40</td>\n</tr>\n<tr>\n<td>L</td>\n<td>40</td>\n<td>38</td>\n<td>42</td>\n</tr>\n<tr>\n<td>XL</td>\n<td>42</td>\n<td>40</td>\n<td>44</td>\n</tr>\n<tr>\n<td>XXL</td>\n<td>44</td>\n<td>42</td>\n<td>46</td>\n</tr>\n<tr>\n<td>3XL</td>\n<td>46</td>\n<td>44</td>\n<td>48</td>\n</tr>\n</tbody>\n</table>\n</div>\n</div>\n<ul>\n<li><br></li>\n<li>PANT</li>\n</ul>\n<div>\n<div>\n<table>\n<tbody>\n<tr>\n<td>Standard Size</td>\n<td>Length</td>\n<td>Waist</td>\n<td>Hip</td>\n<td>Thighs</td>\n</tr>\n<tr>\n<td>XS</td>\n<td>38</td>\n<td>26</td>\n<td>36</td>\n<td>22</td>\n</tr>\n<tr>\n<td>S</td>\n<td>38</td>\n<td>28</td>\n<td>38</td>\n<td>23</td>\n</tr>\n<tr>\n<td>M</td>\n<td>38</td>\n<td>30</td>\n<td>38</td>\n<td>24</td>\n</tr>\n<tr>\n<td>L</td>\n<td>38</td>\n<td>32</td>\n<td>40</td>\n<td>25</td>\n</tr>\n<tr>\n<td>XL</td>\n<td>38</td>\n<td>34</td>\n<td>42</td>\n<td>26</td>\n</tr>\n<tr>\n<td>XXL</td>\n<td>38</td>\n<td>36</td>\n<td>44</td>\n<td>27</td>\n</tr>\n<tr>\n<td>3XL</td>\n<td>38</td>\n<td>38</td>\n<td>46</td>\n<td>28</td>\n</tr>\n<tr>\n<td>4XL</td>\n<td>38</td>\n<td>40</td>\n<td>48</td>\n<td>29</td>\n</tr>\n</tbody>\n</table>\n</div>\n</div>\n<b><i><em><strong> 5-6 % Color difference can be there due to screen resolution</strong></em></i></b>\n</li>\n</ul>",
-   "source": "liksha",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2024-11-12T10:05:09-05:00"
-  },
-  {
    "handle": "nayras-premium-fully-stitched-suit-set",
    "sourceHandle": "nayras-premium-fully-stitched-suit-set",
    "title": "Nayra Premium Quality Anarkali Suit Set",
@@ -24952,7 +23848,7 @@
   {
    "handle": "rani-color-premium-quality-suit-set-dt-273-copy",
    "sourceHandle": "rani-color-premium-quality-suit-set-dt-273-copy",
-   "title": "Wine Color Premium Quality Suit Set Dt -273",
+   "title": "Wine Color Premium Quality Suit Set",
    "price": 69900,
    "compareAtPrice": 233000,
    "images": [
@@ -25005,7 +23901,7 @@
   {
    "handle": "maroon-color-premium-quality-suit-set-dt-273-copy",
    "sourceHandle": "maroon-color-premium-quality-suit-set-dt-273-copy",
-   "title": "Purple Color Premium Quality Suit Set Dt -273",
+   "title": "Purple Color Premium Quality Suit Set",
    "price": 59900,
    "compareAtPrice": 199667,
    "images": [
@@ -25058,7 +23954,7 @@
   {
    "handle": "maroon-color-premium-quality-suit-set-dt-273",
    "sourceHandle": "maroon-color-premium-quality-suit-set-dt-273",
-   "title": "Maroon Color Premium Quality Suit Set Dt -273",
+   "title": "Maroon Color Premium Quality Suit Set",
    "price": 49900,
    "compareAtPrice": 124750,
    "images": [
@@ -26178,7 +25074,7 @@
   {
    "handle": "siyas-mustured-suit-set",
    "sourceHandle": "siyas-mustured-suit-set",
-   "title": "Siya's Mustured Suit Set 146",
+   "title": "Siya's Mustured Suit Set",
    "price": 54900,
    "compareAtPrice": 183000,
    "images": [
@@ -26533,7 +25429,7 @@
   {
    "handle": "radhikas-anarkali-suit-set",
    "sourceHandle": "radhikas-anarkali-suit-set",
-   "title": "Radhika's Anarkali Suit Set 6017",
+   "title": "Radhika's Anarkali Suit Set",
    "price": 54900,
    "compareAtPrice": 183000,
    "images": [
@@ -26758,103 +25654,6 @@
    "publishedAt": "2024-07-23T05:12:59-04:00"
   },
   {
-   "handle": "sunheri-fux-georgette-suit-set-6013",
-   "sourceHandle": "sunheri-fux-georgette-suit-set-6013",
-   "title": "Sunheri Fux Georgette Suit Set - 6013",
-   "price": 59900,
-   "compareAtPrice": 199667,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_9895.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_9891.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_9889.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_9899.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_9898.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_9890.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_9897.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_9892.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/IMG_9893.jpg"
-   ],
-   "collections": [
-    "trends-signature",
-    "new-arrivals",
-    "party-wear-gown"
-   ],
-   "category": "lehnga",
-   "productType": "suit set",
-   "fabric": "Banarasi Silk",
-   "color": "White",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]",
-    "3XL [46]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "S [36]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "M [38]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "L [40]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "3XL [46]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    }
-   },
-   "details": [
-    "SUNHERI FUX GEORGETTE SUIT SET - 6013",
-    "Model is Wearing: S Size",
-    "Model Height: 5.5",
-    "Care: DRY CLEAN",
-    "Shipping Info: Same Day Dispatch Time",
-    "Kurta :",
-    "Fabric – Georgette fabric with allover embroidery",
-    "kali cut",
-    "Kurta Length – 50-52”",
-    "Front Neck – 7",
-    "Back Neck – 8 inches",
-    "Sleeves 22 full sleeves",
-    "Pants :",
-    "Fabric – Cotton"
-   ],
-   "description": "SUNHERI FUX GEORGETTE SUIT SET - 6013 Model is Wearing: S Size Model Height: 5.5 Care: DRY CLEAN Shipping Info: Same Day Dispatch Time Kurta : Fabric – Georgette fabric with allover embroidery kali cut Kurta Length – 50-52” Front Neck – 7 Back Neck – 8 inches Sleeves 22 full sleeves Pants : Fabric – Cotton",
-   "descriptionHtml": "<p>SUNHERI FUX GEORGETTE SUIT SET - 6013<br></p>\n<p><b><i>Model is Wearing:</i></b> S Size</p>\n<p><b><i>Model Height: </i></b>5.5</p>\n<p><b><i>Care:</i></b> <em>DRY CLEAN</em></p>\n<p><b><i>Shipping Info:</i></b><span> Same Day Dispatch Time</span></p>\n<p><b><i>Kurta :</i></b></p>\n<ul>\n<li>Fabric – Georgette fabric with allover embroidery</li>\n<li>kali cut</li>\n<li>Kurta Length – 50-52”</li>\n<li>Front Neck – 7</li>\n<li>Back Neck – 8 inches</li>\n<li>Sleeves  22 full sleeves</li>\n</ul>\n<p><b><i>Pants :</i></b></p>\n<ul>\n<li>Fabric – Cotton</li>\n<li>Length – 38-40”</li>\n</ul>\n<p><b><i>Dupatta :</i></b></p>\n<ul>\n<li>Fabric – Georgette</li>\n<li>Length – 2.5 mtr<br>\n<ul>\n<li>KURTA</li>\n<li><br></li>\n</ul>\n<div>\n<div>\n<table>\n<tbody>\n<tr>\n<td>STANDARD SIZE</td>\n<td>BUST</td>\n<td>WAIST</td>\n<td>HIPS</td>\n</tr>\n<tr>\n<td></td>\n<td>INCHES</td>\n<td>INCHES</td>\n<td>INCHES</td>\n</tr>\n<tr>\n<td>XS</td>\n<td>34</td>\n<td>32</td>\n<td>36</td>\n</tr>\n<tr>\n<td>S</td>\n<td>36</td>\n<td>34</td>\n<td>38</td>\n</tr>\n<tr>\n<td>M</td>\n<td>38</td>\n<td>36</td>\n<td>40</td>\n</tr>\n<tr>\n<td>L</td>\n<td>40</td>\n<td>38</td>\n<td>42</td>\n</tr>\n<tr>\n<td>XL</td>\n<td>42</td>\n<td>40</td>\n<td>44</td>\n</tr>\n<tr>\n<td>XXL</td>\n<td>44</td>\n<td>42</td>\n<td>46</td>\n</tr>\n<tr>\n<td>3XL</td>\n<td>46</td>\n<td>44</td>\n<td>48</td>\n</tr>\n</tbody>\n</table>\n</div>\n</div>\n<ul>\n<li>\n</li>\n</ul>\n</li>\n</ul>",
-   "source": "liksha",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2024-07-15T04:36:28-04:00"
-  },
-  {
    "handle": "dharanis-wine-coloured-anarkali-suit-set-13",
    "sourceHandle": "dharanis-wine-coloured-anarkali-suit-set-13",
    "title": "Dharani's Wine Coloured Anarkali Suit",
@@ -27040,74 +25839,6 @@
    "inStock": true,
    "featured": false,
    "publishedAt": "2024-06-25T06:12:57-04:00"
-  },
-  {
-   "handle": "manvis-white-coloured-anarkali-suit-set-11",
-   "sourceHandle": "manvis-white-coloured-anarkali-suit-set-11",
-   "title": "Manvi's White Coloured Anarkali Suit Set",
-   "price": 54900,
-   "compareAtPrice": 183000,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/WhatsAppImage2024-06-25at11.38.17AM.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/WhatsAppImage2024-06-25at11.38.19AM_1.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/WhatsAppImage2024-06-25at11.38.19AM.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/WhatsAppImage2024-06-25at11.38.20AM.jpg"
-   ],
-   "collections": [
-    "trends-signature",
-    "new-arrivals",
-    "party-wear-gown"
-   ],
-   "category": "lehnga",
-   "productType": "suit set",
-   "fabric": "Banarasi Silk",
-   "color": "White",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "S [36]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "M [38]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    }
-   },
-   "details": [
-    "MANVI'S WHITE COLOURED ANARKALI SUIT SET - 11",
-    "Model is Wearing: S Size",
-    "Model Height: 5.5",
-    "Care: DRY CLEAN",
-    "Shipping Info: Same Day Dispatch Time",
-    "Kurta :",
-    "Fabric – Georgette fabric with allover mualti embroidery",
-    "Kurta Length – 50-52",
-    "Front Neck – 7-8 inches",
-    "Back Neck – 9-10 inches",
-    "Sleeves 21 full sleeves",
-    "Pants :",
-    "Fabric – Micro Cotton",
-    "Length – 38-40”"
-   ],
-   "description": "MANVI'S WHITE COLOURED ANARKALI SUIT SET - 11 Model is Wearing: S Size Model Height: 5.5 Care: DRY CLEAN Shipping Info: Same Day Dispatch Time Kurta : Fabric – Georgette fabric with allover mualti embroidery Kurta Length – 50-52 Front Neck – 7-8 inches Back Neck – 9-10 inches Sleeves 21 full sleeves Pants : Fabric – Micro Cotton Length – 38-40”",
-   "descriptionHtml": "<p><b><i>MANVI'S WHITE COLOURED ANARKALI SUIT SET - 11<br>Model is Wearing:</i></b> S Size</p>\n<p><b><i>Model Height: </i></b>5.5</p>\n<p><b><i>Care:</i></b> <em>DRY CLEAN</em></p>\n<p><b><i>Shipping Info:</i></b><span> Same Day Dispatch Time</span></p>\n<p><b><i>Kurta :</i></b></p>\n<ul>\n<li>Fabric – Georgette fabric with allover mualti embroidery<br>\n</li>\n<li>Kurta Length – 50-52</li>\n<li>Front Neck – 7-8 inches</li>\n<li>Back Neck –  9-10 inches</li>\n<li>Sleeves  21 full sleeves</li>\n</ul>\n<p><b><i>Pants :</i></b></p>\n<ul>\n<li>Fabric –  Micro Cotton</li>\n<li>Length – 38-40”</li>\n</ul>\n<p><b><i>Dupatta :</i></b></p>\n<ul>\n<li>Fabric – Georgette With Embroidery Work </li>\n<li>Length – 2.3 mtr<br>\n<ul>\n<li>KURTA SIZE CHART</li>\n<li><br></li>\n</ul>\n<div>\n<div>\n<table>\n<tbody>\n<tr>\n<td>STANDARD SIZE</td>\n<td>BUST</td>\n<td>WAIST</td>\n<td>HIPS</td>\n</tr>\n<tr>\n<td></td>\n<td>INCHES</td>\n<td>INCHES</td>\n<td>INCHES</td>\n</tr>\n<tr>\n<td>XS</td>\n<td>34</td>\n<td>32</td>\n<td>36</td>\n</tr>\n<tr>\n<td>S</td>\n<td>36</td>\n<td>34</td>\n<td>38</td>\n</tr>\n<tr>\n<td>M</td>\n<td>38</td>\n<td>36</td>\n<td>40</td>\n</tr>\n<tr>\n<td>L</td>\n<td>40</td>\n<td>38</td>\n<td>42</td>\n</tr>\n<tr>\n<td>XL</td>\n<td>42</td>\n<td>40</td>\n<td>44</td>\n</tr>\n<tr>\n<td>XXL</td>\n<td>44</td>\n<td>42</td>\n<td>46</td>\n</tr>\n<tr>\n<td>3XL</td>\n<td>46</td>\n<td>44</td>\n<td>48</td>\n</tr>\n</tbody>\n</table>\n</div>\n</div>\n<ul>\n<li><br></li>\n<li>PANT SIZE CHART</li>\n</ul>\n<div>\n<div>\n<table>\n<tbody>\n<tr>\n<td>Standard Size</td>\n<td>Length</td>\n<td>Waist</td>\n<td>Hip</td>\n<td>Thighs</td>\n</tr>\n<tr>\n<td>XS</td>\n<td>38</td>\n<td>26</td>\n<td>36</td>\n<td>22</td>\n</tr>\n<tr>\n<td>S</td>\n<td>38</td>\n<td>28</td>\n<td>38</td>\n<td>23</td>\n</tr>\n<tr>\n<td>M</td>\n<td>38</td>\n<td>30</td>\n<td>38</td>\n<td>24</td>\n</tr>\n<tr>\n<td>L</td>\n<td>38</td>\n<td>32</td>\n<td>40</td>\n<td>25</td>\n</tr>\n<tr>\n<td>XL</td>\n<td>38</td>\n<td>34</td>\n<td>42</td>\n<td>26</td>\n</tr>\n<tr>\n<td>XXL</td>\n<td>38</td>\n<td>36</td>\n<td>44</td>\n<td>27</td>\n</tr>\n<tr>\n<td>3XL</td>\n<td>38</td>\n<td>38</td>\n<td>46</td>\n<td>28</td>\n</tr>\n<tr>\n<td>4XL</td>\n<td>38</td>\n<td>40</td>\n<td>48</td>\n<td>29</td>\n</tr>\n</tbody>\n</table>\n</div>\n</div>\n</li>\n</ul>\n<ul>\n<li>\n<div></div>\n</li>\n</ul>",
-   "source": "liksha",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2024-06-25T06:02:28-04:00"
   },
   {
    "handle": "chandanis-sky-blue-coloured-anarkali-suit-set-10",
@@ -28075,7 +26806,7 @@
   {
    "handle": "pink-colour-readymade-alia-cut-gown-with-dupatta-set-kka-1070",
    "sourceHandle": "pink-colour-readymade-alia-cut-gown-with-dupatta-set-kka-1070",
-   "title": "Pink Colour Readymade Alia Cut Gown with Dupatta Set-kka-1070",
+   "title": "Pink Colour Readymade Alia Cut Gown with Dupatta Set",
    "price": 54900,
    "compareAtPrice": 183000,
    "images": [
@@ -28170,7 +26901,7 @@
   {
    "handle": "waine-colour-readymade-alia-cut-gown-with-dupatta-set-kka-1071",
    "sourceHandle": "waine-colour-readymade-alia-cut-gown-with-dupatta-set-kka-1071",
-   "title": "Waine Colour Readymade Alia Cut Gown with Dupatta Set-kka-1070",
+   "title": "Waine Colour Readymade Alia Cut Gown with Dupatta Set",
    "price": 59900,
    "compareAtPrice": 199667,
    "images": [
@@ -28426,100 +27157,6 @@
    "inStock": true,
    "featured": false,
    "publishedAt": "2024-03-26T05:21:24-04:00"
-  },
-  {
-   "handle": "trendy-off-white-suit-set-with-embroidery-and-sequnce-work",
-   "sourceHandle": "trendy-off-white-suit-set-with-embroidery-and-sequnce-work",
-   "title": "Shivali Trendy White Anarkali Suit Set",
-   "price": 64900,
-   "compareAtPrice": 216333,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/ckpMR0OU.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/fotor-ai-20240324212623.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/fotor-ai-20240324212336.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/fotor-ai-20240324212457.jpg"
-   ],
-   "collections": [
-    "trends-signature",
-    "new-arrivals",
-    "party-wear-gown",
-    "sale",
-    "weddin-collection"
-   ],
-   "category": "anarkali",
-   "productType": "Anarkali suit",
-   "fabric": "Banarasi Silk",
-   "color": "White",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]",
-    "3XL [46]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "S [36]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "M [38]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "L [40]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "3XL [46]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    }
-   },
-   "details": [
-    "Shivali Trendy Embroidery and Sequnce Work Anarkali Suit Set",
-    "Model Height: 5.5",
-    "Care: DRY CLEAN",
-    "Shipping Info: Next Day Dispatch",
-    "Kurta :",
-    "Fabric – HEAVY FUAX GEORGETTE",
-    "Kurta Length – 50-52”",
-    "Sleeves 22 full sleeves",
-    "Dupatta :",
-    "Fabric – HEAVY FUAX GEORGETTE",
-    "Length – 2.5 mtr",
-    "KURTA SIZE CHART",
-    "STANDARD SIZE",
-    "BUST"
-   ],
-   "description": "Shivali Trendy Embroidery and Sequnce Work Anarkali Suit Set Model Height: 5.5 Care: DRY CLEAN Shipping Info: Next Day Dispatch Kurta : Fabric – HEAVY FUAX GEORGETTE Kurta Length – 50-52” Sleeves 22 full sleeves Dupatta : Fabric – HEAVY FUAX GEORGETTE Length – 2.5 mtr KURTA SIZE CHART STANDARD SIZE BUST",
-   "descriptionHtml": "<p>Shivali Trendy Embroidery and Sequnce Work Anarkali Suit Set<br></span></p>\n<p><b><i>Model Height:</i></b>5.5</p>\n<p><b><i>Care:</i></b> <em>DRY CLEAN</em></p>\n<p><b><i>Shipping Info:</i></b><span> Next Day Dispatch </span></p>\n<p><b><i>Kurta :</i></b></p>\n<ul>\n<li>Fabric –<span>HEAVY FUAX GEORGETTE</span><br>\n</li>\n<li>Kurta Length – 50-52”</li>\n<li>Sleeves  22 full sleeves</li>\n</ul>\n<p><b><i>Dupatta :</i></b></p>\n<ul>\n<li>Fabric –<span>HEAVY FUAX GEORGETTE</span>\n</li>\n<li>Length – 2.5 mtr</li>\n</ul>\n<h3><span>KURTA SIZE CHART</span></h3>\n<table>\n<tbody>\n<tr>\n<td>STANDARD SIZE</td>\n<td>BUST</td>\n<td>WAIST</td>\n<td>HIPS</td>\n</tr>\n<tr>\n<td></td>\n<td>INCHES</td>\n<td>INCHES</td>\n<td>INCHES</td>\n</tr>\n<tr>\n<td>XS</td>\n<td>34</td>\n<td>32</td>\n<td>36</td>\n</tr>\n<tr>\n<td>S</td>\n<td>36</td>\n<td>34</td>\n<td>38</td>\n</tr>\n<tr>\n<td>M</td>\n<td>38</td>\n<td>36</td>\n<td>40</td>\n</tr>\n<tr>\n<td>L</td>\n<td>40</td>\n<td>38</td>\n<td>42</td>\n</tr>\n<tr>\n<td>XL</td>\n<td>42</td>\n<td>40</td>\n<td>44</td>\n</tr>\n<tr>\n<td>XXL</td>\n<td>44</td>\n<td>42</td>\n<td>46</td>\n</tr>\n<tr>\n<td>3XL</td>\n<td>46</td>\n<td>44</td>\n<td>48</td>\n</tr>\n</tbody>\n</table>",
-   "source": "liksha",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2024-03-16T13:15:41-04:00"
   },
   {
    "handle": "new-party-wear-suit-set-in-sinon-fabric-1",
@@ -29592,7 +28229,7 @@
   {
    "handle": "night-star-black-embroidered-georgette-suit-set-td-117",
    "sourceHandle": "night-star-black-embroidered-georgette-suit-set-td-117",
-   "title": "Night Star Black Suit Set -120",
+   "title": "Night Star Black Suit Set",
    "price": 49900,
    "compareAtPrice": 124750,
    "images": [
@@ -30141,7 +28778,7 @@
   {
    "handle": "copy-of-aniska-white-embroidered-georgette-anarkali-fully-stitched-suit-set",
    "sourceHandle": "copy-of-aniska-white-embroidered-georgette-anarkali-fully-stitched-suit-set",
-   "title": "Aniska Lakhnavi Embroidered Work Anarkali Suit Set",
+   "title": "Aniska White Embroidered Georgette Anarkali Set",
    "price": 54900,
    "compareAtPrice": 183000,
    "images": [
@@ -30150,10 +28787,11 @@
     "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/Screenshot_2023-12-16-14-10-45-537_com.mxtech.videoplayer.ad.jpg"
    ],
    "collections": [
-    "trends-signature",
     "new-arrivals",
     "party-wear-gown",
     "sale",
+    "trending",
+    "trends-signature",
     "weddin-collection"
    ],
    "category": "lehnga",
@@ -30222,7 +28860,7 @@
    "rating": 4.8,
    "reviewCount": 71,
    "inStock": true,
-   "featured": false,
+   "featured": true,
    "publishedAt": "2023-12-16T08:49:17-05:00"
   },
   {
@@ -30658,7 +29296,7 @@
   {
    "handle": "solid-black-long-flair-less-boder-set-with-dupatta-td-114",
    "sourceHandle": "solid-black-long-flair-less-boder-set-with-dupatta-td-114",
-   "title": "Maxi Long Flair with Less Border Set with Dupatta Set. Ay-114",
+   "title": "Maxi Long Flair with Less Border Set with Dupatta Set",
    "price": 59900,
    "compareAtPrice": 199667,
    "images": [
@@ -31002,7 +29640,7 @@
   {
    "handle": "whispering-breeze-georgette-embroidered-suit-set-td-107",
    "sourceHandle": "whispering-breeze-georgette-embroidered-suit-set-td-107",
-   "title": "Whispering Premium Suit Set - 107",
+   "title": "Whispering Premium Suit Set",
    "price": 49900,
    "compareAtPrice": 124750,
    "images": [
@@ -31186,99 +29824,6 @@
    "publishedAt": "2023-04-28T12:38:04-04:00"
   },
   {
-   "handle": "manyata-maroon-red-embroidered-georgette-suit-set",
-   "sourceHandle": "manyata-maroon-red-embroidered-georgette-suit-set",
-   "title": "Manyata Premium Quality Mehrooni Red Suit Set",
-   "price": 54900,
-   "compareAtPrice": 183000,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/products/IMG_3454.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/products/IMG_3452_1.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/products/IMG_3456.jpg",
-    "https://cdn.shopify.com/s/files/1/0738/8345/1696/products/IMG_3452.jpg"
-   ],
-   "collections": [
-    "trends-signature",
-    "new-arrivals",
-    "party-wear-gown",
-    "sale"
-   ],
-   "category": "lehnga",
-   "productType": "Clothing",
-   "fabric": "Banarasi Silk",
-   "color": "White",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]",
-    "3XL [46]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "S [36]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "M [38]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "L [40]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "3XL [46]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    }
-   },
-   "details": [
-    "Manyata Maroon Red Embroidered Georgette Suit Set – Elegant, Flowing & Festive",
-    "Grace meets glamour in the Manyata Maroon Red Suit Set , designed in richly embroidered georgette with a classic kali-cut silhouette. Whether it’s a festive occasion or an elegant evening, this fully stitched set promises to make you stand out effortlessly.",
-    "Product Details",
-    "Kurta",
-    "Fabric: Premium Georgette with allover embroidery",
-    "Cut: Kali-cut design for a flattering flare",
-    "Length: 47–48 inches",
-    "Neckline: Front – 7” | Back – 8”",
-    "Sleeves: Full-length 22”",
-    "Stitching: Fully stitched & ready to wear",
-    "Pant",
-    "Fabric: Comfortable Cotton",
-    "Length: 38–40 inches",
-    "Style: Straight fit, stitched and easy to wear"
-   ],
-   "description": "Manyata Maroon Red Embroidered Georgette Suit Set – Elegant, Flowing & Festive Grace meets glamour in the Manyata Maroon Red Suit Set , designed in richly embroidered georgette with a classic kali-cut silhouette. Whether it’s a festive occasion or an elegant evening, this fully stitched set promises to make you stand out effortlessly. Product Details Kurta Fabric: Premium Georgette with allover em",
-   "descriptionHtml": "<ul>\n<li>\n<h3> <strong>Manyata Maroon Red Embroidered Georgette Suit Set – Elegant, Flowing &amp; Festive</strong>\n</h3>\n<p>Grace meets glamour in the <strong>Manyata Maroon Red Suit Set</strong>, designed in richly embroidered georgette with a classic kali-cut silhouette. Whether it’s a festive occasion or an elegant evening, this fully stitched set promises to make you stand out effortlessly.</p>\n\n<h3> <strong>Product Details</strong>\n</h3>\n<p> <strong>Kurta</strong></p>\n<ul>\n<li>\n<p><strong>Fabric:</strong> Premium Georgette with allover embroidery</p>\n</li>\n<li>\n<p><strong>Cut:</strong> Kali-cut design for a flattering flare</p>\n</li>\n<li>\n<p><strong>Length:</strong> 47–48 inches</p>\n</li>\n<li>\n<p><strong>Neckline:</strong> Front – 7” | Back – 8”</p>\n</li>\n<li>\n<p><strong>Sleeves:</strong> Full-length 22”</p>\n</li>\n<li>\n<p><strong>Stitching:</strong> Fully stitched &amp; ready to wear</p>\n</li>\n</ul>\n<p> <strong>Pant</strong></p>\n<ul>\n<li>\n<p><strong>Fabric:</strong> Comfortable Cotton</p>\n</li>\n<li>\n<p><strong>Length:</strong> 38–40 inches</p>\n</li>\n<li>\n<p><strong>Style:</strong> Straight fit, stitched and easy to wear</p>\n</li>\n</ul>\n<p> <strong>Dupatta</strong></p>\n<ul>\n<li>\n<p><strong>Fabric:</strong> Soft Georgette</p>\n</li>\n<li>\n<p><strong>Length:</strong> 2.5 meters – perfect for graceful draping</p>\n</li>\n</ul>\n\n<h3> <strong>Additional Info</strong>\n</h3>\n<ul>\n<li>\n<p><strong>Model Wears:</strong> Size S</p>\n</li>\n<li>\n<p><strong>Model Height:</strong> 5'5\"</p>\n</li>\n<li>\n<p><strong>Care:</strong> Dry Clean Only</p>\n</li>\n<li>\n<p><strong>Shipping:</strong> Same Day Dispatch</p>\n</li>\n</ul>\n\n<h3> <strong>Perfect For:</strong>\n</h3>\n<p>Weddings • Evening Gatherings • Festive Events • Mehendi/Sangeet • Ethnic Parties</p>\n</li>\n</ul>",
-   "source": "liksha",
-   "rating": 4.8,
-   "reviewCount": 48,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2023-04-20T13:54:06-04:00"
-  },
-  {
    "handle": "western-style-sleeve-premium-readymade-kalamkari-designer-gown",
    "sourceHandle": "western-style-sleeve-premium-readymade-kalamkari-designer-gown",
    "title": "Western Style Sleeve Premium Readymade Kalamkari Designer Gown",
@@ -31348,7 +29893,7 @@
   {
    "handle": "black-masleen-silk-long-gown-ac-7003",
    "sourceHandle": "black-masleen-silk-long-gown-ac-7003",
-   "title": "Black Masleen Silk long Gown-AC-7003",
+   "title": "Black Masleen Silk long Gown",
    "price": 59900,
    "compareAtPrice": 199667,
    "images": [
@@ -31403,7 +29948,7 @@
   {
    "handle": "sanayas-black-embroidered-georgette-suit-set",
    "sourceHandle": "sanayas-black-embroidered-georgette-suit-set",
-   "title": "Sanaya's' Black or Red Suit Set - 101",
+   "title": "Sanaya's' Black or Red Suit Set",
    "price": 59900,
    "compareAtPrice": 199667,
    "images": [
@@ -31750,7 +30295,7 @@
   {
    "handle": "saniya-s-pink-gown",
    "sourceHandle": "saniya-s-pink-gown",
-   "title": "Pink Coloured Party Wear Gown 9122",
+   "title": "Pink Coloured Party Wear Gown",
    "price": 59900,
    "compareAtPrice": 199667,
    "images": [
@@ -32009,98 +30554,6 @@
    "publishedAt": "2026-10-07T14:21:02+05:30"
   },
   {
-   "handle": "classic-red-karva-chauth-special-anarkali-suit-set",
-   "sourceHandle": "classic-red-karva-chauth-special-anarkali-suit-set",
-   "title": "Classic Red Karva Chauth Special Anarkali Suit Set",
-   "price": 54900,
-   "compareAtPrice": 183000,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/Picsart_25-09-12_10-24-36-032.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/25c29a29-2b5f-48a4-9867-26e43e58c5ee.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/photo_6208470519267398989_y.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/photo_6208470519267398988_y.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/Picsart_25-09-12_10-26-43-418.webp"
-   ],
-   "collections": [
-    "best-seller",
-    "suit-set-gown"
-   ],
-   "category": "anarkali",
-   "productType": "Anarkali suit",
-   "fabric": "Cotton",
-   "color": "Red",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]",
-    "3XL [46]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "S [36]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "M [38]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "L [40]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "3XL [46]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    }
-   },
-   "details": [
-    "Classic Red Anarkali Suit Set",
-    "Kurta :",
-    "Fabric – Faux Blooming",
-    "Kurta Length – 50-52”",
-    "Front Neck – Fancy",
-    "Back Neck – Fancy",
-    "Sleeves - Full sleeves",
-    "Pant:",
-    "Fabric – Micro Cotton",
-    "Length – 38-42”",
-    "Dupatta :",
-    "Fabric – Faux Blooming",
-    "Length – 2.5 mtr",
-    "STANDARD SIZE"
-   ],
-   "description": "Classic Red Anarkali Suit Set Kurta : Fabric – Faux Blooming Kurta Length – 50-52” Front Neck – Fancy Back Neck – Fancy Sleeves - Full sleeves Pant: Fabric – Micro Cotton Length – 38-42” Dupatta : Fabric – Faux Blooming Length – 2.5 mtr STANDARD SIZE",
-   "descriptionHtml": "<div><strong>Classic Red Anarkali Suit Set</strong></div>\n<div>\n<br>\n</div>\n<div>\n<p><b>Kurta :</b></p>\n<ul>\n<li>Fabric –<span>Faux Blooming</span><br>\n</li>\n<li>Kurta Length – 50-52”</li>\n<li>Front Neck – Fancy</li>\n<li>Back Neck – Fancy</li>\n<li>Sleeves - Full sleeves</li>\n</ul>\n<p><b>Pant:</b></p>\n<ul>\n<li>Fabric – <span> Micro Cotton</span>\n</li>\n<li>Length – 38-42”</li>\n</ul>\n<p><b>Dupatta :</b></p>\n<ul>\n<li>Fabric –<span>Faux Blooming</span>\n</li>\n<li>Length – 2.5 mtr</li>\n</ul>\n<div>\n<table>\n<tbody>\n<tr>\n<td>STANDARD SIZE</td>\n<td>BUST</td>\n<td>WAIST</td>\n<td>HIPS</td>\n</tr>\n<tr>\n<td></td>\n<td>INCHES</td>\n<td>INCHES</td>\n<td>INCHES</td>\n</tr>\n<tr>\n<td>XS</td>\n<td>34</td>\n<td>32</td>\n<td>36</td>\n</tr>\n<tr>\n<td>S</td>\n<td>36</td>\n<td>34</td>\n<td>38</td>\n</tr>\n<tr>\n<td>M</td>\n<td>38</td>\n<td>36</td>\n<td>40</td>\n</tr>\n<tr>\n<td>L</td>\n<td>40</td>\n<td>38</td>\n<td>42</td>\n</tr>\n<tr>\n<td>XL</td>\n<td>42</td>\n<td>40</td>\n<td>44</td>\n</tr>\n<tr>\n<td>XXL</td>\n<td>44</td>\n<td>42</td>\n<td>46</td>\n</tr>\n<tr>\n<td>3XL</td>\n<td>46</td>\n<td>44</td>\n<td>48</td>\n</tr>\n</tbody>\n</table>\n</div>\n</div>",
-   "source": "extra",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2026-10-07T14:16:47+05:30"
-  },
-  {
    "handle": "designer-anarkali-suit-is-luxury-clothing-considered-to-be-high-quality-made-by-thread-sequins-embroidery-this-is-made-for-desirable-womens-who-deserve-it",
    "sourceHandle": "designer-anarkali-suit-is-luxury-clothing-considered-to-be-high-quality-made-by-thread-sequins-embroidery-this-is-made-for-desirable-womens-who-deserve-it",
    "title": "Designer Anarkali Suit is luxury clothing Considered to be high quality Made by Thread-Sequins Embroidery",
@@ -32272,83 +30725,6 @@
    "inStock": true,
    "featured": false,
    "publishedAt": "2026-09-29T17:40:53+05:30"
-  },
-  {
-   "handle": "presenting-new-crunchy-silk-fabric-with-embroidery-sequence-dori-and-jari-work-top-with-dupatta-set-bell-bottom-pent-ready-to-wear",
-   "sourceHandle": "presenting-new-crunchy-silk-fabric-with-embroidery-sequence-dori-and-jari-work-top-with-dupatta-set-bell-bottom-pent-ready-to-wear",
-   "title": "Presenting New Crunchy Silk Fabric with Embroidery Sequins,dori and Zari Work,top Dupatta Set,bell",
-   "price": 59900,
-   "compareAtPrice": 199667,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_2191.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_2186.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_2193.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_2187.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_2190.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_2189.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_1526.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_2185.jpg"
-   ],
-   "collections": [
-    "best-seller",
-    "new-arrivals",
-    "suit-set-gown"
-   ],
-   "category": "anarkali",
-   "productType": "Anarkali suit",
-   "fabric": "Silk",
-   "color": "As Shown",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "S [36]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "M [38]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "L [40]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    }
-   },
-   "details": [
-    "TOPKURTA FABRIC: CRUNCHY SILK FABRIC WITH EMBROIDERY SEQUENCE AND JARI WORK DUPATTA WORK:2.2 METER CRUNCHY SILK EMBROIDERY SEQUENCE AND JARI WORK BOADER FANCY LACE WORK BELL BOTTOM PENT:CRUNCHY SILK FABRIC WITH FULL INNER MICROSCRAPE COTTON FREE SIZE FULLY STTICHED SIZE : XS(34) S(36) M(38) L(40) XL(42) And XXL(44) Fully stitched ready to wear \\ WEIGHT : 700 GRAM APPORX RATE: 1100"
-   ],
-   "description": "TOPKURTA FABRIC: CRUNCHY SILK FABRIC WITH EMBROIDERY SEQUENCE AND JARI WORK DUPATTA WORK:2.2 METER CRUNCHY SILK EMBROIDERY SEQUENCE AND JARI WORK BOADER FANCY LACE WORK BELL BOTTOM PENT:CRUNCHY SILK FABRIC WITH FULL INNER MICROSCRAPE COTTON FREE SIZE FULLY STTICHED SIZE : XS(34) S(36) M(38) L(40) XL(42) And XXL(44) Fully stitched ready to wear \\ WEIGHT : 700 GRAM APPORX RATE: 1100",
-   "descriptionHtml": "<p><span>TOPKURTA FABRIC:</span><span> CRUNCHY SILK FABRIC WITH EMBROIDERY SEQUENCE AND JARI WORK DUPATTA WORK:2.2 METER CRUNCHY SILK EMBROIDERY SEQUENCE AND JARI WORK BOADER FANCY LACE WORK BELL BOTTOM PENT:CRUNCHY SILK FABRIC WITH FULL INNER MICROSCRAPE COTTON FREE SIZE FULLY STTICHED SIZE : XS(34) S(36) M(38) L(40) XL(42) And XXL(44) Fully stitched ready to wear \\</span><span>WEIGHT</span><span>: 700 GRAM APPORX RATE: 1100</span></p>",
-   "source": "extra",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2026-09-29T17:34:52+05:30"
   },
   {
    "handle": "nirus-noir-black-elegance-anarkali-suit-set-10511760359556",
@@ -32543,97 +30919,6 @@
    "publishedAt": "2026-09-19T14:02:23+05:30"
   },
   {
-   "handle": "neha-heavy-pure-vichitra-anarkali-suit-set",
-   "sourceHandle": "neha-heavy-pure-vichitra-anarkali-suit-set",
-   "title": "Neha Heavy Pure Vichitra Anarkali Suit Set",
-   "price": 69900,
-   "compareAtPrice": 233000,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/6053216840311750508_1.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/6053216840311750509_2.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/6053216840311750507.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/6053216840311750510.webp"
-   ],
-   "collections": [
-    "best-seller",
-    "suit-set-gown"
-   ],
-   "category": "anarkali",
-   "productType": "Anarkali suit",
-   "fabric": "Vichitra Silk",
-   "color": "As Shown",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]",
-    "3XL [46]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "S [36]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "M [38]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "L [40]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "3XL [46]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    }
-   },
-   "details": [
-    "Product Highlights",
-    "Kurta:",
-    "Fabric: Pure Vichitra Silk",
-    "Work: Heavy 5mm sequin embroidery",
-    "Sleeves: Full-length for a graceful look",
-    "Length: Approx. 50–52 inches",
-    "Pant:",
-    "Fabric: Heavy Butter Silk",
-    "Waist: Elasticated for comfort",
-    "Style: Straight-fit, stitched and ready to wear",
-    "Dupatta:",
-    "Fabric: Pure Vichitra Silk",
-    "Work: 5mm sequence embroidery",
-    "Length: 2.5 meters"
-   ],
-   "description": "Product Highlights Kurta: Fabric: Pure Vichitra Silk Work: Heavy 5mm sequin embroidery Sleeves: Full-length for a graceful look Length: Approx. 50–52 inches Pant: Fabric: Heavy Butter Silk Waist: Elasticated for comfort Style: Straight-fit, stitched and ready to wear Dupatta: Fabric: Pure Vichitra Silk Work: 5mm sequence embroidery Length: 2.5 meters",
-   "descriptionHtml": "<h3>\n<strong>Product Highlights</strong>\n</h3>\n<p> <strong>Kurta:</strong></p>\n<ul>\n<li>\n<p>Fabric: Pure Vichitra Silk</p>\n</li>\n<li>\n<p>Work: Heavy 5mm sequin embroidery</p>\n</li>\n<li>\n<p>Sleeves: Full-length for a graceful look</p>\n</li>\n<li>\n<p>Length: Approx. 50–52 inches</p>\n</li>\n</ul>\n<p> <strong>Pant:</strong></p>\n<ul>\n<li>\n<p>Fabric: Heavy Butter Silk</p>\n</li>\n<li>\n<p>Waist: Elasticated for comfort</p>\n</li>\n<li>\n<p>Style: Straight-fit, stitched and ready to wear</p>\n</li>\n</ul>\n<p> <strong>Dupatta:</strong></p>\n<ul>\n<li>\n<p>Fabric: Pure Vichitra Silk</p>\n</li>\n<li>\n<p>Work: 5mm sequence embroidery</p>\n</li>\n<li>\n<p>Length: 2.5 meters</p>\n</li>\n<li>\n<p>Finish: Full-stitched, ready to drape</p>\n</li>\n</ul>\n\n<h3> <strong>Model Info</strong>\n</h3>\n<p>Model height: 5'5\"<br>Fit: Standard stitched sizing</p>\n\n<h3> <strong>Care Instructions:</strong>\n</h3>\n<p>Dry Clean Only</p>\n\n<h3> <strong>Shipping Info:</strong>\n</h3>\n<p>Dispatched within<strong>1-2 working day</strong></p>\n\n<h3> <strong>Perfect For:</strong>\n</h3>\n<p>Festive occasions • Wedding guests • Sangeet • Evening functions • Traditional celebrations</p>\n\n<p><strong>Add a regal touch to your wardrobe with this premium Vichitra Silk set – where every detail speaks of elegance.</strong></p>",
-   "source": "extra",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2026-09-10T12:50:39+05:30"
-  },
-  {
    "handle": "premium-anarkali-suit-set-3-piece",
    "sourceHandle": "premium-anarkali-suit-set-3-piece",
    "title": "Premium Anarkali Suit Set | 3 Piece",
@@ -32728,7 +31013,7 @@
   {
    "handle": "trending-anarkali-suit-set-3-pis",
    "sourceHandle": "trending-anarkali-suit-set-3-pis",
-   "title": "Trending*anarkali*suit*set* *[3 Pis]*",
+   "title": "Trending anarkali suit set (3 Piece)",
    "price": 59900,
    "compareAtPrice": 199667,
    "images": [
@@ -32900,7 +31185,7 @@
   {
    "handle": "premium-readymade-anarkali-suit-set-3-pis",
    "sourceHandle": "premium-readymade-anarkali-suit-set-3-pis",
-   "title": "*premium*readymade*anarkali*suit*set* *[3 Pis]*",
+   "title": "Premium readymade anarkali suit set (3 Piece)",
    "price": 64900,
    "compareAtPrice": 216333,
    "images": [
@@ -33078,95 +31363,6 @@
    "inStock": true,
    "featured": false,
    "publishedAt": "2026-08-13T17:51:27+05:30"
-  },
-  {
-   "handle": "presenting-new-premium-quality-pure-romansilk-chanderi-fabric-fully-flare-anarkali-with-dupapta-set-pent-ready-to-wear",
-   "sourceHandle": "presenting-new-premium-quality-pure-romansilk-chanderi-fabric-fully-flare-anarkali-with-dupapta-set-pent-ready-to-wear",
-   "title": "*presenting New Premium Quality Pure Romansilk Chanderi Fabric Fully Flare Anarkali,with Dupapta",
-   "price": 59900,
-   "compareAtPrice": 199667,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_8974.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_8980.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_8981.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_8979.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_8982.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_8975.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_8978.jpg"
-   ],
-   "collections": [
-    "best-seller",
-    "new-arrivals",
-    "suit-set-gown"
-   ],
-   "category": "anarkali",
-   "productType": "Anarkali suit",
-   "fabric": "Silk",
-   "color": "As Shown",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]",
-    "3XL [46]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "S [36]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "M [38]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "L [40]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "3XL [46]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    }
-   },
-   "details": [
-    "ANARKALI FABRIC HEAVY PURE ROMANSILK CHANDERI FABRIC",
-    "16 KALI GOWN,FULL CHURIDAR SLEEVES,SIDE ZIPPER,FANCY WORK DUPATTA",
-    "GOWN FLARE 5.5 METER FULLY FLARE ANARKALI GOWN",
-    "ANARKALI INNER PURE MICROSCRAPE FULL LINING WITH PATTA ATTACHED",
-    "DUPATTA WORK 2.2 METER PURE SOFT FOX GEORGETTE EMBROIDERY SEQUENCE JARI WORK WITH BOADER FOUR SIDE LACE WORK",
-    "ANARKALI LENGTH 55 inch approx",
-    "PENT FABRIC PURE ROMANSILK CHANDERI FABRIC FREE SIZE FULLY STTICHED",
-    "SIZE XS(34) S(36) M(38) L(40) XL(42) And XXL(44) Fully stitched ready to wear"
-   ],
-   "description": "ANARKALI FABRIC HEAVY PURE ROMANSILK CHANDERI FABRIC 16 KALI GOWN,FULL CHURIDAR SLEEVES,SIDE ZIPPER,FANCY WORK DUPATTA GOWN FLARE 5.5 METER FULLY FLARE ANARKALI GOWN ANARKALI INNER PURE MICROSCRAPE FULL LINING WITH PATTA ATTACHED DUPATTA WORK 2.2 METER PURE SOFT FOX GEORGETTE EMBROIDERY SEQUENCE JARI WORK WITH BOADER FOUR SIDE LACE WORK ANARKALI LENGTH 55 inch approx PENT FABRIC PURE ROMANSILK CHA",
-   "descriptionHtml": "<p><span><strong>ANARKALI FABRIC</strong> </span><span>HEAVY PURE ROMANSILK CHANDERI FABRIC</span><br><span> 16 KALI GOWN,FULL CHURIDAR SLEEVES,SIDE ZIPPER,FANCY WORK DUPATTA </span><br><span><strong>GOWN FLARE</strong> 5.5 METER FULLY FLARE ANARKALI GOWN</span><br><span><strong>ANARKALI INNER</strong> PURE MICROSCRAPE FULL LINING WITH PATTA ATTACHED</span><br><span><strong>DUPATTA WORK</strong> 2.2 METER PURE SOFT FOX GEORGETTE EMBROIDERY SEQUENCE JARI WORK WITH BOADER FOUR SIDE LACE WORK </span><br><span><strong>ANARKALI LENGTH</strong> 55 inch approx</span><br><span><strong>PENT FABRIC</strong> PURE ROMANSILK CHANDERI FABRIC FREE SIZE FULLY STTICHED </span><br><span><strong>SIZE</strong> XS(34) S(36) M(38) L(40) XL(42) And XXL(44) Fully stitched ready to wear</span><br></p>",
-   "source": "extra",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2026-08-08T12:29:33+05:30"
   },
   {
    "handle": "new-arrival-premium-designer-collection-fall-in-love-with-elegance",
@@ -33359,7 +31555,7 @@
   {
    "handle": "kunza-black-royal-anarkali-set-6127",
    "sourceHandle": "kunza-black-royal-anarkali-set-6127",
-   "title": "Kunza Black Royal Anarkali Set 6127",
+   "title": "Kunza Black Royal Anarkali Set",
    "price": 54900,
    "compareAtPrice": 183000,
    "images": [
@@ -33452,7 +31648,7 @@
   {
    "handle": "vlveera-white-heavy-silk-anarkali-gown-set-with-zari-sequins-work-6126",
    "sourceHandle": "vlveera-white-heavy-silk-anarkali-gown-set-with-zari-sequins-work-6126",
-   "title": "Vlveera White Heavy Silk Anarkali Gown Set with Zari & Sequins Work 6126",
+   "title": "Vlveera White Heavy Silk Anarkali Gown Set with Zari & Sequins Work",
    "price": 64900,
    "compareAtPrice": 216333,
    "images": [
@@ -33546,7 +31742,7 @@
   {
    "handle": "rangshaa-heavy-embroidered-maxi-set-6130",
    "sourceHandle": "rangshaa-heavy-embroidered-maxi-set-6130",
-   "title": "Rangshaa Heavy Embroidered Maxi Set 6130",
+   "title": "Rangshaa Heavy Embroidered Maxi Set",
    "price": 64900,
    "compareAtPrice": 216333,
    "images": [
@@ -33639,102 +31835,9 @@
    "publishedAt": "2026-07-28T14:28:23+05:30"
   },
   {
-   "handle": "rangshaa-heavy-embroidered-maxi-set-6131",
-   "sourceHandle": "rangshaa-heavy-embroidered-maxi-set-6131",
-   "title": "Rangshaa Heavy Embroidered Maxi Set 6131",
-   "price": 69900,
-   "compareAtPrice": 233000,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/WeddingSagabyIdahoClothing_Launchingabeautifulembroideredmaxisetpairedwithaperfe_4__jpg.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/WeddingSagabyIdahoClothing_Launchingabeautifulembroideredmaxisetpairedwithaperfe_2__jpg.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/WeddingSagabyIdahoClothing_Launchingabeautifulembroideredmaxisetpairedwithaperfe_1__jpg.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/WeddingSagabyIdahoClothing_Launchingabeautifulembroideredmaxisetpairedwithaperfe_jpg.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/WeddingSagabyIdahoClothing_Launchingabeautifulembroideredmaxisetpairedwithaperfe_3__jpg.webp"
-   ],
-   "collections": [
-    "best-seller",
-    "new-arrivals",
-    "suit-set-gown"
-   ],
-   "category": "anarkali",
-   "productType": "Anarkali suit",
-   "fabric": "Cotton",
-   "color": "As Shown",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]",
-    "3XL [46]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "S [36]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "M [38]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "L [40]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "3XL [46]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    }
-   },
-   "details": [
-    "Rangshaa Heavy Embroidered Maxi Set",
-    "Product Details",
-    "Color Disclaimer:",
-    "Please that a 5–6% color variation may occur due to differences in screen resolution, lighting, and photography.",
-    "Kurta Details",
-    "Fabric: Heavy Embroidered Crepe",
-    "Inner: Soft Micro Cotton",
-    "Work: Intricate Thread & Sequin Embroidery with Position Print",
-    "Style: Slit Anarkali Pattern with a Flowy Silhouette",
-    "Length: 50 Inches",
-    "Front Neck: 7 Inches",
-    "Back Neck: 10 Inches",
-    "Sleeves: 15 Inches",
-    "Pant Details"
-   ],
-   "description": "Rangshaa Heavy Embroidered Maxi Set Product Details Color Disclaimer: Please that a 5–6% color variation may occur due to differences in screen resolution, lighting, and photography. Kurta Details Fabric: Heavy Embroidered Crepe Inner: Soft Micro Cotton Work: Intricate Thread & Sequin Embroidery with Position Print Style: Slit Anarkali Pattern with a Flowy Silhouette Length: 50 Inches Front Neck: ",
-   "descriptionHtml": "Rangshaa Heavy Embroidered Maxi Set\n<p> <strong>Product Details</strong></p>\n<p><strong>Color Disclaimer:</strong><br>Please that a 5–6% color variation may occur due to differences in screen resolution, lighting, and photography.</p>\n<h3> Kurta Details</h3>\n<ul>\n<li>\n<p><strong>Fabric:</strong>Heavy Embroidered Crepe</p>\n</li>\n<li>\n<p><strong>Inner:</strong>Soft Micro Cotton</p>\n</li>\n<li>\n<p><strong>Work:</strong>Intricate Thread &amp; Sequin Embroidery with Position Print</p>\n</li>\n<li>\n<p><strong>Style:</strong>Slit Anarkali Pattern with a Flowy Silhouette</p>\n</li>\n<li>\n<p><strong>Length:</strong>50 Inches</p>\n</li>\n<li>\n<p><strong>Front Neck:</strong>7 Inches</p>\n</li>\n<li>\n<p><strong>Back Neck:</strong>10 Inches</p>\n</li>\n<li>\n<p><strong>Sleeves:</strong>15 Inches</p>\n</li>\n</ul>\n<h3> Pant Details</h3>\n<ul>\n<li>\n<p><strong>Fabric:</strong>Micro Cotton</p>\n</li>\n<li>\n<p><strong>Length:</strong>38 Inches</p>\n</li>\n<li>\n<p><strong>Fit:</strong>Fully Stitched with a Comfortable Finish</p>\n</li>\n</ul>\n<h3> Additional Information</h3>\n<ul>\n<li>\n<p><strong>Care:</strong>Dry Clean Only</p>\n</li>\n<li>\n<p><strong>Shipping Information:</strong>5–7 Working Days</p>\n</li>\n<li>\n<p><strong>Model Height:</strong>5'5\"</p>\n</li>\n<li>\n<p><strong>Model Is Wearing:</strong>S Size</p>\n</li>\n</ul>\n<h3> Style &amp; Occasion</h3>\n<p>Make a graceful statement with the<strong>Rangshaa Heavy Embroidered Maxi Set</strong>, designed for an elegant and sophisticated ethnic look. Featuring a beautiful<strong>slit Anarkali silhouette</strong>, intricate<strong>thread and sequin embroidery</strong>, and an eye-catching<strong>position print</strong>, this set is perfect for adding a touch of luxury to your festive wardrobe.</p>\n<p>Ideal for<strong>weddings, receptions, festive celebrations, parties, family functions, and other special</strong></p>",
-   "source": "extra",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2026-07-28T14:24:40+05:30"
-  },
-  {
    "handle": "purple-embroidered-anarkali-gown-set-6132",
    "sourceHandle": "purple-embroidered-anarkali-gown-set-6132",
-   "title": "Purple Embroidered Anarkali Gown Set 6132",
+   "title": "Purple Embroidered Anarkali Gown Set",
    "price": 49900,
    "compareAtPrice": 124750,
    "images": [
@@ -33911,7 +32014,7 @@
   {
    "handle": "premium-anarkali-suit-set-3-pis-6122",
    "sourceHandle": "premium-anarkali-suit-set-3-pis-6122",
-   "title": "*Premium*Anarkali Suit Set* *[3 PIS]* 6122",
+   "title": "Premium Anarkali Suit Set (3 Piece)",
    "price": 64900,
    "compareAtPrice": 216333,
    "images": [
@@ -34168,7 +32271,7 @@
   {
    "handle": "lucknowi-special-premium-readymade-anarkali-suitset-6116",
    "sourceHandle": "lucknowi-special-premium-readymade-anarkali-suitset-6116",
-   "title": "Lucknowi Special Premium Readymade Anarkali Suit Set 6116",
+   "title": "Lucknowi Special Premium Readymade Anarkali Suit Set",
    "price": 59900,
    "compareAtPrice": 199667,
    "images": [
@@ -34243,186 +32346,6 @@
    "inStock": true,
    "featured": false,
    "publishedAt": "2026-02-24T19:25:03+05:30"
-  },
-  {
-   "handle": "heavy-pure-cinon-silk-gown-pent-dupatta-set-fully-stitched-ready-to-wear",
-   "sourceHandle": "heavy-pure-cinon-silk-gown-pent-dupatta-set-fully-stitched-ready-to-wear",
-   "title": "Arushi Vichitra Silk Suit Set",
-   "price": 49900,
-   "compareAtPrice": 124750,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/Picsart_25-05-23_13-13-02-514.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/Picsart_25-05-23_13-09-18-644.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/Picsart_25-05-23_13-10-27-691.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/Picsart_25-05-23_13-11-19-168.jpg"
-   ],
-   "collections": [
-    "best-seller",
-    "new-arrivals",
-    "suit-set-gown"
-   ],
-   "category": "anarkali",
-   "productType": "Anarkali suit",
-   "fabric": "Vichitra Silk",
-   "color": "As Shown",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]",
-    "3XL [46]"
-   ],
-   "sizePricing": {
-    "S [36]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    },
-    "M [38]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    },
-    "L [40]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    },
-    "XS [34]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    },
-    "3XL [46]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    }
-   },
-   "details": [
-    "Anarkali:",
-    "Fabric &Work: Vichitra Silk With Embroidery Malti Sequins-work",
-    "Length: 48 To 53 Inch",
-    "Lining: cotton (full Inner Top To Bottom)",
-    "Sleeve: 19 To 20 Inch Sleeves",
-    "Neck Type: Fancy Round Neck&nbsp;",
-    "Pants:",
-    "Fabric – Micro Cotton",
-    "Length ; :37 To 38",
-    "Dupatta:",
-    "Fabric: Vichitra Silk Embroidered Malti Sequins With Cutwork",
-    "Length: 2.25mtr"
-   ],
-   "description": "Anarkali: Fabric &Work: Vichitra Silk With Embroidery Malti Sequins-work Length: 48 To 53 Inch Lining: cotton (full Inner Top To Bottom) Sleeve: 19 To 20 Inch Sleeves Neck Type: Fancy Round Neck&nbsp; Pants: Fabric – Micro Cotton Length ; :37 To 38 Dupatta: Fabric: Vichitra Silk Embroidered Malti Sequins With Cutwork Length: 2.25mtr",
-   "descriptionHtml": "<p><strong>Anarkali:</strong><br>Fabric &amp;Work: Vichitra Silk With Embroidery Malti Sequins-work<br>Length: 48 To 53 Inch<br>Lining: cotton (full Inner Top To Bottom)<br>Sleeve: 19 To 20 Inch Sleeves<br>Neck Type: Fancy Round Neck&amp;nbsp;</p>\n<p><strong>Pants:</strong> <br>Fabric – Micro Cotton<br>Length ; :37 To 38</p>\n<p><strong>Dupatta:</strong> <br>Fabric: Vichitra Silk Embroidered Malti Sequins With Cutwork<br>Length: 2.25mtr</p>",
-   "source": "extra",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2025-05-23T13:00:08+05:30"
-  },
-  {
-   "handle": "yellow-sharara-suit-set",
-   "sourceHandle": "yellow-sharara-suit-set",
-   "title": "Yellow Sharara Suit Set",
-   "price": 64900,
-   "compareAtPrice": 216333,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/2_18b92989-6fc6-40c5-a594-c6c25d2c1b4d_1.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/5_30b03c9e-620d-4d9b-af81-3ac1628c917d.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/2_18b92989-6fc6-40c5-a594-c6c25d2c1b4d.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/3_a5d2a58b-b594-4338-80e7-c63bd1d16617.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/1_36207bb7-a713-4966-9845-7687eb4ffe6a.webp"
-   ],
-   "collections": [
-    "best-seller",
-    "new-arrivals",
-    "suit-set-gown"
-   ],
-   "category": "sharara",
-   "productType": "Anarkali suit",
-   "fabric": "Cotton",
-   "color": "Yellow",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]",
-    "3XL [46]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "S [36]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "M [38]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "L [40]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "3XL [46]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    }
-   },
-   "details": [
-    "TOP:",
-    "FABRIC: ~ Faux Blooming with codding zari Embroidered Sequins lace work",
-    "LENGTH: 34 to 36",
-    "FRONT NECK : 7 inches",
-    "BACK NECK : 10 inches",
-    "LINING: Micro Cotton (Full Inner Top To Bottom)",
-    "SLEEVES: Full Sleeves [21inches]",
-    "Plazo: Fabric – Faux Blooming lace work",
-    "Length – 38-40”",
-    "DUPATTA: FABRIC & WORK: Faux blooming With lass Sequins work",
-    "LENGTH: 2.30 MTR"
-   ],
-   "description": "TOP: FABRIC: ~ Faux Blooming with codding zari Embroidered Sequins lace work LENGTH: 34 to 36 FRONT NECK : 7 inches BACK NECK : 10 inches LINING: Micro Cotton (Full Inner Top To Bottom) SLEEVES: Full Sleeves [21inches] Plazo: Fabric – Faux Blooming lace work Length – 38-40” DUPATTA: FABRIC & WORK: Faux blooming With lass Sequins work LENGTH: 2.30 MTR",
-   "descriptionHtml": "<p><span>TOP: </span><br><span>FABRIC: ~ Faux Blooming with codding zari Embroidered Sequins lace work  </span><br><span>LENGTH: 34 to 36</span><br><span>FRONT NECK : 7 inches</span><br><span>BACK NECK : 10 inches </span><br><span>LINING: Micro Cotton (Full Inner Top To Bottom)</span><br><span>SLEEVES: Full Sleeves [21inches]</span><br><span>Plazo: Fabric –  Faux Blooming lace work </span><br><span>Length – 38-40”</span><br><span> DUPATTA: FABRIC &amp; WORK: Faux blooming With lass Sequins  work </span><br><span> LENGTH: 2.30 MTR</span><br></p>",
-   "source": "extra",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2025-05-17T21:28:53+05:30"
   },
   {
    "handle": "black-havy-rayon-royal-elegant-anarkali-suit-set",
@@ -34961,96 +32884,6 @@
    "publishedAt": "2024-12-24T18:09:20+05:30"
   },
   {
-   "handle": "goldenhour-cosmos-suit-set",
-   "sourceHandle": "goldenhour-cosmos-suit-set",
-   "title": "Goldenhour Cosmos Suit Set",
-   "price": 69900,
-   "compareAtPrice": 233000,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/Td141-Mehndi_a1ebe5fe-a72e-4cf4-9268-cf0eefec9884.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/Td141-Mehndi..webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/td141-mehndi._d80a596c-cb7b-408e-812e-cd02d9c1ec7f.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/Td-141_Mehendi.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/TD141_Mehandi.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/Td141-Mehndi.webp"
-   ],
-   "collections": [
-    "best-seller"
-   ],
-   "category": "anarkali",
-   "productType": "Anarkali suit",
-   "fabric": "Georgette",
-   "color": "As Shown",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]",
-    "3XL [46]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "S [36]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "M [38]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "L [40]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "3XL [46]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    }
-   },
-   "details": [
-    "Kurta :",
-    "Fabric – MASLIN",
-    "Kurta Length – 50-52”",
-    "Front Neck – 7",
-    "Back Neck – 10 inches",
-    "Sleeves 22 full sleeves",
-    "Pants :",
-    "Fabric – Cotton",
-    "Length – 38-42”",
-    "Dupatta :",
-    "Fabric – MASLIN",
-    "Length – 2.5 mtr"
-   ],
-   "description": "Kurta : Fabric – MASLIN Kurta Length – 50-52” Front Neck – 7 Back Neck – 10 inches Sleeves 22 full sleeves Pants : Fabric – Cotton Length – 38-42” Dupatta : Fabric – MASLIN Length – 2.5 mtr",
-   "descriptionHtml": "<div>\n<p><b><i>Kurta :</i></b></p>\n<ul>\n<li>Fabric –<span> MASLIN</span><br>\n</li>\n<li>Kurta Length – 50-52”</li>\n<li>Front Neck – 7</li>\n<li>Back Neck – 10 inches</li>\n<li>Sleeves  22 full sleeves</li>\n</ul>\n<p><b><i>Pants :</i></b></p>\n<ul>\n<li>Fabric –<span> Cotton</span>\n</li>\n<li>Length – 38-42”</li>\n</ul>\n<p><b><i>Dupatta :</i></b></p>\n<ul>\n<li>Fabric –<span> MASLIN</span>\n</li>\n<li>Length – 2.5 mtr</li>\n</ul>\n</div>",
-   "source": "extra",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2024-11-30T14:39:12+05:30"
-  },
-  {
    "handle": "black-colour-sequence-7mm-work-embroidered-party-wear-lehenga-choli",
    "sourceHandle": "black-colour-sequence-7mm-work-embroidered-party-wear-lehenga-choli",
    "title": "Black Colour & Sequins 7mm Work Embroidered Party Wear Lehenga Choli",
@@ -35531,7 +33364,7 @@
   {
    "handle": "trendy-off-white-suit-set-with-embroidery-and-sequnce-work-7287143530628",
    "sourceHandle": "trendy-off-white-suit-set-with-embroidery-and-sequnce-work",
-   "title": "Trendy Off White Suit Set With Embroidery and Sequnce Work",
+   "title": "Trendy Off-White Embroidered Sequin Suit Set",
    "price": 54900,
    "compareAtPrice": 183000,
    "images": [
@@ -35542,10 +33375,11 @@
     "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/ckpMR0OU.webp"
    ],
    "collections": [
-    "trends-signature",
     "new-arrivals",
     "party-wear-gown",
     "sale",
+    "trending",
+    "trends-signature",
     "weddin-collection"
    ],
    "category": "gown",
@@ -35612,7 +33446,7 @@
    "rating": 4.8,
    "reviewCount": 38,
    "inStock": true,
-   "featured": false,
+   "featured": true,
    "publishedAt": "2024-07-31T11:11:39+05:30"
   },
   {
@@ -35797,87 +33631,9 @@
    "publishedAt": "2026-05-25T15:57:51+05:30"
   },
   {
-   "handle": "presenting-new-frendy-silk-fabric-with-embroidery-sequence-dori-and-jari-work-top-with-duppta-set-bell-bottom-pent-ready-to-wear",
-   "sourceHandle": "presenting-new-frendy-silk-fabric-with-embroidery-sequence-dori-and-jari-work-top-with-duppta-set-bell-bottom-pent-ready-to-wear",
-   "title": "Presenting New Frendy Silk Fabric with Embroidery Sequins Dori and Zari Work,top Duppta Set,bell",
-   "price": 54900,
-   "compareAtPrice": 183000,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_8912_805ffe2b-7475-4651-942c-5959a928cb30.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_8913_d1363c44-efdb-447c-9a7f-1f7235bca15d.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_8914.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_8916.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_8917.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_8918.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_8920.jpg"
-   ],
-   "collections": [
-    "new-arrivals",
-    "suit-set-gown"
-   ],
-   "category": "gown",
-   "productType": "suit set",
-   "fabric": "Silk",
-   "color": "As Shown",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "S [36]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "M [38]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "L [40]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    }
-   },
-   "details": [
-    "TOPKURTA FABRIC : FRENDY SILK FABRIC WITH EMBROIDERY SEQUENCE DORI AND JARI WORK WITH BACK SIDE FANCY DORI PATTERN",
-    "DUPATTA WORK 2.2 METER FRENDY SILK EMBROIDERY SEQUENCE DORI AND JARI WORK BOADER FANCY LACE WORK",
-    "BELL BOTTOM PENT FRENDY SILK FABRIC WITH FULL INNER MICROSCRAPE COTTON FREE SIZE FULLY STTICHED",
-    "SIZE XS(34) S(36) M(38) L(40) XL(42) And XXL(44) Fully stitched ready to wear"
-   ],
-   "description": "TOPKURTA FABRIC : FRENDY SILK FABRIC WITH EMBROIDERY SEQUENCE DORI AND JARI WORK WITH BACK SIDE FANCY DORI PATTERN DUPATTA WORK 2.2 METER FRENDY SILK EMBROIDERY SEQUENCE DORI AND JARI WORK BOADER FANCY LACE WORK BELL BOTTOM PENT FRENDY SILK FABRIC WITH FULL INNER MICROSCRAPE COTTON FREE SIZE FULLY STTICHED SIZE XS(34) S(36) M(38) L(40) XL(42) And XXL(44) Fully stitched ready to wear",
-   "descriptionHtml": "<p><span>TOPKURTA FABRIC :</span><span>FRENDY SILK FABRIC WITH EMBROIDERY SEQUENCE DORI AND JARI WORK WITH BACK SIDE FANCY DORI PATTERN </span><br><span><strong>DUPATTA WORK</strong> 2.2 METER FRENDY SILK EMBROIDERY SEQUENCE DORI AND JARI WORK BOADER FANCY LACE WORK</span><br><span><strong>BELL BOTTOM PENT</strong> FRENDY SILK FABRIC WITH FULL INNER MICROSCRAPE COTTON FREE SIZE FULLY STTICHED </span><br><span><strong>SIZE</strong> XS(34) S(36) M(38) L(40) XL(42) And XXL(44) Fully stitched ready to wear</span></p>",
-   "source": "extra",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2026-05-26T18:35:15+05:30"
-  },
-  {
    "handle": "premium-readymade-anarkali-suit-set-3-pis-1",
    "sourceHandle": "premium-readymade-anarkali-suit-set-3-pis-1",
-   "title": "*premium*readymade*anarkali*suit*set* *[3 Pis]*",
+   "title": "Premium readymade anarkali suit set (3 Piece)",
    "price": 69900,
    "compareAtPrice": 233000,
    "images": [
@@ -36051,7 +33807,7 @@
   {
    "handle": "aviras-elegant-ivory-base-with-red-floral-detailing-anarkali-suit-set-6129",
    "sourceHandle": "aviras-elegant-ivory-base-with-red-floral-detailing-anarkali-suit-set-6129",
-   "title": "Avira's Elegant Ivory Base with Red Floral Detailing Anarkali Suit Set 6129",
+   "title": "Avira's Elegant Ivory Base with Red Floral Detailing Anarkali Suit Set",
    "price": 64900,
    "compareAtPrice": 216333,
    "images": [
@@ -37394,195 +35150,6 @@
    "publishedAt": "2026-08-24T12:33:52+05:30"
   },
   {
-   "handle": "alveera-premium-quality-anarkali-suit-set-with-color",
-   "sourceHandle": "alveera-premium-quality-anarkali-suit-set-with-color",
-   "title": "Alveera Premium Quality Anarkali Suit Set with Color",
-   "price": 49900,
-   "compareAtPrice": 124750,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/WhatsApp_Image_2026-04-18_at_11.45.56_PM.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/WhatsApp_Image_2026-04-18_at_11.45.56_PM_1.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/1000226308.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/pari1.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/Picsart_25-04-17_20-38-32-676_4aaddc1c-52c8-4079-a5d6-6c85f71614db.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/Picsart_25-04-17_20-38-32-676_1_db93ec71-2aa9-46f4-8967-0c13879562f1.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/Picsart_25-04-17_20-33-33-526_b3589f4c-048d-4bb2-8c24-beaf762742fb.webp"
-   ],
-   "collections": [
-    "new-arrivals",
-    "suit-set-gown"
-   ],
-   "category": "anarkali",
-   "productType": "Anarkali suit",
-   "fabric": "Vichitra Silk",
-   "color": "As Shown",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]",
-    "3XL [46]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    },
-    "S [36]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    },
-    "M [38]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    },
-    "L [40]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    },
-    "3XL [46]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    }
-   },
-   "details": [
-    "Alveera Premium Anarkali Suit Set – Royal Elegance, Perfectly Stitched",
-    "Indulge in regal charm with the Monshika Premium Anarkali Suit Set , designed in luxurious Pure Vichitra Silk with dazzling 5mm sequin embroidery. Finished with fancy tassels, latkan borders and full-sleeve elegance – this set is a celebration of grace, class and comfort.",
-    "Product Details",
-    "Kurta (Anarkali Style)",
-    "Fabric: Pure Vichitra Silk",
-    "Work: Intricate 5mm Sequin Embroidery with Tassels & Fancy Latkan Border",
-    "Cut: Kali-cut flare for elegant flow",
-    "Length: 50–52 inches",
-    "Back Neck: 10 inches",
-    "Sleeves: sleeves less with embroidery",
-    "Stitching: Fully stitched – Ready to Wear",
-    "Pants",
-    "Fabric: Pure Vichitra Silk",
-    "Work: Matching 5mm Sequin Embroidery"
-   ],
-   "description": "Alveera Premium Anarkali Suit Set – Royal Elegance, Perfectly Stitched Indulge in regal charm with the Monshika Premium Anarkali Suit Set , designed in luxurious Pure Vichitra Silk with dazzling 5mm sequin embroidery. Finished with fancy tassels, latkan borders and full-sleeve elegance – this set is a celebration of grace, class and comfort. Product Details Kurta (Anarkali Style) Fabric: Pure Vich",
-   "descriptionHtml": "<h3> <strong>Alveera Premium Anarkali Suit Set – Royal Elegance, Perfectly Stitched</strong>\n</h3>\n<p>Indulge in regal charm with the<strong>Monshika Premium Anarkali Suit Set</strong>, designed in luxurious<strong>Pure Vichitra Silk</strong>with dazzling 5mm sequin embroidery. Finished with fancy tassels, latkan borders and full-sleeve elegance – this set is a celebration of grace, class and comfort.</p>\n\n<h3> <strong>Product Details</strong>\n</h3>\n<p> <strong>Kurta (Anarkali Style)</strong></p>\n<ul>\n<li>\n<p><strong>Fabric:</strong>Pure Vichitra Silk</p>\n</li>\n<li>\n<p><strong>Work:</strong>Intricate 5mm Sequin Embroidery with Tassels &amp; Fancy Latkan Border</p>\n</li>\n<li>\n<p><strong>Cut:</strong>Kali-cut flare for elegant flow</p>\n</li>\n<li>\n<p><strong>Length:</strong>50–52 inches</p>\n</li>\n<li>\n<p><strong>Back Neck:</strong>10 inches</p>\n</li>\n<li>\n<p><strong>Sleeves:</strong>  sleeves  less with embroidery</p>\n</li>\n<li>\n<p><strong>Stitching:</strong>Fully stitched – Ready to Wear</p>\n</li>\n</ul>\n<p> <strong>Pants</strong></p>\n<ul>\n<li>\n<p><strong>Fabric:</strong>Pure Vichitra Silk</p>\n</li>\n<li>\n<p><strong>Work:</strong>Matching 5mm Sequin Embroidery</p>\n</li>\n<li>\n<p><strong>Length:</strong>39 inches</p>\n</li>\n<li>\n<p><strong>Fit:</strong>Straight-cut – Fully stitched</p>\n</li>\n</ul>\n<p> <strong>Dupatta</strong></p>\n<ul>\n<li>\n<p><strong>Fabric:</strong>Pure Vichitra Silk</p>\n</li>\n<li>\n<p><strong>Work:</strong>All-over sequin detailing with four-side fancy embroidered lace border</p>\n</li>\n<li>\n<p><strong>Length:</strong>2.2 meters – Lightweight and elegant</p>\n</li>\n</ul>\n\n<h3> <strong>Size &amp; Fit</strong>\n</h3>\n<ul>\n<li>\n<p><strong>Model Height:</strong>5'5\" wearing Size S</p>\n</li>\n<li>\n<p><strong>Sizes Available (Fully Stitched):</strong>XS (34), S (36), M (38), L (40), XL (42), XXL (44), 3XL (46)</p>\n</li>\n</ul>\n\n<h3> <strong>Product Care &amp; Delivery</strong>\n</h3>\n<ul>\n<li>\n<p><strong>Care Instructions:</strong>Dry Clean Only</p>\n</li>\n<li>\n<p><strong>Shipping:</strong>Same Day Dispatch</p>\n</li>\n</ul>\n\n<h3> <strong>Perfect For:</strong>\n</h3>\n<p>Weddings • Engagements • Reception • Festive Parties • Traditional Celebrations</p>\n\n<p><strong>Be the epitome of royalty in Monshika – where every thread tells a story of elegance.</strong><br> <em>Ready to wear, stitched to perfection, designed to dazzle.</em></p>\n<ul>\n<li>\n<div>\n<div>\n<div></div>\n</div>\n</div>\n</li>\n</ul>",
-   "source": "extra",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2026-08-24T12:04:04+05:30"
-  },
-  {
-   "handle": "premium-ivory-royal-zari-work-kali-cut-anarkali-suit-set-10456605851780",
-   "sourceHandle": "premium-ivory-royal-zari-work-kali-cut-anarkali-suit-set",
-   "title": "Premium Ivory Royal Zari Work Kali Cut Anarkali Suit Set",
-   "price": 49900,
-   "compareAtPrice": 124750,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/DSC08133.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/DSC08126.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/DSC08137.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/DSC08128.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/DSC08131.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/DSC08134.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/DSC08132.webp"
-   ],
-   "collections": [
-    "new-arrivals",
-    "party-wear-gown",
-    "trending"
-   ],
-   "category": "anarkali",
-   "productType": "Anarkali suit",
-   "fabric": "Chinon Silk",
-   "color": "Ivory",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]",
-    "3XL [46]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    },
-    "S [36]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    },
-    "M [38]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    },
-    "L [40]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    },
-    "3XL [46]": {
-     "price": 49900,
-     "compareAtPrice": 124750,
-     "available": true
-    }
-   },
-   "details": [
-    "Product Highlights",
-    "Anarkali",
-    "Fabric: Premium Chinon Silk",
-    "Work: Heavy Zari Embroidery with Dori & Latkan Detailing",
-    "Style: Elegant Kali Cut Anarkali",
-    "Inner: Soft Micro Cotton – Full Lining from Top to Bottom",
-    "Sleeves: 20–21 Inches",
-    "Length: 50–52 Inches",
-    "Flair: Graceful Kali Cut Silhouette",
-    "Neck Details",
-    "Front Neck: 7 Inches",
-    "Back Neck: 10 Inches",
-    "Pant",
-    "Fabric: Premium Micro Cotton"
-   ],
-   "description": "Product Highlights Anarkali Fabric: Premium Chinon Silk Work: Heavy Zari Embroidery with Dori & Latkan Detailing Style: Elegant Kali Cut Anarkali Inner: Soft Micro Cotton – Full Lining from Top to Bottom Sleeves: 20–21 Inches Length: 50–52 Inches Flair: Graceful Kali Cut Silhouette Neck Details Front Neck: 7 Inches Back Neck: 10 Inches Pant Fabric: Premium Micro Cotton",
-   "descriptionHtml": "<p>  <strong>Product Highlights</strong></p>\n<p> <strong>Anarkali</strong></p>\n<ul>\n<li>\n<p><strong>Fabric:</strong>Premium Chinon Silk</p>\n</li>\n<li>\n<p><strong>Work:</strong>Heavy Zari Embroidery with Dori &amp; Latkan Detailing</p>\n</li>\n<li>\n<p><strong>Style:</strong>Elegant Kali Cut Anarkali</p>\n</li>\n<li>\n<p><strong>Inner:</strong>Soft Micro Cotton – Full Lining from Top to Bottom</p>\n</li>\n<li>\n<p><strong>Sleeves:</strong>20–21 Inches</p>\n</li>\n<li>\n<p><strong>Length:</strong>50–52 Inches</p>\n</li>\n<li>\n<p><strong>Flair:</strong>Graceful Kali Cut Silhouette</p>\n</li>\n</ul>\n<p> <strong>Neck Details</strong></p>\n<ul>\n<li>\n<p>Front Neck: 7 Inches</p>\n</li>\n<li>\n<p>Back Neck: 10 Inches</p>\n</li>\n</ul>\n<p> <strong>Pant</strong></p>\n<ul>\n<li>\n<p>Fabric: Premium Micro Cotton</p>\n</li>\n<li>\n<p>Length: 38 Inches</p>\n</li>\n<li>\n<p>Fully Stitched &amp; Ready to Wear</p>\n</li>\n</ul>\n<p> <strong>Dupatta</strong></p>\n<ul>\n<li>\n<p>Fabric: Chinon Silk</p>\n</li>\n<li>\n<p>Work: Elegant Embroidered Work</p>\n</li>\n<li>\n<p>Length: 2.25 Meters</p>\n</li>\n</ul>\n<p> <strong>Available Sizes</strong><br>XS (34) | S (36) | M (38) | L (40) | XL (42) | XXL (44) | 3XL (46)</p>\n<p> <strong>Weight:</strong>Approx. 1.10 KG</p>\n<p> <strong>Why You'll Love It</strong><br> Premium Quality Fabric<br> Heavy &amp; Elegant Zari Work<br> Beautiful Dori &amp; Latkan Detailing<br> Fully Stitched &amp; Ready to Wear<br> Graceful Royal Silhouette<br> Perfect for Weddings • Festivals • Receptions • Party Wear</p>\n<p> <strong>A timeless ivory ensemble crafted for an effortlessly royal look.</strong> </p>",
-   "source": "extra",
-   "rating": 4.8,
-   "reviewCount": 6,
-   "inStock": true,
-   "featured": true,
-   "publishedAt": "2026-08-22T13:01:35+05:30"
-  },
-  {
    "handle": "red-anarkali-suit-knb103",
    "sourceHandle": "red-anarkali-suit-knb103",
    "title": "Red Anarkali Suit Knb103",
@@ -37666,7 +35233,7 @@
   {
    "handle": "premium-readymade-anarkali-suit-set-3-pis-184",
    "sourceHandle": "premium-readymade-anarkali-suit-set-3-pis-184",
-   "title": "*premium*readymade*anarkali*suit*set* *[3 Pis]* 184",
+   "title": "Premium readymade anarkali suit set (3 Piece)",
    "price": 59900,
    "compareAtPrice": 199667,
    "images": [
@@ -37759,7 +35326,7 @@
   {
    "handle": "premium-readymade-anarkali-suit-set-6118",
    "sourceHandle": "premium-readymade-anarkali-suit-set-6118",
-   "title": "Premium Readymade Anarkali Suit Set 6118",
+   "title": "Premium Readymade Anarkali Suit Set",
    "price": 69900,
    "compareAtPrice": 233000,
    "images": [
@@ -37930,7 +35497,7 @@
   {
    "handle": "sanika-noor-black-color-embroidered-work-anarkali-suit-set-6104",
    "sourceHandle": "sanika-noor-black-color-embroidered-work-anarkali-suit-set-6104",
-   "title": "Sanika Noor Black Color Embroidered Work Anarkali Suit Set 6104",
+   "title": "Sanika Noor Black Color Embroidered Work Anarkali Suit Set",
    "price": 69900,
    "compareAtPrice": 233000,
    "images": [
@@ -38009,7 +35576,7 @@
   {
    "handle": "eid-special-premium-readymade-off-white-anarkali-suitse-6115",
    "sourceHandle": "eid-special-premium-readymade-off-white-anarkali-suitse-6115",
-   "title": "Eid Special Premium Readymade off white Anarkali SuitSe 6115",
+   "title": "Eid Special Premium Readymade off white Anarkali Suit",
    "price": 49900,
    "compareAtPrice": 124750,
    "images": [
@@ -38244,7 +35811,7 @@
   {
    "handle": "suhani-pink-premium-suit-set",
    "sourceHandle": "suhani-pink-premium-suit-set",
-   "title": "Suhani Pink Premium Suit Set 6103",
+   "title": "Suhani Pink Premium Suit Set",
    "price": 54900,
    "compareAtPrice": 183000,
    "images": [
@@ -39313,7 +36880,7 @@
   {
    "handle": "avika-red-anarkali-suit-set",
    "sourceHandle": "avika-red-anarkali-suit-set",
-   "title": "Avika Red Anarkali Suit Set 6091",
+   "title": "Avika Red Anarkali Suit Set",
    "price": 49900,
    "compareAtPrice": 124750,
    "images": [
@@ -39482,7 +37049,7 @@
   {
    "handle": "avika-black-anarkali-suit-set",
    "sourceHandle": "avika-black-anarkali-suit-set",
-   "title": "Avika Black Anarkali Suit Set 6090",
+   "title": "Avika Black Anarkali Suit Set",
    "price": 54900,
    "compareAtPrice": 183000,
    "images": [
@@ -39932,7 +37499,7 @@
   {
    "handle": "ruprekha-premium-vichitra-royal-elegant-suit-set",
    "sourceHandle": "ruprekha-premium-vichitra-royal-elegant-suit-set",
-   "title": "Ruprekha Premium Vichitra Royal Elegant Suit Set 6086",
+   "title": "Ruprekha Premium Vichitra Royal Elegant Suit Set",
    "price": 69900,
    "compareAtPrice": 233000,
    "images": [
@@ -40020,105 +37587,6 @@
    "inStock": true,
    "featured": false,
    "publishedAt": "2025-11-01T16:39:04+05:30"
-  },
-  {
-   "handle": "padmarani-red-special-anarkali-suit-set",
-   "sourceHandle": "padmarani-red-special-anarkali-suit-set",
-   "title": "Pnihari Red Special Anarkali Suit Set",
-   "price": 64900,
-   "compareAtPrice": 216333,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/inehabhandari_X_mirayaz_jpr_Maharani_mode_ON_impossible_to_ignore_Padmavati_Anarkali_Se.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/inehabhandariX_mirayaz_jpr_MaharanimodeON_impossibletoignore_PadmavatiAnarkaliSe_13.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/inehabhandari_X_mirayaz_jpr_Maharani_mode_ON_impossible_to_ignore_Padmavati_Anarkali_Se_2.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/inehabhandariX_mirayaz_jpr_MaharanimodeON_impossibletoignore_PadmavatiAnarkaliSe_12.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/inehabhandariX_mirayaz_jpr_MaharanimodeON_impossibletoignore_PadmavatiAnarkaliSe_11.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/inehabhandariX_mirayaz_jpr_MaharanimodeON_impossibletoignore_PadmavatiAnarkaliSe_10.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/inehabhandariX_mirayaz_jpr_MaharanimodeON_impossibletoignore_PadmavatiAnarkaliSe_9.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/inehabhandariX_mirayaz_jpr_MaharanimodeON_impossibletoignore_PadmavatiAnarkaliSe_7.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/inehabhandari_X_mirayaz_jpr_Maharani_mode_ON_impossible_to_ignore_Padmavati_Anarkali_Se_5.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/inehabhandari_X_mirayaz_jpr_Maharani_mode_ON_impossible_to_ignore_Padmavati_Anarkali_Se_8.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/inehabhandari_X_mirayaz_jpr_Maharani_mode_ON_impossible_to_ignore_Padmavati_Anarkali_Se_1.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/inehabhandari_X_mirayaz_jpr_Maharani_mode_ON_impossible_to_ignore_Padmavati_Anarkali_Se_3.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/inehabhandari_X_mirayaz_jpr_Maharani_mode_ON_impossible_to_ignore_Padmavati_Anarkali_Se_4.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/inehabhandari_X_mirayaz_jpr_Maharani_mode_ON_impossible_to_ignore_Padmavati_Anarkali_Se_6.jpg"
-   ],
-   "collections": [
-    "new-arrivals",
-    "suit-set-gown"
-   ],
-   "category": "anarkali",
-   "productType": "Anarkali suit",
-   "fabric": "Cotton",
-   "color": "Red",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]",
-    "3XL [46]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "S [36]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "M [38]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "L [40]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "3XL [46]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    }
-   },
-   "details": [
-    "Kurta :",
-    "Fabric – Faux Blooming",
-    "Kurta Length – 50-52”",
-    "Front Neck – Fancy",
-    "Back Neck – Fancy",
-    "Sleeves - Full sleeves",
-    "Pant:",
-    "Fabric – Micro Cotton",
-    "Length – 38-42”",
-    "Dupatta :",
-    "Fabric – Faux Blooming",
-    "Length – 2.5 mtr"
-   ],
-   "description": "Kurta : Fabric – Faux Blooming Kurta Length – 50-52” Front Neck – Fancy Back Neck – Fancy Sleeves - Full sleeves Pant: Fabric – Micro Cotton Length – 38-42” Dupatta : Fabric – Faux Blooming Length – 2.5 mtr",
-   "descriptionHtml": "<p><b>Kurta :</b></p>\n<ul>\n<li>Fabric –<span>Faux Blooming</span><br>\n</li>\n<li>Kurta Length – 50-52”</li>\n<li>Front Neck – Fancy</li>\n<li>Back Neck – Fancy</li>\n<li>Sleeves - Full sleeves</li>\n</ul>\n<p><b>Pant:</b></p>\n<ul>\n<li>Fabric – <span> Micro Cotton</span>\n</li>\n<li>Length – 38-42”</li>\n</ul>\n<p><b>Dupatta :</b></p>\n<ul>\n<li>Fabric –<span>Faux Blooming</span>\n</li>\n<li>Length – 2.5 mtr</li>\n</ul>",
-   "source": "extra",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2025-09-20T17:51:14+05:30"
   },
   {
    "handle": "bloom-pink-anarkali-suit-set",
@@ -40384,7 +37852,7 @@
   {
    "handle": "prisha-purple-anarkali-suit-set",
    "sourceHandle": "prisha-purple-anarkali-suit-set",
-   "title": "Prisha Purple Anarkali Suit Set 6084",
+   "title": "Prisha Purple Anarkali Suit Set",
    "price": 54900,
    "compareAtPrice": 183000,
    "images": [
@@ -40469,193 +37937,6 @@
    "inStock": true,
    "featured": false,
    "publishedAt": "2025-09-10T12:42:03+05:30"
-  },
-  {
-   "handle": "twinkle-maroon-silk-premium-anarkali-suit-set",
-   "sourceHandle": "twinkle-maroon-silk-premium-anarkali-suit-set",
-   "title": "Twinkle Maroon Silk Premium Anarkali Suit Set",
-   "price": 64900,
-   "compareAtPrice": 216333,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_3425_2218771c-0acd-4408-908b-05d5136092d7.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_3424_9324a7da-c9cb-4d90-ab5c-0c12f89c2755.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_3423_6accaaba-1d41-46a6-a1ac-cf86d044f628.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_3427_9c2b91ad-d022-412e-bc9b-4204b77bd78c_1.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_3426_a0a808eb-c237-44e0-93d4-573f41738185.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/WhatsApp_Image_2025-07-07_at_16.01.17_8b387f80.jpg"
-   ],
-   "collections": [
-    "new-arrivals",
-    "suit-set-gown"
-   ],
-   "category": "anarkali",
-   "productType": "Anarkali suit",
-   "fabric": "Silk",
-   "color": "Maroon",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]",
-    "3XL [46]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "S [36]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "M [38]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "L [40]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    },
-    "3XL [46]": {
-     "price": 64900,
-     "compareAtPrice": 216333,
-     "available": true
-    }
-   },
-   "details": [
-    "Kurta",
-    "Fabric: Premium shimmer silk with allover embroidery",
-    "Length: 47–48 inches",
-    "Neckline: Front – 7” | Back – 8”",
-    "Sleeves: Full-length 22”",
-    "Stitching: Fully stitched & ready to wear",
-    "Pant",
-    "Fabric: Comfortable Cotton",
-    "Length: 38–40 inches",
-    "Style: Straight fit, stitched and easy to wear",
-    "Dupatta",
-    "Fabric: Soft Georgette",
-    "Length: 2.5 meters – perfect for graceful draping",
-    "Additional Info"
-   ],
-   "description": "Kurta Fabric: Premium shimmer silk with allover embroidery Length: 47–48 inches Neckline: Front – 7” | Back – 8” Sleeves: Full-length 22” Stitching: Fully stitched & ready to wear Pant Fabric: Comfortable Cotton Length: 38–40 inches Style: Straight fit, stitched and easy to wear Dupatta Fabric: Soft Georgette Length: 2.5 meters – perfect for graceful draping Additional Info",
-   "descriptionHtml": "<p><strong>Kurta</strong></p>\n<ul>\n<li>\n<p><strong>Fabric:</strong>Premium shimmer silk with allover embroidery</p>\n</li>\n<li>\n<p><strong>Length:</strong>47–48 inches</p>\n</li>\n<li>\n<p><strong>Neckline:</strong>Front – 7” | Back – 8”</p>\n</li>\n<li>\n<p><strong>Sleeves:</strong>Full-length 22”</p>\n</li>\n<li>\n<p><strong>Stitching:</strong>Fully stitched &amp; ready to wear</p>\n</li>\n</ul>\n<p><strong>Pant</strong></p>\n<ul>\n<li>\n<p><strong>Fabric:</strong>Comfortable Cotton</p>\n</li>\n<li>\n<p><strong>Length:</strong>38–40 inches</p>\n</li>\n<li>\n<p><strong>Style:</strong>Straight fit, stitched and easy to wear</p>\n</li>\n</ul>\n<p><strong>Dupatta</strong></p>\n<ul>\n<li>\n<p><strong>Fabric:</strong>Soft Georgette</p>\n</li>\n<li>\n<p><strong>Length:</strong>2.5 meters – perfect for graceful draping</p>\n</li>\n</ul>\n\n<h3>\n<strong>Additional Info</strong>\n</h3>\n<ul>\n<li>\n<p><strong>Model Wears:</strong>Size S</p>\n</li>\n<li>\n<p><strong>Model Height:</strong>5'5\"</p>\n</li>\n<li>\n<p><strong>Care:</strong>Dry Clean Only</p>\n</li>\n<li>\n<p><strong>Shipping:</strong>Same Day Dispatch</p>\n</li>\n<li>\n<h3>\n<strong>Perfect For:</strong>\n</h3>\n<p>Weddings • Evening Gatherings • Festive Events • Mehendi/Sangeet • Ethnic Parties</p>\n</li>\n</ul>",
-   "source": "extra",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2025-11-08T17:56:59+05:30"
-  },
-  {
-   "handle": "twinkle-rama-silk-premium-anarkali-suit-set",
-   "sourceHandle": "twinkle-rama-silk-premium-anarkali-suit-set",
-   "title": "Twinkle Rama Silk Premium Anarkali Suit Set",
-   "price": 54900,
-   "compareAtPrice": 183000,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_3443.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_3444.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_3441.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_3442.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_3446.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_3445.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/IMG_3440.jpg"
-   ],
-   "collections": [
-    "new-arrivals",
-    "suit-set-gown"
-   ],
-   "category": "anarkali",
-   "productType": "Anarkali suit",
-   "fabric": "Silk",
-   "color": "As Shown",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]",
-    "3XL [46]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "S [36]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "M [38]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "L [40]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "3XL [46]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    }
-   },
-   "details": [
-    "Kurta",
-    "Fabric: Premium shimmer silk with allover embroidery",
-    "Length: 47–48 inches",
-    "Neckline: Front – 7” | Back – 8”",
-    "Sleeves: Full-length 22”",
-    "Stitching: Fully stitched & ready to wear",
-    "Pant",
-    "Fabric: Comfortable Cotton",
-    "Length: 38–40 inches",
-    "Style: Straight fit, stitched and easy to wear",
-    "Dupatta",
-    "Fabric: Soft Georgette",
-    "Length: 2.5 meters – perfect for graceful draping",
-    "Additional Info"
-   ],
-   "description": "Kurta Fabric: Premium shimmer silk with allover embroidery Length: 47–48 inches Neckline: Front – 7” | Back – 8” Sleeves: Full-length 22” Stitching: Fully stitched & ready to wear Pant Fabric: Comfortable Cotton Length: 38–40 inches Style: Straight fit, stitched and easy to wear Dupatta Fabric: Soft Georgette Length: 2.5 meters – perfect for graceful draping Additional Info",
-   "descriptionHtml": "<p><strong>Kurta</strong></p>\n<ul>\n<li>\n<p><strong>Fabric:</strong>Premium shimmer silk with allover embroidery</p>\n</li>\n<li>\n<p><strong>Length:</strong>47–48 inches</p>\n</li>\n<li>\n<p><strong>Neckline:</strong>Front – 7” | Back – 8”</p>\n</li>\n<li>\n<p><strong>Sleeves:</strong>Full-length 22”</p>\n</li>\n<li>\n<p><strong>Stitching:</strong>Fully stitched &amp; ready to wear</p>\n</li>\n</ul>\n<p><strong>Pant</strong></p>\n<ul>\n<li>\n<p><strong>Fabric:</strong>Comfortable Cotton</p>\n</li>\n<li>\n<p><strong>Length:</strong>38–40 inches</p>\n</li>\n<li>\n<p><strong>Style:</strong>Straight fit, stitched and easy to wear</p>\n</li>\n</ul>\n<p><strong>Dupatta</strong></p>\n<ul>\n<li>\n<p><strong>Fabric:</strong>Soft Georgette</p>\n</li>\n<li>\n<p><strong>Length:</strong>2.5 meters – perfect for graceful draping</p>\n</li>\n</ul>\n\n<h3>\n<strong>Additional Info</strong>\n</h3>\n<ul>\n<li>\n<p><strong>Model Wears:</strong>Size S</p>\n</li>\n<li>\n<p><strong>Model Height:</strong>5'5\"</p>\n</li>\n<li>\n<p><strong>Care:</strong>Dry Clean Only</p>\n</li>\n<li>\n<p><strong>Shipping:</strong>Same Day Dispatch</p>\n</li>\n<li>\n<h3>\n<strong>Perfect For:</strong>\n</h3>\n<p>Weddings • Evening Gatherings • Festive Events • Mehendi/Sangeet • Ethnic Parties</p>\n</li>\n</ul>",
-   "source": "extra",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2025-11-08T17:56:43+05:30"
   },
   {
    "handle": "aarti-black-color-anarkali-suit-set",
@@ -42525,270 +39806,6 @@
    "publishedAt": "2025-06-30T13:10:35+05:30"
   },
   {
-   "handle": "alveera-premium-quality-maroon-anarkali-suit-set",
-   "sourceHandle": "alveera-premium-quality-maroon-anarkali-suit-set",
-   "title": "Alveera Premium Quality Maroon Anarkali Suit Set",
-   "price": 59900,
-   "compareAtPrice": 199667,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/Picsart_25-04-17_20-31-07-303.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/Picsart_25-04-17_20-33-33-526.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/Picsart_25-04-17_20-38-32-676.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/Picsart_25-04-17_20-38-32-676_1.webp"
-   ],
-   "collections": [
-    "new-arrivals",
-    "suit-set-gown"
-   ],
-   "category": "anarkali",
-   "productType": "Anarkali suit",
-   "fabric": "Vichitra Silk",
-   "color": "Maroon",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]",
-    "3XL [46]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "S [36]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "M [38]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "L [40]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "3XL [46]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    }
-   },
-   "details": [
-    "Kurta :",
-    "Fabric – Pur Vichitra Silk With Embroidery 5 mm Sequence Work With Fancy Latkan Border With Sleeve With Cups & Tassels Embroidered work",
-    "Kurta Length – 50-52",
-    "Back Neck – 10 inches",
-    "Pants :",
-    "Fabric – Pur Vichitra Silk With Embroidery 5 mm Sequence Work",
-    "Length – 39 Inch (Full Stitched)",
-    "Dupatta :",
-    "Fabric – Pur Vichitra Silk With Four Side Fancy Embroidery Lace Border",
-    "work",
-    "Length – 2.2 mtr"
-   ],
-   "description": "Kurta : Fabric – Pur Vichitra Silk With Embroidery 5 mm Sequence Work With Fancy Latkan Border With Sleeve With Cups & Tassels Embroidered work Kurta Length – 50-52 Back Neck – 10 inches Pants : Fabric – Pur Vichitra Silk With Embroidery 5 mm Sequence Work Length – 39 Inch (Full Stitched) Dupatta : Fabric – Pur Vichitra Silk With Four Side Fancy Embroidery Lace Border work Length – 2.2 mtr",
-   "descriptionHtml": "<p><b><i>Kurta :</i></b></p>\n<p>Fabric –<span> Pur Vichitra Silk With Embroidery 5 mm Sequence Work With Fancy Latkan Border With Sleeve With Cups &amp; Tassels Embroidered work</span></p>\n<p>Kurta Length – 50-52</p>\n<p>Back Neck –<span>10 inches</span></p>\n<p><b><i>Pants :</i></b></p>\n<p>Fabric –<span>  Pur Vichitra Silk With Embroidery 5 mm Sequence Work</span></p>\n<p>Length –<span>39 Inch <strong>(Full Stitched)</strong> </span></p>\n<p><b><i>Dupatta :</i></b></p>\n<p>Fabric –<span>Pur Vichitra Silk With Four Side Fancy Embroidery  Lace Border</span><br><span> work</span></p>\n<p>Length – 2.2 mtr<br></p>",
-   "source": "extra",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2025-05-17T21:21:00+05:30"
-  },
-  {
-   "handle": "prachis-pink-havy-vichitra-royal-elegant-suit-set",
-   "sourceHandle": "prachis-pink-havy-vichitra-royal-elegant-suit-set",
-   "title": "Prachi's' PINK Havy Vichitra Royal Elegant Suit Set",
-   "price": 54900,
-   "compareAtPrice": 183000,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/6334737051617967693_1babf34e-74e3-4d1e-adc9-26a455d7654e.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/6334737051617967694_6d7eb5e6-9fba-4839-8fd7-d393db5f91a5.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/6334737051617967692_c356b58d-8d3e-4306-bbc6-78bc84429e83.webp"
-   ],
-   "collections": [
-    "new-arrivals",
-    "suit-set-gown"
-   ],
-   "category": "anarkali",
-   "productType": "Anarkali suit",
-   "fabric": "Vichitra Silk",
-   "color": "Pink",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]",
-    "3XL [46]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "S [36]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "M [38]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "L [40]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "3XL [46]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    }
-   },
-   "details": [
-    "Anarkali Gown Fabric : Heavy Pur Vichitra Silk With Embroidery 5 mm Sequence Work With Fancy Latkan Border With Sleeve With Cups & Tassels",
-    "Gown Inner : Micro Cotton",
-    "Gown Length :50-51 Inches",
-    "Gown Flair : 3 Meter",
-    "Pent Plazzo Fabric : Heavy Pur Vichitra Silk With Embroidery 5 mm Sequence Work",
-    "Inner: Micro Cotton",
-    "Pent Plazzo Length : 39 Inch (Full Stitched)",
-    "Dupatta Fabric : Heavy Pur Vichitra Silk With Rivet Moti Work With Four Side Fancy Readymed Lace Border",
-    "Dupatta Length :2.20 Mtr"
-   ],
-   "description": "Anarkali Gown Fabric : Heavy Pur Vichitra Silk With Embroidery 5 mm Sequence Work With Fancy Latkan Border With Sleeve With Cups & Tassels Gown Inner : Micro Cotton Gown Length :50-51 Inches Gown Flair : 3 Meter Pent Plazzo Fabric : Heavy Pur Vichitra Silk With Embroidery 5 mm Sequence Work Inner: Micro Cotton Pent Plazzo Length : 39 Inch (Full Stitched) Dupatta Fabric : Heavy Pur Vichitra Silk Wi",
-   "descriptionHtml": "<p><span>Anarkali Gown Fabric : Heavy Pur Vichitra Silk With Embroidery 5 mm Sequence Work With Fancy Latkan Border With Sleeve With Cups &amp; Tassels</span><br><span>Gown Inner : Micro Cotton</span><br><span>Gown Length :50-51 Inches</span><br><span>Gown Flair : 3 Meter</span><br><span>Pent Plazzo Fabric : Heavy Pur Vichitra Silk With Embroidery 5 mm Sequence Work</span><br><span>Inner: Micro Cotton</span><br><span>Pent Plazzo Length : 39 Inch (Full Stitched)</span><br><span>Dupatta Fabric  : Heavy Pur Vichitra Silk With Rivet Moti Work With Four Side Fancy Readymed Lace Border</span><br><span>Dupatta Length :2.20 Mtr</span></p>",
-   "source": "extra",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2025-02-07T14:26:25+05:30"
-  },
-  {
-   "handle": "chandnis-latest-anarkali-suit-set-8201648537732",
-   "sourceHandle": "chandnis-latest-anarkali-suit-set",
-   "title": "Chandni's Latest Anarkali Suit Set",
-   "price": 54900,
-   "compareAtPrice": 183000,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/photo_6253559923455672476_y_1_1.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/photo_6253559923455672474_y.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/photo_6253559923455672473_y.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/photo_6253559923455672475_y.webp"
-   ],
-   "collections": [
-    "trends-signature",
-    "new-arrivals",
-    "party-wear-gown",
-    "sale"
-   ],
-   "category": "anarkali",
-   "productType": "Anarkali suit",
-   "fabric": "Georgette",
-   "color": "As Shown",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]",
-    "3XL [46]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "S [36]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "M [38]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "L [40]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    },
-    "3XL [46]": {
-     "price": 54900,
-     "compareAtPrice": 183000,
-     "available": true
-    }
-   },
-   "details": [
-    "TOP:",
-    "FABRIC : Faux Georgette Fabric With All over Embroidery Work",
-    "LENGTH : 50-52”",
-    "FRONT NECK : 7 inches",
-    "BACK NECK : 10 inches",
-    "LINING : Micro Cotton (Full Inner Top To Bottom)",
-    "SLEEVES : Full Sleeves [21inches]",
-    "PANTS:",
-    "Fabric : Micro Cotton",
-    "Length : 38-42”",
-    "DUPATTA :",
-    "Faux Georgette Fabric With lace border"
-   ],
-   "description": "TOP: FABRIC : Faux Georgette Fabric With All over Embroidery Work LENGTH : 50-52” FRONT NECK : 7 inches BACK NECK : 10 inches LINING : Micro Cotton (Full Inner Top To Bottom) SLEEVES : Full Sleeves [21inches] PANTS: Fabric : Micro Cotton Length : 38-42” DUPATTA : Faux Georgette Fabric With lace border",
-   "descriptionHtml": "<p><span>TOP: </span></p>\n<p><b><strong>FABRIC</strong></b><span>: Faux Georgette Fabric With All over Embroidery Work</span></p>\n<p><b><strong>LENGTH </strong></b><span>: 50-52”</span></p>\n<p><span></span><b><strong>FRONT NECK</strong></b><span>: 7 inches</span></p>\n<p><b><strong>BACK NECK </strong></b><span>: 10 inches</span></p>\n<p><b><strong>LINING</strong></b><span>: Micro Cotton (Full Inner Top To Bottom)</span></p>\n<p><b><strong>SLEEVES</strong></b><span>: Full Sleeves [21inches]</span></p>\n<p> </p>\n<p><span> </span><b><strong>PANTS: </strong></b></p>\n<p><b><strong>Fabric</strong></b><span><span> :</span>Micro Cotton</span></p>\n<p><span></span><b><strong>Length</strong></b><span><span> :</span> 38-42”</span></p>\n<br></p>\n<p><b><strong>DUPATTA</strong></b><span>: </span></p>\n<p><span>Faux Georgette Fabric With lace border</span></p>",
-   "source": "extra",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2025-06-28T16:32:57+05:30"
-  },
-  {
    "handle": "black-faux-blooming-anarkali-style-sarara-suit-set",
    "sourceHandle": "black-faux-blooming-anarkali-style-sarara-suit-set",
    "title": "Black Faux Blooming Anarkali Style Sarara Suit Set",
@@ -43064,7 +40081,7 @@
   {
    "handle": "mahis-white-suit-set",
    "sourceHandle": "mahis-white-suit-set",
-   "title": "Mahi's white suit set 144",
+   "title": "Mahi's white suit set",
    "price": 59900,
    "compareAtPrice": 199667,
    "images": [
@@ -43427,198 +40444,9 @@
    "publishedAt": "2024-08-01T14:48:59+05:30"
   },
   {
-   "handle": "rukmanis-maroon-coloured-anarkali-suit-set-td09",
-   "sourceHandle": "rukmanis-maroon-coloured-anarkali-suit-set-td09",
-   "title": "Rukmani's Maroon Coloured Anarkali Suit Set",
-   "price": 59900,
-   "compareAtPrice": 199667,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/WhatsAppImage2024-06-25at11.42.56AM_1_1.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/WhatsAppImage2024-06-25at11.42.52AM_1.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/WhatsAppImage2024-06-25at11.42.55AM_1.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/WhatsAppImage2024-06-25at11.42.56AM_1_080f02e8-d1dc-43ae-a26d-1e32487d3803.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/WhatsAppImage2024-06-25at11.42.53AM.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/WhatsAppImage2024-06-25at11.42.54AM.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/WhatsAppImage2024-06-25at11.42.54AM_1.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/WhatsAppImage2024-06-25at11.42.56AM_1.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/WhatsAppImage2024-06-25at11.42.57AM.webp"
-   ],
-   "collections": [
-    "new-arrivals",
-    "suit-set-gown"
-   ],
-   "category": "anarkali",
-   "productType": "Anarkali suit",
-   "fabric": "Georgette",
-   "color": "Maroon",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]",
-    "3XL [46]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "S [36]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "M [38]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "L [40]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "3XL [46]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    }
-   },
-   "details": [
-    "Kurta :",
-    "Fabric – Georgette fabric with allover mualti embroidery",
-    "Kurta Length – 50-52",
-    "Front Neck – 7-8 inches",
-    "Back Neck – 9-10 inches",
-    "Sleeves 21 full sleeves",
-    "Pants :",
-    "Fabric – Micro Cotton",
-    "Length – 38-40”",
-    "Dupatta :",
-    "Fabric – Georgette",
-    "Length – 2.3 mtr",
-    "KURTA SIZE CHART",
-    "STANDARD SIZE"
-   ],
-   "description": "Kurta : Fabric – Georgette fabric with allover mualti embroidery Kurta Length – 50-52 Front Neck – 7-8 inches Back Neck – 9-10 inches Sleeves 21 full sleeves Pants : Fabric – Micro Cotton Length – 38-40” Dupatta : Fabric – Georgette Length – 2.3 mtr KURTA SIZE CHART STANDARD SIZE",
-   "descriptionHtml": "<p><b><i>Kurta :</i></b></p>\n<ul>\n<li>Fabric – Georgette fabric with allover mualti embroidery<br>\n</li>\n<li>Kurta Length – 50-52</li>\n<li>Front Neck – 7-8 inches</li>\n<li>Back Neck –  9-10 inches</li>\n<li>Sleeves  21 full sleeves</li>\n</ul>\n<p><b><i>Pants :</i></b></p>\n<ul>\n<li>Fabric –  Micro Cotton</li>\n<li>Length – 38-40”</li>\n</ul>\n<p><b><i>Dupatta :</i></b></p>\n<ul>\n<li>Fabric – Georgette </li>\n<li>Length – 2.3 mtr<br>\n<ul>\n<li>KURTA SIZE CHART</li>\n<li><br></li>\n</ul>\n<div>\n<div>\n<table>\n<tbody>\n<tr>\n<td>STANDARD SIZE</td>\n<td>BUST</td>\n<td>WAIST</td>\n<td>HIPS</td>\n</tr>\n<tr>\n<td></td>\n<td>INCHES</td>\n<td>INCHES</td>\n<td>INCHES</td>\n</tr>\n<tr>\n<td>XS</td>\n<td>34</td>\n<td>32</td>\n<td>36</td>\n</tr>\n<tr>\n<td>S</td>\n<td>36</td>\n<td>34</td>\n<td>38</td>\n</tr>\n<tr>\n<td>M</td>\n<td>38</td>\n<td>36</td>\n<td>40</td>\n</tr>\n<tr>\n<td>L</td>\n<td>40</td>\n<td>38</td>\n<td>42</td>\n</tr>\n<tr>\n<td>XL</td>\n<td>42</td>\n<td>40</td>\n<td>44</td>\n</tr>\n<tr>\n<td>XXL</td>\n<td>44</td>\n<td>42</td>\n<td>46</td>\n</tr>\n<tr>\n<td>3XL</td>\n<td>46</td>\n<td>44</td>\n<td>48</td>\n</tr>\n</tbody>\n</table>\n</div>\n</div>\n<ul>\n<li><br></li>\n<li>PANT SIZE CHART</li>\n</ul>\n<div>\n<div>\n<table>\n<tbody>\n<tr>\n<td>Standard Size</td>\n<td>Length</td>\n<td>Waist</td>\n<td>Hip</td>\n<td>Thighs</td>\n</tr>\n<tr>\n<td>XS</td>\n<td>38</td>\n<td>26</td>\n<td>36</td>\n<td>22</td>\n</tr>\n<tr>\n<td>S</td>\n<td>38</td>\n<td>28</td>\n<td>38</td>\n<td>23</td>\n</tr>\n<tr>\n<td>M</td>\n<td>38</td>\n<td>30</td>\n<td>38</td>\n<td>24</td>\n</tr>\n<tr>\n<td>L</td>\n<td>38</td>\n<td>32</td>\n<td>40</td>\n<td>25</td>\n</tr>\n<tr>\n<td>XL</td>\n<td>38</td>\n<td>34</td>\n<td>42</td>\n<td>26</td>\n</tr>\n<tr>\n<td>XXL</td>\n<td>38</td>\n<td>36</td>\n<td>44</td>\n<td>27</td>\n</tr>\n<tr>\n<td>3XL</td>\n<td>38</td>\n<td>38</td>\n<td>46</td>\n<td>28</td>\n</tr>\n<tr>\n<td>4XL</td>\n<td>38</td>\n<td>40</td>\n<td>48</td>\n<td>29</td>\n</tr>\n</tbody>\n</table>\n</div>\n</div>\n</li>\n</ul>",
-   "source": "extra",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2024-08-01T14:46:22+05:30"
-  },
-  {
-   "handle": "keshvis-orange-coloured-anarkali-suit-set-05",
-   "sourceHandle": "keshvis-orange-coloured-anarkali-suit-set-05",
-   "title": "Keshvi's Orange Coloured Anarkali Suit Set",
-   "price": 59900,
-   "compareAtPrice": 199667,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/WhatsAppImage2024-06-25at11.54.42AM.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/WhatsAppImage2024-06-25at11.54.43AM_1.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/WhatsAppImage2024-06-25at11.54.45AM.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/WhatsAppImage2024-06-25at11.54.44AM.jpg",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/WhatsAppImage2024-06-25at11.54.45AM_1.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/WhatsAppImage2024-06-25at11.54.43AM.jpg"
-   ],
-   "collections": [
-    "new-arrivals",
-    "suit-set-gown"
-   ],
-   "category": "anarkali",
-   "productType": null,
-   "fabric": "Georgette",
-   "color": "Orange",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]",
-    "3XL [46]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "S [36]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "M [38]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "L [40]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    },
-    "3XL [46]": {
-     "price": 59900,
-     "compareAtPrice": 199667,
-     "available": true
-    }
-   },
-   "details": [
-    "Kurta :",
-    "Fabric – Georgette fabric with allover mualti embroidery",
-    "Kurta Length – 48-50",
-    "Front Neck – 7-8 inches",
-    "Back Neck – 9-10 inches",
-    "Sleeves 21 full sleeves",
-    "Pants :",
-    "Fabric – Micro Cotton",
-    "Length – 38-40”",
-    "Dupatta :",
-    "Fabric – Georgette",
-    "Length – 2.3 mtr",
-    "KURTA SIZE CHART",
-    "STANDARD SIZE"
-   ],
-   "description": "Kurta : Fabric – Georgette fabric with allover mualti embroidery Kurta Length – 48-50 Front Neck – 7-8 inches Back Neck – 9-10 inches Sleeves 21 full sleeves Pants : Fabric – Micro Cotton Length – 38-40” Dupatta : Fabric – Georgette Length – 2.3 mtr KURTA SIZE CHART STANDARD SIZE",
-   "descriptionHtml": "<p><b><i>Kurta :</i></b></p>\n<ul>\n<li>Fabric – Georgette fabric with allover mualti embroidery<br>\n</li>\n<li>Kurta Length – 48-50</li>\n<li>Front Neck – 7-8 inches</li>\n<li>Back Neck –  9-10 inches</li>\n<li>Sleeves  21 full sleeves</li>\n</ul>\n<p><b><i>Pants :</i></b></p>\n<ul>\n<li>Fabric –  Micro Cotton</li>\n<li>Length – 38-40”</li>\n</ul>\n<p><b><i>Dupatta :</i></b></p>\n<ul>\n<li>Fabric – Georgette </li>\n<li>Length – 2.3 mtr<br>\n<ul>\n<li>KURTA SIZE CHART</li>\n<li><br></li>\n</ul>\n<div>\n<div>\n<table>\n<tbody>\n<tr>\n<td>STANDARD SIZE</td>\n<td>BUST</td>\n<td>WAIST</td>\n<td>HIPS</td>\n</tr>\n<tr>\n<td></td>\n<td>INCHES</td>\n<td>INCHES</td>\n<td>INCHES</td>\n</tr>\n<tr>\n<td>XS</td>\n<td>34</td>\n<td>32</td>\n<td>36</td>\n</tr>\n<tr>\n<td>S</td>\n<td>36</td>\n<td>34</td>\n<td>38</td>\n</tr>\n<tr>\n<td>M</td>\n<td>38</td>\n<td>36</td>\n<td>40</td>\n</tr>\n<tr>\n<td>L</td>\n<td>40</td>\n<td>38</td>\n<td>42</td>\n</tr>\n<tr>\n<td>XL</td>\n<td>42</td>\n<td>40</td>\n<td>44</td>\n</tr>\n<tr>\n<td>XXL</td>\n<td>44</td>\n<td>42</td>\n<td>46</td>\n</tr>\n<tr>\n<td>3XL</td>\n<td>46</td>\n<td>44</td>\n<td>48</td>\n</tr>\n</tbody>\n</table>\n</div>\n</div>\n<ul>\n<li><br></li>\n<li>PANT SIZE CHART</li>\n</ul>\n<div>\n<div>\n<table>\n<tbody>\n<tr>\n<td>Standard Size</td>\n<td>Length</td>\n<td>Waist</td>\n<td>Hip</td>\n<td>Thighs</td>\n</tr>\n<tr>\n<td>XS</td>\n<td>38</td>\n<td>26</td>\n<td>36</td>\n<td>22</td>\n</tr>\n<tr>\n<td>S</td>\n<td>38</td>\n<td>28</td>\n<td>38</td>\n<td>23</td>\n</tr>\n<tr>\n<td>M</td>\n<td>38</td>\n<td>30</td>\n<td>38</td>\n<td>24</td>\n</tr>\n<tr>\n<td>L</td>\n<td>38</td>\n<td>32</td>\n<td>40</td>\n<td>25</td>\n</tr>\n<tr>\n<td>XL</td>\n<td>38</td>\n<td>34</td>\n<td>42</td>\n<td>26</td>\n</tr>\n<tr>\n<td>XXL</td>\n<td>38</td>\n<td>36</td>\n<td>44</td>\n<td>27</td>\n</tr>\n<tr>\n<td>3XL</td>\n<td>38</td>\n<td>38</td>\n<td>46</td>\n<td>28</td>\n</tr>\n<tr>\n<td>4XL</td>\n<td>38</td>\n<td>40</td>\n<td>48</td>\n<td>29</td>\n</tr>\n</tbody>\n</table>\n</div>\n</div>\n</li>\n</ul>\n<ul></ul>",
-   "source": "extra",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2025-06-28T14:08:12+05:30"
-  },
-  {
    "handle": "whispering-breeze-georgette-embroidered-suit-set-td-107-7287175708804",
    "sourceHandle": "whispering-breeze-georgette-embroidered-suit-set-td-107",
-   "title": "Whispering Breeze Georgette Embroidered Suit Set",
+   "title": "Whispering Breeze Embroidered Georgette Suit Set",
    "price": 59900,
    "compareAtPrice": 199667,
    "images": [
@@ -43629,9 +40457,10 @@
     "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/photo1692958289_2.jpg"
    ],
    "collections": [
-    "trends-signature",
     "new-arrivals",
-    "party-wear-gown"
+    "party-wear-gown",
+    "trending",
+    "trends-signature"
    ],
    "category": "lehnga",
    "productType": "Anarkali suit",
@@ -43705,7 +40534,7 @@
    "rating": 4.9,
    "reviewCount": 40,
    "inStock": true,
-   "featured": false,
+   "featured": true,
    "publishedAt": "2024-07-31T16:34:33+05:30"
   },
   {
@@ -44046,94 +40875,6 @@
    "inStock": true,
    "featured": false,
    "publishedAt": "2024-05-20T16:08:03+05:30"
-  },
-  {
-   "handle": "sanayas-designer-readymade-gown-collections-kkka-131",
-   "sourceHandle": "sanayas-designer-readymade-gown-collections-kkka-131",
-   "title": "Bufani's' Designer Readymade Gown Collections",
-   "price": 69900,
-   "compareAtPrice": 233000,
-   "images": [
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/WhatsAppImage2024-02-07at11.24.49_986879d7-c753-496e-975e-244cd5abf6b7.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/WhatsAppImage2024-02-07at11.24.52.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/WhatsAppImage2024-02-07at11.24.50-Copy.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/WhatsAppImage2024-02-07at11.24.44.webp",
-    "https://cdn.shopify.com/s/files/1/0343/4558/2724/files/WhatsAppImage2024-02-07at11.24.49.webp"
-   ],
-   "collections": [
-    "new-arrivals",
-    "suit-set-gown"
-   ],
-   "category": "gown",
-   "productType": "GOWN",
-   "fabric": "Silk",
-   "color": "As Shown",
-   "sizes": [
-    "XS [34]",
-    "S [36]",
-    "M [38]",
-    "L [40]",
-    "XL [42]",
-    "2XL [44]",
-    "3XL [46]"
-   ],
-   "sizePricing": {
-    "XS [34]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "S [36]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "M [38]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "L [40]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "XL [42]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "2XL [44]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    },
-    "3XL [46]": {
-     "price": 69900,
-     "compareAtPrice": 233000,
-     "available": true
-    }
-   },
-   "details": [
-    "GOWN:",
-    "FABRIC & WORK: Faux Georgette with Embroidery Zari Sequins-work",
-    "LENGTH: 56 INCH",
-    "FLAIR: 3.5 MTR",
-    "LINING: Cotton (Full Inner Top To Bottom)",
-    "SLEEVE: Full Sleeves",
-    "NECK TYPE: V Neck",
-    "DUPATTA:",
-    "FABRIC: Tabby silk Embroidered with Cutwork",
-    "Length: 2.25MTR"
-   ],
-   "description": "GOWN: FABRIC & WORK: Faux Georgette with Embroidery Zari Sequins-work LENGTH: 56 INCH FLAIR: 3.5 MTR LINING: Cotton (Full Inner Top To Bottom) SLEEVE: Full Sleeves NECK TYPE: V Neck DUPATTA: FABRIC: Tabby silk Embroidered with Cutwork Length: 2.25MTR",
-   "descriptionHtml": "<p><span>GOWN: </span><br><span>FABRIC &amp; WORK: Faux Georgette with Embroidery Zari Sequins-work</span><br><span>LENGTH: 56 INCH</span><br><span>FLAIR: 3.5 MTR</span><br><span>LINING: Cotton (Full Inner Top To Bottom)</span><br><span>SLEEVE: Full Sleeves</span><br><span>NECK TYPE: V Neck</span><br><br><span>DUPATTA: </span><br><span>FABRIC: Tabby silk Embroidered with Cutwork</span><br><span>Length: 2.25MTR</span><br></p>",
-   "source": "extra",
-   "rating": 0,
-   "reviewCount": 0,
-   "inStock": true,
-   "featured": false,
-   "publishedAt": "2024-05-20T15:58:00+05:30"
   },
   {
    "handle": "royal-blue-bandhej-kurta-set",

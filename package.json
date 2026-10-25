@@ -40,7 +40,12 @@
     "test:unit": "tsx --test tests/unit/*.test.ts",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "test:audit": "node tests/e2e/round16.mjs && node tests/e2e/links.mjs",
-    "test:links": "node tests/e2e/links.mjs"
+    "test:links": "node tests/e2e/links.mjs",
+    "catalog:dupes": "node scripts/fix-duplicate-listings.mjs",
+    "catalog:dupes:fix": "node scripts/fix-duplicate-listings.mjs --write",
+    "catalog:titles": "node scripts/clean-titles.mjs",
+    "catalog:trending": "node scripts/patch-trending.mjs",
+    "reviews:export": "node scripts/reviews-sync/export-for-sheet.mjs"
   },
   "devDependencies": {
     "@electric-sql/pglite": "^0.5.11",

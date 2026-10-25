@@ -197,8 +197,8 @@ sheet me bhi record rehta hai: kis din, kaun sa item, kaun sa size/colour, kitne
 | --- | --- | --- |
 | `brand_name` | `TRENDS YOUNIQUE` | invoice / WhatsApp naam |
 | `tagline` | `Couture for the woman who arrives` | home hero |
-| `support_phone` | `8005900581` | footer, contact, header |
-| `whatsapp` | `8005900581` | **saare** WhatsApp order links (91 auto lagta hai) |
+| `support_phone` | `7740992663` | footer, contact, header |
+| `whatsapp` | `7740992663` | **saare** WhatsApp order links (91 auto lagta hai) |
 | `upi_id` `upi_name` | `name@bank` | checkout QR / order page |
 | `announcement` | `New drop live — free shipping` | top announcement bar |
 | `max_qty_per_item` | `10` | ek product (ek size) ki max quantity |

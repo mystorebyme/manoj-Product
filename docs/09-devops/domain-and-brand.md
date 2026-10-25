@@ -27,7 +27,7 @@
   - Ek hi component: `apps/web/src/components/brand-lockup.tsx` (header, mobile menu, footer)
   - Admin: `apps/admin/public/invoice-logo.png` (horizontal lockup) + `/brand-mark.png` (sidebar/login)
   - Pipeline + breakpoints: `scripts/brand/build-responsive-assets.mjs`, `docs/05-design/responsive-assets.md`
-- Phone / WhatsApp: `8005900581` (Settings sheet se override ho sakta hai:
+- Phone / WhatsApp: `7740992663` (Settings sheet se override ho sakta hai:
   `support_phone`, `whatsapp`).
 - UPI: **owner ki apni UPI id** — Sheet `Settings` ke `upi_id` / `upi_name`, ya `STORE_UPI_ID` env.
   Khaali ho to site par UPI card nahi khulta (koi placeholder VPA nahi dikhta).

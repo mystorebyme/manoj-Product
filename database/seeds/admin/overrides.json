@@ -1,7 +1,9 @@
 {
   "meta": {
     "note": "Admin panel isi file ko likhta hai. scripts/build-catalog.mjs publish par isse catalogue me merge karta hai.",
-    "lastPublishedAt": "2026-10-24T15:25:55.195Z"
+    "lastPublishedAt": "2026-10-24T15:25:55.195Z",
+    "duplicateListingsFixedAt": "2026-10-25T15:35:22.529Z",
+    "duplicateListingsFixed": 36
   },
   "products": {
     "meera-mint-green-gota-pearl-kurta-set": {
@@ -57,12 +59,49 @@
       "image": "/images/shop/tara-brown-zari-tree-kurta-set/1.webp"
     },
     "trending": {
-      "image": "/images/shop/rani-emerald-silk-lehenga/1.webp"
+      "image": "https://cdn.shopify.com/s/files/1/0738/8345/1696/files/312751141_626486779205170_5599680611515396374_n.jpg"
     },
     "best-seller": {
       "image": "/images/shop/meher-wine-velvet-anarkali/2.webp"
     }
   },
-  "hidden": [],
+  "hidden": [
+    "aaradhya-faux-blooming-zari-sequins-anarkali-suit-set",
+    "adeena-black-faux-blooming-anarkali-style-sarara-suit-set-copy",
+    "alveera-premium-quality-anarkali-suit-set-with-color",
+    "alveera-premium-quality-maroon-anarkali-suit-set",
+    "chandnis-latest-anarkali-suit-set-8201648537732",
+    "classic-red-karva-chauth-special-anarkali-suit-set",
+    "goldenhour-cosmos-suit-set",
+    "heavy-pure-cinon-silk-gown-pent-dupatta-set-fully-stitched-ready-to-wear",
+    "ivory-and-maroon-elegant-top-bottom-dupatta-suit-set",
+    "keshvis-orange-coloured-anarkali-suit-set-05",
+    "krishvas-exclusive-blue-floral-organza-anarkali-suit-set",
+    "madhvi-heavy-embroidered-maxi-set",
+    "malveera-premium-quality-anarkali-suit-set",
+    "manvis-white-coloured-anarkali-suit-set-11",
+    "manyata-maroon-red-embroidered-georgette-suit-set",
+    "mita-heavy-traditional-embroidered-koti-anarkali-suit-set",
+    "neha-heavy-pure-vichitra-anarkali-suit-set",
+    "niyara-maroon-color-anarkali-suit-set",
+    "nravya-purple-embroidered-suit-set",
+    "padmarani-red-special-anarkali-suit-set",
+    "prachis-pink-havy-vichitra-royal-elegant-suit-set",
+    "premium-ivory-royal-zari-work-kali-cut-anarkali-suit-set-10456605851780",
+    "premium-quality-anarkali-suit-set-copy-3",
+    "presenting-new-crunchy-silk-fabric-with-embroidery-sequence-dori-and-jari-work-top-with-dupatta-set-bell-bottom-pent-ready-to-wear",
+    "presenting-new-frendy-silk-fabric-with-embroidery-sequence-dori-and-jari-work-top-with-duppta-set-bell-bottom-pent-ready-to-wear",
+    "presenting-new-premium-quality-pure-romansilk-chanderi-fabric-fully-flare-anarkali-with-dupapta-set-pent-ready-to-wear",
+    "purple-embroidered-anarkali-gown-set",
+    "rang-f-royale-blooming-lehenga-suit-set",
+    "rangshaa-heavy-embroidered-maxi-set-6131",
+    "rukmanis-maroon-coloured-anarkali-suit-set-td09",
+    "sanayas-designer-readymade-gown-collections-kkka-131",
+    "sunheri-fux-georgette-suit-set-6013",
+    "trendy-off-white-suit-set-with-embroidery-and-sequnce-work",
+    "twinkle-maroon-silk-premium-anarkali-suit-set",
+    "twinkle-rama-silk-premium-anarkali-suit-set",
+    "yellow-sharara-suit-set"
+  ],
   "newProducts": []
 }

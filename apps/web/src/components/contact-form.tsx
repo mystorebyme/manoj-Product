@@ -4,10 +4,10 @@ import { useState } from "react";
 import { postJson } from "@/lib/http-json";
 import { relayMessageToSheet } from "@/lib/sheet-relay";
 import { apiUrl } from "@/lib/api-base";
-import { useStoreSettings } from "@/components/store-settings-provider";
+import { DEFAULT_PUBLIC_SETTINGS, useStoreSettings } from "@/components/store-settings-provider";
 
-/** fallback — live value Google Sheet / admin settings se aati hai */
-const FALLBACK_WHATSAPP = "8005900581";
+/** fallback — live value Google Sheet / admin settings se aati hai (`Settings` tab) */
+const FALLBACK_WHATSAPP = DEFAULT_PUBLIC_SETTINGS.whatsapp;
 
 /**
  * WhatsApp fallback — website par support **email nahi** dikhta (owner ki request).

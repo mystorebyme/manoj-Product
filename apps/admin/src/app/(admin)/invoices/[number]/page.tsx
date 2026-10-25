@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AutoPrint } from "@/components/auto-print";
-import { getManualInvoice } from "@/lib/data";
+import { getManualInvoice, getSettings } from "@/lib/data";
 import { invoiceFromSlug, invoiceSlug } from "@/lib/invoice-slug";
 import { inr } from "@/lib/format";
 import {
@@ -21,6 +21,8 @@ export default async function ManualInvoicePage({ params }: { params: Promise<{ 
   const { number } = await params;
   const invoice = await getManualInvoice(invoiceFromSlug(number));
   if (!invoice) notFound();
+  // seller details admin settings / Google Sheet se — invoice par kuch hardcode nahi
+  const store = await getSettings();
 
   const interState = invoice.state.trim().toLowerCase() !== SELLER_STATE.toLowerCase();
   const lines = invoice.items.map((item) => {
@@ -63,9 +65,9 @@ export default async function ManualInvoicePage({ params }: { params: Promise<{ 
             <p className="invoice-muted" style={{ marginTop: 8 }}>
               TRENDS YOUNIQUE · Jaipur, Rajasthan
               <br />
-              GSTIN: 08AAACL1234K1Z5 · care@trendsyounique.com
+              GSTIN: {store.gstin?.trim() || "GSTIN pending"} · {store.supportEmail}
               <br />
-              8005900581
+              {store.supportPhone}
             </p>
           </div>
           <div style={{ textAlign: "right" }}>

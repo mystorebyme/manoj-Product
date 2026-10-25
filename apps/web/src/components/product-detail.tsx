@@ -13,6 +13,7 @@ import type { ColourOption, Product } from "@/types/catalog";
 import { ProductGallery } from "@/components/product-gallery";
 import { Stars } from "@/components/product-reviews";
 import { useStoreSettings } from "@/components/store-settings-provider";
+import { BuyProtected } from "@/components/buy-protected";
 import {
   logWhatsAppEnquiry,
   productWhatsAppMessage,
@@ -203,7 +204,7 @@ export function ProductDetail({
       content: (
         <p className="text-[12.5px] leading-relaxed text-[#3d332c]">
           Simply return it within 7 days of delivery. The product must be unused with all tags
-          intact. Raise a request on WhatsApp 8005900581 with your order number.
+          intact. Raise a request on WhatsApp {whatsapp} with your order number.
         </p>
       ),
     },
@@ -359,7 +360,7 @@ export function ProductDetail({
           )}
           {sizeSoldOut ? (
             <p className="mt-1 text-[11.5px] text-[#b3261e]">
-              {size} is out of stock — WhatsApp 8005900581 for the next drop.
+              {size} is out of stock — WhatsApp {whatsapp} for the next drop.
             </p>
           ) : null}
         </div>
@@ -496,6 +497,8 @@ export function ProductDetail({
           </svg>
           Poochhein — size, fabric ya delivery?
         </a>
+
+        <BuyProtected />
 
         <p className="mt-3 text-[11px] tracking-[.06em] text-[#8a7d72]">
           Free shipping across India · 7 days return · payment link on WhatsApp

@@ -148,7 +148,7 @@ check(
   "footer me koi instagram link nahi (owner ka handle abhi nahi hai)",
   !/instagram\.com/i.test(home.text),
 );
-check("footer whatsapp link is live", /href="https:\/\/wa\.me\/918005900581/.test(home.text));
+check("footer whatsapp link is live", /href="https:\/\/wa\.me\/917740992663/.test(home.text));
 check("no dummy facebook/pinterest links", !home.text.includes("facebook.com") && !home.text.includes("pinterest.com"));
 
 /* 6. collections index (SHOP landing) ------------------------------------- */

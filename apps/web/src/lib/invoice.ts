@@ -43,14 +43,21 @@ export interface InvoiceView {
   totals: { gross: number; taxable: number; cgst: number; sgst: number; igst: number; tax: number };
 }
 
-/** Seller details — GSTIN env se aata hai; na hone par invoice par "pending" chhapta hai. */
-export function sellerDetails() {
+/**
+ * Seller details — **live store settings** (Google Sheet `Settings` tab) se.
+ * Order: caller ka override → env → default. Na hone par invoice par
+ * "GSTIN pending" chhapta hai (koi banaya hua number nahi).
+ */
+export type SellerOverride = { name?: string; phone?: string; email?: string; gstin?: string };
+
+export function sellerDetails(override: SellerOverride = {}) {
+  const phone = String(override.phone ?? process.env.SELLER_PHONE ?? "").trim();
   return {
-    name: "TRENDS YOUNIQUE",
+    name: String(override.name ?? "").trim() || "TRENDS YOUNIQUE",
     address: "Jaipur, Rajasthan 302001, India",
-    gstin: process.env.SELLER_GSTIN?.trim() || "GSTIN pending",
-    email: process.env.SELLER_EMAIL?.trim() || "care@trendsyounique.com",
-    phone: process.env.SELLER_PHONE?.trim() || "+91 8005900581",
+    gstin: String(override.gstin ?? process.env.SELLER_GSTIN ?? "").trim() || "GSTIN pending",
+    email: String(override.email ?? process.env.SELLER_EMAIL ?? "").trim() || "care@trendsyounique.com",
+    phone: phone ? (phone.startsWith("+") ? phone : `+91 ${phone.replace(/^91/, "")}`) : "",
     state: SELLER_STATE,
   };
 }
@@ -64,8 +71,13 @@ export function sellerDetails() {
  * - Shipping/handling service hai -> 18%.
  * - Same state (Rajasthan) = CGST+SGST, warna IGST.
  */
-export function buildInvoice(order: Order, number: string, issuedAt: string): InvoiceView {
-  const seller = sellerDetails();
+export function buildInvoice(
+  order: Order,
+  number: string,
+  issuedAt: string,
+  sellerOverride: SellerOverride = {},
+): InvoiceView {
+  const seller = sellerDetails(sellerOverride);
   const placeOfSupply = order.state?.trim() || SELLER_STATE;
   const interState = placeOfSupply.toLowerCase() !== SELLER_STATE.toLowerCase();
   const discountRatio = order.subtotal > 0 ? Math.min(order.discount / order.subtotal, 1) : 0;

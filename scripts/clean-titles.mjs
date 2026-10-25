@@ -75,6 +75,17 @@ export function cleanTitle(raw) {
   // 2) spelling
   for (const [pattern, replacement] of SPELLINGS) title = title.replace(pattern, replacement);
 
+  // 2b) source store ka kachra — `copy of`, `-copy`, `TD-6008`, Shopify id,
+  //     `*premium*anarkali*suit*set*`, `[3 Pis]`
+  title = title
+    .replace(/\*/g, " ")
+    .replace(/\[\s*(\d)\s*(pis|pcs|piece|pieces)\s*\]/gi, "($1 Piece)")
+    .replace(/\bcopy\s+of\s+/gi, "")
+    .replace(/\s*\bcopy\b(\s*\d+)?/gi, "")
+    .replace(/\s*\btd[-\s]?\d+\b/gi, "")
+    .replace(/\s*[-–]\s*\b(ac|ay|kka|dt|lc|dkb)[-\s]?\d*\s*$/gi, "")
+    .replace(/[\s\-–]*\b\d{5,}\b\s*$/, "");
+
   // 3) repeat words ("Anarkali Anarkali", "Suit Set Set")
   title = title.replace(/\b(\w+)( \1\b)+/gi, "$1");
 

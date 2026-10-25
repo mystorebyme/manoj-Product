@@ -50,8 +50,8 @@ var HEADERS = {
 
 /** Settings sheet ke keys — website inhe padhti hai */
 var DEFAULT_SETTINGS = [
-  ['support_phone', '8005900581'],
-  ['whatsapp', '8005900581'],
+  ['support_phone', '7740992663'],
+  ['whatsapp', '7740992663'],
   ['support_email', 'Info.likshaclothing@gmail.com'],
   ['upi_id', ''],
   ['upi_name', 'Designer Clothing'],

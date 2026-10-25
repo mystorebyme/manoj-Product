@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { siteConfig } from "@/config/site";
+import { SupportPhone, SupportWhatsAppLink } from "@/components/support-text";
 
 /**
  * Order tracking ka apna "not found" — global 404 ki jagah customer ko saaf
@@ -9,7 +9,6 @@ import { siteConfig } from "@/config/site";
  * database reset ke baad ka number.
  */
 export default function OrderNotFound() {
-  const wa = siteConfig.whatsapp.replace(/\D/g, "").slice(-10);
   return (
     <div className="container-liksha py-14 lg:py-20" data-testid="order-not-found">
       <div className="mx-auto max-w-[620px] border border-[#ece1d3] bg-[#fdfaf5] p-6 text-center sm:p-9">
@@ -34,19 +33,16 @@ export default function OrderNotFound() {
           >
             Try another number
           </Link>
-          <a
-            href={`https://wa.me/91${wa}`}
-            target="_blank"
-            rel="noopener noreferrer"
+          <SupportWhatsAppLink
+            label="WhatsApp support"
             className="inline-flex items-center gap-2 border border-[#25D366] px-6 py-3 text-[11px] font-semibold tracking-[.14em] text-[#128c4b] uppercase"
-          >
-            WhatsApp support
-          </a>
+            message="Hi TRENDS YOUNIQUE, my order shows as not found."
+          />
         </div>
 
         <p className="mt-4 text-[11.5px] leading-relaxed text-[#8a7d72]">
           Order kiya tha aur number bilkul sahi hai? WhatsApp par order number bhejiye — team 24 ghante
-          me status bata degi. Support: <strong>{siteConfig.phone}</strong>
+          me status bata degi. Support: <strong><SupportPhone /></strong>
         </p>
       </div>
     </div>

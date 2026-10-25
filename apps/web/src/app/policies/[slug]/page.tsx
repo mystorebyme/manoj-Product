@@ -3,7 +3,7 @@ import path from "node:path";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { renderMarkdown } from "@/lib/markdown";
+import { SettingsMarkdown, SupportWhatsAppLink } from "@/components/support-text";
 
 const POLICY_DIR = path.join(process.cwd(), "src/content/policies");
 
@@ -66,12 +66,15 @@ export default async function PolicyPage({ params }: { params: Promise<{ slug: s
             </Link>
           ))}
         </nav>
-        <article className="border border-[#ece1d3] p-6 sm:p-9">{renderMarkdown(content)}</article>
+        <article className="border border-[#ece1d3] p-6 sm:p-9">
+          <SettingsMarkdown markdown={content} />
+        </article>
         <p className="mt-6 text-center text-[11.5px] text-[#8a7d72]">
           Questions? WhatsApp{" "}
-          <a className="text-[#6f1d2b]" href="https://wa.me/918005900581">
-            8005900581
-          </a>{" "}
+          <SupportWhatsAppLink
+            className="text-[#6f1d2b]"
+            message="Hi TRENDS YOUNIQUE, I have a question about my order."
+          />{" "}
           — team seedha WhatsApp par reply karti hai.
         </p>
       </div>

@@ -34,7 +34,7 @@ test nahi ho saka (screenshots) wo alag se marked hai.
 - **COD/prepaid contradiction PDP par:** storefront copy me kahin "COD available" nahi tha;
   ab shipping accordion aur bhi explicit hai ("prepaid only, COD available nahi"). Jaisa
   audit me tha waisa text nahi mila — server-side COD hole (#4) asli issue tha, wo band.
-- **Contact/WhatsApp/socials:** phone/WhatsApp 8005900581, Instagram `designer_clothing_9`,
+- **Contact/WhatsApp/socials:** phone/WhatsApp 7740992663, Instagram `designer_clothing_9`,
   UPI id sirf owner ke Sheet `Settings` se aati hai (repo me koi VPA nahi).
 - **Product titles ("Slik", "Havy")** source catalogue ke asli Shopify titles hain. Owner ne
   kaha tha "genuine product names bina verify kiye change mat karo" — isliye chhode, list

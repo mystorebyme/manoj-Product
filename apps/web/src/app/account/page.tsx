@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { TrackOrderForm } from "@/components/track-order-form";
-import { siteConfig } from "@/config/site";
+import { SupportPhone, SupportWhatsAppLink } from "@/components/support-text";
 
 export const metadata: Metadata = {
   title: "My account & order tracking",
@@ -40,9 +40,10 @@ export default function AccountPage() {
             <TrackOrderForm />
             <p className="mt-3 text-[11px] text-[#8a7d72]">
               Order number nahi mila? WhatsApp{" "}
-              <a href={`https://wa.me/91${siteConfig.whatsapp}`} className="text-[#6f1d2b]">
-                {siteConfig.whatsapp}
-              </a>
+              <SupportWhatsAppLink
+                className="text-[#6f1d2b]"
+                message="Hi TRENDS YOUNIQUE, I can't find my order number."
+              />
             </p>
           </div>
 
@@ -60,7 +61,9 @@ export default function AccountPage() {
               ))}
             </ul>
             <div className="mt-4 border-t border-[#f0eae3] pt-3 text-[12px] text-[#6f6259]">
-              <p>WhatsApp: {siteConfig.phone}</p>
+              <p>
+                WhatsApp: <SupportPhone />
+              </p>
               <p className="mt-1 text-[11px] text-[#8a7d72]">
                 Account login (saved addresses, wishlist) Phase 2 me aa raha hai.
               </p>

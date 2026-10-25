@@ -1,0 +1,14 @@
+{
+  "updatedAt": "2026-10-25T15:35:27.019Z",
+  "note": "scripts/patch-trending.mjs — trending collection me chune gaye best-sellers (review count + rating se)",
+  "totalReviews": 23,
+  "products": [
+    {
+      "handle": "new-anarkali-2-layer-gown-duppta-set-ready-to-wear-fully-sttiched-dkb-6",
+      "title": "Maharani Premium Red Anarkali Suit Set",
+      "images": 3,
+      "reviewCount": 23,
+      "rating": 5
+    }
+  ]
+}

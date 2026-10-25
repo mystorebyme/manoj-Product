@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { ContactForm } from "@/components/contact-form";
 import { ContactDetails } from "@/components/contact-details";
 import { TrackOrderForm } from "@/components/track-order-form";
+import { SupportText, SupportWhatsAppLink } from "@/components/support-text";
 
 type PageContent = {
   title: string;
@@ -112,7 +113,7 @@ const pages: Record<string, PageContent> = {
         heading: "7 days return",
         body: [
           "If the product is damaged, has a manufacturing defect or was incorrectly shipped, request a replacement within 7 days of delivery.",
-          "The item must be unused, unwashed and have all original tags intact. Share an unboxing video or clear photographs on WhatsApp 8005900581 along with your order number.",
+          "The item must be unused, unwashed and have all original tags intact. Share an unboxing video or clear photographs on WhatsApp {{whatsapp}} along with your order number.",
         ],
       },
       {
@@ -151,7 +152,7 @@ const pages: Record<string, PageContent> = {
       {
         heading: "Your rights",
         body: [
-          "You may request access, correction or deletion of your personal data by messaging us on WhatsApp (+91 8005900581). We respond within 30 days.",
+          "You may request access, correction or deletion of your personal data by messaging us on WhatsApp ({{phone}}). We respond within 30 days.",
         ],
       },
     ],
@@ -268,7 +269,7 @@ export default async function ContentPage({
                 <div className="mt-2 space-y-2.5">
                   {section.body.map((paragraph) => (
                     <p key={paragraph} className="text-[13px] leading-relaxed text-[#3d332c]">
-                      {paragraph}
+                      <SupportText text={paragraph} />
                     </p>
                   ))}
                 </div>
@@ -337,14 +338,10 @@ export default async function ContentPage({
             >
               Shop Anarkali Suits
             </Link>
-            <a
-              href="https://wa.me/918005900581"
-              target="_blank"
-              rel="noreferrer"
+            <SupportWhatsAppLink
               className="border border-[#6f1d2b] px-6 py-3 text-[11px] font-semibold tracking-[.16em] text-[#6f1d2b] uppercase"
-            >
-              WhatsApp us
-            </a>
+              message="Hi TRENDS YOUNIQUE, I need help with an order."
+            />
           </div>
         </div>
       </div>
