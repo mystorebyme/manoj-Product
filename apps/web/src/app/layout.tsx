@@ -9,6 +9,7 @@ import { AnnouncementBar } from "@/components/announcement-bar";
 import { WishlistProvider } from "@/components/wishlist-provider";
 import { StoreSettingsProvider } from "@/components/store-settings-provider";
 import { Analytics } from "@/components/analytics";
+import { SheetQueueBoot } from "@/components/sheet-queue-boot";
 import { brandAssets, logoMark, siteConfig } from "@/config/site";
 import { assetUrl } from "@/lib/format";
 
@@ -98,6 +99,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </StoreSettingsProvider>
         {/* GA4 — har page ka page_view (NEXT_PUBLIC_GA_ID set hone par hi load hota hai) */}
         <Analytics />
+        {/* jo sheet rows pending reh gayi thi, wo khud bhej do */}
+        <SheetQueueBoot />
       </body>
     </html>
   );

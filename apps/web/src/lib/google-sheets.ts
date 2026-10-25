@@ -183,11 +183,43 @@ export async function readSheetRecent(
   }
 }
 
-/** Ek HTTP round-trip — rows bhejo, success par true. */
+/**
+ * Ek HTTP round-trip — rows bhejo, success par true.
+ *
+ * Pehle **GET** (`?action=append&data=<base64url>`): Apps Script GET par
+ * `Access-Control-Allow-Origin: *` bhejta hai aur `{ok,written}` lauta deta hai,
+ * isliye yahan sach me pata chalta hai ki row likhi gayi. POST ka jawab
+ * (redirect ke baad) verify karna mushkil hota hai — isliye wo fallback hai.
+ */
 async function postRows(
   config: { url: string; token: string },
   rows: { sheet: string; row: Record<string, unknown> }[],
 ): Promise<boolean> {
+  try {
+    const payload = Buffer.from(JSON.stringify(rows), "utf8")
+      .toString("base64")
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=+$/, "");
+    if (payload.length < 5000) {
+      const endpoint = new URL(config.url);
+      endpoint.searchParams.set("action", "append");
+      endpoint.searchParams.set("token", config.token);
+      endpoint.searchParams.set("data", payload);
+      const viaGet = await fetch(endpoint, {
+        cache: "no-store",
+        headers: { accept: "application/json" },
+        signal: AbortSignal.timeout(WRITE_TIMEOUT_MS),
+      });
+      if (viaGet.ok) {
+        const body = (await viaGet.json().catch(() => null)) as { ok?: boolean } | null;
+        if (body?.ok) return true;
+      }
+    }
+  } catch {
+    /* GET fail — POST fallback niche */
+  }
+
   const response = await fetch(config.url, {
     method: "POST",
     cache: "no-store",

@@ -39,24 +39,22 @@ export function ContactForm() {
     event.preventDefault();
     setStatus("loading");
     setError(null);
+    const message = { ...form };
+
+    // 1) SABSE PEHLE sheet — sheet write kisi bhi API jawab par depend nahi karta.
+    //    (Pehle ye API ke baad chalta tha; API slow/hang ho to message sheet me
+    //    pahunchta hi nahi tha — wahi bug owner ko dikha.)
+    relayMessageToSheet(message);
+
+    // 2) Uske baad email/server copy (best effort — fail ho to bhi message safe hai)
+    setForm({ name: "", email: "", phone: "", subject: "Order enquiry", message: "" });
     try {
-      // Pages preview par API live store par jaata hai (apiUrl base add karta hai)
-      const result = await postJson<{ error?: string; ok?: boolean }>(apiUrl("/api/contact"), form);
-      if (result.error || !result.data) {
-        // server na ho / fail ho to bhi message sheet me chala jaye (kuch na khoye)
-        relayMessageToSheet(form);
-        setStatus("done");
-        setForm({ name: "", email: "", phone: "", subject: "Order enquiry", message: "" });
-        return;
-      }
-      relayMessageToSheet(form);
-      setStatus("done");
-      setForm({ name: "", email: "", phone: "", subject: "Order enquiry", message: "" });
+      const result = await postJson<{ error?: string }>(apiUrl("/api/contact"), message);
+      if (result.error) setError(null);
     } catch {
-      relayMessageToSheet(form);
-      setStatus("done");
-      setForm({ name: "", email: "", phone: "", subject: "Order enquiry", message: "" });
+      /* server na ho to bhi message sheet me ja chuka hai */
     }
+    setStatus("done");
   }
 
   if (status === "done") {

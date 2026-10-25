@@ -28,6 +28,39 @@ rehti hai — sirf owner ke edits ruk jaate hain, koi order fail nahi hota.
 > **Sabse chhota rasta:** `docs/09-devops/sheet-setup-5-min.md` — step-by-step, copy-paste.
 > Admin panel me bhi **Google Sheet → "Sheet setup — 5 minute"** par wahi steps dikhte hain.
 
+## 0b. "Data sheet me nahi aa raha" — kyun hota hai aur fix
+
+Owner ne report kiya tha: **contact form, checkout, kuch bhi sheet me nahi aata**.
+
+Root cause (r9 me fix):
+
+1. **Browser POST ka jawab verify nahi ho sakta.** Apps Script `doPost` par CORS
+   preflight nahi hota aur 302 redirect ke baad jawab opaque hota hai — isliye site
+   ko kabhi pata nahi chalta tha ki row likhi gayi ya nahi. Ab site **GET**
+   (`?action=append&data=<base64url>`) se likhti hai, jiska jawab
+   `{ok:true,written:1}` padha ja sakta hai.
+2. **Relay API ke baad chalta tha.** Contact form me `relayMessageToSheet()` server
+   ke jawab ke *baad* aata tha — API slow/hang ho to message sheet me jaata hi nahi.
+   Checkout me bhi order row enquiry-log ke baad thi. Ab **sheet sabse pehle**.
+3. **Retry nahi tha.** Net gaya / Apps Script down → row gum. Ab har row
+   localStorage queue me jaati hai aur `ok:true` milne tak retry hoti hai
+   (server side `Order ID`/`Enquiry ID` se duplicate guard, isliye double rows nahi).
+4. **Master token placeholder tha.** `TOKEN = 'PASTE-MASTER-TOKEN-HERE'` ka matlab
+   tha reads open — aur owner ka asli `tym-…` token script me nahi tha. Ab
+   *Script Properties* se set hota hai: `MASTER_TOKEN` (aur chaho to `WRITE_TOKEN`,
+   `SPREADSHEET_ID`). Placeholder rehne par reads band rehte hain.
+
+**5-minute fix (owner):**
+
+1. Sheet → **Extensions → Apps Script** → purana code hata kar repo ki
+   `scripts/google-apps-script/trends-sheets.gs` paste karein.
+2. **Deploy → Manage deployments → ✏️ Edit → Version: New version → Deploy**
+   (URL wahi rehta hai, naya banane ki zaroorat nahi).
+3. Site par **`/sheet-check/`** kholein → **Run check** dabayein:
+   - step 1: `version 2026-10-25.r9`
+   - step 4: `row likhi gayi (ref TY-CHECK-…)`
+   Dono ✅ = sheet ab har order/message le rahi hai.
+
 ## 1. Apps Script setup (owner, ~5 minute)
 
 1. Upar wali sheet kholiye → **Extensions → Apps Script**.

@@ -128,42 +128,56 @@ export function CheckoutForm() {
       price: line.price,
     }));
 
-    // 1) DB + sheet (server ho to API, warna browser relay) — sirf pehli baar
+    // 1) SHEET SABSE PEHLE — order ki row kisi API/WhatsApp par depend nahi karti.
+    //    (Pehle ye enquiry log ke baad chalta tha; wahan kuch bhi throw ho jaye to
+    //    sheet me order pahunchta hi nahi tha.)
+    if (firstSend) {
+      try {
+        relayOrderToSheet({
+          orderRef,
+          customerName: form.customerName,
+          phone: form.phone,
+          email: form.email,
+          address: form.address,
+          city: form.city,
+          state: form.state,
+          pincode: form.pincode,
+          notes: form.notes,
+          items: lines.map((line) => ({
+            title: line.title,
+            handle: line.handle,
+            colour: line.colour ?? null,
+            size: line.size ?? null,
+            quantity: line.quantity,
+            price: line.price,
+            image: line.image,
+          })),
+          total,
+        });
+      } catch {
+        /* relay khud queue me daal deta hai; yahan kuch na karo */
+      }
+    }
+
+    // 2) Enquiry log (cart/checkout ka snapshot — sheet + server dono)
     if (firstSend && !enquiryLogged.current) {
       enquiryLogged.current = true;
-      logWhatsAppEnquiry({
-        type: "checkout",
-        items: payload,
-        total,
-        customer: form.customerName,
-        phone: form.phone,
-        note: [form.address, form.city, form.state, form.pincode, form.notes]
-          .filter(Boolean)
-          .join(", ")
-          .slice(0, 480),
-      });
+      try {
+        logWhatsAppEnquiry({
+          type: "checkout",
+          items: payload,
+          total,
+          customer: form.customerName,
+          phone: form.phone,
+          note: [form.address, form.city, form.state, form.pincode, form.notes]
+            .filter(Boolean)
+            .join(", ")
+            .slice(0, 480),
+        });
+      } catch {
+        /* enquiry log fail ho to bhi order row ja chuki hai */
+      }
     }
-    if (firstSend) relayOrderToSheet({
-      orderRef,
-      customerName: form.customerName,
-      phone: form.phone,
-      email: form.email,
-      address: form.address,
-      city: form.city,
-      state: form.state,
-      pincode: form.pincode,
-      notes: form.notes,
-      items: lines.map((line) => ({
-        title: line.title,
-        handle: line.handle,
-        colour: line.colour ?? null,
-        size: line.size ?? null,
-        quantity: line.quantity,
-        price: line.price,
-        image: line.image,
-      })),
-      total,
-    });
 
     // 2) WhatsApp — poora detail pre-filled
     const href = whatsappLink(

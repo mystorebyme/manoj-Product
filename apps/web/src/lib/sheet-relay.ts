@@ -5,60 +5,146 @@ import { enquirySheetRow, orderItemRows, orderSheetRow } from "./sheet-format";
 import { sheetWebAppUrl, sheetWriteToken } from "./sheet-config";
 
 /**
- * Browser → Google Sheet relay.
+ * Browser → Google Sheet relay (GitHub Pages / koi bhi static host).
  *
- * Server wala rasta (`/api/enquiry`, `/api/orders`) tab hi chalta hai jab site kisi
- * Node server par ho (Render/VPS). GitHub Pages par sirf static files hoti hain —
- * wahan koi server nahi hota, isliye sheet bharne ke liye ye chhota **client relay**
- * hai: order/enquiry seedha Apps Script web app par `no-cors` POST se chala jaata hai.
+ * Problem jo owner ne report ki: "order aur contact form ka data sheet me nahi aata".
+ * Wajah: Apps Script `doPost` par browser ka CORS preflight fail hota hai, aur POST
+ * ka result browser ko dikhta hi nahi (opaque). Isliye ab **GET + query params**
+ * primary rasta hai — Apps Script GET par `Access-Control-Allow-Origin: *` bhejta
+ * hai, to jawab padha ja sakta hai (`{ok:true,written:1}`) aur pata chalta hai ki
+ * row sach me likhi gayi.
  *
- * Security (owner ke liye):
- *   • `NEXT_PUBLIC_SHEET_WRITE_TOKEN` ek **write-only** token hai — usse sirf rows
- *     add ho sakti hain (padhna/settings badalna nahi). Read token server par hi rehta hai.
- *   • Ye token site ke JS me hota hai (public build), isliye sirf `append` ki
- *     permission deta hai, aur Apps Script side par sheets ki allowlist + row cap hai.
- *   • Kuch galat ho jaye to Apps Script me `WRITE_TOKEN` badal kar redeploy kar dein.
+ * Delivery chain (teen raste, isliye ek fail ho to baaki chalta hai):
+ *   1. `fetch` GET  `${url}?action=append&token=…&data=<base64url rows>`
+ *      → verifiable. Success par queue se row hatti hai.
+ *   2. `navigator.sendBeacon` POST (text/plain) — page band ho raha ho tab bhi
+ *      request chali jaati hai. (Unverified, par Apps Script side dedupe hai.)
+ *   3. hidden form POST — sabse purana, har browser me chalta hai.
  *
- * Relay configure nahi hai to ye module chup-chaap kuch nahi karta — site pehle
- * jaise chalti rehti hai.
+ * Har row pehle **localStorage queue** me save hoti hai aur tabhi nikalta hai jab
+ * server `ok:true` bole. Internet gaya, tab band hua, script down — row gum nahi
+ * hoti; agli visit par khud chali jaati hai. Apps Script `Order ID`/`Enquiry ID`
+ * se duplicate rok deta hai, isliye retry se double rows nahi banti.
  */
 
 const URL_ = sheetWebAppUrl();
 const WRITE_TOKEN = sheetWriteToken();
+/** GET URL ki limit ~8 KB hoti hai — isliye payload chhote batches me */
+const MAX_GET_PAYLOAD = 2600;
+const QUEUE_KEY = "nyx:sheet-queue-v2";
+const MAX_QUEUE = 250;
+const MAX_ATTEMPTS = 40;
+const RETRY_AFTER_MS = 20_000;
+
+type Row = Record<string, string | number | boolean | null | undefined>;
+export type RelayEntry = { id: string; at: number; attempts: number; rows: { sheet: string; row: Row }[] };
 
 export function sheetRelayEnabled(): boolean {
   return /^https:\/\/script\.google\.com\//.test(URL_) && WRITE_TOKEN.length >= 6;
 }
 
-type Row = Record<string, string | number | boolean | null | undefined>;
+/* ─────────────────────────── encoding ─────────────────────────── */
 
-const RELAY_LOG_KEY = "nyx:sheet-relay-log";
+/** UTF-8 safe base64url — Apps Script `Utilities.base64DecodeWebSafe` ise padhta hai */
+export function encodePayload(value: unknown): string {
+  const json = JSON.stringify(value);
+  const bytes = new TextEncoder().encode(json);
+  let binary = "";
+  for (const byte of bytes) binary += String.fromCharCode(byte);
+  return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
 
-/** Aakhri relay attempt (sheet-check page ise dikhata hai) */
-export function lastRelayLog(): { at: number; rows: number; sheets: string[] } | null {
+/** Verifiable GET write ka URL */
+export function appendUrl(baseUrl: string, token: string, rows: { sheet: string; row: Row }[]): string {
+  const separator = baseUrl.includes("?") ? "&" : "?";
+  return `${baseUrl}${separator}action=append&token=${encodeURIComponent(token)}&data=${encodePayload(rows)}`;
+}
+
+/* ─────────────────────────── queue (durable) ─────────────────────────── */
+
+function readQueue(): RelayEntry[] {
   try {
-    const raw = window.localStorage.getItem(RELAY_LOG_KEY);
-    return raw ? (JSON.parse(raw) as { at: number; rows: number; sheets: string[] }) : null;
+    const raw = window.localStorage.getItem(QUEUE_KEY);
+    const parsed = raw ? (JSON.parse(raw) as RelayEntry[]) : [];
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter((entry) => entry && Array.isArray(entry.rows) && entry.rows.length > 0);
   } catch {
-    return null;
+    return [];
   }
 }
 
-function recordRelay(sheets: string[], count: number): void {
+function writeQueue(entries: RelayEntry[]): void {
   try {
-    window.localStorage.setItem(RELAY_LOG_KEY, JSON.stringify({ at: Date.now(), rows: count, sheets }));
+    window.localStorage.setItem(QUEUE_KEY, JSON.stringify(entries.slice(-MAX_QUEUE)));
   } catch {
-    /* storage band */
+    /* storage full/band — queue sirf best effort */
+  }
+}
+
+function newId(): string {
+  return `q-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`;
+}
+
+function enqueue(rows: { sheet: string; row: Row }[]): RelayEntry {
+  const entry: RelayEntry = { id: newId(), at: Date.now(), attempts: 0, rows };
+  const queue = readQueue();
+  queue.push(entry);
+  writeQueue(queue);
+  return entry;
+}
+
+function dequeue(id: string): void {
+  writeQueue(readQueue().filter((entry) => entry.id !== id));
+}
+
+/** Kitni rows abhi bhi sheet tak nahi pahunchi (diagnostics page dikhata hai) */
+export function pendingRelayCount(): number {
+  try {
+    return readQueue().reduce((sum, entry) => sum + entry.rows.length, 0);
+  } catch {
+    return 0;
+  }
+}
+
+/* ─────────────────────────── transports ─────────────────────────── */
+
+/** GET write — jawab padha ja sakta hai, isliye yahi "sach" hai. */
+async function sendViaGet(rows: { sheet: string; row: Row }[]): Promise<boolean> {
+  const response = await fetch(appendUrl(URL_, WRITE_TOKEN, rows), {
+    method: "GET",
+    cache: "no-store",
+    // CORS: Apps Script GET par `*` bhejta hai, isliye jawab milta hai
+    signal: AbortSignal.timeout(12_000),
+  });
+  if (!response.ok) return false;
+  const payload = (await response.json()) as { ok?: boolean; written?: number };
+  return Boolean(payload?.ok) && (payload.written ?? 0) >= 0;
+}
+
+function sendViaBeacon(rows: { sheet: string; row: Row }[]): void {
+  try {
+    const body = JSON.stringify({ token: WRITE_TOKEN, action: "append", rows });
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(URL_, new Blob([body], { type: "text/plain;charset=UTF-8" }));
+      return;
+    }
+    void fetch(URL_, {
+      method: "POST",
+      mode: "no-cors",
+      keepalive: true,
+      headers: { "content-type": "text/plain;charset=utf-8" },
+      body,
+    }).catch(() => undefined);
+  } catch {
+    /* agla transport dekhega */
   }
 }
 
 /**
- * Hidden-form fallback — browser ka normal form POST.
- *
- * CORS isme lagta hi nahi (iframe me jaata hai), isliye 100% deliver hota hai —
- * chahe fetch kisi wajah se block ho jaye. Apps Script `e.parameter` se padhta hai.
+ * Hidden-form fallback — browser ka normal form POST (CORS lagta hi nahi).
+ * Apps Script `e.parameter` se padhta hai.
  */
-function postViaForm(url: string, fields: Record<string, string>): void {
+function sendViaForm(rows: { sheet: string; row: Row }[]): void {
   try {
     const frameName = "nyx-sheet-frame";
     let frame = document.getElementsByName(frameName)[0] as HTMLIFrameElement | undefined;
@@ -72,9 +158,14 @@ function postViaForm(url: string, fields: Record<string, string>): void {
     }
     const form = document.createElement("form");
     form.method = "POST";
-    form.action = url;
+    form.action = URL_;
     form.target = frameName;
     form.style.display = "none";
+    const fields: Record<string, string> = {
+      token: WRITE_TOKEN,
+      action: "append",
+      rows: JSON.stringify(rows),
+    };
     Object.entries(fields).forEach(([name, value]) => {
       const input = document.createElement("input");
       input.type = "hidden";
@@ -86,36 +177,99 @@ function postViaForm(url: string, fields: Record<string, string>): void {
     form.submit();
     window.setTimeout(() => form.remove(), 4000);
   } catch {
-    /* kuch bhi ho, page nahi rukna chahiye */
+    /* last transport bhi fail — queue me pada rahega */
   }
 }
 
-/** Fire-and-forget — do raste, server duplicate khud rok leta hai. */
+/**
+ * 1×1 pixel GET — sabse aakhri fallback.
+ *
+ * Image request ko browser kabhi CORS/preflight ke liye nahi rokta, aur page band
+ * hone par bhi chali jaati hai. Jawab verify nahi hota, par Apps Script side
+ * duplicate guard ki wajah se ise safely bhej sakte hain.
+ */
+function sendViaPixel(rows: { sheet: string; row: Row }[]): void {
+  try {
+    const url = appendUrl(URL_, WRITE_TOKEN, rows);
+    if (url.length > 7000) return;
+    const image = new Image();
+    image.referrerPolicy = "no-referrer";
+    image.src = url;
+  } catch {
+    /* ignore */
+  }
+}
+
+/** Rows ko GET ke liye chhote batches me todo */
+export function splitBatches(rows: { sheet: string; row: Row }[]): { sheet: string; row: Row }[][] {
+  const batches: { sheet: string; row: Row }[][] = [];
+  let current: { sheet: string; row: Row }[] = [];
+  for (const entry of rows) {
+    const candidate = [...current, entry];
+    if (current.length && encodePayload(candidate).length > MAX_GET_PAYLOAD) {
+      batches.push(current);
+      current = [entry];
+    } else {
+      current = candidate;
+    }
+  }
+  if (current.length) batches.push(current);
+  return batches;
+}
+
+/** Ek queue entry ko bhejne ki koshish — success par queue se hata do */
+async function deliver(entry: RelayEntry): Promise<boolean> {
+  for (const batch of splitBatches(entry.rows)) {
+    // ek hi row itni badi ho ki URL limit cross ho jaye → GET skip (400 aata hai)
+    if (encodePayload(batch).length <= MAX_GET_PAYLOAD) {
+      try {
+        if (await sendViaGet(batch)) continue;
+      } catch {
+        /* GET fail — niche unverified raste try karo */
+      }
+    }
+    sendViaBeacon(batch);
+    sendViaForm(batch);
+    sendViaPixel(batch);
+    return false;
+  }
+  dequeue(entry.id);
+  return true;
+}
+
+/**
+ * Purani pending rows bhejo (page load par aur har naye submit par chalta hai).
+ * `force` false hone par recent entries ko 20s tak chhedta nahi (throttle).
+ */
+export async function flushSheetQueue(force = false): Promise<number> {
+  if (!sheetRelayEnabled() || typeof window === "undefined") return 0;
+  let sent = 0;
+  for (const entry of readQueue()) {
+    if (!force && entry.attempts > 0 && Date.now() - entry.at < RETRY_AFTER_MS) continue;
+    if (entry.attempts >= MAX_ATTEMPTS) continue;
+    const queue = readQueue();
+    const item = queue.find((candidate) => candidate.id === entry.id);
+    if (item) {
+      item.attempts += 1;
+      item.at = Date.now();
+      writeQueue(queue);
+    }
+    if (await deliver(entry)) sent += entry.rows.length;
+  }
+  return sent;
+}
+
+/* ─────────────────────────── public API ─────────────────────────── */
+
+/**
+ * Fire-and-forget — rows queue me daalo, bhejne ki koshish karo.
+ * Caller ko await karne ki zaroorat nahi, par `await` kare to bhi 12s max.
+ */
 export function relayRows(rows: { sheet: string; row: Row }[]): void {
   if (!sheetRelayEnabled() || !rows.length || typeof window === "undefined") return;
-  const payload = JSON.stringify(rows);
-  recordRelay(
-    Array.from(new Set(rows.map((entry) => entry.sheet))),
-    rows.length,
-  );
-
-  // 1) fetch + JSON — purane script version ke saath bhi kaam karta hai.
-  //    (no-cors: response opaque, par POST pahunchta hai.)
-  try {
-    void fetch(URL_, {
-      method: "POST",
-      mode: "no-cors",
-      keepalive: true,
-      headers: { "content-type": "text/plain;charset=utf-8" },
-      body: JSON.stringify({ token: WRITE_TOKEN, action: "append", rows }),
-    }).catch(() => undefined);
-  } catch {
-    /* network fail */
-  }
-
-  // 2) hidden form — fetch block ho jaye to bhi data pahunchna chahiye.
-  //    Server (appendRows_) same Order ID ko dobara likhta nahi, isliye duplicate nahi.
-  postViaForm(URL_, { token: WRITE_TOKEN, action: "append", rows: payload });
+  enqueue(rows);
+  // nayi row + purani pending rows — dono ek hi pass me (force: naya submit turant jaye)
+  void flushSheetQueue(true).catch(() => undefined);
 }
 
 export type RelayOrderInput = {
@@ -141,12 +295,7 @@ export type RelayOrderInput = {
   total: number;
 };
 
-/**
- * Order + uske items sheet me — ek hi call me.
- *
- * Site agar server-less hai (GitHub Pages) to order ka number server deta hai hi
- * nahi, isliye ek readable ref generate hota hai: `TY-<base36 time>-<random>`.
- */
+/** Order + uske items sheet me — ek hi queue entry me. */
 export function relayOrderToSheet(input: RelayOrderInput): void {
   if (!sheetRelayEnabled()) return;
   const createdAt = input.createdAt ?? new Date().toISOString();

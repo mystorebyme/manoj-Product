@@ -49,11 +49,39 @@ var TOKEN = 'PASTE-MASTER-TOKEN-HERE';
  * redeploy kar dein — purana token turant band ho jaayega.
  */
 var WRITE_TOKEN = 'tyw-cb77177528f9474049ffa98fead4cee1';
+
+/**
+ * **Script Properties** (Project Settings → Script properties) — code chhede bina
+ * token/spreadsheet badalne ka rasta. Yahan set ho to neeche ke constants par
+ * bhaari padta hai:
+ *   MASTER_TOKEN   = asli master token (placeholder ki jagah)
+ *   WRITE_TOKEN    = naya write token
+ *   SPREADSHEET_ID = sheet ka ID (script standalone ho tab zaroori)
+ */
+/** Master token asli hai ya abhi bhi placeholder? (placeholder par reads band) */
+function masterTokenConfigured_() {
+  return MASTER_PLACEHOLDERS.indexOf(String(MASTER_TOKEN || '')) < 0;
+}
+
+function prop_(key) {
+  try {
+    var value = PropertiesService.getScriptProperties().getProperty(key);
+    return value ? String(value).trim() : '';
+  } catch (error) {
+    return '';
+  }
+}
+
+var MASTER_TOKEN = prop_('MASTER_TOKEN') || TOKEN;
+var EFFECTIVE_WRITE_TOKEN = prop_('WRITE_TOKEN') || WRITE_TOKEN;
+var SPREADSHEET_ID = prop_('SPREADSHEET_ID');
+/** placeholder = "owner ne abhi apna token nahi daala" (read band rehta hai) */
+var MASTER_PLACEHOLDERS = ['', 'PASTE-MASTER-TOKEN-HERE', 'CHANGE-ME-trends-token'];
 var WRITE_SHEETS = ['Orders', 'Order Items', 'Enquiries', 'Messages', 'Newsletter', 'Reviews'];
 var MAX_WRITE_ROWS = 40;
 
 /** Script version — `?action=ping` se dikhta hai (kaun sa code deploy hai). */
-var VERSION = '2026-10-25.r8';
+var VERSION = '2026-10-25.r9';
 
 var HEADERS = {
   Orders: [
@@ -112,7 +140,18 @@ function json_(payload) {
 }
 
 function book_() {
-  return SpreadsheetApp.getActiveSpreadsheet();
+  // 1) bound script (sheet → Extensions → Apps Script) — sabse aam
+  var active = SpreadsheetApp.getActiveSpreadsheet();
+  if (active) return active;
+  // 2) standalone script — SPREADSHEET_ID (Script Property) se kholo
+  var id = SPREADSHEET_ID || prop_('SPREADSHEET_ID');
+  if (id) return SpreadsheetApp.openById(id);
+  // DriveApp deliberately use nahi karte — usse naya Drive scope maangta hai aur
+  // owner ko dobara authorize karna padta (data rukne ka risk). Sirf 2 raste:
+  throw new Error(
+    'Spreadsheet nahi mila — script ko sheet ke andar se kholein (Extensions → Apps Script) ' +
+      'ya Script Property SPREADSHEET_ID set karein.',
+  );
 }
 
 function sheet_(name) {
@@ -318,7 +357,7 @@ function doGet(e) {
   }
   if (action === 'append_test') {
     // Browser me URL khol kar write-path test — sirf write token se, sirf ek test row.
-    if (String(params.token || '') !== WRITE_TOKEN) {
+    if (String(params.token || '') !== EFFECTIVE_WRITE_TOKEN) {
       return json_({ ok: false, error: 'unauthorized' });
     }
     var ref = 'TY-SELFTEST-' + Date.now();
@@ -369,13 +408,96 @@ function doGet(e) {
       });
     return json_({ ok: true, handle: handle, reviews: published, version: VERSION });
   }
+  /**
+   * **GET se row likhna** — browser ke liye sabse bharosemand rasta.
+   *
+   * Kyun: Apps Script POST par CORS preflight nahi hota, isliye browser ko kabhi
+   * pata nahi chalta ki row likhi gayi ya nahi. GET par script `Access-Control-
+   * Allow-Origin: *` bhejta hai → jawab padha ja sakta hai (`{ok,written}`), aur
+   * site tab tak retry karti hai jab tak asli confirmation na mile.
+   *
+   *   ?action=append&token=<write|master>&data=<base64url(rows JSON)>
+   *   ?action=append&token=…&rows=<urlencoded JSON>       (chhote payload)
+   *
+   * Write-only token se sirf WRITE_SHEETS tabs, max MAX_WRITE_ROWS rows.
+   */
+  if (action === 'append') {
+    var appendToken = String(params.token || '');
+    var appendMasterOk = masterTokenConfigured_() && appendToken === MASTER_TOKEN;
+    var appendWriteOk = Boolean(EFFECTIVE_WRITE_TOKEN) && appendToken === EFFECTIVE_WRITE_TOKEN;
+    if (!appendMasterOk && !appendWriteOk) return json_({ ok: false, error: 'unauthorized' });
+
+    var appendRows = [];
+    var raw = String(params.data || '');
+    if (raw) {
+      try {
+        var decoded = Utilities.newBlob(
+          Utilities.base64DecodeWebSafe(raw, Utilities.Charset.UTF_8),
+        ).getDataAsString();
+        appendRows = JSON.parse(decoded);
+      } catch (error) {
+        // kabhi base64 nahi, seedha JSON bhi aa sakta hai
+        try {
+          appendRows = JSON.parse(raw);
+        } catch (error2) {
+          return json_({ ok: false, error: 'invalid data' });
+        }
+      }
+    } else if (params.rows) {
+      try {
+        appendRows = JSON.parse(String(params.rows));
+      } catch (error3) {
+        return json_({ ok: false, error: 'invalid rows' });
+      }
+    }
+    if (!Array.isArray(appendRows) || !appendRows.length) return json_({ ok: false, error: 'no rows' });
+    if (!appendMasterOk) {
+      appendRows = appendRows
+        .filter(function (entry) {
+          return WRITE_SHEETS.indexOf(String(entry.sheet || '')) >= 0;
+        })
+        .slice(0, MAX_WRITE_ROWS);
+      if (!appendRows.length) return json_({ ok: false, error: 'sheet not allowed' });
+    }
+    var appended = appendRows_(appendRows);
+    return json_({ ok: true, written: appended, version: VERSION, time: new Date().toISOString() });
+  }
+
+  /** `?action=diag` — sheet/tabs/headers/token ka poora sach (sirf master token) */
+  if (action === 'diag') {
+    if (!masterTokenConfigured_() || String(params.token || '') !== MASTER_TOKEN) {
+      return json_({ ok: false, error: 'unauthorized' });
+    }
+    var book = book_();
+    var tabs = Object.keys(HEADERS).map(function (name) {
+      var tab = book.getSheetByName(name);
+      if (!tab) return { name: name, exists: false, rows: 0, headersOk: false };
+      var headers = headersOf_(tab).slice(0, HEADERS[name].length);
+      return {
+        name: name,
+        exists: true,
+        rows: Math.max(0, tab.getLastRow() - 1),
+        headersOk: headers.join('|') === HEADERS[name].join('|'),
+      };
+    });
+    return json_({
+      ok: true,
+      version: VERSION,
+      spreadsheet: { id: book.getId(), name: book.getName() },
+      masterTokenConfigured: masterTokenConfigured_(),
+      writeTokenConfigured: Boolean(EFFECTIVE_WRITE_TOKEN),
+      tabs: tabs,
+      time: new Date().toISOString(),
+    });
+  }
+
   if (action === 'ping' || action === 'version' || action === 'verify_write') {
     if (action === 'verify_write') {
-      return json_({ ok: true, writeTokenMatch: Boolean(WRITE_TOKEN) && String(params.token || '') === WRITE_TOKEN });
+      return json_({ ok: true, writeTokenMatch: Boolean(EFFECTIVE_WRITE_TOKEN) && String(params.token || '') === EFFECTIVE_WRITE_TOKEN });
     }
     return json_({ ok: true, app: 'trends-sheets', version: VERSION, time: new Date().toISOString() });
   }
-  if (TOKEN && String(params.token || '') !== TOKEN) {
+  if (!masterTokenConfigured_() || String(params.token || '') !== MASTER_TOKEN) {
     return json_({ ok: false, error: 'unauthorized' });
   }
   if (action === 'settings') {
@@ -391,8 +513,8 @@ function doGet(e) {
       ok: true,
       time: new Date().toISOString(),
       sheets: counts_(),
-      writeTokenConfigured: Boolean(WRITE_TOKEN) && WRITE_TOKEN !== 'CHANGE-ME-trends-write-token',
-      masterTokenConfigured: Boolean(TOKEN) && TOKEN !== 'CHANGE-ME-trends-token',
+      writeTokenConfigured: Boolean(EFFECTIVE_WRITE_TOKEN),
+      masterTokenConfigured: masterTokenConfigured_(),
     });
   }
   if (action === 'schema') {
@@ -474,22 +596,25 @@ function appendRows_(rows) {
   lock.waitLock(20000);
   var written = 0;
   try {
+    // Sheet-wise dedupe ek hi baar padho (pehle har row par poora tab scan hota tha —
+    // bade order par ye 30s execution limit ke bahut kareeb chala jaata tha).
+    var seenBySheet = {};
     rows.forEach(function (entry) {
       var name = String(entry.sheet || 'Orders');
       if (!HEADERS[name]) return;
       var sheet = sheet_(name);
       var headers = headersOf_(sheet);
+      if (!seenBySheet[name]) seenBySheet[name] = existingKeys_(sheet, headers);
+      var seen = seenBySheet[name];
       var key = rowKeyOf_(name, entry.row || {});
-      if (key) {
-        var seen = existingKeys_(sheet, headers);
-        if (seen[key]) return; // pehle se hai — duplicate nahi
-      }
+      if (key && seen[key]) return; // pehle se hai — duplicate nahi
       var row = [];
       for (var i = 0; i < headers.length; i += 1) {
         var value = entry.row ? entry.row[headers[i]] : '';
         row.push(value === undefined || value === null ? '' : value);
       }
       sheet.appendRow(row);
+      if (key) seen[key] = true;
       written += 1;
     });
   } finally {
@@ -497,6 +622,9 @@ function appendRows_(rows) {
   }
   return written;
 }
+
+/* read helpers jo upar wale loop me use hote hain */
+
 
 /**
  * Upsert — key column (jaise `Handle`) se row dhoondo; mile to update, warna append.
@@ -557,8 +685,8 @@ function doPost(e) {
     return json_({ ok: false, error: 'invalid json' });
   }
   var given = String(body.token || '');
-  var masterOk = Boolean(TOKEN) && given === TOKEN;
-  var writeOk = Boolean(WRITE_TOKEN) && given === WRITE_TOKEN;
+  var masterOk = masterTokenConfigured_() && given === MASTER_TOKEN;
+  var writeOk = Boolean(EFFECTIVE_WRITE_TOKEN) && given === EFFECTIVE_WRITE_TOKEN;
   if (!masterOk && !writeOk) {
     return json_({ ok: false, error: 'unauthorized' });
   }
