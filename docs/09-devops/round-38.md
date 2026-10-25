@@ -67,9 +67,11 @@ Design table + inline CSS me hai — Gmail, Outlook aur phone par ek jaisa dikht
 3. Fail (net/quota/error) → `Status = retry`, gap ladder:
    1, 2, 5, 10, 20, 30, 60, 120, 180, 240 minute, uske baad **har 6 ghante**.
 4. `processMailQueue` trigger **har 10 minute** chalta hai → pending/retry mails khud nikal jati hain.
-5. **30 attempt** (`MAX_MAIL_ATTEMPTS`) ke baad bhi na jaye to `Status = failed`,
+5. **30 attempt** (`MAX_MAIL_ATTEMPTS`, Settings se 5–100 tak) ke baad bhi na jaye to `Status = failed`,
    `Notifications` tab me row, aur owner ko alert mail — mail chupchaap gum nahi hoti.
 6. Owner ke paas har status mail ki **[Owner copy]** bhi jaati hai (pata rahe kya gaya).
+7. Menu **11. Purana data saaf karo** ab `MailQueue` ki 45 din purani `sent` rows bhi hatata hai
+   (`retry`/`failed` rows kabhi nahi hatate).
 
 Email kabhi order ko nahi rok sakti: poora email block `try/catch` me hai, aur order row
 pehle hi save ho chuki hoti hai.
@@ -91,6 +93,7 @@ Menu: **TRENDS tools → 3. Orders → Test email bhejo / Email queue abhi chala
 | `email_updates` | `true` | `false` karne par customer email band |
 | `email_from_name` | `TRENDS YOUNIQUE` | email me bhejne wale ka naam |
 | `owner_email` | (khaali) | owner copy + fail alert isi par |
+| `mail_max_attempts` | `30` | retry limit (5–100) — 40–50 chahiye to badha lein |
 
 ---
 
@@ -103,7 +106,7 @@ Menu: **TRENDS tools → 3. Orders → Test email bhejo / Email queue abhi chala
 - `MailApp` fail → mail **queue me retry**, `sent` nahi; net theek hone par flush → `sent`
 - `mail_queue` / `mail_test` endpoint
 
-Self-test me 7 naya email check (quota, subject, step index, HTML, queue write) — **106 check**.
+Self-test me 7 naya email check (quota, subject, step index, HTML, queue write) — **107 check**.
 
 ---
 

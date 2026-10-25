@@ -269,6 +269,7 @@ var DEFAULT_SETTINGS = [
   ['size_chart_note', '', 'Size chart ke neeche chhoti line (jaise: XL = 44 inch bust)'],
   ['email_updates', 'true', 'Order status ki email customer ko bhejein (true/false)'],
   ['email_from_name', 'TRENDS YOUNIQUE', 'Email me bhejne wale ka naam'],
+  ['mail_max_attempts', '30', 'Ek email kitni baar retry ho (5-100, default 30)'],
 ];
 
 /* ─────────────────────────── helpers ─────────────────────────── */
@@ -2118,7 +2119,27 @@ function cleanupLogs() {
     tab.deleteRows(2, rows - keep);
     report.push(name + ': ' + (rows - keep) + ' purani rows hat gayi');
   });
-  audit_('cleanup_logs', 'Notifications/AuditLog', '', '', report.join(' | '));
+  // MailQueue: bheji hui mail ki rows 45 din baad — retry/failed rows kabhi nahi hatate
+  var queue = book_().getSheetByName('MailQueue');
+  if (queue && queue.getLastRow() > 1) {
+    var qHead = headersOf_(queue);
+    var qStatus = qHead.indexOf('Status');
+    var qWhen = qHead.indexOf('Queued At');
+    if (qStatus >= 0 && qWhen >= 0) {
+      var qRows = queue.getRange(2, 1, queue.getLastRow() - 1, qHead.length).getValues();
+      var cutoff = Date.now() - 45 * 24 * 60 * 60 * 1000;
+      var removed = 0;
+      for (var q = qRows.length - 1; q >= 0; q -= 1) {
+        var state = text_(qRows[q][qStatus]).toLowerCase();
+        var when = qRows[q][qWhen] ? new Date(qRows[q][qWhen]).getTime() : 0;
+        if (state !== 'sent' || !when || when > cutoff) continue;
+        queue.deleteRows(q + 2, 1);
+        removed += 1;
+      }
+      report.push('MailQueue: ' + removed + ' purani bheji hui mail hat gayi');
+    }
+  }
+  audit_('cleanup_logs', 'Notifications/AuditLog/MailQueue', '', '', report.join(' | '));
   try {
     SpreadsheetApp.getUi().alert('Saaf-safai ho gayi:\n' + report.join('\n'));
   } catch (error) {
@@ -4479,6 +4500,10 @@ function runSelfTests() {
     if (added > 0) mailTab.deleteRows(start + 1, added);
     return eq(String(queued.ok) + ':' + added, 'true:1');
   });
+  check('maxMailAttempts_ 5..100 ke beech', function () {
+    var value = maxMailAttempts_();
+    return eq(value >= 5 && value <= 100, true);
+  });
   check('mailQueueStats_ shape', function () {
     var stats = mailQueueStats_();
     return eq(typeof stats.total === 'number' && typeof stats.sent === 'number', true);
@@ -4686,6 +4711,17 @@ function selfTestOnSheet() {
 var MAX_MAIL_ATTEMPTS = 30;
 
 /**
+ * Asli limit — Settings tab ka `mail_max_attempts` (default 30, 5 se 100 ke beech).
+ * Owner 40-50 karna chahe to sheet me badal de.
+ */
+function maxMailAttempts_() {
+  var wanted = int_(setting_('mail_max_attempts', MAX_MAIL_ATTEMPTS), MAX_MAIL_ATTEMPTS);
+  if (wanted < 5) return 5;
+  if (wanted > 100) return 100;
+  return wanted;
+}
+
+/**
  * Retry ka gap (minute me) — pehle jaldi-jaldi, baad me ghante-ghante.
  * Attempt 12 ke baad har 6 ghante.
  */
@@ -4810,7 +4846,7 @@ function processMailQueue_(limit, force) {
     }
 
     var nextAttempts = attempts + 1;
-    var isFinal = nextAttempts >= MAX_MAIL_ATTEMPTS || result.error === 'invalid_email';
+    var isFinal = nextAttempts >= maxMailAttempts_() || result.error === 'invalid_email';
     tab.getRange(i + 2, col('Attempts') + 1).setValue(nextAttempts);
     tab.getRange(i + 2, col('Last Error') + 1).setValue(text_(result.error, 200));
     tab.getRange(i + 2, col('Status') + 1).setValue(isFinal ? 'failed' : 'retry');
