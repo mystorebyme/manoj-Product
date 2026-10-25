@@ -2,6 +2,7 @@
 
 import type { Order } from "@liksha/types";
 import { enquirySheetRow, orderItemRows, orderSheetRow } from "./sheet-format";
+import { sheetWebAppUrl, sheetWriteToken } from "./sheet-config";
 
 /**
  * Browser → Google Sheet relay.
@@ -22,8 +23,8 @@ import { enquirySheetRow, orderItemRows, orderSheetRow } from "./sheet-format";
  * jaise chalti rehti hai.
  */
 
-const URL_ = (process.env.NEXT_PUBLIC_SHEET_WEBAPP_URL ?? "").trim();
-const WRITE_TOKEN = (process.env.NEXT_PUBLIC_SHEET_WRITE_TOKEN ?? "").trim();
+const URL_ = sheetWebAppUrl();
+const WRITE_TOKEN = sheetWriteToken();
 
 export function sheetRelayEnabled(): boolean {
   return /^https:\/\/script\.google\.com\//.test(URL_) && WRITE_TOKEN.length >= 6;

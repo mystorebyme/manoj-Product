@@ -24,25 +24,25 @@ Repo me file hai: **`scripts/google-apps-script/trends-sheets.gs`**
 Uska **poora code** copy karke script editor me paste kar dein (jo default
 `function myFunction() {}` likha hai use hata dein).
 
-## Step 3 — do token daaliye
+## Step 3 — tokens (sirf ek line badalni hai)
 
-Code ki shuru me ye do line hain:
-
-```js
-var TOKEN = 'CHANGE-ME-trends-token';              // master (server padhne/likhne ke liye)
-var WRITE_TOKEN = 'CHANGE-ME-trends-write-token';  // write-only (website se rows add)
-```
-
-Dono me apna lamba random word daaliye, jaise:
+Code ke shuru me:
 
 ```js
-var TOKEN = 'trends-9f3k2m-2026';
-var WRITE_TOKEN = 'trends-write-7p4x9q';
+var TOKEN = 'PASTE-MASTER-TOKEN-HERE';                 // master (sirf aapke liye)
+var WRITE_TOKEN = 'tyw-cb77177528f9474049ffa98fead4cee1';  // website isi se rows add karti hai
 ```
 
-> `WRITE_TOKEN` sirf rows **add** kar sakta hai — padh nahi sakta, settings nahi badal sakta.
-> Ye website ke browser code me hota hai (static hosting par server nahi hota), isliye alag
-> rakha gaya hai. Kabhi leak lage to ise badal kar dobara deploy kar dein.
+- `WRITE_TOKEN` **pehle se bhar hua hai** — use chhedna nahi hai (website ka build isi se banta hai).
+- `TOKEN` me chat me diya gaya `tym-…` wala lamba token paste kar dein. Ye **master** token hai:
+  isse sheet padhi ja sakti hai, isliye ye kabhi public nahi hota.
+  Paste na karein to bhi order save hota rahega — bas sheet padne ki permission
+  (admin panel / server) band rahegi. Jo placeholder hai wo kisi ko pata nahi, isliye safe hai.
+
+> `WRITE_TOKEN` sirf rows **add** kar sakta hai — padh nahi sakta. Ye website ke browser
+> code me hota hai (static hosting par server nahi hota), isliye alag rakha gaya hai.
+> Leak lage to ise badal kar, website ke `sheet-config.ts` me bhi wahi value daal kar
+> redeploy kar dein.
 
 ## Step 4 — setup chalaiye
 
@@ -64,26 +64,26 @@ var WRITE_TOKEN = 'trends-write-7p4x9q';
 
 **Deploy** → URL copy kariye (ends with `/exec`).
 
-## Step 6 — website me URL + token daaliye
+## Step 6 — website me URL (aapke case me pehle se set hai)
 
-**Agar site Render/VPS par hai** (`.env` me):
+Site GitHub Pages par hai, isliye URL + write token **repo ke build** me hain
+(`apps/web/src/lib/sheet-config.ts`):
+
+```ts
+SHEET_WEBAPP_URL_DEFAULT    = https://script.google.com/macros/s/AKfy…/exec
+SHEET_WRITE_TOKEN_DEFAULT   = tyw-cb77…cee1
+```
+
+Agar kabhi URL badle (naya deployment), to yahi file badal kar push kar dein — bas.
+Repo variables (`SHEET_WEBAPP_URL` / `SHEET_WRITE_TOKEN`) bhi kaam karte hain aur
+default ko override kar dete hain.
+
+Server (Render/VPS) par chalane ke liye `.env` me:
 
 ```
 GOOGLE_SHEETS_WEBAPP_URL=https://script.google.com/macros/s/AKfy…/exec
-GOOGLE_SHEETS_TOKEN=trends-9f3k2m-2026
+GOOGLE_SHEETS_TOKEN=<master token (tym-…)>
 ```
-
-**Agar site GitHub Pages par hai** (server nahi hota — browser se seedha sheet):
-
-Repo → **Settings → Secrets and variables → Actions → Variables** → *New repository variable*:
-
-| Name | Value |
-| --- | --- |
-| `SHEET_WEBAPP_URL` | wahi `/exec` URL |
-| `SHEET_WRITE_TOKEN` | `trends-write-7p4x9q` (Step 3 ka write token) |
-
-Phir **Actions → GitHub Pages preview → Run workflow** (ya koi bhi push) — build me ye
-values chali jayengi.
 
 ## Step 7 — test
 
@@ -94,10 +94,24 @@ values chali jayengi.
 Kuch na aaye to: Apps Script me **Deploy → Manage deployments** me "Who has access: Anyone"
 check kariye, aur token bilkul same hai ya nahi.
 
-## Code badalne par
+## Code badalne par (zaroori)
 
 **Deploy → Manage deployments → ✏️ Edit → Version: New version → Deploy.**
 URL wahi rehta hai, website me kuch badalna nahi padta.
+
+Check karne ke liye browser me kholiye (koi password nahi chahiye):
+
+```
+<web app URL>?action=ping
+→ {"ok":true,"app":"trends-sheets","version":"2026-10-25.r3", ...}
+```
+
+aur write token sahi hai ya nahi:
+
+```
+<web app URL>?action=verify_write&token=tyw-cb77…cee1
+→ {"ok":true,"writeTokenMatch":true}
+```
 
 ## Tab kis kaam ka
 

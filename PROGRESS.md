@@ -312,3 +312,24 @@ naya `schema` action (website ko tabs/headers bata deta hai), har bade tab par f
 seedha sheet me likhte hain (server na ho to bhi data save).
 
 **Tests:** unit 133/0, integration 40/0, typecheck clean.
+
+## Round 23 — Apps Script live + website ka sheet bridge configure (2026-10-25)
+
+Owner ne `/exec` deployment de diya. Sandbox se script.google.com `curl` se reachable
+nahi hai, lekin `fetch_page` se **GET** chalta hai — usse deployment verify hua:
+
+- `?action=health` → `ok: true`, tabs: Orders (1 test row), Order Items, Products,
+  Enquiries, Payments, Settings (15 rows), Messages, Newsletter. Yaani `setup()` chal chuka hai.
+- Deployed version purana tha (health me token flags nahi aaye) → naya `VERSION` +
+  `?action=ping` + `?action=verify_write` add kiya, taaki deployment check ho sake.
+- **Security fix:** master token abhi default `CHANGE-ME-trends-token` tha, yaani URL
+  jaanne wala koi bhi `?action=recent&sheet=Orders` se aapke orders padh sakta tha.
+  Ab script me placeholder hai (jo kisi ko pata nahi) aur asli master token sirf chat me
+  diya gaya. Write token (public-by-design) script + website me same rakha gaya, aur
+  ek test dono ko match karta hai.
+
+Website side: naya `apps/web/src/lib/sheet-config.ts` — `/exec` URL + write token ke
+build-time defaults (env var se override ho sakte hain). Isliye GitHub Pages par repo
+variables set karne ki zaroorat nahi; order/enquiry/contact/newsletter seedha sheet me.
+
+Tests: unit **138/0** (5 naye sheet-config tests), typecheck clean.

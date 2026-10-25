@@ -32,10 +32,12 @@
  */
 
 /**
- * Apna secret token yahan daaliye (website ke GOOGLE_SHEETS_TOKEN se bilkul same).
- * Ye **master** token hai — settings padhna/likhna aur rows add karna, sab allowed.
+ * **Master token** — settings padhna/likhna aur rows add karna, sab allowed.
+ * Owner ko chat me diya gaya `tym-…` token yahan paste karna hai (ek line).
+ * Jab tak paste nahi karte, ye placeholder hi rahega — yaani sheet par kisi ko
+ * read access nahi milega (safe by default), par order save hota rahega.
  */
-var TOKEN = 'CHANGE-ME-trends-token';
+var TOKEN = 'PASTE-MASTER-TOKEN-HERE';
 
 /**
  * **Write-only token** — sirf rows add kar sakta hai (padh nahi sakta).
@@ -46,9 +48,12 @@ var TOKEN = 'CHANGE-ME-trends-token';
  * recent/health is token se nahi khulte. Kuch galat lage to ise badal kar
  * redeploy kar dein — purana token turant band ho jaayega.
  */
-var WRITE_TOKEN = 'CHANGE-ME-trends-write-token';
+var WRITE_TOKEN = 'tyw-cb77177528f9474049ffa98fead4cee1';
 var WRITE_SHEETS = ['Orders', 'Order Items', 'Enquiries', 'Messages', 'Newsletter'];
 var MAX_WRITE_ROWS = 40;
+
+/** Script version — `?action=ping` se dikhta hai (kaun sa code deploy hai). */
+var VERSION = '2026-10-25.r3';
 
 var HEADERS = {
   Orders: [
@@ -275,10 +280,17 @@ function counts_() {
 
 function doGet(e) {
   var params = (e && e.parameter) || {};
+  var action = params.action || 'settings';
+  // in do ko master token ki zaroorat nahi (kuch bhi secret wapas nahi karte)
+  if (action === 'ping' || action === 'version' || action === 'verify_write') {
+    if (action === 'verify_write') {
+      return json_({ ok: true, writeTokenMatch: Boolean(WRITE_TOKEN) && String(params.token || '') === WRITE_TOKEN });
+    }
+    return json_({ ok: true, app: 'trends-sheets', version: VERSION, time: new Date().toISOString() });
+  }
   if (TOKEN && String(params.token || '') !== TOKEN) {
     return json_({ ok: false, error: 'unauthorized' });
   }
-  var action = params.action || 'settings';
   if (action === 'settings') {
     return json_({ ok: true, settings: readSettings_(), time: new Date().toISOString() });
   }
