@@ -53,7 +53,7 @@ var WRITE_SHEETS = ['Orders', 'Order Items', 'Enquiries', 'Messages', 'Newslette
 var MAX_WRITE_ROWS = 40;
 
 /** Script version — `?action=ping` se dikhta hai (kaun sa code deploy hai). */
-var VERSION = '2026-10-25.r4';
+var VERSION = '2026-10-25.r5';
 
 var HEADERS = {
   Orders: [
@@ -314,6 +314,28 @@ function doGet(e) {
   // in do ko master token ki zaroorat nahi (kuch bhi secret wapas nahi karte)
   if (action === 'public') {
     return json_({ ok: true, settings: publicSettings_(), version: VERSION, time: new Date().toISOString() });
+  }
+  if (action === 'append_test') {
+    // Browser me URL khol kar write-path test — sirf write token se, sirf ek test row.
+    if (String(params.token || '') !== WRITE_TOKEN) {
+      return json_({ ok: false, error: 'unauthorized' });
+    }
+    var ref = 'TY-SELFTEST-' + Date.now();
+    var written = appendRows_([
+      {
+        sheet: 'Orders',
+        row: {
+          'Order ID': ref,
+          'Date & Time': new Date().toISOString(),
+          Event: 'self-test',
+          Status: 'test',
+          Customer: 'Sheet self-test (delete kar sakte hain)',
+          'Total ₹': 1,
+          Source: 'browser-test',
+        },
+      },
+    ]);
+    return json_({ ok: true, written: written, ref: ref, time: new Date().toISOString() });
   }
   if (action === 'ping' || action === 'version' || action === 'verify_write') {
     if (action === 'verify_write') {

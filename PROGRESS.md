@@ -337,3 +337,15 @@ Tests: unit **138/0** (5 naye sheet-config tests), typecheck clean.
 Round 23 addendum: relay dono tokens (naya `tyw-…` + transition) bhejta hai, isliye
 purani deployment par bhi rows save hoti hain aur naya version deploy hone ke baad
 transition token ki request chup-chaap reject ho jaati hai (duplicate row nahi banti).
+
+Round 23 (cont.) — live settings from sheet + write-path self-test
+
+- `?action=public`: sirf non-secret settings (whatsapp, announcement, UPI, quantity limits).
+  Site ab static hosting par bhi ye padhti hai (60s cache) → owner sheet me number badale,
+  site 1 minute me update, redeploy nahi.
+- `?action=append_test` (write token): browser se write-path verify, Orders me TY-SELFTEST row.
+- VERSION r5.
+- Note: `.github/workflows/sheet-check.yml` banaya tha, par GitHub branch-only naye workflow
+  ko register nahi karta (dispatch 404) — hataya. Verification ab URL se hoti hai.
+- Owner ka deployment abhi bhi **Version 1 (purana code)** chala raha hai: `?action=ping`
+  par `unauthorized` aata hai. Unhe "New version" deploy karna hai.

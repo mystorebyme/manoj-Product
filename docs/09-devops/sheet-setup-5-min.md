@@ -109,9 +109,18 @@ Check karne ke liye browser me kholiye (koi password nahi chahiye):
 aur write token sahi hai ya nahi:
 
 ```
-<web app URL>?action=verify_write&token=tyw-cb77…cee1
+<web app URL>?action=verify_write&token=tyw-cb77177528f9474049ffa98fead4cee1
 → {"ok":true,"writeTokenMatch":true}
 ```
+
+Aur **write path** ka test (Orders me ek `TY-SELFTEST-…` row daalta hai):
+
+```
+<web app URL>?action=append_test&token=tyw-cb77177528f9474049ffa98fead4cee1
+→ {"ok":true,"written":1,"ref":"TY-SELFTEST-…"}
+```
+
+Row aa gayi = website se bhi data aayega. Test row ko baad me delete kar dein.
 
 ## Tab kis kaam ka
 
