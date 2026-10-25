@@ -18,7 +18,7 @@ import { API_AVAILABLE } from "@/lib/api-base";
 const supportLinks = [
   { label: "Search", href: "/search" },
   { label: "Privacy Policy", href: "/policies/privacy-policy" },
-  { label: "Replacement Policy", href: "/policies/refund-and-return-policy" },
+  { label: "Return Policy", href: "/policies/refund-and-return-policy" },
   { label: "Shipping Policy", href: "/policies/shipping-policy" },
   { label: "Contact Information", href: "/pages/contact" },
   { label: "Track your order", href: "/track-order" },

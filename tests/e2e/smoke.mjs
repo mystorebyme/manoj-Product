@@ -401,6 +401,19 @@ async function main() {
   check("sitemap 200", sitemap.status === 200, `status ${sitemap.status}`);
   check("sitemap has product urls", sitemap.text.includes("/products/"));
 
+  // ---- owner ke 26 Oct wale content rules ----
+  check(
+    "home trust strip says 7 day return (exchange nahi)",
+    /7 day easy return/i.test(home.text) && !/7 day easy exchange/i.test(home.text),
+  );
+  check("home me support email nahi dikhta", !home.text.includes("@trendsyounique.com"));
+  check("home me instagram link nahi", !/instagram\.com/i.test(home.text));
+  const arrivalGrid = await get("/collections/new-arrivals");
+  check(
+    "single-image card par image swap nahi (is-single class)",
+    /card-media[^"]*is-single/.test(arrivalGrid.text),
+  );
+
   console.log(`\nsmoke: ${passed} passed, ${failures.length} failed`);
   if (failures.length) {
     console.error(failures.map((failure) => ` - ${failure}`).join("\n"));

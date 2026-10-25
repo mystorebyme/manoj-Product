@@ -104,8 +104,8 @@ const pages: Record<string, PageContent> = {
     ],
   },
   "replacement-policy": {
-    title: "Replacement Policy",
-    eyebrow: "Easy exchanges",
+    title: "Return Policy",
+    eyebrow: "Easy returns",
     intro: "Simply return it within 7 days of delivery.",
     sections: [
       {
