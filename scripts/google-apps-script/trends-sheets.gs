@@ -1096,6 +1096,9 @@ function writeReadme_() {
     ['Email free hai', 'Free providers se jaati hai (Brevo / EmailJS / Resend / Mailjet / Elastic Email) — koi paid service nahi'],
     ['EmailKeys tab', 'Yahan jitni keys daalenge utne fallback. Kisi ek me key paste kariye aur Enabled = TRUE. Aapki Gmail zaroori nahi'],
     ['Web3Forms / FormSubmit', 'Ye "static form" wale sirf AAPKO alert bhejte hain (customer ko nahi) — owner alert ke liye hain'],
+    ['Web3Forms kab chalta hai', 'Naya order aaye ya status badle → turant aapke inbox me poori detail (items, amount, address, AWB)'],
+    ['Web3Forms rotation', '10 Web3Forms + 4 FormSubmit slots — har alert agle account se jaata hai (250 mail/mahina per key, total 3,000+)'],
+    ['Customer ki mail Web3Forms se?', 'Free plan me nahi (key sirf aapke inbox se judi hoti hai). Free me Brevo/EmailJS/Resend; ya Web3Forms Pro ka Autoresponder ON karke web3forms_auto slot use karein'],
     ['MailQueue', 'Har email pehle yahan queue hoti hai, phir turant bhejne ki koshish. Fail ho to khud 30 baar tak retry (har 10 minute trigger chalta hai)'],
     ['Email band karni ho', 'Settings tab me email_updates = false'],
     ['Email test karna ho', 'Menu → TRENDS tools → 3. Orders → Test email bhejo (apni inbox/spam dekh lein)'],
@@ -3118,9 +3121,15 @@ var EMAIL_PROVIDER_INFO = {
   },
   web3forms: {
     role: 'owner',
-    label: 'Web3Forms (static form — sirf owner alert)',
+    label: 'Web3Forms (static form — aapko alert, 250/mahina free)',
     endpoint: 'https://api.web3forms.com/submit',
-    keys: 'Key = access key',
+    keys: 'Key = access key (web3forms.com se, sirf email daal kar milti hai)',
+  },
+  web3forms_auto: {
+    role: 'customer',
+    label: 'Web3Forms Autoresponder (customer ko mail — Pro plan me)',
+    endpoint: 'https://api.web3forms.com/submit',
+    keys: 'Key = access key. Web3Forms Pro me Autoresponder ON karna hoga, tabhi customer ko mail jaati hai',
   },
   formsubmit: {
     role: 'owner',
@@ -3142,6 +3151,7 @@ var EMAIL_PROVIDER_INFO = {
  */
 var EMAIL_SLOT_PLAN = [
   ['web3forms', 10],
+  ['web3forms_auto', 2],
   ['formsubmit', 4],
   ['brevo', 2],
   ['emailjs', 1],
@@ -3263,6 +3273,53 @@ function sendViaGoogle_(address, mail, fromName) {
   }
 }
 
+/** owner alert kis slot se shuru ho — har baar agla (Script Properties me counter) */
+function ownerNoticeTurn_() {
+  try {
+    var props = PropertiesService.getScriptProperties();
+    var current = int_(props.getProperty('owner_notice_turn'), 0);
+    props.setProperty('owner_notice_turn', String(current + 1));
+    return current;
+  } catch (error) {
+    return 0;
+  }
+}
+
+/** owner ke paas Web3Forms/FormSubmit chalu hai? (us par customer ka mail nahi jaata) */
+function ownerNoticeConfigured_() {
+  var rows = emailProviderRows_();
+  for (var i = 0; i < rows.length; i += 1) {
+    if (rows[i].role === 'owner') return true;
+  }
+  return false;
+}
+
+/** order ki plain-text summary — Web3Forms/FormSubmit HTML nahi bhejte */
+function emailOwnerText_(data, order) {
+  var lines = [];
+  var item = data || {};
+  var ord = order || (item.order || {});
+  lines.push('Order: ' + text_(ord['Order ID']));
+  lines.push('Status: ' + text_(item.status || ord.Status));
+  lines.push('Customer: ' + text_(ord.Customer) + ' · ' + text_(ord.Phone));
+  lines.push('Email: ' + text_(ord.Email));
+  lines.push('Address: ' + text_(ord.Address) + ', ' + text_(ord.City) + ', ' + text_(ord.State) + ' ' + text_(ord.PIN));
+  var items = item.items || [];
+  for (var i = 0; i < items.length; i += 1) {
+    lines.push(
+      '• ' + text_(items[i].product) + ' — ' + text_(items[i].colour) + ' ' + text_(items[i].size) +
+        ' × ' + text_(items[i].qty) + ' = ₹' + text_(items[i].price),
+    );
+  }
+  var totals = item.totals || {};
+  lines.push('Total: ₹' + text_(totals.total) + (text_(ord.Coupon) ? ' (coupon ' + text_(ord.Coupon) + ')' : ''));
+  if (text_(ord.Courier) || text_(ord.AWB)) {
+    lines.push('Courier: ' + text_(ord.Courier) + ' · AWB: ' + text_(ord.AWB));
+  }
+  lines.push('Track: ' + text_(item.trackUrl || (WEBAPP_PUBLIC_BASE + '/track-order/')));
+  return lines.join('\n');
+}
+
 /** ek HTTP call — JSON post, kabhi throw nahi (muteHttpExceptions) */
 function mailPost_(url, payload, headers) {
   try {
@@ -3366,6 +3423,17 @@ function sendViaProvider_(cfg, mail) {
       { 'X-API-Key': text_(cfg.key) },
     );
   }
+  if (provider === 'web3forms_auto') {
+    // Web3Forms Pro ka Autoresponder: `email` field wale address ko auto-reply jaati hai
+    return mailPost_(EMAIL_PROVIDER_INFO.web3forms.endpoint, {
+      access_key: text_(cfg.key),
+      email: address,
+      replyto: address,
+      subject: subject,
+      from_name: fromName,
+      message: textBody,
+    });
+  }
   if (provider === 'web3forms') {
     // static form: mail sirf key ke owner (aap) ko jaati hai
     return mailPost_(EMAIL_PROVIDER_INFO.web3forms.endpoint, {
@@ -3405,8 +3473,11 @@ function sendOwnerNotice_(subject, body) {
   }
   var mail = { to: setting_('owner_email', ''), subject: subject, text: body, html: '<p>' + escapeHtml_(body) + '</p>' };
   var errors = [];
-  for (var r = 0; r < ownerRows.length; r += 1) {
-    var cfg = ownerRows[r];
+  // 20 slots hain — har alert agle slot se shuru hota hai (round-robin), isliye
+  // 10 Web3Forms keys = 10 × 250 mail/mahina, aur ek fail ho to agla khud le leta hai
+  var start = ownerRows.length ? ownerNoticeTurn_() % ownerRows.length : 0;
+  for (var step = 0; step < ownerRows.length; step += 1) {
+    var cfg = ownerRows[(start + step) % ownerRows.length];
     var copy = Object.assign({}, mail, { to: text_(cfg.key) || mail.to });
     var result = sendViaProvider_(cfg, copy);
     if (result.ok) {
@@ -4927,6 +4998,16 @@ function runSelfTests() {
     });
     return eq(customer >= 5 && owner >= 2, true);
   });
+  check('owner notice rotation counter chalta hai', function () {
+    return eq(typeof ownerNoticeTurn_(), 'number');
+  });
+  check('emailOwnerText_ poori detail deta hai', function () {
+    var text = emailOwnerText_(
+      { status: 'shipped', items: [{ product: 'Gown', colour: 'Pink', size: 'M', qty: 1, price: 599 }], totals: { total: 599 } },
+      { 'Order ID': 'LK-1', Customer: 'Riya', Phone: '9876543210', Email: 'r@x.co', Address: 'A', City: 'J', State: 'R', PIN: '302017', Courier: 'Delhivery', AWB: 'AWB1' },
+    );
+    return eq(text.indexOf('Order: LK-1') === 0 && text.indexOf('AWB1') > 0 && text.indexOf('Gown') > 0, true);
+  });
   check('emailProviderRows_ chalu providers ki list deta hai', function () {
     return eq(Array.isArray(emailProviderRows_()), true);
   });
@@ -5676,7 +5757,15 @@ function sendOrderEmail_(order, status, extraVars) {
     });
     if (toCustomer.ok) queued += 1;
   }
-  if (emailOk_(ownerEmail)) {
+  /**
+   * Owner copy — pehle **Web3Forms / FormSubmit** (turant aapke inbox me, koi
+   * Gmail key nahi chahiye). Na ho to queue se customer-chain ke through.
+   */
+  var ownerNotice = { ok: false, error: 'skipped' };
+  if (ownerNoticeConfigured_()) {
+    ownerNotice = sendOwnerNotice_('[Owner copy] ' + subject, emailOwnerText_(data, order));
+  }
+  if (!ownerNotice.ok && emailOk_(ownerEmail)) {
     var toOwner = queueMail_({
       to: ownerEmail,
       orderId: orderId,
@@ -5703,6 +5792,7 @@ function sendOrderEmail_(order, status, extraVars) {
     ok: queued > 0,
     queued: queued,
     sent: flushed.sent || 0,
+    ownerNotice: ownerNotice.provider || (ownerNotice.ok ? 'sent' : ''),
     subject: subject,
     quota: mailQuota_(),
     error: queued ? '' : 'no_email',

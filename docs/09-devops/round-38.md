@@ -106,7 +106,7 @@ Menu: **TRENDS tools → 3. Orders → Test email bhejo / Email queue abhi chala
 - `MailApp` fail → mail **queue me retry**, `sent` nahi; net theek hone par flush → `sent`
 - `mail_queue` / `mail_test` endpoint
 
-Self-test me 7 naya email check (quota, subject, step index, HTML, queue write) — **113 check**.
+Self-test me 7 naya email check (quota, subject, step index, HTML, queue write) — **115 check**.
 
 ---
 
@@ -229,7 +229,7 @@ padega, §5).
 
 ### Test
 
-`npm run sheet:test` → **14/14 pass**. Naye test:
+`npm run sheet:test` → **16/16 pass**. Naye test:
 
 - Brevo se customer ko mail (payload me customer ka email, `api-key` header, MailApp use nahi)
 - Brevo fail → Resend try → mail chali jati hai (fallback chain)
@@ -238,3 +238,42 @@ padega, §5).
 
 Menu: **3. Orders → Email keys (apni Gmail ke bina)** tab kholta hai,
 **Email providers ki sthiti** batata hai kaun chalu hai.
+
+---
+
+## 7. Web3Forms — kya sach me hota hai (r20b)
+
+Owner ka idea: *"naya order sheet me aaye ya status badle → Web3Forms se customer ki mail id par mail chali jaye"*.
+Aadha hissa bilkul sahi hai, aadha service ki limit ki wajah se nahi ho sakta.
+
+### Web3Forms ki asli limit (official docs)
+
+- Access key = **aapke ek email ka alias**. Us key se mail **sirf usi email par** jaati hai —
+  koi `to: customer@gmail.com` field nahi hai ([FAQ](https://docs.web3forms.com/getting-started/faq),
+  [API reference](https://docs.web3forms.com/getting-started/api-reference)).
+- Free plan: **250 submission/mahina**, 1 recipient.
+- Customer ko mail bhejne ka ek hi rasta: **Autoresponder — Pro feature**
+  ([Pro features](https://docs.web3forms.com/getting-started/pro-features/autoresponder)).
+  Usme form ka `email` field wale address ko auto-reply jaati hai.
+
+### Jo ab code me hai (free, aaj se chalega)
+
+1. **Naya order ya koi bhi status change → turant aapke inbox me mail** (Web3Forms/FormSubmit),
+   poori detail ke saath: order id, status, customer + phone + email, address, har item
+   (colour/size/qty/price), total, courier + AWB, track link. Test: 16/16 me cover hai.
+2. **20+ slots ka rotation**: 10 × Web3Forms + 4 × FormSubmit + 2 × Web3Forms Autoresponder
+   (+ Brevo ×2, EmailJS, Resend, Mailjet, Elastic Email). Har alert **agle** slot se shuru hota
+   hai (round-robin) — ek account ka quota khatam/ key mar jaaye to mail rukti nahi.
+   Har row ka `Status` + `Last Error` `EmailKeys` tab me dikhta hai.
+3. **Customer ki mail** (status email) — free me Brevo/EmailJS/Resend/Mailjet/Elastic Email se.
+   Agar aap Web3Forms **Pro** lete hain: `web3forms_auto` slot me key daal kar Enabled = TRUE,
+   Web3Forms dashboard me Autoresponder ON — phir wahi key customer ko bhi mail bhejegi
+   (customer ka email `email` field me jaata hai, isliye auto-reply usi ko jaati hai).
+4. Order kabhi nahi rukta: provider fail → `MailQueue` 30 retry → phir aapko failure alert.
+
+### Aapko bas ye karna hai
+
+1. web3forms.com → apna email daalein → **access key** inbox me aayegi (koi password/account nahi).
+2. Sheet → `EmailKeys` → `web3forms` row → `Key` = access key, `Enabled` = **TRUE**.
+3. Bas. Naya order aate hi mail aayegi. Chahein to 10 alag-alag emails se 10 keys bana kar
+   10 rows me daal dein — rotation apne aap ho jayega.

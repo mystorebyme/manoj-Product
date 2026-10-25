@@ -454,3 +454,55 @@ test("Web3Forms owner alert — bina apni Gmail diye owner tak mail", () => {
   assert.equal(payload.access_key, "w3f-access-key");
   assert.match(String(payload.message), /Customer ko mail nahi gaya/);
 });
+
+test("Web3Forms: naya order aate hi owner ko turant mail (customer ka mail bhi queue me safe)", () => {
+  const calls: { url: string; opts: Record<string, any> }[] = [];
+  const { context, book, mails } = freshHarness((url, opts) => {
+    calls.push({ url, opts });
+    if (url.indexOf("api.web3forms.com") >= 0) return { status: 200, body: { success: true } };
+    return null;
+  });
+  context.setup();
+  setProvider(book, "web3forms", { key: "w3f-key-1" });
+
+  const placed = context.placeOrder_({
+    customer: CUSTOMER,
+    items: [{ handle: "saniya-s-pink-gown", size: "M", qty: 2 }],
+    paymentMethod: "upi",
+  });
+  assert.equal(placed.ok, true);
+
+  const forms = calls.filter((call) => call.url.indexOf("api.web3forms.com") >= 0);
+  assert.ok(forms.length >= 1, "Web3Forms ko call nahi gayi");
+  const payload = JSON.parse(String(forms[0].opts.payload));
+  assert.equal(payload.access_key, "w3f-key-1");
+  assert.match(String(payload.subject), /^\[Owner copy\]/);
+  assert.match(String(payload.message), /Order: LK-/);
+  assert.match(String(payload.message), /Pink Coloured Party Wear Gown/);
+  assert.equal(mails.length, 0, "Google MailApp use hua");
+
+  // customer ki mail queue me hai (provider aate hi chali jayegi) — gum nahi hui
+  const stats = context.mailQueueStats_();
+  assert.ok(stats.retry + stats.queued >= 1, `queue: ${JSON.stringify(stats)}`);
+});
+
+test("Web3Forms: 20 slots rotation — har alert agle account se", () => {
+  const keys: string[] = [];
+  const { context, book } = freshHarness((url, opts) => {
+    if (url.indexOf("api.web3forms.com") >= 0) {
+      keys.push(String(JSON.parse(String(opts.payload)).access_key));
+      return { status: 200, body: { success: true } };
+    }
+    return null;
+  });
+  context.setup();
+  setProvider(book, "web3forms", { key: "slot-a" }, 0);
+  setProvider(book, "web3forms", { key: "slot-b" }, 1);
+
+  context.ownerAlert_("Test 1", "pehla");
+  context.ownerAlert_("Test 2", "doosra");
+  context.ownerAlert_("Test 3", "teesra");
+  assert.equal(keys.length, 3);
+  assert.notEqual(keys[0], keys[1], "rotation nahi hui");
+  assert.equal(new Set(keys).size, 2);
+});
