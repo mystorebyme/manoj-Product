@@ -110,6 +110,12 @@ Admin chalane ke do raste (dono domain se pehle aur baad same):
 
 Poora detail + FAQ: [`admin-access.md`](./admin-access.md)
 
+## 2e. Vercel par bhi deploy (optional)
+
+Vercel project `trends-younique` ready hai (build + 5 env vars set), par Vercel ka
+GitHub App iss repo ko nahi dekh raha — ek permission click chahiye.
+Detail: [`vercel.md`](./vercel.md)
+
 ## 3. Netlify par kya chalta hai (aur kya nahi)
 
 | Cheez | Netlify (static) |
