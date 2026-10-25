@@ -95,8 +95,9 @@ GOOGLE_SHEETS_TOKEN=<master token (tym-…)>
 2. Sheet kholiye → `Enquiries` tab me row aa jayegi (naam, phone, item, colour, size, qty, price, link).
 3. Cart → checkout → address bhar kar **Send order on WhatsApp** → `Orders` + `Order Items` me rows.
 
-Kuch na aaye to: Apps Script me **Deploy → Manage deployments** me "Who has access: Anyone"
-check kariye, aur token bilkul same hai ya nahi.
+Kuch na aaye to site par **`/sheet-check`** page kholiye — wahan ek button se poora rasta test ho jaata
+hai (deployment, token, settings, aur ek test row). Sab ✅ aaye par bhi row na dikhe to Apps Script me
+**Deploy → Manage deployments** me "Who has access: Anyone" check kariye.
 
 ## Code badalne par (zaroori)
 
@@ -139,4 +140,5 @@ Row aa gayi = website se bhi data aayega. Test row ko baad me delete kar dein.
 | `Products` | admin se product save karne par |
 | `Payments` | payment submit / paid / reverse |
 | `Messages` / `Newsletter` | contact form / footer signup |
+| `Reviews` | product page ke review form se (Status `pending` → aap `publish` karein, phir site par dikhega) |
 | `Settings` | WhatsApp number, UPI, announcement, quantity limits (site 15s me utha leti hai) |
