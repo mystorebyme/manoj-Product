@@ -1,0 +1,88 @@
+name: Sheet bridge check
+
+# Owner / maintainer ke liye — batata hai ki Google Sheet bridge zinda hai ya nahi:
+#   • deployment naya version hai? (`?action=ping`)
+#   • public settings mil rahi hain? (`?action=public`)
+#   • website ka write token script se match karta hai? (`?action=verify_write`)
+#   • (optional) Orders me ek test row likh kar dekhta hai.
+#
+# Chalane ke liye: Actions → Sheet bridge check → Run workflow.
+
+on:
+  workflow_dispatch:
+    inputs:
+      append_test_row:
+        description: "Orders me ek test row (TY-CI-…) likh kar dekhna hai?"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sheet-check
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Config se URL + token nikalein
+        run: |
+          set -euo pipefail
+          URL=$(grep -oE 'https://script\.google\.com/macros/s/[A-Za-z0-9_-]+/exec' apps/web/src/lib/sheet-config.ts | head -1)
+          TOKEN=$(grep -oE 'tyw-[0-9a-f]{32}' apps/web/src/lib/sheet-config.ts | head -1)
+          if [ -z "$URL" ] || [ -z "$TOKEN" ]; then
+            echo "::error::sheet-config.ts me URL/token nahi mila"
+            exit 1
+          fi
+          echo "SHEET_URL=$URL" >> "$GITHUB_ENV"
+          echo "SHEET_TOKEN=$TOKEN" >> "$GITHUB_ENV"
+          echo "URL host: $(echo "$URL" | cut -d/ -f3)"
+
+      - name: 1. Deployment zinda hai? (ping)
+        run: |
+          set -euo pipefail
+          OUT=$(curl -sL --max-time 30 "$SHEET_URL?action=ping" || true)
+          echo "$OUT"
+          if echo "$OUT" | grep -q '"ok":true'; then
+            echo "✅ Naya version deploy hai."
+          else
+            echo "::error::Deployment purana version chala raha hai. Apps Script → Deploy → Manage deployments → ✏️ Edit → Version: New version → Deploy."
+            exit 1
+          fi
+
+      - name: 2. Public settings (site ke liye)
+        run: |
+          set -euo pipefail
+          OUT=$(curl -sL --max-time 30 "$SHEET_URL?action=public" || true)
+          echo "$OUT" | head -c 1200
+          echo ""
+          echo "$OUT" | grep -q '"ok":true' || { echo "::error::public settings nahi mile"; exit 1; }
+          echo "✅ Settings tab se live values aa rahi hain."
+
+      - name: 3. Write token match
+        run: |
+          set -euo pipefail
+          OUT=$(curl -sL --max-time 30 "$SHEET_URL?action=verify_write&token=$SHEET_TOKEN" || true)
+          echo "$OUT"
+          echo "$OUT" | grep -q '"writeTokenMatch":true' || {
+            echo "::error::Script ka WRITE_TOKEN website se match nahi karta — dono jagah same value rakhein."
+            exit 1
+          }
+          echo "✅ Browser ka write-only token script se match karta hai."
+
+      - name: 4. Test row append (optional)
+        if: github.event.inputs.append_test_row == 'true'
+        run: |
+          set -euo pipefail
+          BODY=$(node -e 'console.log(JSON.stringify({token:process.env.SHEET_TOKEN,action:"append",rows:[{sheet:"Orders",row:{"Order ID":"TY-CI-"+Date.now(),"Date & Time":new Date().toISOString(),Event:"ci-check",Status:"test",Customer:"GitHub Actions check",Items:"CI test row (delete kar sakte hain)","Total ₹":1,Source:"ci"}}]}))')
+          OUT=$(curl -sL --post301 --post302 --max-time 30 -H 'content-type: text/plain;charset=utf-8' --data "$BODY" "$SHEET_URL" || true)
+          echo "$OUT"
+          echo "$OUT" | grep -q '"written":1' || { echo "::error::Test row save nahi hui"; exit 1; }
+          echo "✅ Orders tab me test row chali gayi — pura write path kaam kar raha hai."
+
+      - name: Summary
+        run: echo "Sheet bridge check pass ✅" >> "$GITHUB_STEP_SUMMARY"

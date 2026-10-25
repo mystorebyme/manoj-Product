@@ -53,7 +53,7 @@ var WRITE_SHEETS = ['Orders', 'Order Items', 'Enquiries', 'Messages', 'Newslette
 var MAX_WRITE_ROWS = 40;
 
 /** Script version — `?action=ping` se dikhta hai (kaun sa code deploy hai). */
-var VERSION = '2026-10-25.r3';
+var VERSION = '2026-10-25.r4';
 
 var HEADERS = {
   Orders: [
@@ -254,6 +254,36 @@ function readSettings_() {
   return out;
 }
 
+/**
+ * Public settings — sirf wahi keys jo website par dikh sakti hain
+ * (phone, WhatsApp, UPI, announcement, quantity limits). Koi token/secret nahi.
+ * Website ise `?action=public` se padhti hai, isliye owner sheet me number badale
+ * to site 1 minute me update ho jaati hai — redeploy ki zaroorat nahi.
+ */
+function publicSettings_() {
+  var all = readSettings_();
+  var pick = ['brand_name', 'tagline', 'support_phone', 'whatsapp', 'support_email',
+    'upi_id', 'upi_name', 'announcement', 'free_shipping', 'shipping_fee',
+    'max_qty_per_item', 'max_qty_bulk', 'max_qty_per_order'];
+  var camel = {
+    brand_name: 'brandName', tagline: 'tagline', support_phone: 'supportPhone',
+    whatsapp: 'whatsapp', support_email: 'supportEmail', upi_id: 'upiId',
+    upi_name: 'upiName', announcement: 'announcement', free_shipping: 'freeShipping',
+    shipping_fee: 'shippingFee', max_qty_per_item: 'maxQtyPerItem',
+    max_qty_bulk: 'maxQtyBulk', max_qty_per_order: 'maxQtyPerOrder',
+  };
+  var out = {};
+  pick.forEach(function (key) {
+    if (all[key] === undefined || all[key] === '') return;
+    var value = all[key];
+    if (key === 'free_shipping') value = String(value).toLowerCase() !== 'false';
+    if (/^max_qty|shipping_fee$/.test(key)) value = Number(value) || undefined;
+    if (value === undefined) return;
+    out[camel[key]] = value;
+  });
+  return out;
+}
+
 /** Last N rows (headers se object) — admin panel ise dikhata hai */
 function recentRows_(name, limit) {
   if (!HEADERS[name]) return [];
@@ -282,6 +312,9 @@ function doGet(e) {
   var params = (e && e.parameter) || {};
   var action = params.action || 'settings';
   // in do ko master token ki zaroorat nahi (kuch bhi secret wapas nahi karte)
+  if (action === 'public') {
+    return json_({ ok: true, settings: publicSettings_(), version: VERSION, time: new Date().toISOString() });
+  }
   if (action === 'ping' || action === 'version' || action === 'verify_write') {
     if (action === 'verify_write') {
       return json_({ ok: true, writeTokenMatch: Boolean(WRITE_TOKEN) && String(params.token || '') === WRITE_TOKEN });
