@@ -72,6 +72,26 @@ Sheet ka browser wala token write-only hai (sirf row add kar sakta hai, padh nah
 > `netlify.toml` me bhi `NEXT_PUBLIC_SITE_URL` / `PAGES_BASE_PATH` set hain — env
 > variables unhi values ko override karte hain, isliye dono jagah same rakhein.
 
+## 2c. Netlify **kaunsi branch** build karta hai (zaroori)
+
+Netlify default me **production branch** build karta hai. Is repo me saara naya kaam
+`arena/e13f4af5-manoj-product` branch par hai (`main` purana snapshot hai, dono ki
+history alag hai — isliye direct merge nahi hota).
+
+Do raste — koi ek:
+
+**A. Netlify ka production branch badal dein (aasan, turant)**
+Site → **Build & deploy → Branches and deploy contexts → Production branch → Edit**
+→ `arena/e13f4af5-manoj-product` → Save → **Deploys → Trigger deploy → Deploy site**.
+(Owner ne `main` ko chhedna nahi hai, isliye yahi recommended hai.)
+
+**B. Alag branch deploy**
+Branches → **Branch deploys → Add branch** me wahi branch add karein, phir branch
+deploy URL se test karein; theek lage to use production bana dein.
+
+> Isi wajah se `treand.netlify.app` par purana design dikh raha tha (email, CDN photos,
+> purane circles) — wo build `main` se bana tha, is branch se nahi.
+
 ## 3. Netlify par kya chalta hai (aur kya nahi)
 
 | Cheez | Netlify (static) |
@@ -109,6 +129,8 @@ Detail: `docs/09-devops/google-sheets.md`.
 | "Load more" error | `/catalog-lite.json` deploy me hai ya nahi (Deploys → Files) |
 | Sheet me row nahi | Apps Script deployment "Anyone" access + `/sheet-check/` Run check |
 | Domain par purana page | Netlify CDN cache — **Deploys → Clear cache and retry** |
+| Site par purana design/email/CDN photos | Netlify `main` build kar raha hai — production branch `arena/e13f4af5-manoj-product` karein (section 2c) |
+| Env import ke baad bhi purani values | Redeploy ke bina env build me nahi aate — **Clear cache and retry** |
 
 ## 6. GitHub Pages bhi chal raha hai
 
