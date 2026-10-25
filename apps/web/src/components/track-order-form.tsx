@@ -4,7 +4,13 @@ import { useState } from "react";
 import { useStoreSettings } from "@/components/store-settings-provider";
 import { SafeImage } from "@/components/safe-image";
 import { imageUrl } from "@/lib/format";
-import { ORDER_STEPS, stepIndex, trackOrder, type OrderTrackResult } from "@/lib/sheet-orders";
+import {
+  ORDER_STEPS,
+  groupOrderUpdates,
+  stepIndex,
+  trackOrder,
+  type OrderTrackResult,
+} from "@/lib/sheet-orders";
 
 const STEP_COPY: Record<string, { label: string; hint: string }> = {
   placed: { label: "Order placed", hint: "Aapka order site par aaya" },
@@ -64,6 +70,8 @@ export function TrackOrderForm() {
 
   const current = result?.order ? stepIndex(result.order.status) : -1;
   const cancelled = current === -1;
+  const groups = groupOrderUpdates(result?.updates ?? []);
+  const groupedCount = groups.reduce((sum, group) => sum + group.items.length, 0);
 
   return (
     <div data-testid="track-order-form">
@@ -172,22 +180,43 @@ export function TrackOrderForm() {
             </div>
           ) : null}
 
-          {(result.updates ?? []).length ? (
-            <div className="mt-4 space-y-2.5" data-testid="track-updates">
-              <p className="text-[10px] tracking-[.16em] text-[#a3948a] uppercase">Updates</p>
-              {result.updates!.map((update, index) => (
-                <div key={`${update.at}-${index}`} className="border border-[#ece1d3] bg-[#fdfaf5] px-4 py-3">
-                  <div className="flex flex-wrap items-baseline justify-between gap-2">
-                    <p className="text-[11.5px] font-semibold text-[#3d332c]">
-                      {STEP_COPY[String(stepIndex(update.status))]?.label ?? update.status}
-                    </p>
-                    <p className="text-[10px] text-[#a49a90]">{formatWhen(update.at)}</p>
+          {groupedCount ? (
+            <div className="mt-5 space-y-2.5" data-testid="track-updates">
+              <p className="text-[10px] tracking-[.16em] text-[#a3948a] uppercase">
+                Team ke updates (sheet se)
+              </p>
+              {groups.map((group) => {
+                const done = !cancelled && current >= group.step;
+                const label = STEP_COPY[group.key]?.label ?? group.key;
+                return (
+                  <div key={group.key} className="border border-[#ece1d3] bg-[#fdfaf5]">
+                    <div className="flex items-center justify-between gap-2 border-b border-[#f1e7da] px-4 py-2">
+                      <p className="text-[11px] font-semibold tracking-[.1em] text-[#6f1d2b] uppercase">
+                        {group.step + 1}. {label}
+                      </p>
+                      <span
+                        className={`text-[9.5px] tracking-[.1em] uppercase ${done ? "text-[#2f7a3f]" : "text-[#a49a90]"}`}
+                      >
+                        {done ? "✓ Done" : "Pending"}
+                      </span>
+                    </div>
+                    <ul className="divide-y divide-[#f4ece1]">
+                      {group.items.slice(0, 3).map((item, index) => (
+                        <li key={`${group.key}-${index}-${item.at}`} className="px-4 py-2.5">
+                          {item.at ? (
+                            <p className="text-[9.5px] tracking-[.1em] text-[#a49a90] uppercase">
+                              {formatWhen(item.at)}
+                            </p>
+                          ) : null}
+                          <p className="mt-0.5 text-[12px] leading-relaxed text-[#4a423b]">
+                            {item.message || label}
+                          </p>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  {update.message ? (
-                    <p className="mt-1 text-[12px] leading-relaxed text-[#6f6259]">{update.message}</p>
-                  ) : null}
-                </div>
-              ))}
+                );
+              })}
             </div>
           ) : null}
 

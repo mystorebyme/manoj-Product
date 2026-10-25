@@ -41,6 +41,7 @@ export type TrackedItem = {
   link: string;
 };
 
+/** `Order Updates` tab ki ek row — ek step par 2-3 comment ho sakte hain */
 export type TrackedUpdate = { at: string; status: string; message: string };
 
 export type OrderTrackResult = {
@@ -59,11 +60,40 @@ export function stepIndex(status: string): number {
   const value = String(status ?? "").trim().toLowerCase();
   if (!value) return 0;
   if (/cancel|return|refund|rto/.test(value)) return -1;
+  // "Out for delivery" abhi ship hua hai, delivered nahi
+  if (/out for deliver/.test(value)) return 3;
   if (/deliver|complete|handover/.test(value)) return 4;
   if (/ship|dispatch|transit|courier|awb|out for/.test(value)) return 3;
   if (/pack|ready|label/.test(value)) return 2;
   if (/confirm|process|accept|prepar/.test(value)) return 1;
   return 0;
+}
+
+/**
+ * `Order Updates` tab ki rows ko step ke hisaab se group karta hai.
+ * Ek step par 2-3 comment ho sakte hain — sab dikhte hain (nayi pehle).
+ */
+export type OrderUpdateGroup = {
+  step: number;
+  key: string;
+  items: TrackedUpdate[];
+};
+
+export function groupOrderUpdates(updates: TrackedUpdate[]): OrderUpdateGroup[] {
+  const groups = new Map<number, OrderUpdateGroup>();
+  for (const update of updates ?? []) {
+    const step = Math.max(0, stepIndex(update.status));
+    const group = groups.get(step) ?? { step, key: ORDER_STEPS[step] ?? String(update.status), items: [] };
+    group.items.push(update);
+    groups.set(step, group);
+  }
+  return [...groups.values()]
+    .sort((a, b) => a.step - b.step)
+    .map((group) => ({
+      ...group,
+      // sheet me purani row upar hoti hai — timeline me nayi comment pehle
+      items: [...group.items].sort((a, b) => String(b.at).localeCompare(String(a.at))),
+    }));
 }
 
 export function trackingEnabled(): boolean {
@@ -88,7 +118,15 @@ export async function trackOrder(orderNumber: string, phone: string): Promise<Or
     }
     const body = (await response.json()) as OrderTrackResult & { ok?: boolean };
     if (!body?.ok || !body.order) {
-      return { ok: false, error: body?.error || "Is number ka koi order nahi mila." };
+      const reason = String(body?.error ?? "");
+      // Sheet script ka purana deployment: naya `order_status` action hi nahi hai
+      if (/unauthorized|unknown action|unsupported/i.test(reason)) {
+        return {
+          ok: false,
+          error: "Tracking service naye version par update ho raha hai — tab tak WhatsApp par status le lein.",
+        };
+      }
+      return { ok: false, error: reason || "Is number ka koi order nahi mila." };
     }
     return { ok: true, order: body.order, items: body.items ?? [], updates: body.updates ?? [] };
   } catch {

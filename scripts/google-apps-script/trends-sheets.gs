@@ -97,7 +97,7 @@ var WRITE_SHEETS = ['Orders', 'Order Items', 'Enquiries', 'Messages', 'Newslette
 var MAX_WRITE_ROWS = 40;
 
 /** Script version — `?action=ping` se dikhta hai (kaun sa code deploy hai). */
-var VERSION = '2026-10-25.r15';
+var VERSION = '2026-10-25.r16';
 
 var HEADERS = {
   Orders: [
@@ -131,7 +131,13 @@ var HEADERS = {
   // lagane ka sabse pakka tarika (handle badal jaye to bhi kaam karta hai).
   // `Product ID` pehle column me hai (live sheet isi order par hai) — setup dobara
   // chalne par header rewrite nahi hota, isliye data kabhi shift nahi hota.
-  Reviews: ['Product ID', 'Timestamp', 'Handle', 'Product', 'Name', 'Rating', 'Title', 'Body', 'Status', 'Source'],
+  Reviews: [
+    'Product ID', 'Timestamp', 'Handle', 'Product', 'Name', 'Rating', 'Title', 'Body', 'Status',
+    'Source',
+    // customer ki asli photos (Trustoo) — ` | ` se alag. Reviews tab me ye add hota hai
+    // (aakhir me), isliye purane rows shift nahi hote.
+    'Images',
+  ],
   // Address ↔ PIN verification ka log (customer ko kabhi nahi dikhta).
   // Owner isi se decide karta hai kaunsa state / PIN block karna hai.
   AddressCheck: [
@@ -656,6 +662,144 @@ function backfillReviewProductIds() {
   return { ok: true, filled: filled, missing: missing };
 }
 
+/**
+ * Menu: **reviews ki photos** — `Reviews` tab ke `Images` column me customer ki
+ * asli photos (URLs, ` | ` se alag). Handle + Body se row match hoti hai, isliye
+ * purane 1684 reviews me bhi photo aa jaati hai. Jo photo pehle se hai use chhedta nahi.
+ */
+function backfillReviewPhotos() {
+  var response = UrlFetchApp.fetch(REVIEWS_IMPORT_URL, { muteHttpExceptions: true });
+  if (response.getResponseCode() !== 200) {
+    throw new Error('Reviews import file nahi mili (' + response.getResponseCode() + ')');
+  }
+  var rows = (JSON.parse(response.getContentText()) || {}).rows || [];
+
+  var tab = sheet_('Reviews');
+  var head = headersOf_(tab);
+  var imagesCol = ensureColumn_(tab, 'Images');
+  head = headersOf_(tab);
+  var last = tab.getLastRow();
+  if (last < 2) return { ok: true, filled: 0 };
+
+  var want = {};
+  rows.forEach(function (row) {
+    var key =
+      String(row.handle || '').trim() +
+      '::' +
+      String(row.body || '').replace(/\s+/g, ' ').trim().toLowerCase().slice(0, 160);
+    var images = String(row.images || '').trim();
+    if (images) want[key] = images;
+  });
+
+  var values = tab.getRange(2, 1, last - 1, head.length).getValues();
+  var filled = 0;
+  for (var i = 0; i < values.length; i += 1) {
+    var key =
+      String(values[i][head.indexOf('Handle')] || '').trim() +
+      '::' +
+      String(values[i][head.indexOf('Body')] || '').replace(/\s+/g, ' ').trim().toLowerCase().slice(0, 160);
+    var images = want[key];
+    if (!images) continue;
+    if (String(values[i][imagesCol] || '').trim() === images) continue;
+    values[i][imagesCol] = images;
+    filled += 1;
+  }
+  if (filled) tab.getRange(2, imagesCol + 1, values.length, 1).setValues(
+    values.map(function (row) {
+      return [row[imagesCol]];
+    }),
+  );
+
+  try {
+    SpreadsheetApp.getUi().alert(
+      'Review photos bhar gayi: ' + filled + ' rows.\n\n' +
+        'Ye customer ki asli photos hain (Trustoo se) — site par review ke saath dikti hain.',
+    );
+  } catch (error) {
+    // ignore
+  }
+  return { ok: true, filled: filled, source: rows.length };
+}
+
+/**
+ * Menu: **order ke 5 step comments ready** — jis order ke liye `Order Updates` me
+ * koi row nahi, uske liye 5 rows (placed → delivered) bana deta hai.
+ *
+ * Message khaali-pan ka nahi: default line pehle se likhi hoti hai, aur `Visible`
+ * **no** rehta hai — aap date/message theek karke `yes` kar dijiye, tabhi customer
+ * ko dikhega. (2-3 comment per step chahiye to usi Order ID ki extra rows jod dijiye.)
+ */
+function createOrderUpdateTemplates() {
+  var ordersTab = sheet_('Orders');
+  var orderHead = headersOf_(ordersTab);
+  var idCol = orderHead.indexOf('Order ID');
+  if (idCol < 0) throw new Error('Orders tab me `Order ID` column nahi mila.');
+  var lastOrder = ordersTab.getLastRow();
+  if (lastOrder < 2) return { ok: true, added: 0, orders: 0 };
+
+  var ids = ordersTab.getRange(2, idCol + 1, lastOrder - 1, 1).getValues();
+  var orderIds = [];
+  var seenOrder = {};
+  for (var i = 0; i < ids.length; i += 1) {
+    var id = String(ids[i][0] || '').trim();
+    if (!id || seenOrder[id]) continue;
+    seenOrder[id] = true;
+    orderIds.push(id);
+  }
+
+  var tab = ensureTab_('Order Updates');
+  if (tab.getLastRow() < 1 || String(tab.getRange(1, 1).getValue() || '') === '') {
+    tab.getRange(1, 1, 1, 5).setValues([['Order ID', 'Date & Time', 'Status', 'Message', 'Visible']]);
+    tab.getRange(1, 1, 1, 5).setFontWeight('bold');
+    tab.setFrozenRows(1);
+  }
+  var head = headersOf_(tab);
+  var has = {};
+  if (tab.getLastRow() > 1) {
+    var existing = tab.getRange(2, 1, tab.getLastRow() - 1, head.length).getValues();
+    for (var e = 0; e < existing.length; e += 1) {
+      var rowOrder = String(existing[e][head.indexOf('Order ID')] || '').trim();
+      if (rowOrder) has[rowOrder] = true;
+    }
+  }
+
+  var defaults = [
+    ['placed', 'Order placed — team ko mil gaya.'],
+    ['confirmed', 'Order confirm ho gaya, taiyari shuru.'],
+    ['packed', 'Quality check + packing ho gayi.'],
+    ['shipped', 'Courier ko de diya — AWB `Orders` tab me hai.'],
+    ['delivered', 'Delivered — dhoop ho ya baarish, aap tak pahunch gaya. Dhanyavaad!'],
+  ];
+
+  var rows = [];
+  orderIds.forEach(function (orderId) {
+    if (has[orderId]) return;
+    defaults.forEach(function (entry) {
+      var row = new Array(head.length).fill('');
+      row[head.indexOf('Order ID')] = orderId;
+      row[head.indexOf('Status')] = entry[0];
+      row[head.indexOf('Message')] = entry[1];
+      row[head.indexOf('Visible')] = 'no';
+      rows.push(row);
+    });
+  });
+
+  if (rows.length) tab.getRange(tab.getLastRow() + 1, 1, rows.length, head.length).setValues(rows);
+
+  try {
+    SpreadsheetApp.getUi().alert(
+      orderIds.length + ' order ke liye ' + rows.length + ' comment rows banayi gayi.\n\n' +
+        'Ab `Order Updates` tab me: Date & Time bhariye, message theek kariye, ' +
+        'aur `Visible` = yes kar dijiye. Tabhi customer ko dikhega.\n\n' +
+        'Ek step par 2-3 comment chahiye? Usi Order ID + Status ki extra row jod dijiye ' +
+        '(site sab dikhati hai, nayi pehle).',
+    );
+  } catch (error) {
+    // ignore
+  }
+  return { ok: true, added: rows.length, orders: orderIds.length };
+}
+
 /* ─────────────────────────── setup ─────────────────────────── */
 
 /**
@@ -969,6 +1113,15 @@ function doGet(e) {
           date: row.Timestamp ? new Date(row.Timestamp).toISOString().slice(0, 10) : '',
           handle: String(row.Handle || ''),
           productId: String(row['Product ID'] || ''),
+          // customer photos — sheet ke `Images` column se (` | ` se alag)
+          photos: String(row.Images || '')
+            .split('|')
+            .map(function (src) {
+              return String(src).trim();
+            })
+            .filter(function (src) {
+              return /^https?:\/\//i.test(src);
+            }),
         };
       });
     return json_({ ok: true, handle: wantHandle, reviews: published, version: VERSION });
@@ -1530,6 +1683,8 @@ function onOpen() {
       .addItem('5. Saari products ki images list bharo', 'syncProductImages')
       .addItem('6. Saari images ek jagah (ImagesAll)', 'syncAllImages')
       .addItem('7. Har product ki ID bharo (admin-only)', 'backfillAllProductIds')
+      .addItem('8. Reviews ki photos bharo', 'backfillReviewPhotos')
+      .addItem('9. Order ke 5 step comments banao', 'createOrderUpdateTemplates')
       .addToUi();
   } catch (error) {
     // sheet ke bahar se call hua (web app) — menu ki zaroorat nahi
@@ -1579,6 +1734,25 @@ function importAllReviews() {
   var rows = (payload && payload.rows) || [];
   if (!rows.length) return { ok: false, error: 'no_rows' };
 
+  // jo reviews pehle se sheet me hain, unme `Images` khaali ho to photo links bhar do
+  var imagesCol = head.indexOf('Images');
+  if (imagesCol >= 0 && existing.length) {
+    var byKey = {};
+    rows.forEach(function (row) {
+      byKey[keyOf(row.handle, row.body)] = row.images || '';
+    });
+    var fixed = 0;
+    for (var ri = 0; ri < existing.length; ri += 1) {
+      var rowKey = keyOf(existing[ri][head.indexOf('Handle')], existing[ri][head.indexOf('Body')]);
+      var wantImages = byKey[rowKey] || '';
+      if (!wantImages) continue;
+      if (String(existing[ri][imagesCol] || '').trim() === wantImages) continue;
+      existing[ri][imagesCol] = wantImages;
+      fixed += 1;
+    }
+    if (fixed) tab.getRange(2, 1, existing.length, head.length).setValues(existing);
+  }
+
   var pending = rows.filter(function (row) {
     return !seen[keyOf(row.handle, row.body)];
   });
@@ -1601,6 +1775,7 @@ function importAllReviews() {
         if (name === 'Status') return row.status || 'publish';
         if (name === 'Source') return row.source || 'trustoo';
         if (name === 'Product ID') return row.productId || '';
+        if (name === 'Images') return row.images || '';
         return '';
       });
     });

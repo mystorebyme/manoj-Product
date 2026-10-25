@@ -77,6 +77,16 @@ for (const [handle, block] of Object.entries(reviews.products ?? {})) {
       rating: Math.max(1, Math.min(5, Math.round(Number(review.rating) || 5))),
       title: clean(review.title, 80),
       body,
+      // customer ki asli photos (Trustoo) — sheet ke `Images` column me ` | ` se alag
+      photos: (review.photos ?? [])
+        .map((src) => String(src ?? "").trim())
+        .filter((src) => /^https?:\/\//.test(src))
+        .slice(0, 6),
+      images: (review.photos ?? [])
+        .map((src) => String(src ?? "").trim())
+        .filter((src) => /^https?:\/\//.test(src))
+        .slice(0, 6)
+        .join(" | "),
       status: "publish",
       source: "trustoo",
     });
@@ -95,6 +105,7 @@ fs.writeFileSync(
         generatedAt: new Date().toISOString(),
         source: reviews.meta?.source ?? "trustoo",
         rows: rows.length,
+        withPhotos: rows.filter((row) => row.photos.length > 0).length,
       },
       rows,
     },
@@ -107,4 +118,8 @@ const unknown = rows.filter((row) => !titles.has(row.handle));
 const bytes = fs.statSync(OUT).size;
 if (remap.size) console.log(`duplicate listings: ${remap.size} handles surviving product par remap hue`);
 if (unknown.length) console.log(`WARNING: ${unknown.length} rows ka handle catalog me nahi hai`);
-console.log(`reviews-import.json: ${rows.length} rows, ${Math.round(bytes / 1024)} KB → ${path.relative(ROOT, OUT)}`);
+const withPhotos = rows.filter((row) => row.photos.length > 0).length;
+const photoTotal = rows.reduce((sum, row) => sum + row.photos.length, 0);
+console.log(
+  `reviews-import.json: ${rows.length} rows, ${withPhotos} me photos (${photoTotal} links), ${Math.round(bytes / 1024)} KB → ${path.relative(ROOT, OUT)}`,
+);

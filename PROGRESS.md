@@ -571,3 +571,14 @@ saath), **7 = backfillAllProductIds** (Products/MainImage/ProductImages/Reviews)
 (IMPORTDATA badi file par #N/A deta hai, isliye UrlFetch + GitHub raw fallback).
 `export-products-for-sheet.mjs` ab `products-images.csv` (2738 rows) + `ids` map bhi
 banata hai. Product ID sirf sheet/admin me — storefront par kahin nahi.
+
+### Round 36b — tracking sheet se + admin step comments + review photos
+
+- Track page: `Order Updates` rows ab **step ke hisaab se group** hote hain (ek step par
+  2-3 admin comment, nayi pehle, date ke saath) — `groupOrderUpdates()` (`lib/sheet-orders.ts`)
+  + unit test. "Out for delivery" ab shipped (3) par baithta hai, delivered nahi.
+- Naya menu **9. Order ke 5 step comments banao** (`createOrderUpdateTemplates`) aur
+  **8. Reviews ki photos bharo** (`backfillReviewPhotos`). Reviews tab me `Images` column.
+- `export-for-sheet.mjs` me review photos: 146 reviews / 251 links.
+- **Live issue mila:** deployed Apps Script `r8` hai → `order_status` par
+  `{"ok":false,"error":"unauthorized"}`. r16 deploy karna zaroori (steps round-36.md §6).

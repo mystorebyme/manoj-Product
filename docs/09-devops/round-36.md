@@ -97,3 +97,45 @@ sirf ye karna hai:
   `Anarkali suit`, koi ID nahi).
 - Sheet ke `Product ID` column sirf sheet me hain — website inhe kabhi render nahi karti
   (`order_items` me bhi nahi). Admin panel route authenticated + `noindex`.
+
+---
+
+## 6. Tracking live kyun nahi chal raha tha (asli wajah)
+
+Production Apps Script ka deployed version **`2026-10-25.r8`** hai (agent ne
+`?action=ping` se check kiya), jabki repo me **r16** hai. r8 purana gate lagata hai —
+`?action=order_status` par bhi `{"ok":false,"error":"unauthorized"}` aata hai. Isliye
+track page par "order nahi mila" jaisa message aata tha, aur sheet se reviews/images
+bhi site par nahi pahunch rahe the.
+
+**Isliye deploy karna zaroori hai:**
+
+1. Sheet → Extensions → Apps Script → poora `trends-sheets.gs` (r16) paste → Save.
+2. Deploy → **Manage deployments** → pencil (Edit) → **Version: New version** → Deploy.
+   (Naya deployment banane se URL badal jaata hai — edit karke "New version" hi kariye.)
+3. Confirm: browser me `<webapp-url>?action=ping` kholiye → `"version":"2026-10-25.r16"`
+   aana chahiye.
+4. Uske baad `<webapp-url>?action=order_status&order=LK-XXXXXX&phone=98XXXXXXXX`
+   JSON deta hai, aur site par tracking kaam karta hai.
+
+## 7. Tracking page ab kya dikhata hai (r16 + site)
+
+- Order number + registered mobile se **sheet ke `Orders` tab** se status (
+  `placed → confirmed → packed → shipped → delivered`, cancel/RTO bhi samajhta hai).
+- **`Order Updates` tab** ki rows step ke hisaab se group hoti hain — ek step par
+  **2-3 comment** ho sakte hain, sab usi step ke neeche (nayi pehle) dikhte hain,
+  date ke saath. `Visible` = `no` wali row customer ko nahi dikhti.
+- Naya menu item **9. Order ke 5 step comments banao** — har order ke liye 5 ready
+  rows banata hai (default message, `Visible` = `no`). Aap date/message theek karke
+  `yes` kar dijiye.
+- `Orders` ka `Status` column: dropdown (placed/confirmed/packed/shipped/delivered/cancelled).
+
+## 8. Review photos sheet me
+
+- `scripts/reviews-sync/export-for-sheet.mjs` ab `photos` + `images` bhi export karta hai
+  — **146 reviews, 251 photo links** (Trustoo customer photos).
+- `Reviews` tab me naya column **`Images`** (`URL1 | URL2 …`).
+- Menu **8. Reviews ki photos bharo** — purane 1684 review rows me photo links bhar deta hai
+  (handle + body se match, kuch delete nahi hota).
+- Site (`?action=reviews`) ab `photos` array deta hai, aur product page ki
+  **Customer photos** strip me sheet wali photos bhi aati hain.

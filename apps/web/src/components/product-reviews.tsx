@@ -64,6 +64,8 @@ export function ProductReviews({
         body: review.body,
         date: review.date,
         verified: false,
+        // sheet ke `Images` column se aayi customer photos bhi gallery me aayein
+        photos: (review.photos ?? []).filter((src) => /^https?:\/\//i.test(String(src))),
       }));
     const reviews = [...extra, ...block.reviews];
     const count = block.count + extra.length;

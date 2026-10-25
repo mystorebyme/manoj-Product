@@ -30,6 +30,8 @@ export type SheetReview = {
   productId?: string;
   /** review kis product par hai (sheet ka `Handle`) */
   handle?: string;
+  /** customer ki asli photos — sheet ke `Images` column se (` | ` se alag) */
+  photos?: string[];
 };
 
 type SheetReviewPayload = {
