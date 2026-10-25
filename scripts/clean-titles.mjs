@@ -49,6 +49,30 @@ const SPELLINGS = [
   [/\bLehenga\s?[Cc]holi\b/g, "Lehenga Choli"],
 ];
 
+/**
+ * Mixed-case titles (live store: "Trending anarkali suit set", "Nravya purple
+ * embroidered suit set") — sirf **kapde/colour/craft** wale shabd capitalise
+ * hote hain. Brand naam waise hi rehte hain, isliye ye rule safe hai.
+ */
+const CASED_WORDS = new Set([
+  // garment
+  "anarkali", "lehenga", "lehnga", "saree", "sari", "kurta", "kurti", "sharara",
+  "palazzo", "plazzo", "dupatta", "gown", "suit", "set", "choli", "maxi", "crop",
+  "top", "shrug", "jacket", "salwar", "churidar", "cape", "skirt",
+  // colour
+  "purple", "orange", "red", "maroon", "blue", "green", "pink", "peach", "pista",
+  "white", "black", "ivory", "cream", "yellow", "golden", "gold", "silver", "navy",
+  "sky", "turquoise", "lavender", "magenta", "grey", "gray", "beige", "wine",
+  "mustard", "multi", "multicolour", "shades", "colour", "coloured", "color",
+  // fabric / work
+  "silk", "georgette", "chinon", "vichitra", "muslin", "maslin", "organza",
+  "sequins", "sequin", "zari", "embroidery", "embroidered", "thread", "work",
+  "readymade", "stitched", "unstitched", "printed", "designer", "premium",
+  "royal", "elegant", "luxury", "trendy", "trending", "long", "heavy", "party",
+  "wear", "wedding", "bridal", "festive", "new", "arrival", "cosmo", "slit", "neon",
+  "off", "clothing", "love", "elegance", "lucknowi", "lukhnowi",
+]);
+
 function titleCase(word, index) {
   const lower = word.toLowerCase();
   if (index > 0 && SMALL.has(lower)) return lower;
@@ -85,6 +109,18 @@ export function cleanTitle(raw) {
     .replace(/\s*\btd[-\s]?\d+\b/gi, "")
     .replace(/\s*[-–]\s*\b(ac|ay|kka|dt|lc|dkb)[-\s]?\d*\s*$/gi, "")
     .replace(/[\s\-–]*\b\d{5,}\b\s*$/, "");
+
+  // 2c) mixed-case titles — kapde/colour/craft shabd capitalise + jude shabd alag
+  //     ("whiteTrendy" → "white Trendy", "anarkali suit set" → "Anarkali Suit Set")
+  title = title.replace(/([a-z]{3,})([A-Z][a-z])/g, "$1 $2");
+  title = title
+    .split(" ")
+    .map((word) => {
+      const bare = word.toLowerCase().replace(/[^a-z]/g, "");
+      if (!bare || SMALL.has(bare) || !CASED_WORDS.has(bare)) return word;
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    })
+    .join(" ");
 
   // 3) repeat words ("Anarkali Anarkali", "Suit Set Set")
   title = title.replace(/\b(\w+)( \1\b)+/gi, "$1");

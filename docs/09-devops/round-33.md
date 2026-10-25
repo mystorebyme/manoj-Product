@@ -128,12 +128,50 @@ payment. Sirf asli policy ki baatein.
 
 ---
 
+## 5. Live verification (25 Oct, deploy `dpl_Bty3GTmMmvcV4Zoc1NoYYm3oA6oK`)
+
+| Kya | Kaise check kiya | Result |
+| --- | --- | --- |
+| Site live | `https://trendsyounique.fashion/` | READY deploy, domain alias PROMOTED |
+| Phone / WhatsApp | header, footer, PDP CTA | `+91 7740992663`, `wa.me/917740992663` |
+| Trending | `/collections/trending/` | **15 products**, 4.7–5.0 ratings, 3–12 photos |
+| Buy protected | PDP (Neha's Premium) | 4 trust points render ho rahe hain |
+| Clean titles | PDP title + collection cards | "Neha's Premium Anarkali Suit Set" (pehle "Neha Heavy Pure Vichitra…") |
+| Sheet settings read | `…/exec?action=public` | `ok:true`, `supportPhone/whatsapp = 7740992663`, r8 live |
+| Sheet reviews read | `…/exec?action=reviews&handle=trending-anarkali-suit-set-3-pis` | `ok:true`, `prakash / 5★` row aa rahi hai |
+| Colour groups | `colour-index.json` vs product titles | 10 designs / 21 colourways — **sab colour name title se match** (koi mismatch nahi) |
+
+> Note: sheet reviews client-side render hote hain (mount ke baad), isliye
+> "view-source" me nahi dikhte — browser me product page kholne par dikhte hain.
+
+## 6. Reviews → sheet: handle remap (naya)
+
+Duplicate listing hatane par uska handle catalog se nikal jaata hai, aur uske
+reviews **kisi bhi page par nahi dikhte** the. Ab
+`scripts/reviews-sync/export-for-sheet.mjs` `duplicate-listings.json` ke
+`dropped[].keptBy` se handle remap karta hai (+ Shopify id tail / `copy-of`
+fallback), isliye:
+
+- 36 duplicate handles → bache hue product par
+- `reviews-import.json` = **1682 rows, sabhi 477 products ke asli handles par**
+- sheet me import hone ke baad bhi duplicate nahi dikhega (`normalizeReviewText`)
+
+## Owner ke 2 minute ke kaam (baaki sab ho gaya)
+
+1. Sheet kholiye → **Extensions → Apps Script** → purana code hata kar
+   `scripts/google-apps-script/trends-sheets.gs` (r10) paste → **Deploy → Manage
+   deployments → ✏️ → New version → Deploy**.
+2. Sheet reload kijiye → menu **TRENDS tools → Import all reviews** → 1682 rows
+   apne aap aa jayengi (duplicate skip hote hain, kuch bhi manually likhna nahi).
+3. Uske baad `Reviews` tab me naya review likhne par **Status khaali chhodiye** —
+   khaali Status = live. `pending` = site par nahi.
+
 ## Reproduce / re-run
 
 ```bash
 node scripts/fix-duplicate-listings.mjs          # audit
 node scripts/fix-duplicate-listings.mjs --write  # fix (36 listings)
-node scripts/clean-titles.mjs                    # clean titles
+node scripts/clean-titles.mjs                    # clean titles (caps, size codes, mixed-case words)
 node scripts/patch-trending.mjs                  # 10 trending picks
 node scripts/reviews-sync/export-for-sheet.mjs   # reviews import file
 ```
