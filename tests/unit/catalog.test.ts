@@ -8,8 +8,12 @@ const root = process.cwd(); // npm test root se chalta hai
 const file = path.join(root, "database/seeds/catalog.json");
 const catalog = JSON.parse(fs.readFileSync(file, "utf8")) as Catalog;
 const products: Product[] = catalog.products;
-/** extra store (guest) products — live-store parity sirf liksha products par hoti hai */
-const likshaProducts = products.filter((product) => (product as Product & { source?: string }).source !== "extra");
+/** extra store (guest) products — live-store parity sirf imported products par hoti hai */
+const sourceOf = (product: Product) => (product as Product & { source?: string }).source;
+const likshaProducts = products.filter((product) => sourceOf(product) !== "extra" && sourceOf(product) !== "own");
+/** brand ke apne shoot products (owner uploads) — inke price/photos owner set karta hai */
+const ownProducts = products.filter((product) => sourceOf(product) === "own");
+const importedProducts = products.filter((product) => sourceOf(product) !== "own");
 const liveDir = path.join(root, "database/seeds/live");
 const liveProducts: any[] = JSON.parse(fs.readFileSync(path.join(liveDir, "products.json"), "utf8")).products;
 const liveMembership: Record<string, string[]> = JSON.parse(
@@ -45,9 +49,9 @@ test("every product has a positive integer price in paise", () => {
   }
 });
 
-test("festive sale: every final price is ₹499 / ₹549 / ₹599 / ₹649 / ₹699", () => {
+test("festive sale: every imported price is ₹499 / ₹549 / ₹599 / ₹649 / ₹699", () => {
   const allowed = [49_900, 54_900, 59_900, 64_900, 69_900];
-  for (const product of products) {
+  for (const product of importedProducts) {
     assert.ok(
       allowed.includes(product.price),
       `${product.handle}: final price ${product.price} sale set me nahi hai`,
@@ -60,7 +64,7 @@ test("festive sale: every final price is ₹499 / ₹549 / ₹599 / ₹649 / ₹
 });
 
 test("festive sale: discount badge only shows 60% or 70%", () => {
-  for (const product of products) {
+  for (const product of importedProducts) {
     const percent = Math.round(((product.compareAtPrice! - product.price) / product.compareAtPrice!) * 100);
     assert.ok([60, 70].includes(percent), `${product.handle}: ${percent}% discount`);
   }
@@ -77,11 +81,23 @@ test("compare-at price is always above selling price when present", () => {
   }
 });
 
-test("every product has at least one CDN image and one size", () => {
+test("every product has at least one image (CDN ya apni upload) and one size", () => {
   for (const product of products) {
     assert.ok(product.images.length >= 1, `${product.handle} has no image`);
-    assert.match(product.images[0]!, /^https:\/\/cdn\.shopify\.com\//);
+    if (sourceOf(product) === "own") {
+      assert.match(product.images[0]!, /^\/images\//, `${product.handle}: local image path chahiye`);
+    } else {
+      assert.match(product.images[0]!, /^https:\/\/cdn\.shopify\.com\//);
+    }
     assert.ok(product.sizes.length >= 1, `${product.handle} has no sizes`);
+  }
+});
+
+test("own products: 3+ original photos, price above MRP logic", () => {
+  assert.ok(ownProducts.length >= 3, "brand ke apne products catalogue me hone chahiye");
+  for (const product of ownProducts) {
+    assert.ok(product.images.length >= 3, `${product.handle}: kam se kam 3 photos`);
+    assert.ok(product.compareAtPrice! > product.price, `${product.handle}: MRP > price`);
   }
 });
 
@@ -132,7 +148,7 @@ test("collection counts match the live store snapshot", () => {
   assert.equal(counts["saree"], undefined); // store par bhi khaali
 });
 
-test("every product carries the full live gallery", () => {
+test("every imported product carries the full live gallery", () => {
   const liveByHandle = new Map(liveProducts.map((product) => [product.handle, product]));
   const liveHandles = new Set(liveByHandle.keys());
   // ek image sirf ek product par dikhni chahiye — isliye jo photo kisi dusre product par

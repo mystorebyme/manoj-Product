@@ -7,12 +7,13 @@
   "moneyUnit": "paise",
   "builtAt": "2026-10-24T16:20:52.051Z",
   "snapshotAt": "2026-10-24T06:51:35.543Z",
-  "productCount": 446,
+  "productCount": 449,
   "liveProductCount": 287,
   "extraProductCount": 159,
   "listedProductCount": 433,
   "colourGroupCount": 12,
-  "imageCount": 2898
+  "imageCount": 2907,
+  "ownProductCount": 3
  },
  "collections": [
   {
@@ -1549,6 +1550,251 @@
   }
  },
  "products": [
+  {
+   "handle": "rani-emerald-silk-lehenga",
+   "sourceHandle": "rani-emerald-silk-lehenga",
+   "title": "Rani Emerald Raw Silk Gota Lehenga Choli",
+   "price": 349900,
+   "compareAtPrice": 629900,
+   "images": [
+    "/images/own/rani-emerald-silk-lehenga-1.jpg",
+    "/images/own/rani-emerald-silk-lehenga-2.jpg",
+    "/images/own/rani-emerald-silk-lehenga-3.jpg"
+   ],
+   "collections": [
+    "new-arrivals",
+    "lehnga-choli",
+    "trends-signature",
+    "weddin-collection"
+   ],
+   "category": "lehenga",
+   "productType": "Lehenga choli",
+   "fabric": "Raw Silk",
+   "color": "Emerald Green",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 349900,
+     "compareAtPrice": 629900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 349900,
+     "compareAtPrice": 629900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 349900,
+     "compareAtPrice": 629900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 349900,
+     "compareAtPrice": 629900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 359900,
+     "compareAtPrice": 639900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 359900,
+     "compareAtPrice": 639900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 359900,
+     "compareAtPrice": 639900,
+     "available": true
+    }
+   },
+   "details": [
+    "Hand-stitched gota patti hem and border",
+    "Sequin butti choli with padded cups",
+    "4-metre flare with canvas waist belt",
+    "Custom blouse stitching on request"
+   ],
+   "description": "Hand-stitched gota patti hem and border Sequin butti choli with padded cups 4-metre flare with canvas waist belt Custom blouse stitching on request",
+   "descriptionHtml": "<p>Emerald raw silk lehenga with hand-stitched gota patti borders, a sequin-butti choli and a sheer dupatta.</p><ul><li>Lehenga: raw silk, 4-metre flare, canvas belt</li><li>Choli: padded, embroidered, elbow sleeves</li><li>Dupatta: net with gota border</li><li>Care: dry clean only</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": true,
+   "publishedAt": "2026-10-25T09:10:00+05:30"
+  },
+  {
+   "handle": "noor-ivory-chikankari-set",
+   "sourceHandle": "noor-ivory-chikankari-set",
+   "title": "Noor Ivory Chikankari Kurta & Palazzo Set",
+   "price": 189900,
+   "compareAtPrice": 349900,
+   "images": [
+    "/images/own/noor-ivory-chikankari-1.jpg",
+    "/images/own/noor-ivory-chikankari-2.jpg",
+    "/images/own/noor-ivory-chikankari-3.jpg"
+   ],
+   "collections": [
+    "new-arrivals",
+    "trends-signature",
+    "printed-suit-set"
+   ],
+   "category": "suit-set",
+   "productType": "Kurta set",
+   "fabric": "Cotton Mul",
+   "color": "Ivory",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 189900,
+     "compareAtPrice": 349900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 189900,
+     "compareAtPrice": 349900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 189900,
+     "compareAtPrice": 349900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 189900,
+     "compareAtPrice": 349900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 199900,
+     "compareAtPrice": 359900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 199900,
+     "compareAtPrice": 359900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 199900,
+     "compareAtPrice": 359900,
+     "available": true
+    }
+   },
+   "details": [
+    "Hand-embroidered Lucknowi chikankari",
+    "Breathable cotton mul — ideal for daytime functions",
+    "Pearl-finish organza dupatta",
+    "Side pockets in palazzo"
+   ],
+   "description": "Hand-embroidered Lucknowi chikankari Breathable cotton mul — ideal for daytime functions Pearl-finish organza dupatta Side pockets in palazzo",
+   "descriptionHtml": "<p>Lucknowi chikankari on soft cotton mul — an ivory kurta with straight palazzo and a pearl-edged organza dupatta.</p><ul><li>Kurta: cotton mul with all-over chikankari</li><li>Palazzo: cotton mul, elasticated waist</li><li>Dupatta: organza with pearl edging</li><li>Care: gentle hand wash</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": true,
+   "publishedAt": "2026-10-25T09:05:00+05:30"
+  },
+  {
+   "handle": "meher-wine-velvet-anarkali",
+   "sourceHandle": "meher-wine-velvet-anarkali",
+   "title": "Meher Wine Velvet Zari Anarkali Set",
+   "price": 249900,
+   "compareAtPrice": 459900,
+   "images": [
+    "/images/own/meher-wine-velvet-anarkali-1.jpg",
+    "/images/own/meher-wine-velvet-anarkali-2.jpg",
+    "/images/own/meher-wine-velvet-anarkali-3.jpg"
+   ],
+   "collections": [
+    "new-arrivals",
+    "trends-signature",
+    "party-wear-gown",
+    "weddin-collection"
+   ],
+   "category": "anarkali",
+   "productType": "Anarkali suit",
+   "fabric": "Micro Velvet",
+   "color": "Wine",
+   "sizes": [
+    "XS [34]",
+    "S [36]",
+    "M [38]",
+    "L [40]",
+    "XL [42]",
+    "2XL [44]",
+    "3XL [46]"
+   ],
+   "sizePricing": {
+    "XS [34]": {
+     "price": 249900,
+     "compareAtPrice": 459900,
+     "available": true
+    },
+    "S [36]": {
+     "price": 249900,
+     "compareAtPrice": 459900,
+     "available": true
+    },
+    "M [38]": {
+     "price": 249900,
+     "compareAtPrice": 459900,
+     "available": true
+    },
+    "L [40]": {
+     "price": 249900,
+     "compareAtPrice": 459900,
+     "available": true
+    },
+    "XL [42]": {
+     "price": 259900,
+     "compareAtPrice": 469900,
+     "available": true
+    },
+    "2XL [44]": {
+     "price": 259900,
+     "compareAtPrice": 469900,
+     "available": true
+    },
+    "3XL [46]": {
+     "price": 259900,
+     "compareAtPrice": 469900,
+     "available": true
+    }
+   },
+   "details": [
+    "Hand-embroidered gold zari paisley yoke and hem",
+    "Floor-length flare with side slits",
+    "Matching net dupatta with sequin border",
+    "Made in limited runs — Jaipur atelier"
+   ],
+   "description": "Hand-embroidered gold zari paisley yoke and hem Floor-length flare with side slits Matching net dupatta with sequin border Made in limited runs — Jaipur atelier",
+   "descriptionHtml": "<p>Hand-embroidered zari paisley work on deep wine micro-velvet — a floor-length anarkali with a matching embroidered dupatta.</p><ul><li>Kurta: micro velvet, floor length, full sleeves</li><li>Dupatta: net with gold zari border</li><li>Bottom: velvet churidar</li><li>Care: dry clean only</li></ul>",
+   "source": "own",
+   "rating": 0,
+   "reviewCount": 0,
+   "inStock": true,
+   "featured": true,
+   "publishedAt": "2026-10-25T09:00:00+05:30"
+  },
   {
    "handle": "green-bandhej-maslin-anarkali-suit-set-td-141-copy",
    "sourceHandle": "green-bandhej-maslin-anarkali-suit-set-td-141-copy",

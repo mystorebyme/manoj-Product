@@ -49,11 +49,11 @@ var TOKEN = 'PASTE-MASTER-TOKEN-HERE';
  * redeploy kar dein — purana token turant band ho jaayega.
  */
 var WRITE_TOKEN = 'tyw-cb77177528f9474049ffa98fead4cee1';
-var WRITE_SHEETS = ['Orders', 'Order Items', 'Enquiries', 'Messages', 'Newsletter'];
+var WRITE_SHEETS = ['Orders', 'Order Items', 'Enquiries', 'Messages', 'Newsletter', 'Reviews'];
 var MAX_WRITE_ROWS = 40;
 
 /** Script version — `?action=ping` se dikhta hai (kaun sa code deploy hai). */
-var VERSION = '2026-10-25.r6';
+var VERSION = '2026-10-25.r7';
 
 var HEADERS = {
   Orders: [
@@ -81,6 +81,7 @@ var HEADERS = {
   Settings: ['key', 'value', 'notes'],
   Messages: ['Timestamp', 'Name', 'Email', 'Phone', 'Subject', 'Message', 'Status'],
   Newsletter: ['Timestamp', 'Email', 'Source'],
+  Reviews: ['Timestamp', 'Handle', 'Product', 'Name', 'Rating', 'Title', 'Body', 'Status', 'Source'],
 };
 
 /** Settings ke default keys — website inhe padhti hai */
@@ -336,6 +337,37 @@ function doGet(e) {
       },
     ]);
     return json_({ ok: true, written: written, ref: ref, time: new Date().toISOString() });
+  }
+  if (action === 'reviews') {
+    // Public: sirf wahi reviews jo owner ne Status = publish kiya hai (koi contact detail nahi)
+    var handle = String(params.handle || '');
+    var tab = sheet_('Reviews');
+    var last = tab.getLastRow();
+    if (last < 2) return json_({ ok: true, handle: handle, reviews: [] });
+    var head = headersOf_(tab);
+    var rows = tab.getRange(2, 1, last - 1, head.length).getValues();
+    var published = rows
+      .map(function (values) {
+        var object = {};
+        for (var i = 0; i < head.length; i += 1) object[head[i]] = values[i];
+        return object;
+      })
+      .filter(function (row) {
+        var status = String(row.Status || '').toLowerCase();
+        if (!/^(publish|published|approved|live)$/.test(status)) return false;
+        return !handle || String(row.Handle || '') === handle;
+      })
+      .slice(-30)
+      .map(function (row) {
+        return {
+          name: String(row.Name || 'Customer'),
+          rating: Number(row.Rating) || 5,
+          title: String(row.Title || ''),
+          body: String(row.Body || ''),
+          date: row.Timestamp ? new Date(row.Timestamp).toISOString().slice(0, 10) : '',
+        };
+      });
+    return json_({ ok: true, handle: handle, reviews: published, version: VERSION });
   }
   if (action === 'ping' || action === 'version' || action === 'verify_write') {
     if (action === 'verify_write') {

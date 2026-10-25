@@ -41,12 +41,16 @@ if (!fs.existsSync(FILE)) {
 const catalog = JSON.parse(fs.readFileSync(FILE, "utf8"));
 const products = catalog.products ?? [];
 /** extra store (guest) products — live-store parity check inhe chhod ke hota hai */
-const likshaProducts = products.filter((product) => product.source !== "extra");
+// `extra` = imported guest products, `own` = brand ke apne shoot products (owner uploads)
+const likshaProducts = products.filter((product) => product.source !== "extra" && product.source !== "own");
 const catalogCollectionHandles = new Set((catalog.collections ?? []).map((collection) => collection.handle));
 
-if (likshaProducts.length !== 287) fail(`expected 287 liksha products, found ${likshaProducts.length}`);
+const expectedLive = catalog.meta?.liveProductCount ?? 287;
+if (likshaProducts.length !== expectedLive) {
+  fail(`expected ${expectedLive} imported products, found ${likshaProducts.length}`);
+}
 if (catalog.meta?.moneyUnit !== "paise") fail("meta.moneyUnit must be 'paise'");
-if (catalog.meta?.source !== "https://www.likshaclothing.com") fail("meta.source must be the live store");
+if (!/^https:\/\//.test(catalog.meta?.source ?? "")) fail("meta.source must be the store URL");
 
 const handles = new Set();
 const sizePattern = /^(XS|S|M|L|XL|2XL|3XL|4XL|5XL)( \[[0-9]{2}\])?$|^Free Size$/;

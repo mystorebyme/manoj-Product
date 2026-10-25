@@ -1,10 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { SafeImage } from "@/components/safe-image";
 import { Stars } from "@/components/stars";
-import { productUrl } from "@/lib/whatsapp";
 import { ratingBreakdown, type ProductReviewBlock, type Review } from "@/lib/reviews";
+import { fetchPublishedReviews, submitReview, type SheetReview } from "@/lib/sheet-reviews";
 
 /**
  * Product reviews — live store ke Trustoo widget jaisa layout:
@@ -22,17 +22,47 @@ export function ProductReviews({
 }) {
   const [filter, setFilter] = useState<number | null>(null);
   const [showForm, setShowForm] = useState(false);
+  // sheet se aaye published reviews (owner ne approve kiye) — local reviews ke saath merge
+  const [sheetReviews, setSheetReviews] = useState<SheetReview[]>([]);
+  const [form, setForm] = useState({ name: "", rating: 5, body: "" });
+  const [formStatus, setFormStatus] = useState<"idle" | "done" | "error">("idle");
 
-  const breakdown = useMemo(() => ratingBreakdown(block), [block]);
+  useEffect(() => {
+    let alive = true;
+    void fetchPublishedReviews(productHandle).then((reviews) => {
+      if (alive && reviews.length) setSheetReviews(reviews);
+    });
+    return () => {
+      alive = false;
+    };
+  }, [productHandle]);
+
+  // sheet reviews ko usi shape me le aao jise baaki UI padhta hai
+  const merged = useMemo<ProductReviewBlock>(() => {
+    const extra: Review[] = sheetReviews.map((review, index) => ({
+      id: `sheet-${index}`,
+      author: review.name || "Customer",
+      rating: Number(review.rating) || 5,
+      title: review.title || undefined,
+      body: review.body,
+      date: review.date,
+      verified: false,
+    }));
+    const reviews = [...extra, ...block.reviews];
+    const count = block.count + extra.length;
+    const total = block.rating * Math.max(0, block.count - block.reviews.length) +
+      block.reviews.reduce((sum, review) => sum + review.rating, 0) +
+      extra.reduce((sum, review) => sum + review.rating, 0);
+    const rating = count > 0 ? Math.round((total / count) * 10) / 10 : 0;
+    return { rating, count, reviews };
+  }, [block, sheetReviews]);
+
+  const breakdown = useMemo(() => ratingBreakdown(merged), [merged]);
   const photos = useMemo(
-    () => block.reviews.flatMap((review) => (review.photos ?? []).map((src) => ({ src, review }))),
-    [block],
+    () => merged.reviews.flatMap((review) => (review.photos ?? []).map((src) => ({ src, review }))),
+    [merged],
   );
-  const visible = filter ? block.reviews.filter((review) => Math.round(review.rating) === filter) : block.reviews;
-
-  const whatsappReview = `https://wa.me/918005900581?text=${encodeURIComponent(
-    `Hi TRENDS YOUNIQUE! I'd like to review "${productTitle}" (${productUrl(productHandle)}). My rating: `,
-  )}`;
+  const visible = filter ? merged.reviews.filter((review) => Math.round(review.rating) === filter) : merged.reviews;
 
   return (
     <section className="mt-10 border-t border-[#ece1d3] pt-8" data-testid="product-reviews" id="reviews">
@@ -40,7 +70,7 @@ export function ProductReviews({
         <div>
           <h2 className="font-display text-[24px] font-medium sm:text-[28px]">Customer reviews</h2>
           <p className="mt-1 text-[11px] tracking-[.12em] text-[#a3948a] uppercase">
-            {block.count > 0 ? `${block.count} customer reviews` : "Be the first to review this piece"}
+            {merged.count > 0 ? `${merged.count} customer reviews` : "Be the first to review this piece"}
           </p>
         </div>
         <button
@@ -53,15 +83,83 @@ export function ProductReviews({
       </div>
 
       {showForm ? (
-        <p className="mt-3 border border-[#ece1d3] bg-[#fdfaf5] p-4 text-[12.5px] leading-relaxed text-[#3d332c]">
-          Apna review WhatsApp par bhejiye — team 24 ghante me publish kar deti hai.{" "}
-          <a href={whatsappReview} target="_blank" rel="noopener noreferrer" className="font-medium text-[#6f1d2b] underline">
-            WhatsApp par review likhein
-          </a>
-        </p>
+        <form
+          className="mt-3 border border-[#ece1d3] bg-[#fdfaf5] p-4"
+          onSubmit={(event) => {
+            event.preventDefault();
+            if (form.name.trim().length < 2 || form.body.trim().length < 8) {
+              setFormStatus("error");
+              return;
+            }
+            submitReview({
+              handle: productHandle,
+              productTitle,
+              name: form.name.trim(),
+              rating: form.rating,
+              body: form.body.trim(),
+            });
+            setFormStatus("done");
+            setShowForm(false);
+          }}
+          data-testid="review-form"
+        >
+          {formStatus === "done" ? (
+            <p className="text-[12.5px] leading-relaxed text-[#2f6b3f]">
+              Shukriya! Aapka review mil gaya — owner check karke publish karega, phir yahin dikhega.
+            </p>
+          ) : (
+            <>
+              <p className="text-[12px] leading-relaxed text-[#6f6259]">
+                Apna experience likhiye — review Google Sheet me save hota hai, owner approve karke publish karta hai.
+              </p>
+              <div className="mt-3 flex flex-wrap items-center gap-2">
+                <span className="text-[10.5px] tracking-[.12em] text-[#8a7d72] uppercase">Rating</span>
+                {[5, 4, 3, 2, 1].map((value) => (
+                  <button
+                    key={value}
+                    type="button"
+                    onClick={() => setForm((current) => ({ ...current, rating: value }))}
+                    aria-label={`${value} star`}
+                    className={`h-8 w-8 border text-[12px] ${
+                      form.rating === value
+                        ? "border-[#c9a86a] bg-[#c9a86a] text-white"
+                        : "border-[#ded1c0] text-[#6f6259]"
+                    }`}
+                  >
+                    {value}
+                  </button>
+                ))}
+              </div>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                <input
+                  value={form.name}
+                  onChange={(event) => setForm((current) => ({ ...current, name: event.target.value }))}
+                  placeholder="Your name"
+                  className="h-10 border border-[#ded1c0] bg-white px-3 text-[12.5px] outline-none focus:border-[#6f1d2b]"
+                />
+              </div>
+              <textarea
+                value={form.body}
+                onChange={(event) => setForm((current) => ({ ...current, body: event.target.value }))}
+                placeholder="Fit, fabric, finishing — kaisa laga?"
+                rows={3}
+                className="mt-2 w-full border border-[#ded1c0] bg-white px-3 py-2 text-[12.5px] outline-none focus:border-[#6f1d2b]"
+              />
+              {formStatus === "error" ? (
+                <p className="mt-1 text-[11.5px] text-[#b3261e]">Naam aur kam se kam 8 akshar ka review likhiye.</p>
+              ) : null}
+              <button
+                type="submit"
+                className="mt-3 bg-[#6f1d2b] px-5 py-2.5 text-[10.5px] font-semibold tracking-[.14em] text-white uppercase"
+              >
+                Submit review
+              </button>
+            </>
+          )}
+        </form>
       ) : null}
 
-      {block.count === 0 ? (
+      {merged.count === 0 ? (
         <div className="mt-5 border border-[#ece1d3] px-5 py-10 text-center">
           <Stars value={0} size={18} />
           <p className="mt-2 text-[12.5px] text-[#6f6259]">
@@ -72,24 +170,24 @@ export function ProductReviews({
         <>
           <div className="mt-5 grid gap-6 border border-[#ece1d3] p-5 sm:grid-cols-[210px_1fr]">
             <div className="text-center sm:border-r sm:border-[#f2e9dd] sm:pr-5">
-              {block.rating > 0 ? (
+              {merged.rating > 0 ? (
                 <>
-                  <p className="font-display text-[44px] leading-none text-[#6f1d2b]">{block.rating.toFixed(1)}</p>
-                  <Stars value={block.rating} size={16} />
+                  <p className="font-display text-[44px] leading-none text-[#6f1d2b]">{merged.rating.toFixed(1)}</p>
+                  <Stars value={merged.rating} size={16} />
                 </>
               ) : (
-                <p className="font-display text-[20px] leading-none text-[#6f1d2b]">{block.count} ratings</p>
+                <p className="font-display text-[20px] leading-none text-[#6f1d2b]">{merged.count} ratings</p>
               )}
-              <p className="mt-1.5 text-[11.5px] text-[#6f6259]">Based on {block.count} reviews</p>
+              <p className="mt-1.5 text-[11.5px] text-[#6f6259]">Based on {merged.count} reviews</p>
             </div>
             <div className="space-y-1.5">
-              {block.reviews.length === 0 ? (
+              {merged.reviews.length === 0 ? (
                 <p className="text-[12px] leading-relaxed text-[#6f6259]">
-                  Is piece par {block.count} ratings hain. Customer-written reviews aate hi yahan dikhte hain —
+                  Is piece par {merged.count} ratings hain. Customer-written reviews aate hi yahan dikhte hain —
                   koi sample review publish nahi hota.
                 </p>
               ) : null}
-              {block.reviews.length === 0 ? null : breakdown.map((row) => (
+              {merged.reviews.length === 0 ? null : breakdown.map((row) => (
                 <button
                   key={row.stars}
                   type="button"

@@ -386,3 +386,27 @@ Sheet me data na aane par (real order `TY-NBL7ITUPM` kabhi nahi pahuncha):
 - `doPost` ab **form-encoded** body bhi padhta hai (`e.parameter`).
 - Naya page **`/sheet-check`**: ping → token match → settings → test row, sab browser se, aur
   aakhri relay ka log. Owner khud 10 second me verify kar sakta hai.
+
+## Round 24 (cont.) — 3 naye original products + sheet-based reviews
+
+**Naye products (apne original shoot images — AI se banaye, kahin se copy nahi):**
+| Product | Price | Images |
+| --- | --- | --- |
+| Meher Wine Velvet Zari Anarkali Set | ₹2,499 (MRP ₹4,599) | 3 (front / detail / side) |
+| Noor Ivory Chikankari Kurta & Palazzo Set | ₹1,899 (MRP ₹3,499) | 3 |
+| Rani Emerald Raw Silk Gota Lehenga Choli | ₹3,499 (MRP ₹6,299) | 3 |
+
+- Images `apps/web/public/images/own/` me (repo ke andar, Shopify CDN par depend nahi).
+- `source: "own"` — imported catalogue ki parity checks se alag, kyunki inke price/photos
+  owner khud set karta hai. Test `own products: 3+ original photos` isko guard karta hai.
+- `imageUrl()` local `/images/...` path par base path lagata hai (Pages par 404 na ho).
+- catalog verify: meta.source ki hard-coded likshaclothing check hata di (ab store URL),
+  count meta se aata hai.
+
+**Reviews (asli, sheet-backed):**
+- Apps Script me naya tab **Reviews** (`Timestamp, Handle, Product, Name, Rating, Title, Body, Status, Source`)
+- Product page ka "Write a review" ab **real form**: naam + 1–5 star + text → `Reviews` tab me
+  row (`Status = pending`). Har review ka source site ka apna URL hai — koi fake review nahi.
+- `?action=reviews&handle=…` sirf **publish** kiye hue reviews deta hai (naam, rating, text;
+  koi phone/email nahi) → approve karne par site par turant dikh jaate hain, redeploy nahi.
+- Sheet na mile to site ke Trustoo-synced reviews jaise the waise dikhte hain.
