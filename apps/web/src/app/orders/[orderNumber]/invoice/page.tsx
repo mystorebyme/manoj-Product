@@ -245,7 +245,7 @@ export default async function InvoicePage({
                 <p className="mt-1.5 text-[10.5px] leading-relaxed text-[#6f6259]">
                   We declare that this invoice shows the actual price of the goods described and that all
                   particulars are true and correct. Goods are dispatched from Jaipur, Rajasthan. Prices are
-                  inclusive of GST. 7 days replacement on unused products with tags intact. This is a
+                  inclusive of GST. 7 days return on unused products with tags intact. This is a
                   computer-generated invoice.
                 </p>
                 <p className="mt-2 text-[10.5px] text-[#4a423b]">Whether tax payable under reverse charge: No</p>

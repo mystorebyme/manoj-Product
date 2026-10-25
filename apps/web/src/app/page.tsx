@@ -101,7 +101,7 @@ export default async function HomePage() {
     image: siteConfig.ogImage,
     description: siteConfig.description,
     telephone: siteConfig.phone,
-    email: siteConfig.email,
+    // owner ki request: website par support email nahi — sirf WhatsApp/call
     address: { "@type": "PostalAddress", addressLocality: "Jaipur", addressRegion: "Rajasthan", addressCountry: "IN" },
     priceRange: priceRangeLabel(products),
   };
@@ -191,7 +191,7 @@ export default async function HomePage() {
                   </a>
                 </div>
                 <p className="mt-4 text-[10.5px] tracking-[.16em] text-[#e7d9c6] uppercase">
-                  Free shipping · 7 day exchange · WhatsApp ordering
+                  Free shipping · 7 day return · WhatsApp ordering
                 </p>
                 <div className="mt-5 hidden items-center gap-4 border-t border-white/25 pt-4 sm:flex">
                   {[
@@ -221,7 +221,7 @@ export default async function HomePage() {
                 { title: "Hand-finished in Jaipur", note: "Zari, sequin & mirror work" },
                 { title: "Free shipping pan-India", note: "Dispatched within 24 hours" },
                 { title: "Order on WhatsApp", note: "Stylist help before you buy" },
-                { title: "7 day easy exchange", note: "Size ya fit ka issue? Solved" },
+                { title: "7 day easy return", note: "Size ya fit ka issue? Solved" },
               ].map((item) => (
                 <li key={item.title} className="px-4 py-4 md:py-5">
                   <p className="text-[10.5px] font-semibold tracking-[.14em] text-[#4a1220] uppercase">{item.title}</p>

@@ -60,8 +60,7 @@ export default function AccountPage() {
               ))}
             </ul>
             <div className="mt-4 border-t border-[#f0eae3] pt-3 text-[12px] text-[#6f6259]">
-              <p>Email: {siteConfig.email}</p>
-              <p className="mt-1">Phone: {siteConfig.phone}</p>
+              <p>WhatsApp: {siteConfig.phone}</p>
               <p className="mt-1 text-[11px] text-[#8a7d72]">
                 Account login (saved addresses, wishlist) Phase 2 me aa raha hai.
               </p>

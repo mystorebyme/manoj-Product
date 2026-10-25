@@ -199,10 +199,10 @@ export function ProductDetail({
     },
     {
       key: "returns",
-      title: "7 Days Replacement",
+      title: "7 Days Return",
       content: (
         <p className="text-[12.5px] leading-relaxed text-[#3d332c]">
-          Simply return it within 7 days for an exchange. The product must be unused with all tags
+          Simply return it within 7 days of delivery. The product must be unused with all tags
           intact. Raise a request on WhatsApp 8005900581 with your order number.
         </p>
       ),
@@ -498,7 +498,7 @@ export function ProductDetail({
         </a>
 
         <p className="mt-3 text-[11px] tracking-[.06em] text-[#8a7d72]">
-          Free shipping across India · 7 days replacement · COD available
+          Free shipping across India · 7 days return · COD available
         </p>
 
         <div className="mt-4 border border-[#ece1d3] bg-[#fdfaf5] p-3">

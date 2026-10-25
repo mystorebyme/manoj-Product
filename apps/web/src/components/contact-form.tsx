@@ -7,29 +7,31 @@ import { apiUrl } from "@/lib/api-base";
 import { useStoreSettings } from "@/components/store-settings-provider";
 
 /** fallback — live value Google Sheet / admin settings se aati hai */
-const FALLBACK_EMAIL = "care@trendsyounique.com";
 const FALLBACK_WHATSAPP = "8005900581";
 
-/** static mailto — koi server/API fail ho to bhi ye kaam karta hai */
-function mailtoHref(
+/**
+ * WhatsApp fallback — website par support **email nahi** dikhta (owner ki request).
+ * Server/API fail ho to customer seedha WhatsApp par hi message bhej deta hai.
+ */
+function whatsappHref(
   form: { name: string; email: string; phone: string; subject: string; message: string },
-  supportEmail: string,
+  whatsapp: string,
 ) {
   const body = [
-    `Name: ${form.name}`,
-    `Email: ${form.email}`,
+    `*${form.subject}*`,
+    form.name ? `Name: ${form.name}` : "",
     form.phone ? `Phone: ${form.phone}` : "",
+    form.email ? `Email: ${form.email}` : "",
     "",
     form.message,
   ]
     .filter(Boolean)
     .join("\n");
-  return `mailto:${supportEmail}?subject=${encodeURIComponent(`[Website] ${form.subject}`)}&body=${encodeURIComponent(body)}`;
+  return `https://wa.me/91${whatsapp.replace(/\D/g, "").slice(-10)}?text=${encodeURIComponent(body)}`;
 }
 
 export function ContactForm() {
-  const { supportEmail, whatsapp } = useStoreSettings();
-  const SUPPORT_EMAIL = supportEmail || FALLBACK_EMAIL;
+  const { whatsapp } = useStoreSettings();
   const SUPPORT_WHATSAPP = whatsapp || FALLBACK_WHATSAPP;
   const [form, setForm] = useState({ name: "", email: "", phone: "", subject: "Order enquiry", message: "" });
   const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
@@ -73,12 +75,7 @@ export function ContactForm() {
           >
             WhatsApp us
           </a>
-          <a
-            href={`mailto:${SUPPORT_EMAIL}`}
-            className="border border-[#6f1d2b] px-4 py-2 text-[11px] font-semibold tracking-[.12em] text-[#6f1d2b] uppercase"
-          >
-            Email us
-          </a>
+
         </div>
       </div>
     );
@@ -114,7 +111,7 @@ export function ContactForm() {
           onChange={(event) => setForm({ ...form, subject: event.target.value })}
           className="h-11 w-full border border-[#ded1c0] bg-white px-3 text-[13px] outline-none focus:border-[#6f1d2b]"
         >
-          {["Order enquiry", "Sizing help", "Replacement request", "Bulk / wholesale", "Other"].map((option) => (
+          {["Order enquiry", "Sizing help", "Return request", "Bulk / wholesale", "Other"].map((option) => (
             <option key={option}>{option}</option>
           ))}
         </select>
@@ -132,22 +129,11 @@ export function ContactForm() {
           <p>{error}</p>
           {/* honest fallback — static preview / server down par message kho na jaye */}
           <p className="mt-1 text-[#3d332c]">
-            Aap seedha bhi bhej sakte hain:{" "}
-            <a href={mailtoHref(form, SUPPORT_EMAIL)} className="underline">
-              email
-            </a>{" "}
-            ya{" "}
-            <a
-              href={`https://wa.me/91${SUPPORT_WHATSAPP}?text=${encodeURIComponent(
-                `Hi TRENDS YOUNIQUE! ${form.subject}\nName: ${form.name}\n${form.message}`,
-              )}`}
-              target="_blank"
-              rel="noreferrer"
-              className="underline"
-            >
+            Aap seedha{" "}
+            <a href={whatsappHref(form, SUPPORT_WHATSAPP)} target="_blank" rel="noreferrer" className="underline">
               WhatsApp {SUPPORT_WHATSAPP}
-            </a>
-            .
+            </a>{" "}
+            par bhi bhej sakte hain.
           </p>
         </div>
       ) : null}
@@ -161,11 +147,13 @@ export function ContactForm() {
           {status === "loading" ? "Sending…" : "Send message"}
         </button>
         <a
-          href={mailtoHref(form, SUPPORT_EMAIL)}
-          data-testid="contact-mailto"
+          href={whatsappHref(form, SUPPORT_WHATSAPP)}
+          target="_blank"
+          rel="noreferrer"
+          data-testid="contact-whatsapp"
           className="text-[11.5px] text-[#3d332c] underline decoration-[#c9b9a8] underline-offset-4 hover:text-[#6f1d2b]"
         >
-          or email {SUPPORT_EMAIL}
+          or WhatsApp {SUPPORT_WHATSAPP}
         </a>
       </div>
     </form>

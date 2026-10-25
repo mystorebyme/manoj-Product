@@ -84,7 +84,7 @@ export function NewProductForm({ error }: { error?: string }) {
             />
             <strong>Photos choose kariye (4–6 best)</strong>
             <span>
-              JPG / PNG / WEBP · max 8 MB each · pehli photo card par dikhegi
+              JPG / PNG / WEBP · max 8 MB each · pehli photo main image hoti hai (card/search par wahi) — save ke baad badal bhi sakte hain
             </span>
             <span className="small muted" style={{ display: "block", marginTop: 4 }}>
               Salah: front full-length, back, dupatta/work ka close-up, aur ek wearing shot — customer ko

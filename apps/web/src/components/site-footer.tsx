@@ -39,14 +39,13 @@ const menuLinks = [
 ];
 
 /**
- * Social — abhi ke liye **sirf Instagram ka URL text** dikhta hai (clickable link
- * nahi, owner ne bola "abhi ke liye koi link nahi"), aur WhatsApp ka working link.
- * Facebook/Pinterest ke dummy links hata diye gaye hain (accounts hi nahi hain).
+ * Social — abhi sirf WhatsApp ka working link hai. Instagram/Facebook/Pinterest
+ * ke dummy links nahi dikhate: account na ho to jhootha link = trust kharab.
+ * Owner apna Instagram handle de dein to ek line add karni hai.
  */
-const INSTAGRAM_URL = siteConfig.socials.instagram;
 
 export function SiteFooter() {
-  const { whatsapp, supportEmail, supportPhone } = useStoreSettings();
+  const { whatsapp, supportPhone } = useStoreSettings();
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
 
@@ -127,14 +126,6 @@ export function SiteFooter() {
               </li>
               <li className="flex items-start gap-2">
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" className="mt-0.5 shrink-0" aria-hidden>
-                  <path d="M2 5.5 12 12l10-6.5V19a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5.5Z" />
-                </svg>
-                <a href={`mailto:${supportEmail}`} className="break-all transition hover:text-[#e1d256]">
-                  {supportEmail}
-                </a>
-              </li>
-              <li className="flex items-start gap-2">
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" className="mt-0.5 shrink-0" aria-hidden>
                   <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .7-.2 1l-2.3 2.2Z" />
                 </svg>
                 <a href={`tel:${supportPhone.replace(/[^\d+]/g, "")}`} className="transition hover:text-[#e1d256]">
@@ -143,17 +134,8 @@ export function SiteFooter() {
               </li>
             </ul>
 
-            <p className="mt-5 text-[15px] font-medium text-white">Follow Us :</p>
+            <p className="mt-5 text-[15px] font-medium text-white">Connect with us :</p>
             <div className="mt-3 flex flex-wrap items-center gap-3">
-              {/* Instagram — sirf URL text, koi clickable link nahi (abhi ke liye) */}
-              <span className="flex items-center gap-2 text-[12.5px] break-all text-[#f1dede]" data-testid="instagram-url">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
-                  <rect x="3" y="3" width="18" height="18" rx="5" />
-                  <circle cx="12" cy="12" r="4" />
-                  <path d="M17.5 6.5h.01" />
-                </svg>
-                {INSTAGRAM_URL}
-              </span>
               {/* WhatsApp — customer isi par order/query bhejta hai */}
               <a
                 href={`https://wa.me/91${whatsapp.replace(/\D/g, "").slice(-10)}`}

@@ -30,7 +30,11 @@ export function buildCatalogIndex(catalog) {
 }
 
 export function buildCatalogLite(catalog) {
+  // server (`build-catalog.mjs`) listing rule: colour group ka sirf representative
+  const groups = catalog.colourGroups ?? {};
   return catalog.products.map((product) => ({
+    // `listed` = is product ko grid me dikhna chahiye (server jaisa hi faisla)
+    listed: !product.colourGroup || groups[product.colourGroup]?.handle === product.handle,
     handle: product.handle,
     title: product.title,
     price: product.price,

@@ -143,11 +143,10 @@ check(
   /<BrandLockup[^>]*tone="light"/.test(footerSource) && /trends-lockup-cream|trends-header-cream|desktopCream/.test(home.text + footerSource),
 );
 
-/* 5. footer: instagram URL text (not a link), whatsapp working -------------- */
-check("footer shows the instagram URL as text", home.text.includes("https://www.instagram.com/designer_clothing_9"));
+/* 5. footer: koi social link nahi (owner apna handle baad me dega), whatsapp live ---- */
 check(
-  "instagram is not a clickable link yet (owner rule)",
-  !/href="https:\/\/www\.instagram\.com/.test(home.text),
+  "footer me koi instagram link nahi (owner ka handle abhi nahi hai)",
+  !/instagram\.com/i.test(home.text),
 );
 check("footer whatsapp link is live", /href="https:\/\/wa\.me\/918005900581/.test(home.text));
 check("no dummy facebook/pinterest links", !home.text.includes("facebook.com") && !home.text.includes("pinterest.com"));

@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { readJson } from "@/lib/http-json";
-import { assetUrl } from "@/lib/format";
+import { fetchCatalogPage } from "@/lib/catalog-page";
 import { CollectionToolbar } from "@/components/collection-toolbar";
 import { ProductCard } from "@/components/product-card";
 import type { Product } from "@/types/catalog";
@@ -45,8 +45,6 @@ export function CollectionBrowser({
   /** neeche tak scroll karte hi agle products khud load ho jaate hain */
   /** prefetched pages: "sort|price|offset" → payload */
   const pages = useRef(new Map<string, { data: Product[]; total: number }>());
-  /** static preview ke liye poora chhota catalogue (ek hi baar download) */
-  const localCatalog = useRef<Product[] | null>(null);
 
   const buildQuery = useCallback(
     (nextSort: string, nextPrice: string) => {
@@ -56,55 +54,13 @@ export function CollectionBrowser({
     [handle],
   );
 
-  /** GitHub Pages fallback — static catalogue par wahi filter/sort/pagination */
+  /** GitHub Pages / Netlify fallback — static catalogue par wahi filter/sort/pagination */
   const localPage = useCallback(
     async (nextSort: string, nextPrice: string, offset: number) => {
-      if (!localCatalog.current) {
-        const response = await fetch(assetUrl("/catalog-lite.json"), { cache: "force-cache" });
-        if (!response.ok) throw new Error("catalog fetch failed");
-        const all = await readJson<Product[]>(response);
-        if (!Array.isArray(all)) throw new Error("catalog parse failed");
-        localCatalog.current = all;
-      }
-      // colour group ka sirf ek card (server jaisa behaviour)
-      const seen = new Set<string>();
-      let list = localCatalog.current.filter((product) => {
-        const key = (product as Product & { colourGroup?: string | null }).colourGroup ?? product.handle;
-        if (seen.has(key)) return false;
-        seen.add(key);
-        return true;
-      });
-      if (handle && handle !== "all") {
-        list = list.filter((product) => product.collections?.includes(handle));
-      }
-      const inRange: Record<string, (p: Product) => boolean> = {
-        "under-500": (p) => p.price < 50000,
-        "500-800": (p) => p.price >= 50000 && p.price < 80000,
-        "800-1200": (p) => p.price >= 80000 && p.price < 120000,
-        "above-1200": (p) => p.price >= 120000,
-      };
-      if (inRange[nextPrice]) list = list.filter(inRange[nextPrice]!);
-      const sorted = [...list];
-      switch (nextSort) {
-        case "price-low":
-          sorted.sort((a, b) => a.price - b.price);
-          break;
-        case "price-high":
-          sorted.sort((a, b) => b.price - a.price);
-          break;
-        case "discount":
-          sorted.sort(
-            (a, b) =>
-              (b.compareAtPrice ?? b.price) - b.price - ((a.compareAtPrice ?? a.price) - a.price),
-          );
-          break;
-        case "title-asc":
-          sorted.sort((a, b) => a.title.localeCompare(b.title));
-          break;
-        default:
-          sorted.sort((a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured)));
-      }
-      return { data: sorted.slice(offset, offset + PAGE_SIZE), total: sorted.length };
+      // 25 Oct ka bug: yahan `readJson()` ka poora object aata hai, array nahi —
+      // isliye `Array.isArray()` hamesha false hota tha aur "Load more" har baar fail.
+      // Ab logic ek jagah (`lib/catalog-page.ts`) hai aur unit-tested hai.
+      return fetchCatalogPage({ handle, sort: nextSort, price: nextPrice, offset, limit: PAGE_SIZE });
     },
     [handle],
   );

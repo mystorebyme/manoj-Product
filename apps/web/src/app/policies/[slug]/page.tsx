@@ -72,7 +72,7 @@ export default async function PolicyPage({ params }: { params: Promise<{ slug: s
           <a className="text-[#6f1d2b]" href="https://wa.me/918005900581">
             8005900581
           </a>{" "}
-          or email care@trendsyounique.com
+          — team seedha WhatsApp par reply karti hai.
         </p>
       </div>
     </div>

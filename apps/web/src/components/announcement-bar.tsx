@@ -17,7 +17,7 @@ const MESSAGES = [
   { text: "Free shipping across India — every order", href: "/policies/shipping-policy" },
   { text: "Order on WhatsApp — instant size & price confirmation", href: "/collections" },
   { text: "Hand-finished in Jaipur · limited runs", href: "/pages/about-us" },
-  { text: "7 day easy exchange on every order", href: "/policies/refund-and-return-policy" },
+  { text: "7 day easy return on every order", href: "/policies/refund-and-return-policy" },
 ];
 
 export function AnnouncementBar() {

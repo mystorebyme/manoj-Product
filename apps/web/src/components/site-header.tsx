@@ -512,8 +512,8 @@ export function SiteHeader() {
               </div>
             </nav>
             <div className="border-t border-[#ece1d3] px-5 py-4 text-[11.5px] text-[#3d332c]">
-              <p className="font-medium text-[#6f1d2b]">care@trendsyounique.com</p>
-              <p className="mt-1">WhatsApp {whatsapp} · {supportPhone}</p>
+              <p className="font-medium text-[#6f1d2b]">WhatsApp {whatsapp}</p>
+              <p className="mt-1">Call {supportPhone}</p>
             </div>
           </div>
         </div>

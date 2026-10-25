@@ -15,6 +15,8 @@ import { coloursFor } from "@/lib/colour-index";
  * Product card — premium editorial layout:
  *  - hover par pehli image hat jaati hai aur doosri image cursor ke saath
  *    background me halki si move karti hai (parallax follow)
+ *  - **sirf ek image** wale products par image badalti nahi — wahi image cursor ke
+ *    saath halki si float karti hai (owner: "jo image hai vo hi rehni chahiye")
  *  - image ke **upar** wishlist (heart), niche "Add to cart" — clean, sirf zaroori
  *  - price ke niche colour swatches
  */
@@ -75,9 +77,10 @@ export function ProductCard({
         <Link href={`/products/${product.handle}`} className="block" data-testid="product-card">
           <div
             ref={mediaRef}
-            className="card-media relative aspect-[3/4] w-full"
-            onMouseMove={hoverImage ? follow : undefined}
-            onMouseLeave={hoverImage ? reset : undefined}
+            className={`card-media relative aspect-[3/4] w-full ${hoverImage ? "" : "is-single"}`}
+            onMouseMove={follow}
+            onMouseLeave={reset}
+            onTouchEnd={reset}
           >
             <SafeImage
               src={imageUrl(primary, 600)}

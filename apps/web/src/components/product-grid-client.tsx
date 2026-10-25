@@ -1,9 +1,8 @@
 "use client";
 
-import { readJson } from "@/lib/http-json";
-
 import { useState } from "react";
 import { ProductCard } from "@/components/product-card";
+import { fetchCatalogPage } from "@/lib/catalog-page";
 import type { Product } from "@/types/catalog";
 
 /**
@@ -39,13 +38,17 @@ export function ProductGridWithMore({
     setError(null);
     try {
       const params = new URLSearchParams(query);
-      params.set("offset", String(products.length));
-      params.set("limit", String(pageSize));
-      const response = await fetch(`/api/products?${params.toString()}`);
-      if (!response.ok) throw new Error("failed");
-      const parsed = await readJson<{ data: Product[] }>(response);
-      if (!parsed.data?.data) throw new Error("failed");
-      setProducts((current) => [...current, ...parsed.data!.data]);
+      // static hosting (GitHub Pages / Netlify) par `/api/products` nahi hota —
+      // `fetchCatalogPage` khud local `catalog-lite.json` par fallback karta hai.
+      const payload = await fetchCatalogPage({
+        handle: params.get("collection"),
+        sort: params.get("sort"),
+        price: params.get("price"),
+        q: params.get("q"),
+        offset: products.length,
+        limit: pageSize,
+      });
+      setProducts((current) => [...current, ...payload.data]);
     } catch {
       setError("Aur products load nahi hue. Internet check kar ke dobara try kariye.");
     } finally {

@@ -90,8 +90,9 @@ export const siteConfig = {
   /** owner-confirmed domain (2026) — env se override ho sakta hai */
   domain: "trendsyounique.fashion",
   socials: {
-    instagram: "https://www.instagram.com/designer_clothing_9",
-    instagramHandle: "designer_clothing_9",
+    // Instagram handle owner baad me dega — tab yahan add karna hai
+    instagram: "",
+    instagramHandle: "",
   },
   currency: "INR",
 } as const;

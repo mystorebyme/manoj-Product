@@ -347,9 +347,10 @@ async function main() {
       (settingsBody.data.upiId === "" || settingsBody.data.upiId.includes("@")),
     settingsBody.data?.upiId,
   );
+  check("settings expose support whatsapp", Boolean(settingsBody.data?.whatsapp));
   check(
-    "settings expose support whatsapp + email",
-    Boolean(settingsBody.data?.whatsapp) && Boolean(settingsBody.data?.supportEmail),
+    "website par support email kahin nahi dikhta (owner rule)",
+    !home.text.includes("@trendsyounique.com"),
   );
 
   // festive sale: hero poster + ₹499–₹699 final prices

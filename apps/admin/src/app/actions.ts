@@ -25,6 +25,7 @@ import {
   verifyOrderPayment,
 } from "@/lib/data";
 import {
+  mergedProduct,
   publishCatalog,
   saveCollectionOverride,
   saveProductOverride,
@@ -227,6 +228,66 @@ export async function saveProductEditAction(formData: FormData) {
 
   saveProductOverride(handle, patch, actor);
   appendAudit({ actor, action: "product.edited", target: handle, meta: { price, collections } });
+  revalidatePath("/products");
+  revalidatePath(`/products/${handle}`);
+}
+
+/**
+ * "Main image" chuno — customer ko card aur product page par sabse pehle yahi
+ * photo dikhti hai, isliye owner khud decide kare kaunsi photo attract karti hai.
+ *
+ * Kaam kaise: catalogue me **images ka order** hi main image banata hai
+ * (`images[0]`), isliye chuni hui photo ko list me sabse aage le aate hain —
+ * baaki photos ka order waise hi rehta hai.
+ */
+export async function setProductMainImageAction(formData: FormData) {
+  const session = await requireSession();
+  const handle = String(formData.get("handle") ?? "");
+  const image = String(formData.get("image") ?? "").trim();
+  if (!handle || !image) return;
+
+  const product = mergedProduct(handle);
+  if (!product || !product.images.includes(image)) return;
+
+  const ordered = [image, ...product.images.filter((candidate) => candidate !== image)];
+  saveProductOverride(handle, { images: ordered }, session.email);
+  appendAudit({
+    actor: session.email,
+    action: "product.main_image",
+    target: handle,
+    meta: { image },
+  });
+  revalidatePath("/products");
+  revalidatePath(`/products/${handle}`);
+}
+
+/**
+ * Ek photo ko aage/peeche khiskao (chhota reorder) — `direction` "up" | "down".
+ * Pehli photo hi main image hoti hai, isliye "up" se wo main ban jaati hai.
+ */
+export async function moveProductImageAction(formData: FormData) {
+  const session = await requireSession();
+  const handle = String(formData.get("handle") ?? "");
+  const image = String(formData.get("image") ?? "").trim();
+  const direction = String(formData.get("direction") ?? "up");
+  if (!handle || !image) return;
+
+  const product = mergedProduct(handle);
+  if (!product) return;
+  const images = [...product.images];
+  const index = images.indexOf(image);
+  if (index < 0) return;
+  const target = direction === "up" ? index - 1 : index + 1;
+  if (target < 0 || target >= images.length) return;
+  [images[index], images[target]] = [images[target]!, images[index]!];
+
+  saveProductOverride(handle, { images }, session.email);
+  appendAudit({
+    actor: session.email,
+    action: "product.images_reordered",
+    target: handle,
+    meta: { image, direction },
+  });
   revalidatePath("/products");
   revalidatePath(`/products/${handle}`);
 }

@@ -64,7 +64,7 @@ export function EditorialBand() {
               "Fully stitched & ready",
               "Premium mill-direct fabric",
               "Free shipping pan-India",
-              "7 days easy replacement",
+              "7 days easy return",
             ].map((item) => (
               <li key={item} className="flex items-center gap-1.5">
                 <span className="text-[#6f1d2b]">✓</span>

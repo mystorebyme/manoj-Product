@@ -40,7 +40,7 @@ const pages: Record<string, PageContent> = {
       {
         heading: "Here when you need us",
         body: [
-          "Our team is available on WhatsApp 24/7 for sizing help, fabric close-ups and order tracking. Free shipping across India on every prepaid order, with 7 days replacement.",
+          "Our team is available on WhatsApp 24/7 for sizing help, fabric close-ups and order tracking. Free shipping across India on every prepaid order, with 7 days return.",
         ],
       },
     ],
@@ -106,10 +106,10 @@ const pages: Record<string, PageContent> = {
   "replacement-policy": {
     title: "Replacement Policy",
     eyebrow: "Easy exchanges",
-    intro: "Simply return it within 7 days for an exchange.",
+    intro: "Simply return it within 7 days of delivery.",
     sections: [
       {
-        heading: "7 days replacement",
+        heading: "7 days return",
         body: [
           "If the product is damaged, has a manufacturing defect or was incorrectly shipped, request a replacement within 7 days of delivery.",
           "The item must be unused, unwashed and have all original tags intact. Share an unboxing video or clear photographs on WhatsApp 8005900581 along with your order number.",
@@ -151,7 +151,7 @@ const pages: Record<string, PageContent> = {
       {
         heading: "Your rights",
         body: [
-          "You may request access, correction or deletion of your personal data by emailing care@trendsyounique.com. We respond within 30 days.",
+          "You may request access, correction or deletion of your personal data by messaging us on WhatsApp (+91 8005900581). We respond within 30 days.",
         ],
       },
     ],

@@ -344,6 +344,45 @@ body {
   transform: none;
 }
 
+/* single-image card: image badalti nahi — wahi image cursor ke saath halki si
+   float karti hai (owner ki request). Multi-image cards par cross-fade hi chalta hai. */
+.card-media.is-single .card-media-primary {
+  opacity: 1;
+  transform: translate3d(
+    calc(var(--cursor-x, 0px) * 0.55),
+    calc(var(--cursor-y, 0px) * 0.55),
+    0
+  )
+    scale(1.045);
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+/* hover par bhi single image gayab na ho */
+.group:hover .card-media.is-single .card-media-primary {
+  opacity: 1;
+  transform: translate3d(
+    calc(var(--cursor-x, 0px) * 0.55),
+    calc(var(--cursor-y, 0px) * 0.55),
+    0
+  )
+    scale(1.06);
+}
+
+@media (hover: none) {
+  .card-media.is-single .card-media-primary {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-media.is-single .card-media-primary,
+  .group:hover .card-media.is-single .card-media-primary {
+    transform: none;
+    transition: none;
+  }
+}
+
 /* gallery cross-fade */
 .gallery-slide {
   transition: opacity 0.45s ease;
