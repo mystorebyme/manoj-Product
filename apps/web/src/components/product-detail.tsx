@@ -498,7 +498,7 @@ export function ProductDetail({
         </a>
 
         <p className="mt-3 text-[11px] tracking-[.06em] text-[#8a7d72]">
-          Free shipping across India · 7 days replacement · prepaid only
+          Free shipping across India · 7 days replacement · COD available
         </p>
 
         <div className="mt-4 border border-[#ece1d3] bg-[#fdfaf5] p-3">

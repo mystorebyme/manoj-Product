@@ -42,6 +42,11 @@ const SPELLINGS = [
   [/\bJari\b/gi, "Zari"],
   [/\bPent\b/gi, "Pant"],
   [/\bColourfull\b/gi, "Colourful"],
+  // juda hue shabd (search me do words chahiye)
+  [/\bParty\s?[Ww]ear\b/g, "Party Wear"],
+  [/\bSuit\s?[Ss]et\b/g, "Suit Set"],
+  [/\bKurta\s?[Ss]et\b/g, "Kurta Set"],
+  [/\bLehenga\s?[Cc]holi\b/g, "Lehenga Choli"],
 ];
 
 function titleCase(word, index) {
