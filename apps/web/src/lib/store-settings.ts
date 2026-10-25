@@ -35,7 +35,7 @@ export type StoreSettings = {
 export const DEFAULT_STORE_SETTINGS: StoreSettings = {
   announcement: "New season 2026 — the couture edit is live",
   freeShipping: true,
-  upiId: process.env.STORE_UPI_ID ?? "dhakadgourav@fam",
+  upiId: process.env.STORE_UPI_ID ?? "",
   upiName: process.env.STORE_UPI_NAME ?? "TRENDS YOUNIQUE",
   gstin: process.env.SELLER_GSTIN ?? "",
   supportPhone: "8005900581",

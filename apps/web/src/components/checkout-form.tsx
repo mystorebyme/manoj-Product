@@ -1,17 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useCart } from "@/components/cart-provider";
 import { formatPrice, imageUrl } from "@/lib/format";
 import { SafeImage } from "@/components/safe-image";
 import { useStoreSettings } from "@/components/store-settings-provider";
-import { API_AVAILABLE, apiUrl } from "@/lib/api-base";
-import { buildUpiUri } from "@/lib/upi";
-import { UpiQr } from "@/components/upi-qr";
-import { UpiApps } from "@/components/upi-apps";
-import { postJson, readJson } from "@/lib/http-json";
+import { readJson } from "@/lib/http-json";
 import { checkPincodeOffline } from "@/lib/pincode-offline";
 import {
   checkoutWhatsAppMessage,
@@ -29,17 +24,13 @@ const indianStates = [
 ];
 
 export function CheckoutForm() {
-  const { lines, subtotal, count, clear, isOpen, closeCart, removeLine } = useCart();
-  const router = useRouter();
+  const { lines, subtotal, count, isOpen, closeCart, removeLine } = useCart();
   // festive sale me final price already 499–699 hai — koi extra coupon nahi
-  const { upiId, upiName, whatsapp } = useStoreSettings();
+  const { whatsapp } = useStoreSettings();
   const [whatsappHref, setWhatsappHref] = useState<string | null>(null);
   // ek hi submission par ek hi enquiry/order row (dobara click se duplicate na bane)
   const enquiryLogged = useRef(false);
   const orderRefOnce = useRef<string | null>(null);
-  // sirf prepaid — COD option hata diya gaya hai
-  const payment = "prepaid" as const;
-  const [submitting, setSubmitting] = useState(false);
   // OTP step hata diya gaya hai (owner request) — order sirf details par
   const [error, setError] = useState<string | null>(null);
   // delivery check — admin ke rules + India Post data se
@@ -187,7 +178,6 @@ export function CheckoutForm() {
         state: form.state,
         pincode: form.pincode,
         notes: form.notes,
-        upiId,
         orderRef,
       }),
       whatsappNumber(whatsapp),
@@ -222,50 +212,9 @@ export function CheckoutForm() {
     enquiryLogged.current = false;
     orderRefOnce.current = null;
 
-    // GitHub Pages par server nahi hai — order seedha WhatsApp par
-    if (!API_AVAILABLE) {
-      sendOrderOnWhatsApp();
-      return;
-    }
-
-    setSubmitting(true);
-    try {
-      // idempotency key -> double click par do order nahi bante
-      const idempotencyKey =
-        typeof crypto !== "undefined" && "randomUUID" in crypto
-          ? crypto.randomUUID()
-          : `${Date.now()}-${Math.random()}`;
-      const result = await postJson<{ orderNumber?: string; error?: string }>(
-        apiUrl("/api/orders"),
-        {
-          ...form,
-          paymentMethod: payment,
-          items: lines.map((line) => ({
-            handle: line.handle,
-            size: line.size,
-            quantity: line.quantity,
-            colour: line.colour ?? null,
-          })),
-        },
-        { timeoutMs: 25_000, headers: { "Idempotency-Key": idempotencyKey } },
-      );
-
-      if (!result.data?.orderNumber) {
-        setError(
-          result.data?.error ??
-            result.error ??
-            "Order place nahi hua. Details check karke dobara try kariye, ya WhatsApp par bhej dijiye.",
-        );
-        setSubmitting(false);
-        return;
-      }
-      clear();
-      router.push(`/orders/${result.data.orderNumber}`);
-    } catch (error) {
-      console.warn("order submit failed", error);
-      setError("Order server tak nahi pahuncha. Dobara try kariye, ya WhatsApp par order bhej dijiye — wahan hum turant confirm karte hain.");
-      setSubmitting(false);
-    }
+    // Online payment / card / UPI website par nahi hai — order seedha WhatsApp par.
+    // (Har hosting par yahi ek rasta hai: owner WhatsApp par confirm karta hai.)
+    sendOrderOnWhatsApp();
   }
 
   if (lines.length === 0) {
@@ -360,33 +309,11 @@ export function CheckoutForm() {
         <section>
           <h2 className="text-[11px] font-semibold tracking-[.16em] text-[#6f1d2b] uppercase">Payment</h2>
           <div className="mt-3 border border-[#e5dbd0] bg-[#fdf8f7] p-3.5">
-            <div className="flex items-start gap-3">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6f1d2b" strokeWidth="1.7" className="mt-0.5 shrink-0" aria-hidden>
-                <path d="M12 3l7 3v6c0 4.2-2.9 7.6-7 9-4.1-1.4-7-4.8-7-9V6l7-3z" />
-                <path d="M9 12l2 2 4-4" />
-              </svg>
-              <div className="min-w-0">
-                <p className="text-[12.5px] font-medium">Prepaid order — UPI (GPay, PhonePe, Paytm)</p>
-                <p className="mt-0.5 text-[11.5px] leading-relaxed text-[#8a7d72]">
-                  You will get the payment page right after placing the order — scan the QR or pay to the UPI ID.
-                  Payment goes straight to the store account, with no gateway charges.
-                </p>
-                <p className="mt-1.5 break-all text-[11.5px] font-medium text-[#6f1d2b]">UPI: {upiId}</p>
-                <div className="mt-2.5">
-                  <UpiApps
-                    uri={buildUpiUri({
-                      vpa: upiId,
-                      name: upiName,
-                      amountPaise: total,
-                      note: "TRENDS YOUNIQUE order",
-                    })}
-                    upiId={upiId}
-                    amountPaise={total}
-                    showAppButtons={false}
-                  />
-                </div>
-              </div>
-            </div>
+            <p className="text-[12.5px] font-medium">No online payment on the website</p>
+            <p className="mt-1 text-[11.5px] leading-relaxed text-[#8a7d72]">
+              Aap order WhatsApp par bhejiye — owner khud confirm karke payment ki detail (UPI / bank) wahin
+              WhatsApp par bhejenge. Website par koi card / UPI / gateway detail nahi maangi jaati.
+            </p>
           </div>
         </section>
       </div>
@@ -440,49 +367,20 @@ export function CheckoutForm() {
           <div className="mt-3 border border-[#c9dcc9] bg-[#eef7ee] p-3" data-testid="checkout-whatsapp">
             <p className="text-[11.5px] leading-relaxed text-[#2f6b3f]">
               <strong>Order ready!</strong> WhatsApp khul gaya hai — bas <em>Send</em> dabaiye. Nahi khula to neeche
-              wale button se bhej dein. Payment <strong>{formatPrice(total)}</strong> UPI{" "}
-              <strong className="break-all">{upiId}</strong> par karke screenshot wahin bhej dijiye.
+              wale button se bhej dein. Order confirm hone par payment ki detail owner WhatsApp par bhejenge.
             </p>
-            <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-start">
-              <div className="w-[128px] shrink-0 rounded-sm border border-[#c9dcc9] bg-white p-1">
-                <UpiQr
-                  uri={buildUpiUri({
-                    vpa: upiId,
-                    name: upiName,
-                    amountPaise: total,
-                    note: "TRENDS YOUNIQUE order",
-                  })}
-                  alt={`UPI QR to pay ${formatPrice(total)}`}
-                  className="h-auto w-full"
-                  size={240}
-                />
-              </div>
-              <div className="min-w-0 flex-1">
-                <UpiApps
-                  uri={buildUpiUri({
-                    vpa: upiId,
-                    name: upiName,
-                    amountPaise: total,
-                    note: "TRENDS YOUNIQUE order",
-                  })}
-                  upiId={upiId}
-                  amountPaise={total}
-                  showAppButtons={false}
-                />
-                <a
-                  href={whatsappHref}
-                  target="_blank"
-                  rel="noreferrer"
-                  data-testid="checkout-whatsapp-link"
-                  className="mt-2.5 inline-flex h-11 w-full items-center justify-center gap-2 bg-[#25D366] px-4 text-[10.5px] font-semibold tracking-[.12em] text-white uppercase sm:w-auto"
-                >
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                    <path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.2 14.1c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1a11.6 11.6 0 0 1-5.9-5.2c-.4-.7-.6-1.4-.6-2 0-.6.3-1.2.6-1.6.2-.2.4-.3.6-.3h.5c.2 0 .4 0 .5.4l.7 1.7c.1.2 0 .4-.1.6l-.4.5c-.1.1-.2.3-.1.5a7.5 7.5 0 0 0 3.3 2.9c.2.1.4.1.5-.1l.6-.7c.2-.2.3-.2.5-.1l1.6.8c.2.1.4.2.4.4 0 .2 0 .9-.2 1.4Z" />
-                  </svg>
-                  Open WhatsApp again
-                </a>
-              </div>
-            </div>
+            <a
+              href={whatsappHref}
+              target="_blank"
+              rel="noreferrer"
+              data-testid="checkout-whatsapp-link"
+              className="mt-2.5 inline-flex h-11 w-full items-center justify-center gap-2 bg-[#25D366] px-4 text-[10.5px] font-semibold tracking-[.12em] text-white uppercase sm:w-auto"
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                <path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.2 14.1c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1a11.6 11.6 0 0 1-5.9-5.2c-.4-.7-.6-1.4-.6-2 0-.6.3-1.2.6-1.6.2-.2.4-.3.6-.3h.5c.2 0 .4 0 .5.4l.7 1.7c.1.2 0 .4-.1.6l-.4.5c-.1.1-.2.3-.1.5a7.5 7.5 0 0 0 3.3 2.9c.2.1.4.1.5-.1l.6-.7c.2-.2.3-.2.5-.1l1.6.8c.2.1.4.2.4.4 0 .2 0 .9-.2 1.4Z" />
+              </svg>
+              Open WhatsApp again
+            </a>
           </div>
         ) : null}
 
@@ -502,14 +400,6 @@ export function CheckoutForm() {
           Detail (item link, colour, size, qty, address) pre-filled jaati hai — bas Send dabaiye.
         </p>
 
-        <button
-          type="submit"
-          data-testid="checkout-submit"
-          disabled={submitting}
-          className="mt-3 w-full border border-[#6f1d2b] py-3 text-[11.5px] font-semibold tracking-[.16em] text-[#6f1d2b] uppercase disabled:opacity-60"
-        >
-          {submitting ? "Placing order…" : `Pay online & place order · ${formatPrice(total)}`}
-        </button>
         <p className="mt-2 text-center text-[10.5px] leading-relaxed text-[#8a7d72]">
           Final price is already sale price — no coupon needed. By placing this order you agree to our{" "}
           <Link href="/policies/terms-and-conditions" className="underline">

@@ -78,19 +78,8 @@ export default async function OrderPage({ params }: { params: Promise<{ orderNum
           </div>
         </div>
 
-        {order.paymentMethod !== "cod" ? (
-          <UpiPayment
-            orderNumber={order.orderNumber}
-            amount={order.total}
-            upiId={settings.upiId}
-            upiName={settings.upiName}
-            paymentStatus={order.paymentStatus}
-            reference={order.payment?.reference ?? null}
-            whatsapp={settings.whatsapp}
-            returnToken={signUpiReturn(order.orderNumber)}
-            siteUrl={siteUrl}
-          />
-        ) : null}
+        {/* Online payment website par nahi hai — order confirm hone par owner WhatsApp par
+            payment ki detail bhejta hai. Isliye yahan koi UPI / QR block nahi. */}
 
         <div className="mt-4 border border-[#ece1d3] p-5" data-testid="order-tracking">
           <div className="flex flex-wrap items-center justify-between gap-2">

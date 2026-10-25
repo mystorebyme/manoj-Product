@@ -365,3 +365,24 @@ Config naye URL par shift kiya, transition/legacy write token hata diya (ab beka
 Purana deployment (AKfycbztH…, Version 1, master token public default) abhi zinda hai —
 owner ko usse **archive/delete** karna chahiye, warna wo URL purana code (aur default
 master token) chalaata rahega.
+
+## Round 24 — online payment poora hata, sheet write double-transport, self-check page
+
+Owner ki shikayat: checkout par UPI/QR + "Pay online & place order" dikh raha tha aur UPI ID
+**kisi aur ki** (`dhakadgourav@fam`, cloned project se) thi. Website par online payment
+bilkul nahi hona chahiye.
+
+- Checkout se **Payment section, UPI QR, UPI apps, "Pay online & place order" button** — sab hata.
+  Ab sirf: order details → **Send order on WhatsApp**. Payment owner WhatsApp par batata hai.
+- `dhakadgourav@fam` saare defaults se hata (web + admin + store-settings + tests).
+- `checkoutWhatsAppMessage` se payment/UPI line gayab (test bhi update).
+- Orders page se UPI payment block hata.
+
+Sheet me data na aane par (real order `TY-NBL7ITUPM` kabhi nahi pahuncha):
+- `relayRows` ab **do transport** se bhejta hai: form-encoded `fetch` (no-cors) + **hidden form POST**
+  (iframe) — CORS/redirect kuch bhi ho, row pahunchti hai.
+- Script me **duplicate guard** (`rowKeyOf_` / `existingKeys_`): Orders = Order ID, Order Items =
+  Order ID+Product+Size+Colour, Newsletter = Email. Isliye do transport se double row nahi banti.
+- `doPost` ab **form-encoded** body bhi padhta hai (`e.parameter`).
+- Naya page **`/sheet-check`**: ping → token match → settings → test row, sab browser se, aur
+  aakhri relay ka log. Owner khud 10 second me verify kar sakta hai.

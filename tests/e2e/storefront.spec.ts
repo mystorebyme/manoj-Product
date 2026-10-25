@@ -27,7 +27,7 @@ test("size select → add to bag → cart count", async ({ page }) => {
   await expect(page.getByTestId("cart-count")).toHaveText(/[1-9]/);
 });
 
-test("COD checkout under the limit creates an order", async ({ page }) => {
+test("checkout WhatsApp par order bhejta hai (koi online payment nahi)", async ({ page }) => {
   await page.goto(`/products/${PRODUCT_HANDLE}`);
   await page.getByTestId("add-to-cart").click();
   await page.getByRole("link", { name: /checkout/i }).first().click();
@@ -38,8 +38,8 @@ test("COD checkout under the limit creates an order", async ({ page }) => {
   await page.getByLabel(/city/i).fill("Jaipur");
   await page.getByLabel(/state/i).fill("Rajasthan");
   await page.getByLabel(/pincode/i).fill("302001");
-  await page.getByTestId("checkout-submit").click();
-  await expect(page.getByTestId("order-number")).toHaveText(/LK-[A-Z0-9]{6,12}/);
+  await page.getByTestId("checkout-whatsapp-send").click();
+  await expect(page.getByTestId("checkout-whatsapp-link")).toBeVisible();
 });
 
 test("search overlay finds anarkali styles", async ({ page }) => {

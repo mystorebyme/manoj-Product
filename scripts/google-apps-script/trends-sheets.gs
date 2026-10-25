@@ -53,7 +53,7 @@ var WRITE_SHEETS = ['Orders', 'Order Items', 'Enquiries', 'Messages', 'Newslette
 var MAX_WRITE_ROWS = 40;
 
 /** Script version — `?action=ping` se dikhta hai (kaun sa code deploy hai). */
-var VERSION = '2026-10-25.r5';
+var VERSION = '2026-10-25.r6';
 
 var HEADERS = {
   Orders: [
@@ -396,6 +396,41 @@ function writeSettings_(settings) {
   return written;
 }
 
+/**
+ * Duplicate row guard — ek hi order/line do baar na chadhe.
+ * (Browser do transport se bhej sakta hai — POST fail hone par form fallback.)
+ */
+function rowKeyOf_(name, row) {
+  if (!row) return '';
+  if (name === 'Orders') return 'o|' + String(row['Order ID'] || '');
+  if (name === 'Order Items') {
+    return 'i|' + [row['Order ID'], row.Product, row.Size, row.Colour].join('|');
+  }
+  if (name === 'Newsletter') return 'n|' + String(row.Email || '').toLowerCase();
+  return '';
+}
+
+function existingKeys_(sheet, headers) {
+  var keys = {};
+  var last = sheet.getLastRow();
+  if (last < 2) return keys;
+  var name = sheet.getName();
+  var cols = [];
+  if (name === 'Orders') cols = [headers.indexOf('Order ID')];
+  else if (name === 'Order Items') {
+    cols = [headers.indexOf('Order ID'), headers.indexOf('Product'), headers.indexOf('Size'), headers.indexOf('Colour')];
+  } else if (name === 'Newsletter') cols = [headers.indexOf('Email')];
+  if (cols.some(function (index) { return index < 0; })) return keys;
+  var values = sheet.getRange(2, 1, last - 1, headers.length).getValues();
+  values.forEach(function (values_row) {
+    var picked = {};
+    cols.forEach(function (index) { picked[headers[index]] = values_row[index]; });
+    var key = rowKeyOf_(name, picked);
+    if (key) keys[key] = true;
+  });
+  return keys;
+}
+
 function appendRows_(rows) {
   var lock = LockService.getScriptLock();
   lock.waitLock(20000);
@@ -406,6 +441,11 @@ function appendRows_(rows) {
       if (!HEADERS[name]) return;
       var sheet = sheet_(name);
       var headers = headersOf_(sheet);
+      var key = rowKeyOf_(name, entry.row || {});
+      if (key) {
+        var seen = existingKeys_(sheet, headers);
+        if (seen[key]) return; // pehle se hai — duplicate nahi
+      }
       var row = [];
       for (var i = 0; i < headers.length; i += 1) {
         var value = entry.row ? entry.row[headers[i]] : '';
@@ -456,9 +496,26 @@ function upsertRow_(name, keyColumn, row) {
 
 function doPost(e) {
   var body = {};
+  var params = (e && e.parameter) || {};
   try {
     body = JSON.parse((e && e.postData && e.postData.contents) || '{}');
   } catch (error) {
+    body = {};
+  }
+  // Browser "hidden form" fallback form-encoded bhejta hai — wahan postData khali hota hai
+  if (!body || !body.action) {
+    if (params.action || params.rows) {
+      body = { action: params.action || 'append', token: params.token, rows: params.rows, sheet: params.sheet };
+      if (typeof body.rows === 'string') {
+        try {
+          body.rows = JSON.parse(body.rows);
+        } catch (error) {
+          return json_({ ok: false, error: 'invalid rows' });
+        }
+      }
+    }
+  }
+  if (!body || (!body.action && !body.rows)) {
     return json_({ ok: false, error: 'invalid json' });
   }
   var given = String(body.token || '');

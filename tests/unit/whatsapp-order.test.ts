@@ -43,7 +43,6 @@ test("checkout message me item link, colour, size, qty, price + address sab aata
     state: "Rajasthan",
     pincode: "302021",
     notes: "Shaadi ke liye 30 Oct tak chahiye",
-    upiId: "trendsyounique@upi",
     orderRef: "TY-ABC123",
     origin: "https://trendsyounique.onrender.com",
   });
@@ -63,10 +62,11 @@ test("checkout message me item link, colour, size, qty, price + address sab aata
     "B-12, Vaishali Nagar, near Amrapali Circle",
     "Jaipur, Rajasthan, 302021",
     "Shaadi ke liye 30 Oct tak chahiye",
-    "trendsyounique@upi",
   ]) {
     assert.ok(message.includes(expected), `message me "${expected}" nahi mila`);
   }
+  // website par koi online payment nahi — message me UPI/payment line nahi jaani chahiye
+  assert.ok(!/upi/i.test(message), "message me UPI mention nahi hona chahiye");
 });
 
 test("cart message ke har item ka link aur total aata hai", () => {

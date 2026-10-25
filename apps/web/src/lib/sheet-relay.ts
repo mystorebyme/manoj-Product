@@ -32,21 +32,89 @@ export function sheetRelayEnabled(): boolean {
 
 type Row = Record<string, string | number | boolean | null | undefined>;
 
-/** Fire-and-forget — `no-cors` (Apps Script preflight support nahi karta). */
+const RELAY_LOG_KEY = "nyx:sheet-relay-log";
+
+/** Aakhri relay attempt (sheet-check page ise dikhata hai) */
+export function lastRelayLog(): { at: number; rows: number; sheets: string[] } | null {
+  try {
+    const raw = window.localStorage.getItem(RELAY_LOG_KEY);
+    return raw ? (JSON.parse(raw) as { at: number; rows: number; sheets: string[] }) : null;
+  } catch {
+    return null;
+  }
+}
+
+function recordRelay(sheets: string[], count: number): void {
+  try {
+    window.localStorage.setItem(RELAY_LOG_KEY, JSON.stringify({ at: Date.now(), rows: count, sheets }));
+  } catch {
+    /* storage band */
+  }
+}
+
+/**
+ * Hidden-form fallback — browser ka normal form POST.
+ *
+ * CORS isme lagta hi nahi (iframe me jaata hai), isliye 100% deliver hota hai —
+ * chahe fetch kisi wajah se block ho jaye. Apps Script `e.parameter` se padhta hai.
+ */
+function postViaForm(url: string, fields: Record<string, string>): void {
+  try {
+    const frameName = "nyx-sheet-frame";
+    let frame = document.getElementsByName(frameName)[0] as HTMLIFrameElement | undefined;
+    if (!frame) {
+      frame = document.createElement("iframe");
+      frame.name = frameName;
+      frame.setAttribute("aria-hidden", "true");
+      frame.tabIndex = -1;
+      frame.style.cssText = "position:absolute;width:0;height:0;border:0;visibility:hidden";
+      document.body.appendChild(frame);
+    }
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = url;
+    form.target = frameName;
+    form.style.display = "none";
+    Object.entries(fields).forEach(([name, value]) => {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = name;
+      input.value = value;
+      form.appendChild(input);
+    });
+    document.body.appendChild(form);
+    form.submit();
+    window.setTimeout(() => form.remove(), 4000);
+  } catch {
+    /* kuch bhi ho, page nahi rukna chahiye */
+  }
+}
+
+/** Fire-and-forget — do raste, server duplicate khud rok leta hai. */
 export function relayRows(rows: { sheet: string; row: Row }[]): void {
   if (!sheetRelayEnabled() || !rows.length || typeof window === "undefined") return;
+  const payload = JSON.stringify(rows);
+  recordRelay(
+    Array.from(new Set(rows.map((entry) => entry.sheet))),
+    rows.length,
+  );
+
+  // 1) fetch — simple request (no preflight). Response opaque, par POST pahunchta hai.
   try {
-    // no-cors: response opaque hota hai, par POST pahunch jaata hai (write-only use case)
     void fetch(URL_, {
       method: "POST",
       mode: "no-cors",
       keepalive: true,
-      headers: { "content-type": "text/plain;charset=utf-8" },
-      body: JSON.stringify({ token: WRITE_TOKEN, action: "append", rows }),
+      headers: { "content-type": "application/x-www-form-urlencoded;charset=UTF-8" },
+      body: new URLSearchParams({ token: WRITE_TOKEN, action: "append", rows: payload }).toString(),
     }).catch(() => undefined);
   } catch {
-    /* network fail — user ko rokna nahi hai */
+    /* network fail */
   }
+
+  // 2) hidden form — fetch block ho jaye to bhi data pahunchna chahiye.
+  //    Server (appendRows_) same Order ID ko dobara likhta nahi, isliye duplicate nahi.
+  postViaForm(URL_, { token: WRITE_TOKEN, action: "append", rows: payload });
 }
 
 export type RelayOrderInput = {

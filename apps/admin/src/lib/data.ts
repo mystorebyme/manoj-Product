@@ -279,7 +279,7 @@ export type StoreSettings = {
 const DEFAULT_SETTINGS: StoreSettings = {
   announcement: "New drop live — free shipping across India",
   freeShipping: true,
-  upiId: "dhakadgourav@fam",
+  upiId: "",
   upiName: "TRENDS YOUNIQUE",
   gstin: "27AAAAA0000A1Z5",
   supportPhone: "8005900581",

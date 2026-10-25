@@ -105,7 +105,6 @@ export type CheckoutWhatsAppInput = {
   state: string;
   pincode: string;
   notes?: string | null;
-  upiId?: string | null;
   orderRef?: string | null;
   origin?: string;
 };
@@ -145,7 +144,7 @@ export function checkoutWhatsAppMessage(input: CheckoutWhatsAppInput): string {
     `Address: ${[input.address, input.city, input.state, input.pincode].filter(Boolean).join(", ")}`,
   );
   if (input.notes) parts.push(`Notes: ${input.notes}`);
-  if (input.upiId) parts.push(`\nPayment: UPI ${input.upiId} (screenshot yahin bhej raha/rahi hoon)`);
+  // Payment ki koi detail message me nahi jaati — owner WhatsApp par khud batata hai.
   parts.push("");
   parts.push("Please confirm this order and share the payment/confirm message. Thank you!");
   return parts.join("\n");

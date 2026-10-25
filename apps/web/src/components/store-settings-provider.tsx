@@ -37,7 +37,7 @@ export type PublicSettings = {
 
 export const DEFAULT_PUBLIC_SETTINGS: PublicSettings = {
   announcement: "",
-  upiId: "dhakadgourav@fam",
+  upiId: "",
   upiName: "TRENDS YOUNIQUE",
   supportPhone: "8005900581",
   supportEmail: "care@trendsyounique.com",
