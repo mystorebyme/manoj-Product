@@ -48,7 +48,8 @@
     "test:responsive": "node tests/e2e/responsive.mjs && node tests/e2e/breakpoints.mjs",
     "test:smoke": "node tests/e2e/smoke.mjs",
     "test:unit": "tsx --test tests/unit/*.test.ts",
-    "typecheck": "npm run typecheck --workspaces --if-present"
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "sheet:test": "node --test tests/unit/apps-script.test.ts"
   },
   "devDependencies": {
     "@electric-sql/pglite": "^0.5.11",

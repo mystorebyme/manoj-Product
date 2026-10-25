@@ -582,3 +582,16 @@ banata hai. Product ID sirf sheet/admin me — storefront par kahin nahi.
 - `export-for-sheet.mjs` me review photos: 146 reviews / 251 links.
 - **Live issue mila:** deployed Apps Script `r8` hai → `order_status` par
   `{"ok":false,"error":"unauthorized"}`. r16 deploy karna zaroori (steps round-36.md §6).
+
+### Round 37 — poora e-commerce engine (Apps Script r17, 4,513 lines, self-tested)
+
+- `trends-sheets.gs` r17: stock, coupons, returns, invoice, place_order (server-side
+  price/stock/coupon check), admin order status + note, review moderation, banners/FAQs/
+  categories, search, reports (summary/daily/top products/customers/low stock),
+  notifications log, audit log, triggers (status→timeline, daily digest), cleanup.
+- **Self-test 97 check** (`?action=selftest`, menu 9) — sab pass, sheet me kachra nahi
+  chhodta (apni rows delete karta hai).
+- Node harness `tests/helpers/apps-script-harness.mjs` + `tests/unit/apps-script.test.ts`
+  (`npm run sheet:test`) — poori script Node me chalti hai: setup, self-test, order flow
+  end-to-end (coupon → stock → timeline → invoice), blocked PIN, onEdit trigger.
+- Site endpoints waise hi (backward compatible). `docs/09-devops/round-37.md`.
