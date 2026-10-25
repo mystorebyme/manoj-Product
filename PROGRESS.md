@@ -557,3 +557,10 @@ root base path, cache + security headers) aur `docs/09-devops/netlify.md` — im
 domain (`trendsyounique.fashion`) ke DNS steps, HTTPS, sheet check, troubleshooting.
 Track-order page ab bina server wali hosting par jhootha "Open live tracking" link nahi
 dikhati (status WhatsApp se).
+
+## 2026-10-25 — trendsyounique.fashion "not secured" fix
+Phone par "connection is not secured" aa raha tha; server check me cert (Let's Encrypt,
+apex+www, Jan 2027 tak valid), http→https 301, HSTS sab sahi mile — wajah phone ka
+purana pre-cert cache tha. `netlify.toml` me www→apex + http→https 301 redirects aur
+`Content-Security-Policy: upgrade-insecure-requests` header joda (TOML verified);
+`docs/09-devops/netlify.md` me HTTPS section me phone-cache note joda.

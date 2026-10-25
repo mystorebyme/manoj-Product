@@ -24,6 +24,28 @@
   NEXT_PUBLIC_API_BASE_URL = ""
 
 # ---------------------------------------------------------------------------
+# https: www -> apex + http -> https (force_ssl ke saath double guarantee,
+# taaki phone par kabhi "connection is not secured" na dikhe)
+# ---------------------------------------------------------------------------
+[[redirects]]
+  from = "https://www.trendsyounique.fashion/*"
+  to = "https://trendsyounique.fashion/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://trendsyounique.fashion/*"
+  to = "https://trendsyounique.fashion/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.trendsyounique.fashion/*"
+  to = "https://trendsyounique.fashion/:splat"
+  status = 301
+  force = true
+
+# ---------------------------------------------------------------------------
 # security + caching headers (GitHub Pages par ye set nahi ho paate)
 # ---------------------------------------------------------------------------
 [[headers]]
@@ -34,6 +56,8 @@
     X-Frame-Options = "SAMEORIGIN"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
     Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+    # koi bhi http resource galti se aa jaye to browser use https par upgrade kare
+    Content-Security-Policy = "upgrade-insecure-requests"
 
 [[headers]]
   for = "/_next/static/*"

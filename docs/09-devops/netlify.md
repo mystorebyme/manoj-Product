@@ -44,6 +44,16 @@ customer browser ──► Netlify (static HTML/JS, CDN) ──► Apps Script �
 
 3. **HTTPS**: Netlify → Domain management → **HTTPS → Verify certificate**.
    Let's Encrypt free certificate 1–2 minute me lag jaata hai. "Force HTTPS" on kar dein.
+   (`netlify.toml` me http→https aur www→apex 301 redirects + HSTS +
+   `upgrade-insecure-requests` pehle se hain, taaki phone par kabhi
+   "connection is not secured" na dikhe.)
+
+   > **Phone par "not secured" dikhe to:** certificate lagne ke baad phone ka browser
+   > purana (pre-cert) state cache kar leta hai. Phone par Chrome → history/cache
+   > clear ya hard-refresh karein, aur `http://` likh kar khola ho to `https://`
+   > se kholein. Server side par `curl -sSI https://trendsyounique.fashion` se
+   > 200 + `strict-transport-security` dikhna chahiye; cert me dono naam
+   > (`trendsyounique.fashion`, `www.trendsyounique.fashion`) hone chahiye.
 
 4. Domain live hone ke baad ek baar:
    - Netlify → **Site configuration → Environment variables** →
