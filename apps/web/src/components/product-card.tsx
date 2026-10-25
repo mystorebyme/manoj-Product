@@ -69,9 +69,9 @@ export function ProductCard({
   const defaultSize = availableSizes[0] ?? product.sizes[0] ?? "Free Size";
 
   return (
-    <div className="nyx-card group relative flex flex-col">
+    <div className="ty-card group relative flex flex-col">
       {/* ivory mat + gold hairline — card ko "framed print" jaisa premium look deta hai */}
-      <div className="nyx-card-frame relative overflow-hidden">
+      <div className="ty-card-frame relative overflow-hidden">
         <Link href={`/products/${product.handle}`} className="block" data-testid="product-card">
           <div
             ref={mediaRef}
@@ -97,10 +97,10 @@ export function ProductCard({
         </Link>
 
         {off > 0 ? (
-          <span className="nyx-badge absolute left-2 top-2">{off}% off</span>
+          <span className="ty-badge absolute left-2 top-2">{off}% off</span>
         ) : null}
         {soldOut ? (
-          <span className="nyx-badge absolute left-2 top-8 bg-[#14100e] text-[#f3e7d3]">Sold out</span>
+          <span className="ty-badge absolute left-2 top-8 bg-[#14100e] text-[#f3e7d3]">Sold out</span>
         ) : null}
 
         {/* image ke upar sirf wishlist — compare/eye icon (purane template ka) hata diya */}
@@ -142,7 +142,7 @@ export function ProductCard({
               colour: product.colourName ?? product.color,
             })
           }
-          className={`nyx-quickadd absolute inset-x-2 bottom-2 flex items-center justify-center gap-1.5 py-2.5 text-[10px] font-semibold tracking-[.18em] uppercase transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 focus-visible:translate-y-0 focus-visible:opacity-100 max-sm:translate-y-0 max-sm:opacity-100 ${
+          className={`ty-quickadd absolute inset-x-2 bottom-2 flex items-center justify-center gap-1.5 py-2.5 text-[10px] font-semibold tracking-[.18em] uppercase transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 focus-visible:translate-y-0 focus-visible:opacity-100 max-sm:translate-y-0 max-sm:opacity-100 ${
             soldOut
               ? "cursor-not-allowed bg-[#3a322c]/95 text-white/80"
               : "bg-[#4a1220]/95 text-[#f6ecdc] hover:bg-[#6f1d2b]"

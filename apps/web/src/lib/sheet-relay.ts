@@ -31,7 +31,9 @@ const URL_ = sheetWebAppUrl();
 const WRITE_TOKEN = sheetWriteToken();
 /** GET URL ki limit ~8 KB hoti hai — isliye payload chhote batches me */
 const MAX_GET_PAYLOAD = 2600;
-const QUEUE_KEY = "nyx:sheet-queue-v2";
+const QUEUE_KEY = "trends:sheet-queue:v1";
+/** purane project ka queue key — pending rows yahan padi ho sakti hain */
+const LEGACY_QUEUE_KEY = "nyx:sheet-queue-v2";
 const MAX_QUEUE = 250;
 const MAX_ATTEMPTS = 40;
 const RETRY_AFTER_MS = 20_000;
@@ -62,8 +64,21 @@ export function appendUrl(baseUrl: string, token: string, rows: { sheet: string;
 
 /* ─────────────────────────── queue (durable) ─────────────────────────── */
 
+/** ek baar purane key ki rows naye key me le aao (customer ka data na tute) */
+function migrateLegacyQueue(): void {
+  try {
+    const legacy = window.localStorage.getItem(LEGACY_QUEUE_KEY);
+    if (!legacy) return;
+    if (!window.localStorage.getItem(QUEUE_KEY)) window.localStorage.setItem(QUEUE_KEY, legacy);
+    window.localStorage.removeItem(LEGACY_QUEUE_KEY);
+  } catch {
+    /* ignore */
+  }
+}
+
 function readQueue(): RelayEntry[] {
   try {
+    migrateLegacyQueue();
     const raw = window.localStorage.getItem(QUEUE_KEY);
     const parsed = raw ? (JSON.parse(raw) as RelayEntry[]) : [];
     if (!Array.isArray(parsed)) return [];
@@ -146,7 +161,7 @@ function sendViaBeacon(rows: { sheet: string; row: Row }[]): void {
  */
 function sendViaForm(rows: { sheet: string; row: Row }[]): void {
   try {
-    const frameName = "nyx-sheet-frame";
+    const frameName = "ty-sheet-frame";
     let frame = document.getElementsByName(frameName)[0] as HTMLIFrameElement | undefined;
     if (!frame) {
       frame = document.createElement("iframe");

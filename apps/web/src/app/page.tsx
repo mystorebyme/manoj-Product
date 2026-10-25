@@ -163,7 +163,7 @@ export default async function HomePage() {
             {/* overlay copy — mobile par neeche, desktop par left me */}
             <div className="absolute inset-0 flex items-end justify-start sm:items-center">
               <div className="w-full max-w-[760px] px-6 pb-9 sm:px-10 sm:pb-0 lg:px-16">
-                <p className="nyx-rule text-[10px] font-semibold tracking-[.34em] text-[#e6cb98] uppercase sm:text-[11px]">
+                <p className="ty-rule text-[10px] font-semibold tracking-[.34em] text-[#e6cb98] uppercase sm:text-[11px]">
                   New season · 2026
                 </p>
                 <h1 className="mt-3 font-display text-[34px] leading-[1.05] font-medium text-white sm:text-[46px] lg:text-[62px]">
@@ -215,8 +215,8 @@ export default async function HomePage() {
           )}
 
           {/* trust strip — premium brands jaise, hero ke turant neeche */}
-          <div className="border-y border-[#e4d7c5] nyx-paper">
-            <ul className="nyx-trust container-liksha grid grid-cols-2 text-center md:grid-cols-4">
+          <div className="border-y border-[#e4d7c5] ty-paper">
+            <ul className="ty-trust container-liksha grid grid-cols-2 text-center md:grid-cols-4">
               {[
                 { title: "Hand-finished in Jaipur", note: "Zari, sequin & mirror work" },
                 { title: "Free shipping pan-India", note: "Dispatched within 24 hours" },

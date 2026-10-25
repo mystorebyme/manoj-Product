@@ -28,13 +28,17 @@ export type SheetPublicSettings = {
   maxQtyPerOrder?: number;
 };
 
-const CACHE_KEY = "nyx:sheet-settings:v1";
+const CACHE_KEY = "trends:sheet-settings:v1";
+/** purane project ka cache key — sirf ek baar saaf karna hai (cache hi hai) */
+const LEGACY_CACHE_KEY = "nyx:sheet-settings:v1";
 const CACHE_MS = 60_000;
 
 type Cached = { at: number; settings: SheetPublicSettings };
 
 function readCache(): Cached | null {
   try {
+    // ek baar purana (cloned project ka) key hata do
+    window.localStorage.removeItem(LEGACY_CACHE_KEY);
     const raw = window.localStorage.getItem(CACHE_KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw) as Cached;
