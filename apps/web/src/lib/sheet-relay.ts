@@ -99,14 +99,15 @@ export function relayRows(rows: { sheet: string; row: Row }[]): void {
     rows.length,
   );
 
-  // 1) fetch — simple request (no preflight). Response opaque, par POST pahunchta hai.
+  // 1) fetch + JSON — purane script version ke saath bhi kaam karta hai.
+  //    (no-cors: response opaque, par POST pahunchta hai.)
   try {
     void fetch(URL_, {
       method: "POST",
       mode: "no-cors",
       keepalive: true,
-      headers: { "content-type": "application/x-www-form-urlencoded;charset=UTF-8" },
-      body: new URLSearchParams({ token: WRITE_TOKEN, action: "append", rows: payload }).toString(),
+      headers: { "content-type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({ token: WRITE_TOKEN, action: "append", rows }),
     }).catch(() => undefined);
   } catch {
     /* network fail */

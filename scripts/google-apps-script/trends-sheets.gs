@@ -53,7 +53,7 @@ var WRITE_SHEETS = ['Orders', 'Order Items', 'Enquiries', 'Messages', 'Newslette
 var MAX_WRITE_ROWS = 40;
 
 /** Script version — `?action=ping` se dikhta hai (kaun sa code deploy hai). */
-var VERSION = '2026-10-25.r7';
+var VERSION = '2026-10-25.r8';
 
 var HEADERS = {
   Orders: [
@@ -439,6 +439,9 @@ function rowKeyOf_(name, row) {
     return 'i|' + [row['Order ID'], row.Product, row.Size, row.Colour].join('|');
   }
   if (name === 'Newsletter') return 'n|' + String(row.Email || '').toLowerCase();
+  if (name === 'Enquiries') return 'e|' + String(row['Enquiry ID'] || '');
+  if (name === 'Messages') return 'm|' + [row.Timestamp, row.Email, row.Subject].join('|');
+  if (name === 'Reviews') return 'v|' + [row.Handle, row.Name, row.Body].join('|');
   return '';
 }
 
@@ -452,6 +455,9 @@ function existingKeys_(sheet, headers) {
   else if (name === 'Order Items') {
     cols = [headers.indexOf('Order ID'), headers.indexOf('Product'), headers.indexOf('Size'), headers.indexOf('Colour')];
   } else if (name === 'Newsletter') cols = [headers.indexOf('Email')];
+  else if (name === 'Enquiries') cols = [headers.indexOf('Enquiry ID')];
+  else if (name === 'Messages') cols = [headers.indexOf('Timestamp'), headers.indexOf('Email'), headers.indexOf('Subject')];
+  else if (name === 'Reviews') cols = [headers.indexOf('Handle'), headers.indexOf('Name'), headers.indexOf('Body')];
   if (cols.some(function (index) { return index < 0; })) return keys;
   var values = sheet.getRange(2, 1, last - 1, headers.length).getValues();
   values.forEach(function (values_row) {

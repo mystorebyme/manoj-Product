@@ -410,3 +410,7 @@ Sheet me data na aane par (real order `TY-NBL7ITUPM` kabhi nahi pahuncha):
 - `?action=reviews&handle=…` sirf **publish** kiye hue reviews deta hai (naam, rating, text;
   koi phone/email nahi) → approve karne par site par turant dikh jaate hain, redeploy nahi.
 - Sheet na mile to site ke Trustoo-synced reviews jaise the waise dikhte hain.
+
+Round 24 (cont.): relay ab **JSON fetch + form POST dono** bhejta hai (purane script version par
+bhi data save, naye par form fallback). Script me Enquiries/Messages/Reviews ke duplicate keys bhi
+add kiye (r8) — do transport se double row nahi banti.
