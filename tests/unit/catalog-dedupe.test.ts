@@ -37,3 +37,18 @@ test("catalogue meta counts products array se match karte hain", () => {
   );
   assert.ok(catalog.meta.listedProductCount > 0 && catalog.meta.listedProductCount <= catalog.products.length);
 });
+
+test("catalog-lite (client cards) seed se match karta hai — stale index nahi", async () => {
+  const { buildCatalogLite } = await import("../../scripts/build-catalog-lite.mjs");
+  const lite = buildCatalogLite(catalog as never) as { handle: string; title: string; price: number }[];
+  assert.equal(lite.length, catalog.products.length);
+  const seedByHandle = new Map(catalog.products.map((product) => [product.handle, product]));
+  for (const card of lite) {
+    const seed = seedByHandle.get(card.handle);
+    assert.ok(seed, `catalog-lite me extra product: ${card.handle}`);
+    assert.equal(card.title, seed!.title, `${card.handle}: title mismatch`);
+    assert.equal(card.price, seed!.price, `${card.handle}: price mismatch`);
+  }
+  // hataye gaye duplicate products wapas na aayein
+  assert.ok(!lite.some((card) => card.handle.includes("8228836")));
+});

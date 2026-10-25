@@ -10,6 +10,7 @@
  * hamesha wapas rakh deta hai (fail ho jaye to bhi).
  */
 import fs from "node:fs";
+import { writeLiteFiles } from "../build-catalog-lite.mjs";
 import path from "node:path";
 import { execSync } from "node:child_process";
 
@@ -80,46 +81,8 @@ try {
     }
   }
 
-  // client-side search ke liye chhota catalogue index
-  const catalog = JSON.parse(fs.readFileSync(path.join(ROOT, "database/seeds/catalog.json"), "utf8"));
-  const index = catalog.products
-    .filter((product) => product.images?.length)
-    .map((product) => ({
-      handle: product.handle,
-      title: product.title,
-      price: product.price,
-      image: `${product.images[0]}?width=400`,
-      color: product.color ?? "",
-      fabric: product.fabric ?? "",
-      category: product.category ?? "",
-    }));
-  fs.mkdirSync(path.join(APP, "public"), { recursive: true });
-  fs.writeFileSync(path.join(APP, "public/catalog-index.json"), JSON.stringify(index));
-
-  // wishlist / compare static preview par bhi chalein — poora product (chhota shape)
-  const lite = catalog.products.map((product) => ({
-    handle: product.handle,
-    title: product.title,
-    price: product.price,
-    compareAtPrice: product.compareAtPrice ?? null,
-    images: product.images ?? [],
-    sizes: product.sizes ?? [],
-    sizePricing: product.sizePricing ?? {},
-    inStock: product.inStock !== false,
-    rating: product.rating ?? 0,
-    reviewCount: product.reviewCount ?? 0,
-    colourName: product.colourName ?? null,
-    color: product.color ?? "",
-    fabric: product.fabric ?? "",
-    category: product.category ?? "anarkali",
-    collections: product.collections ?? [],
-    description: product.description ?? "",
-    // listing ka sort/colour-group dedupe client par — server jaisa hi
-    featured: product.featured === true,
-    colourGroup: product.colourGroup ?? null,
-    colourName: product.colourName ?? null,
-  }));
-  fs.writeFileSync(path.join(APP, "public/catalog-lite.json"), JSON.stringify(lite));
+  // client-side search + wishlist ke liye chhote indexes (share logic)
+  writeLiteFiles(catalog, path.join(ROOT, "apps/web"));
 
   execSync("npm run build --workspace @liksha/web", {
     cwd: ROOT,
