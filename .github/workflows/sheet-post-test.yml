@@ -1,0 +1,32 @@
+name: Sheet POST probe (temporary)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: POST like the browser does (text/plain JSON, no-cors equivalent)
+        env:
+          URL: https://script.google.com/macros/s/AKfycbwQxTH7BIhPkYvlTi7SWzUnh5WD2mP-AijXB2vrfLr9j3TvcD7fW3XtM4N9406VYDhO/exec
+          TOKEN: tyw-cb77177528f9474049ffa98fead4cee1
+        run: |
+          STAMP="TY-PROBE-$(date +%s)"
+          printf '{"token":"%s","action":"append","rows":[{"sheet":"Orders","row":{"Order ID":"%s","Date & Time":"%s","Event":"probe","Status":"test","Customer":"GH probe","Total ₹":1,"Source":"gh-probe"}}]}' "$TOKEN" "$STAMP" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > body.json
+          echo "body: $(cat body.json)"
+          echo "--- text/plain POST ---"
+          curl -sS -i -L --max-time 45 -X POST "$URL" \
+            -H 'content-type: text/plain;charset=utf-8' \
+            --data-binary @body.json | tail -20
+          echo
+          echo "--- form-encoded POST (hidden form fallback) ---"
+          curl -sS -i -L --max-time 45 -X POST "$URL" \
+            -H 'content-type: application/x-www-form-urlencoded' \
+            --data-urlencode "token=$TOKEN" \
+            --data-urlencode "action=append" \
+            --data-urlencode "rows=$(cat body.json | python3 -c 'import json,sys; print(json.dumps(json.load(sys.stdin)["rows"]))')" | tail -20
+          echo
+          echo "--- read back ---"
+          sleep 2
+          curl -sS --max-time 45 "$URL?action=recent&sheet=Orders&limit=5&token=PASTE-MASTER-TOKEN-HERE" | head -c 900
