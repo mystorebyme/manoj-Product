@@ -14,6 +14,7 @@ import { useStoreSettings } from "@/components/store-settings-provider";
 import { SafeImage } from "@/components/safe-image";
 import { BrandLockup } from "@/components/brand-lockup";
 import { cartWhatsAppMessage, logWhatsAppEnquiry, whatsappLink, whatsappNumber } from "@/lib/whatsapp";
+import { activeCampaign } from "@/lib/campaign";
 
 /**
  * Desktop nav — sirf wahi categories jo sach me products rakhti hain (khaali
@@ -24,8 +25,10 @@ const quickLinks = [
   { label: "HOME", href: "/" },
   { label: "SHOP", href: "/collections" },
   { label: "ANARKALI", href: "/collections/party-wear-gown" },
-  { label: "LEHENGA CHOLI", href: "/collections/lehnga-choli" },
-  { label: "PRINTED SET", href: "/collections/printed-suit-set" },
+  { label: "LEHENGA", href: "/collections/lehnga-choli" },
+  { label: "SUIT SETS", href: "/collections/suit-set-gown" },
+  { label: "PRINTED", href: "/collections/printed-suit-set" },
+  { label: "WEDDING", href: "/collections/weddin-collection" },
   { label: "NEW IN", href: "/collections/new-arrivals" },
   { label: "SALE", href: "/collections/sale" },
   { label: "CONTACT", href: "/pages/contact" },
@@ -33,6 +36,7 @@ const quickLinks = [
 
 // Fallback copy — admin → Settings se announcement set ho to wahi dikhta hai
 const defaultAnnouncements = [
+  ...(activeCampaign ? [activeCampaign.announcement] : []),
   "New season 2026 — the couture edit is live",
   "Free shipping across India — every order",
   "Same-day dispatch on prepaid orders",
@@ -309,7 +313,8 @@ export function SiteHeader() {
 
         {/* nav — sirf desktop, logo ke neeche centered (gold hairline ke saath) */}
         <nav className="hidden border-t border-[#efe6d9] bg-[#fbf7f1]/70 lg:block">
-          <div className="mx-auto flex max-w-[1400px] items-center justify-center gap-5 px-8 xl:gap-8">
+          {/* 10 links — 1024–1279 par gap chhota, 1280+ par khula (koi overflow nahi) */}
+          <div className="no-scrollbar mx-auto flex max-w-[1400px] items-center justify-center gap-3.5 overflow-x-auto px-6 xl:gap-6 xl:px-8">
             {quickLinks.map((link) => {
               const active = pathname === link.href;
               return (

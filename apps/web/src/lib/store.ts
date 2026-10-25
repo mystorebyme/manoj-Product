@@ -3,6 +3,7 @@ import "server-only";
 import type { Catalog, Collection, ColourGroup, ColourOption, Product } from "@liksha/types";
 import catalog from "@/data/catalog.json";
 import { listAdminProducts, toCatalogProduct } from "./product-db";
+import { activeCampaign, withCampaignPricing } from "./campaign";
 
 /**
  * Catalog ek build-time JSON hai (database/seeds/catalog.json se generate hota hai).
@@ -14,8 +15,16 @@ import { listAdminProducts, toCatalogProduct } from "./product-db";
  */
 const data = catalog as unknown as Catalog;
 
-/** build-time catalogue (purane 287 products) */
-export const catalogueProducts: Product[] = data.products;
+/**
+ * Build-time catalogue.
+ *
+ * Campaign chal raha ho (jaise Diwali 75% off) to price yahin, ek hi jagah par
+ * MRP se nikal jaati hai — card, PDP, cart, checkout, invoice aur WhatsApp message
+ * sab isi price ko padhte hain, isliye kahin bhi mismatch nahi hota.
+ */
+export const catalogueProducts: Product[] = data.products.map((product) =>
+  withCampaignPricing(product, activeCampaign),
+);
 export const collections: Collection[] = data.collections;
 export const catalogMeta = data.meta;
 export const colourGroups: Record<string, ColourGroup> = data.colourGroups ?? {};
@@ -30,7 +39,7 @@ export function adminProducts(): Product[] {
   const records = listAdminProducts({ publishedOnly: true });
   const key = records.map((record) => `${record.handle}:${record.updatedAt}`).join("|");
   if (adminCache && adminCache.key === key) return adminCache.products;
-  const products = records.map(toCatalogProduct);
+  const products = records.map((record) => withCampaignPricing(toCatalogProduct(record), activeCampaign));
   adminCache = { key, products };
   return products;
 }

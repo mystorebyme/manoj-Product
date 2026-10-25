@@ -72,7 +72,7 @@ export const logoMark = brandAssets.mark;
 export const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
   process.env.NEXT_PUBLIC_SITE_ORIGIN?.replace(/\/$/, "") ??
-  "https://trendsyounique.onrender.com";
+  "https://trendsyounique.fashion";
 
 export const siteConfig = {
   name: "TRENDS YOUNIQUE",
@@ -87,6 +87,8 @@ export const siteConfig = {
   whatsapp: "8005900581",
   email: "care@trendsyounique.com",
   address: "Jaipur, Rajasthan, India",
+  /** owner-confirmed domain (2026) — env se override ho sakta hai */
+  domain: "trendsyounique.fashion",
   socials: {
     instagram: "https://www.instagram.com/designer_clothing_9",
     instagramHandle: "designer_clothing_9",

@@ -15,7 +15,7 @@ export const IS_STATIC_PREVIEW = process.env.NEXT_PUBLIC_PREVIEW === "1";
 export const LIVE_STORE_URL = (
   process.env.NEXT_PUBLIC_LIVE_STORE_URL ??
   API_BASE ??
-  "https://trendsyounique.onrender.com"
+  "https://trendsyounique.fashion"
 ).replace(/\/+$/, "");
 
 /** API available hai ya nahi — preview par base ke bina koi call nahi */

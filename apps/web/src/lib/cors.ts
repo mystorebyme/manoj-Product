@@ -13,6 +13,7 @@
  *   - apni site (`NEXT_PUBLIC_SITE_URL`)
  *   - GitHub Pages origin (repo preview)
  *   - localhost (dev/preview)
+ *   - apna domain (`trendsyounique.fashion`, www ke saath)
  *   - apne `*.onrender.com` hosts
  */
 
@@ -28,6 +29,8 @@ function allowlist(): string[] {
   return [
     ...(site ? [site, site.replace("://www.", "://")] : []),
     "https://mystorebyme.github.io",
+    "https://trendsyounique.fashion",
+    "https://www.trendsyounique.fashion",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
     "http://localhost:3100",

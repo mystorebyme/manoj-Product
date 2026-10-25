@@ -25,7 +25,7 @@ const indianStates = [
 
 export function CheckoutForm() {
   const { lines, subtotal, count, isOpen, closeCart, removeLine } = useCart();
-  // festive sale me final price already 499–699 hai — koi extra coupon nahi
+  // campaign/sale price already final hai — koi extra coupon nahi
   const { whatsapp } = useStoreSettings();
   const [whatsappHref, setWhatsappHref] = useState<string | null>(null);
   // ek hi submission par ek hi enquiry/order row (dobara click se duplicate na bane)

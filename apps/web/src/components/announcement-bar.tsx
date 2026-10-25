@@ -3,12 +3,17 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useStoreSettings } from "@/components/store-settings-provider";
+import { activeCampaign } from "@/lib/campaign";
 
 /**
  * Announcement bar — live store par 3 messages rotate hote hain (flickity autoplay).
  * Yahan lightweight fade/slide rotation hai, koi library nahi.
  */
 const MESSAGES = [
+  // campaign chal raha ho to sabse pehle wahi (sheet se aaya announcement usse bhi pehle)
+  ...(activeCampaign
+    ? [{ text: activeCampaign.announcement, href: activeCampaign.href }]
+    : []),
   { text: "Free shipping across India — every order", href: "/policies/shipping-policy" },
   { text: "Order on WhatsApp — instant size & price confirmation", href: "/collections" },
   { text: "Hand-finished in Jaipur · limited runs", href: "/pages/about-us" },

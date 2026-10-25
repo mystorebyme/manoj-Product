@@ -12,6 +12,7 @@ import { bestSellers } from "@/lib/best-sellers";
 import { BestSellersRail } from "@/components/best-sellers-rail";
 import { imageUrl } from "@/lib/format";
 import { heroBanners, siteConfig } from "@/config/site";
+import { activeCampaign } from "@/lib/campaign";
 import { whatsappLink, whatsappNumber } from "@/lib/whatsapp";
 import { SafeImage } from "@/components/safe-image";
 
@@ -37,6 +38,15 @@ export const metadata: Metadata = {
  */
 const HERO_HREF = "/collections/new-arrivals";
 const SECONDARY_HREF = "/collections/sale";
+
+/** JSON-LD ke liye asli price range (campaign price ke saath) */
+function priceRangeLabel(list: { price: number }[]): string {
+  if (!list.length) return "₹0";
+  const prices = list.map((product) => product.price / 100).sort((a, b) => a - b);
+  const low = Math.floor(prices[0]!);
+  const high = Math.ceil(prices[prices.length - 1]!);
+  return `₹${low} - ₹${high}`;
+}
 
 export default async function HomePage() {
   const products = await getProducts();
@@ -93,16 +103,43 @@ export default async function HomePage() {
     telephone: siteConfig.phone,
     email: siteConfig.email,
     address: { "@type": "PostalAddress", addressLocality: "Jaipur", addressRegion: "Rajasthan", addressCountry: "IN" },
-    priceRange: "₹499 - ₹699",
+    priceRange: priceRangeLabel(products),
   };
 
   return (
     <div>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      {/* ── hero: editorial banner + overlay copy (device-specific crop) ── */}
-      <section className="relative bg-[#efe4d4]" data-testid="hero-banner" aria-label="TRENDS YOUNIQUE new season">
+      {/* ── hero ──
+          Campaign chalu ho to owner ka Diwali banner (text banner me hi hai, isliye
+          koi overlay copy nahi — warna do headline ek doosre par chadh jaate hain).
+          Campaign khatam hote hi apne aap editorial hero wapas aa jaata hai. */}
+      <section className="relative bg-[#efe4d4]" data-testid="hero-banner" aria-label={activeCampaign ? `${activeCampaign.name} — ${siteConfig.name}` : `TRENDS YOUNIQUE new season`}>
         <div className="mx-auto max-w-[1920px]">
+          {activeCampaign ? (
+            <Link
+              href={activeCampaign.href}
+              aria-label={`${activeCampaign.name} — up to ${activeCampaign.discountPercent}% off. Shop the collection`}
+              data-testid="campaign-banner"
+              className="group block w-full overflow-hidden"
+            >
+              <picture>
+                <source media="(min-width:1024px)" srcSet={activeCampaign.banners.desktop} width={1920} height={1081} />
+                <source media="(min-width:768px)" srcSet={activeCampaign.banners.tablet} width={1280} height={960} />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={activeCampaign.banners.mobile}
+                  alt={`${siteConfig.name} ${activeCampaign.name} — flat ${activeCampaign.discountPercent}% off on lehenga, anarkali and suit sets`}
+                  width={1024}
+                  height={1536}
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
+                  className="h-auto w-full transition duration-700 group-hover:brightness-[1.03]"
+                />
+              </picture>
+            </Link>
+          ) : (
           <div className="hero-media hero-scrim hero-frame relative aspect-[4/5] w-full overflow-hidden bg-[#efe4d4] md:aspect-[4/3] lg:aspect-[16/9]">
             <picture>
               <source media="(min-width:1024px)" srcSet={heroBanners.desktop} width={1920} height={1080} />
@@ -138,10 +175,7 @@ export default async function HomePage() {
                   delivered across India.
                 </p>
                 <div className="mt-6 flex flex-col gap-2.5 sm:flex-row sm:items-center">
-                  <Link
-                    href={HERO_HREF}
-                    className="btn-primary w-full justify-center sm:w-auto"
-                  >
+                  <Link href={HERO_HREF} className="btn-primary w-full justify-center sm:w-auto">
                     Shop new arrivals
                   </Link>
                   <a
@@ -178,6 +212,7 @@ export default async function HomePage() {
               </div>
             </div>
           </div>
+          )}
 
           {/* trust strip — premium brands jaise, hero ke turant neeche */}
           <div className="border-y border-[#e4d7c5] nyx-paper">

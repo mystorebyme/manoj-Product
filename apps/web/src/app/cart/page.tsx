@@ -41,7 +41,7 @@ export default function CartPage() {
       "noopener",
     );
   }
-  // festive sale: final price already ₹499–₹699 — koi coupon stack nahi hota
+  // campaign/sale price already final hai — koi coupon stack nahi hota
   const total = Math.max(0, subtotal);
   const freeShippingMet = true;
 

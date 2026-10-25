@@ -414,3 +414,36 @@ Sheet me data na aane par (real order `TY-NBL7ITUPM` kabhi nahi pahuncha):
 Round 24 (cont.): relay ab **JSON fetch + form POST dono** bhejta hai (purane script version par
 bhi data save, naye par form fallback). Script me Enquiries/Messages/Reviews ke duplicate keys bhi
 add kiye (r8) — do transport se double row nahi banti.
+
+## Round 25 — Diwali 75% campaign engine, banner assets, domain, nav/collections
+
+**Banner assets** (owner ke 3 PNG se, crop ke bina, WebP):
+`apps/web/public/images/banners/trends-younique-diwali-75-off-{desktop,tablet,mobile}.webp`
+— desktop 1920×1081, tablet 1280×960, mobile 1024×1536 (278/258/305 kB).
+
+**Campaign engine — `apps/web/src/lib/campaign.ts`:**
+- Ek jagah config: dates, discount %, banner assets, CTA, announcement.
+- `CAMPAIGNS[]` registry → mahine ke hisaab se rotate (dates ke bahar offer gayab).
+- `campaignPrice(mrp, 75)` = MRP ka 25% (poore rupee) — **MRP ko kabhi nahi chhedte**,
+  isliye "flat 75% off" sach hai. 446/446 products par exactly 75% (test).
+- `withCampaignPricing()` `store.ts` me lagti hai, isliye card, PDP, size-price, cart,
+  checkout, invoice, WhatsApp message aur JSON-LD — sab ek hi price dikhate hain.
+- Hero: campaign chalu ho to **owner ka banner** (banner me text already hai, isliye
+  overlay copy hata di — do headline ek doosre par nahi chadhte); khatam hote hi
+  editorial hero wapas. Announcement bar aur header strip me bhi campaign line.
+- JSON-LD `priceRange` ab asli catalogue se, hard-coded ₹499–₹699 hata.
+
+**Domain:** default site URL ab `https://trendsyounique.fashion` (config, api-base,
+CORS allowlist me domain + www). Render fallback sirf tab jab env set ho.
+
+**Brand/config:** collection display titles saaf kiye (Anarkali Suits, Lehenga Chunni &
+Choli Sets, Suit Sets & Gowns, Printed Suits, Wedding & Festive Wear) — URLs waise hi.
+Header nav ab Anarkali · Lehenga · Suit Sets · Printed · Wedding · New In · Sale (10 links,
+1024px par scroll-safe).
+
+**Collections jo inventory hi nahi rakhte** (owner list me the, par 0 products):
+Salwar Suits, Dupatta/Chunni, Festive Wear (alag) — jaan-boojh kar **nahi** banaye,
+kyunki khaali collection = jhootha nav. Inventory aane par add honge.
+
+Docs: `docs/09-devops/campaigns.md` (mahine ka rotation + naya campaign + env switches).
+Tests: **145 unit + 40 integration + 9**, typecheck clean, catalog verify clean.
