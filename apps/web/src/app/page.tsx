@@ -22,7 +22,7 @@ export const revalidate = 600;
 export const metadata: Metadata = {
   title: "TRENDS YOUNIQUE | Designer Anarkali Suits, Lehenga Choli & Suit Sets",
   description:
-    "Shop designer Anarkali suits, lehanga choli and printed suit sets at TRENDS YOUNIQUE. Hand-finished pieces, free shipping within India and express delivery on prepaid orders.",
+    "Shop designer Anarkali suits, lehanga choli and printed suit sets at TRENDS YOUNIQUE. Hand-finished pieces, free shipping within India and express dispatch.",
   alternates: { canonical: "/" },
 };
 

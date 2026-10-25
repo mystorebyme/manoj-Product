@@ -43,8 +43,8 @@ export default async function CollectionsIndexPage() {
           Every TRENDS YOUNIQUE edit
         </h1>
         <p className="mt-2 text-[12.5px] leading-relaxed text-[#6f6259]">
-          Hand-finished suits, lehengas and festive sets — {siteConfig.name}. Free shipping pan-India, prepaid
-          only, 4–7 day delivery.
+          Hand-finished suits, lehengas and festive sets — {siteConfig.name}. Free shipping pan-India, easy
+          returns, 4–7 day delivery.
         </p>
       </div>
 

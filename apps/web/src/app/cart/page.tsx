@@ -159,7 +159,7 @@ export default function CartPage() {
             <h2 className="text-[11px] font-semibold tracking-[.16em] uppercase">Order summary</h2>
             <div className="mt-4 space-y-2 text-[12.5px]">
               <Row label="Subtotal" value={formatPrice(subtotal)} />
-              <Row label="Shipping" value={freeShippingMet ? "Free" : "Free (prepaid)"} />
+              <Row label="Shipping" value={freeShippingMet ? "Free" : "Calculated on WhatsApp"} />
               <div className="flex items-center justify-between border-t border-[#e7ddd2] pt-2.5 text-[14px] font-semibold">
                 <span>Total</span>
                 <span className="text-[#6f1d2b]">{formatPrice(total)}</span>
@@ -167,7 +167,7 @@ export default function CartPage() {
             </div>
 
             <p className="mt-4 border border-[#eadfce] bg-[#fdf8f0] px-3 py-2.5 text-[11px] leading-relaxed text-[#8a7a5f]">
-              Festive sale price already applied — <strong>no coupon needed</strong>. Free shipping on every prepaid order.
+              Festive sale price already applied — <strong>no coupon needed</strong>. Free shipping on every order.
             </p>
 
             <Link
@@ -188,7 +188,7 @@ export default function CartPage() {
               Send cart on WhatsApp
             </button>
             <p className="mt-2.5 text-center text-[10.5px] text-[#8a7d72]">
-              100% secure prepaid payment · UPI, cards & netbanking
+              Payment link WhatsApp par milta hai · UPI, cards & netbanking
             </p>
           </aside>
         </div>
