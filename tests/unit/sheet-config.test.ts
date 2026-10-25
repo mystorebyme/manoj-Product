@@ -41,16 +41,26 @@ test("script me master token committed nahi hai", () => {
   );
 });
 
-test("env override default ko replace karta hai", () => {
-  const url = process.env.NEXT_PUBLIC_SHEET_WEBAPP_URL;
-  const token = process.env.NEXT_PUBLIC_SHEET_WRITE_TOKEN;
-  process.env.NEXT_PUBLIC_SHEET_WEBAPP_URL = "https://script.google.com/macros/s/OVERRIDE/exec";
-  process.env.NEXT_PUBLIC_SHEET_WRITE_TOKEN = "override-token";
-  // module scope par values build-time inline hote hain, isliye functions hi check
-  assert.equal(typeof sheetWebAppUrl(), "string");
-  assert.equal(typeof sheetWriteToken(), "string");
-  if (url === undefined) delete process.env.NEXT_PUBLIC_SHEET_WEBAPP_URL;
-  else process.env.NEXT_PUBLIC_SHEET_WEBAPP_URL = url;
-  if (token === undefined) delete process.env.NEXT_PUBLIC_SHEET_WRITE_TOKEN;
-  else process.env.NEXT_PUBLIC_SHEET_WRITE_TOKEN = token;
+test("purane env vars ab asar nahi karte (galat deployment par data nahi jaata)", () => {
+  // 25 Oct ka bug: repo variable me purana deployment URL tha → har row unauthorized
+  const before = { url: process.env.NEXT_PUBLIC_SHEET_WEBAPP_URL, token: process.env.NEXT_PUBLIC_SHEET_WRITE_TOKEN };
+  process.env.NEXT_PUBLIC_SHEET_WEBAPP_URL = "https://script.google.com/macros/s/PURANA-GALAT/exec";
+  process.env.NEXT_PUBLIC_SHEET_WRITE_TOKEN = "purana-token";
+  assert.equal(sheetWebAppUrl(), SHEET_WEBAPP_URL_DEFAULT);
+  assert.equal(sheetWriteToken(), SHEET_WRITE_TOKEN_DEFAULT);
+  if (before.url === undefined) delete process.env.NEXT_PUBLIC_SHEET_WEBAPP_URL;
+  else process.env.NEXT_PUBLIC_SHEET_WEBAPP_URL = before.url;
+  if (before.token === undefined) delete process.env.NEXT_PUBLIC_SHEET_WRITE_TOKEN;
+  else process.env.NEXT_PUBLIC_SHEET_WRITE_TOKEN = before.token;
+});
+
+test("naya override naam kaam karta hai (future deployment ke liye)", () => {
+  const before = process.env.NEXT_PUBLIC_SHEET_URL_OVERRIDE;
+  process.env.NEXT_PUBLIC_SHEET_URL_OVERRIDE = "https://script.google.com/macros/s/NEWDEPLOY/exec";
+  assert.equal(sheetWebAppUrl(), "https://script.google.com/macros/s/NEWDEPLOY/exec");
+  // galat shape wala override ignore hota hai
+  process.env.NEXT_PUBLIC_SHEET_URL_OVERRIDE = "https://evil.example.com/steal";
+  assert.equal(sheetWebAppUrl(), SHEET_WEBAPP_URL_DEFAULT);
+  if (before === undefined) delete process.env.NEXT_PUBLIC_SHEET_URL_OVERRIDE;
+  else process.env.NEXT_PUBLIC_SHEET_URL_OVERRIDE = before;
 });

@@ -53,10 +53,11 @@ jobs:
           NEXT_PUBLIC_API_BASE_URL: ${{ vars.STORE_API_URL }}
           NEXT_PUBLIC_LIVE_STORE_URL: ${{ vars.STORE_API_URL || 'https://trendsyounique.onrender.com' }}
           # Sheet relay — Pages par Node server nahi hota, isliye order/enquiry seedha
-          # Apps Script web app par bhejte hain (write-only token; read token server par).
-          # Repo → Settings → Variables → Actions me ye do set kariye.
-          NEXT_PUBLIC_SHEET_WEBAPP_URL: ${{ vars.SHEET_WEBAPP_URL }}
-          NEXT_PUBLIC_SHEET_WRITE_TOKEN: ${{ vars.SHEET_WRITE_TOKEN }}
+          # Apps Script web app par bhejte hain. URL + write token ab **code me**
+          # verified hain (apps/web/src/lib/sheet-config.ts) — purane repo variables
+          # galti se lagu nahi honge (25 Oct: unme purana deployment tha aur koi bhi
+          # row sheet tak nahi pahunch rahi thi). Naya deployment lene par wahi file
+          # badlein, ya NEXT_PUBLIC_SHEET_URL_OVERRIDE / _TOKEN_OVERRIDE use karein.
           # Canonical/OG isi deployment ke hain (preview ko live store ka duplicate na samjha jaye)
           NEXT_PUBLIC_SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
         run: node scripts/pages/build-preview.mjs
