@@ -15,6 +15,7 @@
     "assets:proof": "node scripts/brand/render-proof.mjs",
     "build": "npm run build --workspace @liksha/web",
     "build:all": "npm run build --workspace @liksha/web && npm run build --workspace @liksha/admin && npm run build --workspace @liksha/api",
+    "build:preview": "node scripts/pages/build-preview.mjs",
     "build:web": "npm run build --workspace @liksha/web",
     "catalog:build": "node scripts/build-catalog.mjs",
     "catalog:dupes": "node scripts/fix-duplicate-listings.mjs",
@@ -32,11 +33,14 @@
     "dev:admin": "npm run dev --workspace @liksha/admin",
     "dev:api": "npm run dev --workspace @liksha/api",
     "dev:web": "npm run dev --workspace @liksha/web",
+    "docs:check": "node scripts/check-docs-links.mjs",
+    "docs:check:strict": "node scripts/check-docs-links.mjs --strict",
     "lint": "npm run lint --workspaces --if-present",
     "pricing:sale": "node scripts/pricing/apply-sale-prices.mjs",
     "reviews:export": "node scripts/reviews-sync/export-for-sheet.mjs",
     "setup": "bash scripts/setup.sh",
     "sheet:products": "node scripts/export-products-for-sheet.mjs",
+    "sheet:test": "node --test tests/unit/apps-script.test.ts",
     "start": "npm run start --workspace @liksha/web",
     "test": "tsx --test tests/unit/*.test.ts",
     "test:all": "npm run test:unit && npm run test:integration && npm run test:db",
@@ -49,7 +53,7 @@
     "test:smoke": "node tests/e2e/smoke.mjs",
     "test:unit": "tsx --test tests/unit/*.test.ts",
     "typecheck": "npm run typecheck --workspaces --if-present",
-    "sheet:test": "node --test tests/unit/apps-script.test.ts"
+    "verify": "npm run typecheck && npm run test:unit && npm run sheet:test && npm run lint && npm run docs:check:strict"
   },
   "devDependencies": {
     "@electric-sql/pglite": "^0.5.11",

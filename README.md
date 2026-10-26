@@ -1,3 +1,9 @@
+# TRENDS YOUNIQUE — storefront + Google Sheet backend
+
+> **Naya ho? 3 file padho:** `docs/00-overview/production-topology.md` (kya live hai),
+> `docs/00-overview/repo-map.md` (kaun si file kya karti hai), `AGENTS.md` (rules).
+> Neeche wala purana README (Liksha Clothing era) **historical** hai.
+
 # Designer Clothing — storefront, admin & API
 
 Production-grade ecommerce monorepo for **Designer Clothing** (designer anarkali suits, lehenga choli and

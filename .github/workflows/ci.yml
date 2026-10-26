@@ -32,8 +32,21 @@ jobs:
       - name: Typecheck (web · admin · api)
         run: npm run typecheck
 
+      - name: Lint (storefront)
+        run: npm run lint
+
+      - name: Docs links (living docs must be 0 broken)
+        run: npm run docs:check:strict
+
       - name: Unit + integration tests
         run: npm run test:all
+
+      # Sheet DB ka engine (Google Apps Script) Node me chalta hai — isliye CI me bhi test
+      - name: Apps Script engine tests
+        run: npm run sheet:test
+
+      - name: Static export build (deploy jaisa)
+        run: npm run build:preview
 
       - name: Build storefront
         run: npm run build --workspace @liksha/web

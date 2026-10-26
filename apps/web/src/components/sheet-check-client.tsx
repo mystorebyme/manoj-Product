@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { sheetWebAppUrl, sheetWriteToken } from "@/lib/sheet-config";
 import { appendUrl, flushSheetQueue, pendingRelayCount } from "@/lib/sheet-relay";
 
@@ -35,6 +35,12 @@ export function SheetCheckClient() {
   const [pending, setPending] = useState(0);
   const [running, setRunning] = useState(false);
 
+  // effect se pehle define — pehle `setStep` baad me tha, isliye lint "cannot access
+  // variable before it is declared" deta tha (function hoisting par depend karna fragile hai)
+  const setStep = useCallback((index: number, patch: Partial<Step>) => {
+    setSteps((current) => current.map((step, i) => (i === index ? { ...step, ...patch } : step)));
+  }, []);
+
   useEffect(() => {
     setPending(pendingRelayCount());
     // page khulte hi script version dikhado (r8/r9 turant pata chale)
@@ -47,11 +53,7 @@ export function SheetCheckClient() {
         });
       })
       .catch(() => setStep(0, { state: "fail", detail: "Apps Script se baat nahi hui" }));
-  }, []);
-
-  function setStep(index: number, patch: Partial<Step>) {
-    setSteps((current) => current.map((step, i) => (i === index ? { ...step, ...patch } : step)));
-  }
+  }, [setStep]);
 
   async function run() {
     setRunning(true);

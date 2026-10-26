@@ -21,13 +21,16 @@ Read this first. Then `STRUCTURE.md`, then `PROGRESS.md`, then the matching skil
 ## Golden commands
 
 ```bash
-npm run typecheck                 # must be clean before you stop
-npm run test:all                  # unit + integration
-npm run catalog:verify            # if catalogue touched
-npm run build:web                 # if storefront touched
+npm ci                            # node_modules snapshot me nahi aata
+npm run verify                    # typecheck + unit + sheet:test + lint + docs:check
+npm run build:preview             # production jaisa static build → dist/
+npm run catalog:verify            # agar catalogue chhua ho
 cd apps/admin && npx next build   # admin root se build nahi hoti
-npm run dev / dev:admin / dev:api # ports 3000 / 3001 / 4000
+npm run dev / dev:admin / dev:api # ports 3000 / 3001 / 4000 (dev only)
 ```
+
+Pehle padho: `docs/00-overview/production-topology.md` (kya live hai) aur
+`docs/00-overview/repo-map.md` (kaun si file kya karti hai).
 
 ## Never do
 
@@ -36,7 +39,12 @@ npm run dev / dev:admin / dev:api # ports 3000 / 3001 / 4000
 - Put secrets in `NEXT_PUBLIC_*` or in the repo.
 - Use `next/font/google` (breaks offline builds) or `next/image` with the Shopify CDN.
 - Delete or rename `database/seeds/catalog.json` structure without updating tests.
-- Invent product data. `likshaclothing.com` is the only source of truth.
+- Invent product data. Sheet (`Products` tab) + `database/seeds/catalog.json` hi source of truth hain.
+- **Production me server route add karna** — `apps/web` static export hai. Server logic
+  Apps Script me jaata hai (`scripts/google-apps-script/trends-sheets.gs`).
+- **Online payment / gateway wapas laana** — owner ne jaan-boojh kar hataya hai (R24).
+- Apps Script ki permission (`MailApp`) maangne ke liye "deploy" par bharosa karna —
+  `authorizeMail` editor se Run karna padta hai (`docs/09-devops/round-38.md` §5).
 
 ## When stuck
 
@@ -47,9 +55,12 @@ npm run dev / dev:admin / dev:api # ports 3000 / 3001 / 4000
 | API shape change | `.claude/skills/api-module` + `docs/06-api` |
 | Admin behaviour | `.claude/skills/admin-panel` |
 | Catalogue mismatch | `.claude/skills/catalogue-sync` |
-| Deploy | `.claude/skills/deploy-ops` |
+| Deploy | `.claude/skills/deploy-ops` + `docs/09-devops/cloudflare-pages.md` |
+| "Ye kahan likha/likhta hai?" | `docs/00-overview/repo-map.md` |
+| Lint/CI tootа hai | `docs/09-devops/repo-audit.md` |
 
 ## Definition of done
 
-Typecheck clean · tests pass · mobile 360px checked · empty/error states handled · docs updated ·
-`PROGRESS.md` line added.
+`npm run verify` clean (typecheck + 202 unit + 16 sheet + lint 0 error + docs links) ·
+`npm run build:preview` chalta hai · mobile 360px checked · empty/error states handled ·
+docs updated · `PROGRESS.md` line added.

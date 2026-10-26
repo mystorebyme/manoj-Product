@@ -67,4 +67,4 @@ curl -s https://api.likshaclothing.com/api/v1/health
 ## 8. After
 
 - 24h monitor (5xx, order create, payment).
-- Agar kuch toota: `docs/11-maintenance/rollback.md`.
+- Agar kuch toota: `docs/11-maintenance/runbook.md`.

@@ -17,7 +17,8 @@ import crypto from "node:crypto";
 
 const PROJECT_ID = process.env.FIREBASE_PROJECT_ID ?? process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID ?? "";
 const API_KEY = process.env.FIREBASE_API_KEY ?? process.env.NEXT_PUBLIC_FIREBASE_API_KEY ?? "";
-const TOKEN_SECRET = process.env.OTP_TOKEN_SECRET ?? "";
+// phone token ka signing secret `lib/phone-token.ts` me hai (yahi jagah) — yahan
+// duplicate copy rakhi thi jo kabhi use nahi hoti thi.
 
 export type OtpMode = "firebase" | "dev" | "off";
 

@@ -1,14 +1,31 @@
 # CLAUDE.md
 
-Claude (ya koi bhi coding agent) ke liye entry point. Detailed rules `AGENTS.md` me hain — yahan sirf
-short version aur pointers.
+Claude / Codex / koi bhi coding agent — **yahi se shuru karo**. Poora sach:
+`docs/00-overview/production-topology.md`. Kahan kya hai: `docs/00-overview/repo-map.md`.
+Rules: `AGENTS.md`.
 
-## TL;DR
+## TL;DR (Round 39 tak ka sach)
 
-- Monorepo: `apps/web` (3000), `apps/admin` (3001), `apps/api` (4000), shared `packages/*`.
-- Paisa paise me. Server price compute karta hai. Catalogue generated JSON hai.
-- 287 products, 9 collections, data source `likshaclothing.com`.
-- Payments third-party (Razorpay); hum card data kabhi nahi chhoote.
+- **Site static hai.** `apps/web` (Next.js 16) `output: "export"` se build hoti hai →
+  `dist/` → Cloudflare Pages / Netlify. **Koi Node server production me nahi.**
+- **Backend = Google Apps Script + Google Sheet** (`scripts/google-apps-script/trends-sheets.gs`,
+  r20). Order, stock, tracking, email, reviews — sab wahan. Site sirf `?action=…` endpoints
+  call karti hai. `src/app/api/*` build ke waqt hata diya jaata hai — naya server route
+  mat add karo.
+- **Online payment nahi hai** (by design). Order → WhatsApp + Sheet; UPI detail owner bhejta hai.
+- **Domain:** `trendsyounique.fashion` (Cloudflare zone). Contact: +91 7740992663.
+- Monorepo me `apps/admin` (owner panel, alag deploy) aur `apps/api` (**legacy**, production
+  me use nahi) bhi hain — lekin production storefront unhe nahi chalata.
+
+## Verify loop (paisa/order touch karne se pehle)
+
+```bash
+npm ci                       # node_modules snapshot me nahi aata — pehle chalao
+npm run verify               # typecheck + unit + sheet:test + lint + docs:check
+npm run build:preview        # dist/ — deploy jaisa build
+```
+
+Bhejne se pehle: `PROGRESS.md` me ek line; behaviour badla to `docs/` update.
 
 ## Skills (`.claude/skills/`)
 
@@ -17,20 +34,18 @@ short version aur pointers.
 `storefront-quality` · `ecommerce-payments` · `inventory-concurrency` · `india-compliance` ·
 `agent-common-mistakes`
 
-Task se match hone wali skill pehle padho — usme commands, file paths aur traps already likhe hain.
-
-## Verify loop
-
-```bash
-npm run typecheck && npm run test:all
-```
-
-Kuch bhi ship karne se pehle: `PROGRESS.md` me ek line, aur agar behaviour badla to `docs/` update.
+Task se match hone wali skill pehle padho. `database-prisma`, `api-module` aur
+`ecommerce-payments` **legacy** code ke liye hain (production me nahi chalte) — storefront ka
+kaam unse nahi hota.
 
 ## Known traps
 
-- `cd apps/admin && npx next build` (root se admin build fail hoti hai).
-- `next dev` ke saath `.next` clean karo build se pehle.
-- Client component me `@/lib/store` import mat karo (410KB bundle).
-- `quantity` field name hai (`qty` nahi).
-- Sandbox me outbound curl block hai — live data ke liye `fetch` tool ya `npm run catalog:sync-live` apni machine par.
+- `src/data/catalog.json` generated hai — hand-edit nahi; `npm run catalog:build`.
+- Client component me `@/lib/store` / `catalog.json` import mat karo (bundle phat jaata hai).
+  Client data `catalog-lite.json` se aata hai.
+- `.gs` file par `node --check` seedha nahi chalta — pehle `.js` me copy karo.
+- Apps Script me `includes` par bharosa mat karo — `indexOf` use karo.
+- Admin build root se nahi chalti: `cd apps/admin && npx next build`.
+- `npm run lint` me `react-hooks/set-state-in-effect` 13 jagah **warn** par hai (localStorage
+  hydration pattern) — naya code isse bache, dekho `docs/09-devops/repo-audit.md`.
+- Sandbox me bash se internet sirf GitHub/npm tak hai — live checks ke liye `fetch` tool.

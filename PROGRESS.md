@@ -644,3 +644,22 @@ banata hai. Product ID sirf sheet/admin me — storefront par kahin nahi.
   301 rule, limits, test checklist, rollback, CLI raasta.
 - **Blocker:** Cloudflare login/API token agent ke paas nahi hai → project create + domain
   activate owner karega (10–15 min).
+
+### Round 40 — engineering audit (skills-repos ke usool se) + fixes
+
+- **`npm run lint` crash** → fix: `eslint-config-next@16` flat config seedha import (FlatCompat
+  circular-JSON error hata). Ab **0 error / 37 warning**.
+- **14 lint error** me se asli bugs: `sheet-check-client.tsx` me `setStep` hoisting/TDZ
+  (useCallback + dep), `otp.ts` ka dead `TOKEN_SECRET`. 13 `set-state-in-effect` warnings
+  documented (localStorage hydration pattern).
+- **Agent context galat tha** (Vercel/Render/Razorpay/likshaclothing) → naya
+  `docs/00-overview/production-topology.md` (verified sach) + `CLAUDE.md` rewrite + `AGENTS.md`
+  golden commands/never-do + `deploy-ops` skill rewrite (Cloudflare + Apps Script + rollback).
+- **`docs/00-overview/repo-map.md`** — "X kahan badalna hai" ka map (Graphify-style).
+- **`scripts/check-docs-links.mjs`** + `npm run docs:check[:strict]` — 535 refs, historical par
+  report-only, living docs par **strict (0 broken)**; 2 asli toote link fix (`admin/middleware.ts`,
+  `runbook.md`).
+- **CI holes band**: lint, `sheet:test`, `build:preview`, docs-check ab CI me.
+- **`npm run verify`** = typecheck + 202 unit + 16 sheet + lint + docs (ek command).
+- Junk `images ` (trailing space) folder hataya. `.gitignore`/secrets audit clean (14.7 MB repo).
+- Docs: `docs/09-devops/repo-audit.md`.
