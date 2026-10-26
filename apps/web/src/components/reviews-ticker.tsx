@@ -78,13 +78,10 @@ export function ReviewsTicker({ items }: { items: TickerReview[] }) {
     return () => window.clearInterval(timer);
   }, [paused, list.length]);
 
-  useEffect(() => {
-    // list badle to index range me rakho
-    setIndex((current) => (list.length ? current % list.length : 0));
-  }, [list.length]);
-
   if (!list.length) return null;
-  const review = list[index % list.length]!;
+  // list badalne par index range me derive ho jaata hai — reset effect ki zaroorat nahi
+  const activeIndex = ((index % list.length) + list.length) % list.length;
+  const review = list[activeIndex]!;
 
   return (
     <div
@@ -96,7 +93,7 @@ export function ReviewsTicker({ items }: { items: TickerReview[] }) {
       onBlur={() => setPaused(false)}
     >
       <figure
-        key={`${review.id}-${index}`}
+        key={`${review.id}-${activeIndex}`}
         className="mx-auto min-h-[168px] max-w-[640px] border border-[#eadfce] bg-white p-5 text-center transition-opacity duration-500 sm:p-7"
         aria-live="polite"
       >
@@ -127,14 +124,14 @@ export function ReviewsTicker({ items }: { items: TickerReview[] }) {
             type="button"
             onClick={() => setIndex(position)}
             aria-label={`Review ${position + 1}`}
-            aria-current={position === index % list.length}
+            aria-current={position === activeIndex}
             className={`h-1.5 w-1.5 rounded-full transition ${
-              position === index % list.length ? "bg-[#6f1d2b]" : "bg-[#d9cbb6] hover:bg-[#b08a4a]"
+              position === activeIndex ? "bg-[#6f1d2b]" : "bg-[#d9cbb6] hover:bg-[#b08a4a]"
             }`}
           />
         ))}
         <span className="ml-1 text-[10px] tracking-[.1em] text-[#a3948a] uppercase">
-          {(index % list.length) + 1} / {list.length}
+          {activeIndex + 1} / {list.length}
         </span>
       </div>
     </div>

@@ -18,10 +18,14 @@ import { sheetWebAppUrl } from "./sheet-config";
 export type SheetStock = Record<string, number>;
 
 export function useSheetStock(handle: string | undefined): SheetStock | null {
-  const [stock, setStock] = useState<SheetStock | null>(null);
+  /**
+   * Result ke saath uska handle bhi rakhte hain — `handle` badle to purana stock na dikhe.
+   * (Pehle effect ke shuru me `setStock(null)` hota tha, jo cascading render karta hai.)
+   */
+  const [loaded, setLoaded] = useState<{ handle: string; stock: SheetStock } | null>(null);
+  const stock = handle && loaded?.handle === handle ? loaded.stock : null;
 
   useEffect(() => {
-    setStock(null);
     const base = sheetWebAppUrl();
     if (!base || !handle) return undefined;
     let alive = true;
@@ -37,7 +41,7 @@ export function useSheetStock(handle: string | undefined): SheetStock | null {
           const value = Number(qty);
           if (Number.isFinite(value)) clean[size.toUpperCase()] = value;
         }
-        setStock(clean);
+        setLoaded({ handle: String(handle), stock: clean });
       })
       .catch(() => {
         // sheet down / CORS — page normal chalta rahe

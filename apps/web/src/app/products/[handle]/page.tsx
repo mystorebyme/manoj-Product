@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { ProductDetail } from "@/components/product-detail";
-import { ProductReviews, Stars } from "@/components/product-reviews";
+import { ProductReviews } from "@/components/product-reviews";
 import { reviewsFor } from "@/lib/reviews";
 import { ProductGrid } from "@/components/product-card";
 import { colourOptionsFor, getProduct, getRelatedProducts, products } from "@/lib/store";

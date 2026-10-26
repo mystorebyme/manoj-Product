@@ -100,14 +100,76 @@ npm run verify
 # typecheck (web+admin+api) → 202 unit → 16 sheet → lint(0 err) → living-docs links(0 broken)
 ```
 
-Round 40 ke baad ka result: **typecheck clean · 202/202 unit · 16/16 sheet · lint 0 error ·
-0 broken living-docs · build:preview OK**.
+Round 41 ke baad ka result: **typecheck clean · 209/209 unit · 40/40 integration · 9/9 db ·
+16/16 sheet · lint 0 error 0 warning (web + admin) · 0 broken living-docs · build:preview OK ·
+admin build OK · api build OK**.
 
-## Jo jaan-boojh kar nahi badla
+## Round 41 — "sab kuch fix" (0 warning tak)
 
-- **13 `set-state-in-effect` warnings** — behaviour same rakhna zaroori tha (cart, wishlist,
-  settings, UPI apps sab mount par localStorage padhte hain). Warnings dikhti rehti hain, block
-  nahi karti.
+Round 40 ke baad **37 warnings** bachi thi. Ab **0 error, 0 warning** — aur har fix behaviour
+preserve karta hai (build + 209 tests verify).
+
+**Naya module: `apps/web/src/lib/client-env.ts`** — browser-only facts ke liye hooks
+(`useSyncExternalStore` par, React ka official rasta):
+
+| Hook | Pehle | Ab |
+| --- | --- | --- |
+| `useScrollPast(px)` | `useEffect` + `setScrolled` | external store (scroll subscribe) |
+| `usePlatform()` | `useEffect` + UA check | store, server par `desktop` |
+| `useSupportsIntersectionObserver()` | `setShown(true)` fallback | store, server `true` (markup parity) |
+| `useIsClient()` | — | hydration-safe "client par ho" |
+| `useUrlSearch()` | `window.location` effect me | store (popstate) — `useSearchParams()` ki Suspense jhanjhat nahi |
+
+**Naya module: `apps/web/src/lib/local-store.ts`** — localStorage store factory
+(snapshot cached, cross-tab `storage` sync, legacy-key migration). `wishlist-provider.tsx` isi
+par shift ho gaya (pehle `useEffect` + `setWishlist(read())`), aur raw product-list state
+(wishlist page) key-based derive hota hai.
+
+**Key-based derive pattern** (sync `setState` in effect ka asli ilaaj) — jahan async result
+aata hai wahan result ke saath uska **key** rakha jaata hai:
+
+| File | Pehle | Ab |
+| --- | --- | --- |
+| `components/sheet-stock.ts` (hook) | `setStock(null)` effect me | `{handle, stock}` + derive |
+| `components/upi-qr.tsx` | `setSrc(null)` | `{key, src}` + derive |
+| `app/wishlist/page.tsx` | `setLoading(true)`, `setItems([])` | `{key, items}` → `loading` derive |
+| `components/checkout-form.tsx` | `setPinBusy(true)`, `setPinStatus(null)` | `{key: state|pin, verdict}` → `pinBusy` derive |
+| `components/reviews-ticker.tsx` | index reset effect | `activeIndex` derive |
+| `components/collection-browser.tsx` | mount effect me `setSort/setPrice` | URL se derive (`lib/collection-filters.ts`, unit-tested) |
+| `components/site-header.tsx` | scroll + pathname + activeIndex effects | `useScrollPast`, `onClick` par `closeOverlays`, handler me reset |
+| `components/reveal.tsx` | `setShown(true)` fallback | `visible = shown || !supportsObserver` |
+| `components/sheet-check-client.tsx` | `setPending(...)` effect me | microtask (localStorage client-only hai) |
+| `components/store-settings-provider.tsx` | mount par seedha `refresh()` | `setTimeout(0)` kickoff |
+
+**Aur saaf kiya:**
+
+- 10 unused imports/variables (`imageUrl`, `SafeImage`, `SECONDARY_HREF`, `Stars`, `gaId`,
+  `siteConfig`, `inr`, `rupee`, `readJson`, dead index var) + 1 unused prop.
+- 12 "unused eslint-disable" directives (rules.config wale `<img>`) hata di.
+- `eslint.config.mjs` ab named `config` export (anonymous default export warning gone).
+- `@next/next/no-page-custom-font` sirf `layout.tsx` ke liye off (App Router me font `<link>`
+  wahi sahi jagah hai — Pages router ka rule lagu nahi hota).
+- **`apps/admin` ka `npm run lint` bilkul chalta hi nahi tha** ("couldn't find eslint.config.js")
+  — naya `apps/admin/eslint.config.mjs`; usme 16 warning thi, ab **0**. Admin build bhi verify.
+- Admin dashboard par 2 dead data fetches (`getManualInvoices`, `overrideStats`) hataye —
+  bekaar DB/JSON calls har page load par.
+
+**Naye tests (tests are part of the change):**
+
+- `tests/unit/local-store.test.ts` — fallback, `set()` + listener, stable snapshot reference,
+  legacy migration, kharab JSON, cross-tab `storage` event, `parseCollectionFilters` round-trip.
+- Unit **202 → 209**.
+
+**Naya skill:** `.claude/skills/sheet-backend/SKILL.md` — live Apps Script engine ko chhedne se
+pehle padhne ke liye (BHAG map, rules, test, deploy, common kaam).
+
+## Jo jaan-boojh kar nahi badla (ab bhi)
+
+- **`node_modules` snapshot me nahi** — session shuru me `npm ci` (CI bhi karta hai).
+- **Legacy code** (`apps/api`, Postgres/Prisma, Razorpay, admin ke kuch hisse) — production me
+  nahi chalta, par owner ne delete nahi kaha; `production-topology.md` me "LEGACY" mark hai.
+- **Purane round logs ke toote links** — historical record, rewrite nahi kiya (gate sirf living
+  docs par hai).
 - **Legacy code** (`apps/api`, Postgres/Prisma, Razorpay/payments, admin ke kuch hisse) — production
   me nahi chalta par owner ne delete nahi kaha; chhedne se rollout risk hota. `production-topology.md`
   me saaf "LEGACY" mark hai.

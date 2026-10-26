@@ -663,3 +663,18 @@ banata hai. Product ID sirf sheet/admin me — storefront par kahin nahi.
 - **`npm run verify`** = typecheck + 202 unit + 16 sheet + lint + docs (ek command).
 - Junk `images ` (trailing space) folder hataya. `.gitignore`/secrets audit clean (14.7 MB repo).
 - Docs: `docs/09-devops/repo-audit.md`.
+
+### Round 41 — saare lint warning fix (0/0) + admin lint + naye hooks
+
+- **13 `set-state-in-effect` warning → 0.** Naye modules: `lib/client-env.ts` (browser facts
+  `useSyncExternalStore` se: scroll, platform, IntersectionObserver, URL search, isClient) aur
+  `lib/local-store.ts` (localStorage store — cached snapshot, cross-tab sync, legacy migration).
+  Wishlist provider usi par; baaki jagah **key-based derive** pattern (sheet-stock, upi-qr,
+  wishlist page, checkout PIN, reviews ticker, collection filters, header, reveal).
+- **`apps/admin` ka lint script toota tha** (koi eslint.config nahi) → naya flat config, 16
+  warning → 0. Admin dashboard ke 2 dead data fetches hataye.
+- 10 unused vars/imports + 12 unused eslint-disable + anonymous default export + font rule
+  (App Router) fixed.
+- Naye tests: `tests/unit/local-store.test.ts` (7) → unit **209**. Naya skill
+  `.claude/skills/sheet-backend/SKILL.md`.
+- Docs: `docs/09-devops/repo-audit.md` §Round 41.

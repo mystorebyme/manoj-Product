@@ -40,7 +40,7 @@ export function SafeImage({
   if (failed && failureMode === "hide") return null;
 
   return (
-    // eslint-disable-next-line @next/next/no-img-element
+     
     <img
       src={failed || !src ? fallbackSrc : src}
       alt={alt}

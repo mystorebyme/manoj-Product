@@ -31,6 +31,8 @@ apps/web (static export) ──► Apps Script (trends-sheets.gs) ──► Goog
 | Site ke security headers / cache | `apps/web/public/_headers` |
 | Deploy config | `netlify.toml`, `docs/09-devops/cloudflare-pages.md` |
 | Build script | `scripts/pages/build-preview.mjs` |
+| Browser-only data (localStorage, scroll, UA, URL query) | `apps/web/src/lib/local-store.ts`, `lib/client-env.ts` |
+| Collection ke URL filters (`?sort=&price=`) | `apps/web/src/lib/collection-filters.ts` |
 | Test harness (Apps Script ko Node me chalana) | `tests/helpers/apps-script-harness.mjs` |
 
 ## 3. Tests ka naksha
@@ -47,8 +49,9 @@ apps/web (static export) ──► Apps Script (trends-sheets.gs) ──► Goog
 
 ## 4. Guardrails jo pehle se hain
 
-- `.claude/skills/*` — 16 skills, task ke hisaab se padho (`storefront-ui`, `order-lifecycle`,
-  `deploy-ops`, `testing`, `agent-common-mistakes`…).
+- `.claude/skills/*` — 17 skills, task ke hisaab se padho (`storefront-ui`, `sheet-backend`,
+  `order-lifecycle`, `deploy-ops`, `testing`, `agent-common-mistakes`…). Sheet DB chhedna ho to
+  **`sheet-backend`** pehle padho.
 - `AGENTS.md` — 10 rules + "never do" list.
 - `docs/09-devops/repo-audit.md` — Round 40 ka audit (kya toota tha, kya fix hua).
 - `.github/workflows/ci.yml` — typecheck, lint, tests, docs-check, build.

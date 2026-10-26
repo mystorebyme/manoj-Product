@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useState } from "react";
 import { BrandLockup } from "@/components/brand-lockup";
 import { useStoreSettings } from "@/components/store-settings-provider";
-import { siteConfig } from "@/config/site";
 import { apiUrl } from "@/lib/api-base";
 import { relayNewsletterToSheet } from "@/lib/sheet-relay";
 import { API_AVAILABLE } from "@/lib/api-base";

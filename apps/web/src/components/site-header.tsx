@@ -4,6 +4,7 @@ import { readJson } from "@/lib/http-json";
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useScrollPast } from "@/lib/client-env";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { navigationCollections } from "@/lib/collections";
 import { formatPrice, imageUrl } from "@/lib/format";
@@ -50,7 +51,8 @@ export function SiteHeader() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const [scrolled, setScrolled] = useState(false);
+  /** scroll position ek external fact hai — `useSyncExternalStore` se (setState-in-effect nahi) */
+  const scrolled = useScrollPast(40);
   const [bannerIndex, setBannerIndex] = useState(0);
   const pathname = usePathname();
   const router = useRouter();
@@ -58,17 +60,16 @@ export function SiteHeader() {
   // owner (admin ya Google Sheet) se announcement badalte hi header par wahi dikhta hai
   const announcements = announcement ? [announcement, ...defaultAnnouncements] : defaultAnnouncements;
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  useEffect(() => {
+  /**
+   * Route badalne par mobile drawer / search panel band. Pehle ye ek effect me
+   * `setMobileOpen(false)` karta tha (sync setState in effect) — ab har link par
+   * `closeOverlays` chalta hai, jo turant band karta hai aur navigation ke baad
+   * bhi state saaf rehti hai.
+   */
+  const closeOverlays = useCallback(() => {
     setMobileOpen(false);
     setSearchOpen(false);
-  }, [pathname]);
+  }, []);
 
   useEffect(() => {
     if (mobileOpen) {
@@ -119,9 +120,11 @@ export function SiteHeader() {
     };
   }, [query, searchOpen]);
 
-  useEffect(() => {
+  /** query badalne par keyboard-selection reset — handler me hi (effect ki zaroorat nahi) */
+  const changeQuery = useCallback((value: string) => {
+    setQuery(value);
     setActiveIndex(-1);
-  }, [query, searchOpen]);
+  }, []);
 
   // active item ko panel ke andar scroll karo (page scroll nahi hota)
   useEffect(() => {
@@ -358,7 +361,7 @@ export function SiteHeader() {
                   data-testid="search-input"
                   aria-label="Search products"
                   value={query}
-                  onChange={(event) => setQuery(event.target.value)}
+                  onChange={(event) => changeQuery(event.target.value)}
                   placeholder="Search for anarkali suits, lehenga, printed suits…"
                   className="h-11 w-full bg-transparent text-sm outline-none placeholder:text-[#9c9289]"
                 />
@@ -373,7 +376,7 @@ export function SiteHeader() {
                     <button
                       key={suggestion}
                       type="button"
-                      onClick={() => setQuery(suggestion)}
+                      onClick={() => changeQuery(suggestion)}
                       className="border border-[#ece3d9] px-2.5 py-1 text-[11.5px] text-[#3d332c] transition hover:border-[#6f1d2b] hover:text-[#6f1d2b]"
                     >
                       {suggestion}
@@ -392,7 +395,6 @@ export function SiteHeader() {
                         aria-current={index === activeIndex ? "true" : undefined}
                         className="flex items-center gap-3 p-2 hover:bg-[#faf7f3] aria-[current=true]:bg-[#f6f1ec]"
                       >
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <SafeImage src={imageUrl(product.images[0], 160)} alt={product.title} className="h-14 w-12 object-cover" />
                         <span className="flex-1 text-xs font-medium">{product.title}</span>
                         <span className="text-xs text-[#6f1d2b]">{formatPrice(product.price)}</span>
@@ -433,7 +435,6 @@ export function SiteHeader() {
                           aria-current={results.length + index === activeIndex ? "true" : undefined}
                           className="flex items-center gap-3 p-2 hover:bg-[#faf7f3] aria-[current=true]:bg-[#f6f1ec]"
                         >
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
                           <SafeImage src={imageUrl(product.images[0], 160)} alt={product.title} className="h-14 w-12 object-cover" />
                           <span className="flex-1 text-xs font-medium">{product.title}</span>
                           <span className="text-xs text-[#6f1d2b]">{formatPrice(product.price)}</span>
@@ -483,16 +484,28 @@ export function SiteHeader() {
                 </Link>
               ))}
               <div className="flex divide-x divide-[#f0eae3] border-b border-[#f4efe9]">
-                <Link href="/wishlist" className="flex flex-1 items-center justify-center gap-2 py-3 text-[12px] font-medium">
+                <Link
+                  href="/wishlist"
+                  onClick={closeOverlays}
+                  className="flex flex-1 items-center justify-center gap-2 py-3 text-[12px] font-medium"
+                >
                   Wishlist
                   {wishlist.length > 0 ? (
                     <span className="rounded-full bg-[#c2185b] px-1.5 text-[10px] font-semibold text-white">{wishlist.length}</span>
                   ) : null}
                 </Link>
-                <Link href="/account" className="flex flex-1 items-center justify-center gap-2 py-3 text-[12px] font-medium">
+                <Link
+                  href="/account"
+                  onClick={closeOverlays}
+                  className="flex flex-1 items-center justify-center gap-2 py-3 text-[12px] font-medium"
+                >
                   Account
                 </Link>
-                <Link href="/track-order" className="flex flex-1 items-center justify-center gap-2 py-3 text-[12px] font-medium">
+                <Link
+                  href="/track-order"
+                  onClick={closeOverlays}
+                  className="flex flex-1 items-center justify-center gap-2 py-3 text-[12px] font-medium"
+                >
                   Track order
                 </Link>
               </div>
@@ -503,6 +516,7 @@ export function SiteHeader() {
                     <Link
                       key={collection.handle}
                       href={`/collections/${collection.handle}`}
+                      onClick={closeOverlays}
                       className="border border-[#e5dbd0] px-2.5 py-1 text-[11px]"
                     >
                       {collection.title}
@@ -630,7 +644,6 @@ function CartDrawer({
                   }`}
                 >
                   <Link href={`/products/${line.handle}`} onClick={closeCart} className="shrink-0">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <SafeImage src={line.image} alt={line.title} className="h-24 w-20 object-cover" />
                   </Link>
                   <div className="flex flex-1 flex-col">

@@ -32,7 +32,8 @@ export function ProductGallery({
   const frameRef = useRef<HTMLDivElement | null>(null);
 
   const go = useCallback(
-    (next: number) => setIndex((current) => (next + gallery.length) % gallery.length),
+    // index ko current value ki zaroorat nahi — seedha set karo (functional update nahi)
+    (next: number) => setIndex(((next % gallery.length) + gallery.length) % gallery.length),
     [gallery.length],
   );
 
@@ -247,7 +248,6 @@ export function ProductGallery({
           </div>
 
           <div className="relative flex flex-1 items-center justify-center overflow-hidden px-3 pb-3">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={imageUrl(gallery[index], 1800)}
               alt={`${title} — image ${index + 1}`}

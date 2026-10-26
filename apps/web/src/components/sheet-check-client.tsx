@@ -42,7 +42,11 @@ export function SheetCheckClient() {
   }, []);
 
   useEffect(() => {
-    setPending(pendingRelayCount());
+    let alive = true;
+    // localStorage sirf client par hai — microtask me padho (effect body me sync setState nahi)
+    void Promise.resolve().then(() => {
+      if (alive) setPending(pendingRelayCount());
+    });
     // page khulte hi script version dikhado (r8/r9 turant pata chale)
     void fetch(`${SHEET_URL}?action=ping`, { cache: "no-store" })
       .then((response) => response.json())
@@ -53,6 +57,9 @@ export function SheetCheckClient() {
         });
       })
       .catch(() => setStep(0, { state: "fail", detail: "Apps Script se baat nahi hui" }));
+    return () => {
+      alive = false;
+    };
   }, [setStep]);
 
   async function run() {

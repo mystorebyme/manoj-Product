@@ -36,7 +36,6 @@ export function BrandLockup({
 
   return (
     <span data-size={size} data-variant={variant} data-tone={tone} className={`brand-lockup inline-flex items-center ${className}`}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={src}
         alt="TRENDS YOUNIQUE"

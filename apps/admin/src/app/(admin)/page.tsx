@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { getManualInvoices, getOrders, getProducts, getMessages } from "@/lib/data";
-import { overrideStats } from "@/lib/catalog-admin";
+import { getOrders, getProducts, getMessages } from "@/lib/data";
 import { publishCatalogAction } from "@/app/actions";
 import { dateTime, inr } from "@/lib/format";
 
@@ -10,8 +9,6 @@ export default async function DashboardPage() {
   const orders = await getOrders();
   const products = getProducts();
   const messages = await getMessages(100);
-  const invoices = await getManualInvoices();
-  const catalogState = overrideStats();
   const pendingPayments = orders.filter((order) => order.paymentStatus === "pending" || order.paymentStatus === "processing");
 
   const paid = orders.filter((o) => o.paymentStatus === "paid" || o.paymentStatus === "cod");

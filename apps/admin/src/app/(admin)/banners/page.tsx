@@ -60,7 +60,6 @@ export default async function BannersPage() {
           <div style={{ display: "grid", gap: 14, gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))" }}>
             {HERO_IMAGES.map((image) => (
               <figure key={image.path} style={{ margin: 0 }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={`${storeUrl}${image.path}`}
                   alt={`Home hero — ${image.label}`}

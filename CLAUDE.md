@@ -29,7 +29,7 @@ Bhejne se pehle: `PROGRESS.md` me ek line; behaviour badla to `docs/` update.
 
 ## Skills (`.claude/skills/`)
 
-`storefront-ui` · `catalogue-sync` · `order-lifecycle` · `api-module` · `admin-panel` ·
+`storefront-ui` · `sheet-backend` · `catalogue-sync` · `order-lifecycle` · `api-module` · `admin-panel` ·
 `database-prisma` · `testing` · `deploy-ops` · `monorepo-conventions` · `security-baseline` ·
 `storefront-quality` · `ecommerce-payments` · `inventory-concurrency` · `india-compliance` ·
 `agent-common-mistakes`
@@ -46,6 +46,7 @@ kaam unse nahi hota.
 - `.gs` file par `node --check` seedha nahi chalta — pehle `.js` me copy karo.
 - Apps Script me `includes` par bharosa mat karo — `indexOf` use karo.
 - Admin build root se nahi chalti: `cd apps/admin && npx next build`.
-- `npm run lint` me `react-hooks/set-state-in-effect` 13 jagah **warn** par hai (localStorage
-  hydration pattern) — naya code isse bache, dekho `docs/09-devops/repo-audit.md`.
+- **Client me localStorage/scroll/UA padhna ho to `lib/client-env.ts` / `lib/local-store.ts`
+  use karo** — `useEffect(() => setState(read()), [])` mat likho (lint `react-hooks/set-state-in-effect`
+  pakadta hai; `docs/09-devops/repo-audit.md` §Round 41 me pattern samjhaya hai).
 - Sandbox me bash se internet sirf GitHub/npm tak hai — live checks ke liye `fetch` tool.

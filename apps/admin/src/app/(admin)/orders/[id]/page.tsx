@@ -64,7 +64,6 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                 <tr key={`${item.handle}-${item.size}`}>
                   <td>
                     <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img className="thumb" src={`${item.image}?width=120`} alt="" />
                       <span>{item.title}</span>
                     </div>

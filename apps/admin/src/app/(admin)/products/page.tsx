@@ -89,7 +89,6 @@ export default async function ProductsPage({
                 <tr key={product.handle}>
                   <td>
                     <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img className="thumb" src={product.images[0]} alt="" />
                       <div>
                         <strong style={{ fontWeight: 500 }}>{product.title}</strong>
@@ -146,7 +145,6 @@ export default async function ProductsPage({
               <tr key={product.handle}>
                 <td>
                   <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img className="thumb" src={`${product.images[0]}?width=120`} alt="" />
                     <div>
                       <Link href={`/products/${product.handle}`} style={{ fontWeight: 500 }}>

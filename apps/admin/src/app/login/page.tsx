@@ -13,7 +13,6 @@ export default async function LoginPage({
     <div className="login-wrap">
       <div className="login-card">
         <div className="brand">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/brand-mark.png" alt="TRENDS YOUNIQUE" width={64} height={64} style={{ display: "block", margin: "0 auto 6px", borderRadius: 999 }} />
           DESIGNER CLOTHING
         </div>

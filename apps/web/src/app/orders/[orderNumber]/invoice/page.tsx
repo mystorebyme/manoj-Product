@@ -102,7 +102,6 @@ export default async function InvoicePage({
           <div className="flex flex-wrap items-center justify-between gap-3 bg-[#6f1d2b] px-5 py-4 text-white sm:px-8">
             <div>
               {/* brand logo — PDF par bhi yahi exact asset lagta hai */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={logoUrl}
                 alt={view.seller.name}

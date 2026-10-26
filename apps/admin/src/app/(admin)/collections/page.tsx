@@ -33,7 +33,6 @@ export default function CollectionsPage() {
                 <tr key={collection.handle}>
                   <td>
                     <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img className="thumb" src={`${collection.image}?width=120`} alt="" />
                       <div>
                         <strong>{collection.title}</strong>

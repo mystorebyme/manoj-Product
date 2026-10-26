@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+import { usePlatform } from "@/lib/client-env";
 import { formatPrice } from "@/lib/format";
 
 /**
@@ -15,7 +16,6 @@ import { formatPrice } from "@/lib/format";
  * Desktop par UPI apps nahi hote — wahan QR (parent component) hi chalta hai.
  */
 
-type Platform = "android" | "ios" | "desktop";
 
 type AppTarget = {
   id: string;
@@ -63,16 +63,10 @@ export function UpiApps({
    */
   showAppButtons?: boolean;
 }) {
-  const [platform, setPlatform] = useState<Platform>("desktop");
+  // platform ek "external fact" hai — useEffect + setState ki zaroorat nahi
+  const platform = usePlatform();
   const [copied, setCopied] = useState(false);
   const [tried, setTried] = useState<string | null>(null);
-
-  useEffect(() => {
-    const ua = navigator.userAgent;
-    if (/android/i.test(ua)) setPlatform("android");
-    else if (/iphone|ipad|ipod/i.test(ua)) setPlatform("ios");
-    else setPlatform("desktop");
-  }, []);
 
   const links = useMemo(
     () =>

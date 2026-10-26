@@ -1,6 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useUrlSearch } from "@/lib/client-env";
+import { collectionFiltersQuery, isDefaultFilters, parseCollectionFilters } from "@/lib/collection-filters";
 import { readJson } from "@/lib/http-json";
 import { fetchCatalogPage } from "@/lib/catalog-page";
 import { CollectionToolbar } from "@/components/collection-toolbar";
@@ -36,8 +38,17 @@ export function CollectionBrowser({
 }) {
   const [items, setItems] = useState<Product[]>(initial);
   const [total, setTotal] = useState(initialTotal);
-  const [sort, setSort] = useState("featured");
-  const [price, setPrice] = useState("all");
+
+  /**
+   * Shared link (`?sort=price-low&price=under-500`) se aaye filters.
+   * Pehle mount effect me `setSort()` / `setPrice()` hote the (sync setState in effect).
+   * Ab URL snapshot se **derive** hote hain, aur user ke click par override state jeet ti hai.
+   */
+  const urlSearch = useUrlSearch();
+  const urlFilters = useMemo(() => parseCollectionFilters(urlSearch), [urlSearch]);
+  const [chosen, setChosen] = useState<{ sort: string; price: string } | null>(null);
+  const sort = chosen?.sort ?? urlFilters.sort;
+  const price = chosen?.price ?? urlFilters.price;
   const [loading, setLoading] = useState(false);
   const [appending, setAppending] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -110,35 +121,29 @@ export function CollectionBrowser({
     [fetchPage],
   );
 
-  // shared link (?sort=price-low&price=under-500) khulta hai to wahi state apply karo
+  // shared link se aaye filters par pehla grid fetch (state already derived hai)
   useEffect(() => {
     if (!firstRender.current) return;
     firstRender.current = false;
-    const params = new URLSearchParams(window.location.search);
-    const nextSort = params.get("sort") ?? "featured";
-    const nextPrice = params.get("price") ?? "all";
-    if (nextSort === "featured" && nextPrice === "all") return;
-    setSort(nextSort);
-    setPrice(nextPrice);
-    void applyFilters(nextSort, nextPrice);
-  }, [applyFilters]);
+    if (isDefaultFilters(urlFilters)) return;
+    // next tick par — effect body me seedha fetch+setState na ho (cascading render)
+    const timer = window.setTimeout(() => void applyFilters(urlFilters.sort, urlFilters.price), 0);
+    return () => window.clearTimeout(timer);
+  }, [applyFilters, urlFilters]);
 
   const syncUrl = useCallback((nextSort: string, nextPrice: string) => {
-    const params = new URLSearchParams();
-    if (nextSort !== "featured") params.set("sort", nextSort);
-    if (nextPrice !== "all") params.set("price", nextPrice);
-    const suffix = params.toString();
-    window.history.replaceState(null, "", suffix ? `?${suffix}` : window.location.pathname);
+    const suffix = collectionFiltersQuery({ sort: nextSort, price: nextPrice });
+    window.history.replaceState(null, "", suffix ? suffix : window.location.pathname);
   }, []);
 
   function handleSort(value: string) {
-    setSort(value);
+    setChosen({ sort: value, price });
     syncUrl(value, price);
     void applyFilters(value, price);
   }
 
   function handlePrice(value: string) {
-    setPrice(value);
+    setChosen({ sort, price: value });
     syncUrl(sort, value);
     void applyFilters(sort, value);
   }

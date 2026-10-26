@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useSupportsIntersectionObserver } from "@/lib/client-env";
 
 /**
  * Scroll-reveal wrapper — live store ke `hdt-reveal="slide-in"` jaisa.
@@ -20,14 +21,18 @@ export function Reveal({
 }) {
   const ref = useRef<HTMLDivElement | null>(null);
   const [shown, setShown] = useState(false);
+  /**
+   * Purane browser (ya SSR) me observer hi nahi hota — wahan content seedha dikhna chahiye.
+   * Pehle yahan effect ke andar `setShown(true)` hota tha (sync setState → cascading render);
+   * ab render ke waqt hi decide ho jaata hai.
+   */
+  const supportsObserver = useSupportsIntersectionObserver();
+  const visible = shown || !supportsObserver;
 
   useEffect(() => {
+    if (!supportsObserver) return;
     const node = ref.current;
     if (!node) return;
-    if (typeof IntersectionObserver === "undefined") {
-      setShown(true);
-      return;
-    }
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -41,15 +46,15 @@ export function Reveal({
     );
     observer.observe(node);
     return () => observer.disconnect();
-  }, []);
+  }, [supportsObserver]);
 
   const Element = Tag as "div";
 
   return (
     <Element
       ref={ref}
-      className={`${shown ? "reveal-in" : "reveal-init"} ${className}`}
-      style={shown && delay ? { transitionDelay: `${delay}ms` } : undefined}
+      className={`${visible ? "reveal-in" : "reveal-init"} ${className}`}
+      style={visible && delay ? { transitionDelay: `${delay}ms` } : undefined}
     >
       {children}
     </Element>

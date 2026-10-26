@@ -86,7 +86,6 @@ export default function CartPage() {
                 <li key={line.key} className="grid grid-cols-[84px_1fr] gap-3 py-4 sm:grid-cols-[1fr_120px_100px_90px] sm:items-center">
                   <div className="col-span-2 flex gap-3 sm:col-span-1">
                     <Link href={`/products/${line.handle}`} className="shrink-0">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <SafeImage
                         src={imageUrl(line.image, 320)}
                         alt={line.title}

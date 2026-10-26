@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getCollections, getProducts } from "@/lib/data";
+import { getCollections } from "@/lib/data";
 import { inr } from "@/lib/format";
 import {
   moveProductImageAction,
@@ -190,7 +190,6 @@ export default async function ProductEditPage({ params }: { params: Promise<{ id
                 return (
                   <div key={image} style={{ width: 96 }}>
                     <div style={{ position: "relative" }}>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={image}
                         alt=""

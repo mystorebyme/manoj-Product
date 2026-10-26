@@ -282,8 +282,6 @@ export async function flushSheetOutbox(): Promise<boolean> {
   }
 }
 
-const inr = (paise: number) => Math.round(paise) / 100;
-
 /** Fire-and-forget sync — caller `await` kare to bhi 6s max. */
 export async function syncOrderToSheet(
   order: Order,

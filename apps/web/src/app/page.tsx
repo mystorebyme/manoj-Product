@@ -10,11 +10,9 @@ import { RAILS, type RailKey, railPool } from "@/lib/rails";
 import { compactProduct, rotatePick, rotationBucket } from "@/lib/rotation";
 import { bestSellers } from "@/lib/best-sellers";
 import { BestSellersRail } from "@/components/best-sellers-rail";
-import { imageUrl } from "@/lib/format";
 import { heroBanners, siteConfig } from "@/config/site";
 import { activeCampaign } from "@/lib/campaign";
 import { whatsappLink, whatsappNumber } from "@/lib/whatsapp";
-import { SafeImage } from "@/components/safe-image";
 
 /** Home ke rails har 10 minute me badalte hain — page bhi utni hi der me refresh hota hai */
 export const revalidate = 600;
@@ -37,7 +35,6 @@ export const metadata: Metadata = {
  *   - ≥1024px  → 16:9 wide (desktop, model right + left me copy ke liye space)
  */
 const HERO_HREF = "/collections/new-arrivals";
-const SECONDARY_HREF = "/collections/sale";
 
 /** JSON-LD ke liye asli price range (campaign price ke saath) */
 function priceRangeLabel(list: { price: number }[]): string {
@@ -127,7 +124,6 @@ export default async function HomePage() {
               <picture>
                 <source media="(min-width:1024px)" srcSet={activeCampaign.banners.desktop} width={1920} height={1081} />
                 <source media="(min-width:768px)" srcSet={activeCampaign.banners.tablet} width={1280} height={960} />
-                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={activeCampaign.banners.mobile}
                   alt={`${siteConfig.name} ${activeCampaign.name} — flat ${activeCampaign.discountPercent}% off on lehenga, anarkali and suit sets`}
@@ -145,7 +141,6 @@ export default async function HomePage() {
             <picture>
               <source media="(min-width:1024px)" srcSet={heroBanners.desktop} width={1920} height={1080} />
               <source media="(min-width:768px)" srcSet={heroBanners.tablet} width={1280} height={960} />
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={heroBanners.mobile}
                 alt="Model in a hand-embroidered wine anarkali suit from the TRENDS YOUNIQUE new season edit"

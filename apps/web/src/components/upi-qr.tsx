@@ -17,11 +17,16 @@ export function UpiQr({
   className?: string;
   size?: number;
 }) {
-  const [src, setSrc] = useState<string | null>(null);
+  /**
+   * `uri`/`size` badalne par purana QR na dikhe — isliye result ke saath uska "key"
+   * bhi rakhte hain aur render me derive karte hain (effect me `setSrc(null)` nahi).
+   */
+  const [qr, setQr] = useState<{ key: string; src: string } | null>(null);
+  const key = `${uri}|${size}`;
+  const src = qr?.key === key ? qr.src : null;
 
   useEffect(() => {
     let active = true;
-    setSrc(null);
     import("qrcode")
       .then((mod) =>
         (mod.default ?? mod).toDataURL(uri, {
@@ -32,13 +37,13 @@ export function UpiQr({
         }),
       )
       .then((url: string) => {
-        if (active) setSrc(url);
+        if (active) setQr({ key, src: url });
       })
       .catch(() => undefined);
     return () => {
       active = false;
     };
-  }, [uri, size]);
+  }, [key, uri, size]);
 
   if (!src) {
     return (
@@ -49,7 +54,7 @@ export function UpiQr({
   }
 
   return (
-    // eslint-disable-next-line @next/next/no-img-element
+     
     <img src={src} alt={alt} className={className} />
   );
 }

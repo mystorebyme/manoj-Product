@@ -7,7 +7,7 @@ import nextTypescript from "eslint-config-next/typescript";
  * ESLint 9 crash karta tha: `TypeError: Converting circular structure to JSON`
  * (yaani `npm run lint` bilkul chalta hi nahi tha).
  */
-export default [
+const config = [
   ...nextCoreWebVitals,
   ...nextTypescript,
   {
@@ -36,4 +36,12 @@ export default [
       "react-hooks/set-state-in-effect": "warn",
     },
   },
+  {
+    // App Router me custom font ka <link> root layout ke <head> me hota hai (Pages router
+    // ka `_document.js` rule yahan lagu nahi hota) — project pehle se aisa hi hai.
+    files: ["src/app/layout.tsx"],
+    rules: { "@next/next/no-page-custom-font": "off" },
+  },
 ];
+
+export default config;

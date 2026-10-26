@@ -113,12 +113,21 @@ export function StoreSettingsProvider({ children }: { children: ReactNode }) {
   }, [mergeSheetSettings]);
 
   useEffect(() => {
-    void refresh();
+    /**
+     * Mount par pehla fetch **next tick** me (setTimeout 0) — effect body me seedha
+     * `refresh()` call karne par wo synchronously `setReady(true)` kar sakta hai, jisse
+     * cascading render hota hai (`react-hooks/set-state-in-effect`). User ko farq nahi
+     * padta: settings usi paint ke baad aa jaati hain.
+     */
+    const kickoff = window.setTimeout(() => void refresh(), 0);
     // static hosting par bhi 60s refresh (sheet se live settings), warna kuch nahi
     const timer = window.setInterval(() => {
       if (document.visibilityState === "visible") void refresh();
     }, 60_000);
-    return () => window.clearInterval(timer);
+    return () => {
+      window.clearTimeout(kickoff);
+      window.clearInterval(timer);
+    };
   }, [refresh]);
 
   return (

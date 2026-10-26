@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import Link from "next/link";
 import { requireSession } from "@/lib/session";
 import { logoutAction } from "@/app/actions";
 import { secretIsDefault } from "@/lib/auth";
@@ -16,7 +15,6 @@ export default async function AdminLayout({ children }: { children: ReactNode })
       <aside className="sidebar">
         <div className="brand">
           {/* wahi crest jo storefront header me hai */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/brand-mark.png" alt="TRENDS YOUNIQUE" className="brand-mark" width={34} height={34} />
           TRENDS
           <small>YOUNIQUE · ADMIN</small>

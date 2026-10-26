@@ -31,7 +31,7 @@ declare global {
   }
 }
 
-function GaPageViews({ gaId }: { gaId: string }) {
+function GaPageViews() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const query = searchParams.toString();
@@ -59,7 +59,7 @@ export function Analytics() {
         {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;gtag('js',new Date());gtag('config','${GA_ID}',{send_page_view:false});`}
       </Script>
       <Suspense fallback={null}>
-        <GaPageViews gaId={GA_ID} />
+        <GaPageViews />
       </Suspense>
     </>
   );

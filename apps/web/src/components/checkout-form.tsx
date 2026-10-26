@@ -6,7 +6,6 @@ import { useCart } from "@/components/cart-provider";
 import { formatPrice, imageUrl } from "@/lib/format";
 import { SafeImage } from "@/components/safe-image";
 import { useStoreSettings } from "@/components/store-settings-provider";
-import { readJson } from "@/lib/http-json";
 import { addressStates, verifyAddress, type AddressVerdict } from "@/lib/address-check";
 import {
   checkoutWhatsAppMessage,
@@ -34,8 +33,13 @@ export function CheckoutForm() {
   // OTP step hata diya gaya hai (owner request) — order sirf details par
   const [error, setError] = useState<string | null>(null);
   // delivery check — PIN ka asli state (India Post data) + owner ke blocks
-  const [pinStatus, setPinStatus] = useState<AddressVerdict | null>(null);
-  const [pinBusy, setPinBusy] = useState(false);
+  /**
+   * PIN check ka result us **state+PIN ke saath** rakhte hain jiske liye aaya tha.
+   * Isse render me hi pata chal jaata hai ki check chal raha hai ya nahi
+   * (effect me `setPinBusy(true)` / `setPinStatus(null)` karne ki zaroorat nahi —
+   * wo cascading render karta tha).
+   */
+  const [pinCheck, setPinCheck] = useState<{ key: string; verdict: AddressVerdict } | null>(null);
   const [states, setStates] = useState<string[]>(indianStates);
   const [form, setForm] = useState({
     customerName: "",
@@ -71,14 +75,16 @@ export function CheckoutForm() {
    * Har check sheet ke `AddressCheck` tab me log hota hai, taaki owner dekh sake
    * kis state/PIN par galat address aa rahe hain.
    */
+  const pinKey = `${form.state}|${form.pincode}`;
+  /** 6 digit PIN bharte hi check shuru — result aane tak "Checking delivery…" */
+  const pinBusy = form.pincode.length === 6 && pinCheck?.key !== pinKey;
+  const pinStatus = pinCheck?.key === pinKey ? pinCheck.verdict : null;
+
   useEffect(() => {
     const pin = form.pincode;
-    if (pin.length !== 6) {
-      setPinStatus(null);
-      return;
-    }
+    if (pin.length !== 6) return undefined;
+    const key = `${form.state}|${pin}`;
     let active = true;
-    setPinBusy(true);
     const timer = setTimeout(() => {
       void verifyAddress(form.state, pin, {
         states: blockedStates,
@@ -86,7 +92,7 @@ export function CheckoutForm() {
       })
         .then((verdict) => {
           if (!active) return;
-          setPinStatus(verdict);
+          setPinCheck({ key, verdict });
           // verification ka record owner ki sheet me (sirf admin dekhta hai)
           if (verdict.pinState) {
             relayRows([
@@ -110,14 +116,11 @@ export function CheckoutForm() {
             ]);
           }
         })
-        .finally(() => {
-          if (active) setPinBusy(false);
-        });
+        .catch(() => undefined);
     }, 350);
     return () => {
       active = false;
       clearTimeout(timer);
-      setPinBusy(false);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.pincode, form.state, blockedStates, blockedPincodes]);
@@ -381,7 +384,6 @@ export function CheckoutForm() {
         <ul className="mt-3 divide-y divide-[#ece1d3]">
           {lines.map((line) => (
             <li key={line.key} className="flex gap-2.5 py-2.5">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <SafeImage
                 src={imageUrl(line.image, 240)}
                 alt={line.title}

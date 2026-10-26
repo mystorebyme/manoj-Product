@@ -13,29 +13,31 @@ import type { Product } from "@/types/catalog";
  */
 export default function WishlistPage() {
   const { wishlist, ready, clearWishlist } = useWishlist();
-  const [items, setItems] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(false);
+
+  /**
+   * Loaded products ke saath unka "key" bhi rakhte hain. Isse `loading` derive ho jaata hai
+   * (`key === currentKey`), aur effect me synchronous setState nahi karna padta —
+   * pehle `setLoading(true)` / `setItems([])` seedha effect body me the
+   * (`react-hooks/set-state-in-effect`).
+   */
+  const [loaded, setLoaded] = useState<{ key: string; items: Product[] } | null>(null);
+  const key = wishlist.join(",");
 
   useEffect(() => {
-    if (!ready) return;
-    if (!wishlist.length) {
-      setItems([]);
-      return;
-    }
+    if (!ready || !wishlist.length) return;
     let active = true;
-    setLoading(true);
     productsByHandles(wishlist)
       .then((products) => {
-        if (active) setItems(products);
+        if (active) setLoaded({ key, items: products });
       })
-      .catch(() => undefined)
-      .finally(() => {
-        if (active) setLoading(false);
-      });
+      .catch(() => undefined);
     return () => {
       active = false;
     };
-  }, [wishlist, ready]);
+  }, [key, ready, wishlist]);
+
+  const items = loaded?.key === key ? loaded.items : [];
+  const loading = Boolean(ready && wishlist.length && loaded?.key !== key);
 
   return (
     <div className="container-liksha py-9 lg:py-12">

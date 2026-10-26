@@ -95,7 +95,7 @@ export function NewProductForm({ error }: { error?: string }) {
           {previews.length ? (
             <div className="upload-grid">
               {previews.map((src, index) => (
-                // eslint-disable-next-line @next/next/no-img-element
+                 
                 <figure key={src} className={index === 0 ? "is-primary" : undefined}>
                   <img src={src} alt="" />
                   {index === 0 ? <figcaption>Cover</figcaption> : null}
