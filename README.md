@@ -226,8 +226,9 @@ catalogue integrity (count, prices, sizes, collection membership), session tampe
 
 | App | Host | Doc |
 | --- | --- | --- |
-| storefront + admin + Postgres | Render blueprint (`render.yaml`) → `https://likshaclothing.onrender.com` | `docs/10-deployment/render.md` |
-| static browse preview | GitHub Pages (`.github/workflows/pages.yml`) | this file |
+| **storefront (live)** | **GitHub Pages + custom domain** → `https://trendsyounique.fashion` | `docs/09-devops/github-pages.md` |
+| data layer | Apps Script web app → Google Sheet (browser se seedha) | `docs/09-devops/google-sheets.md` |
+| rollback hosts | Netlify / Cloudflare Pages (static `dist/`) | `docs/09-devops/netlify.md`, `cloudflare-pages.md` |
 
 ### Render (production, same-to-same)
 
@@ -243,11 +244,16 @@ JSON store chalta hai — dev aur tests bina DB ke chalte hain.
 Migrations manually: `DATABASE_URL=postgres://… npm run db:migrate`
 (Postgres path ka test: `npm run test:db` — WASM Postgres par asli SQL chalta hai.)
 
-### GitHub Pages (sirf browse preview)
+### GitHub Pages (live storefront)
 
-`pages.yml` static export banata hai (home, collections, product pages, cart/wishlist UI).
-Pages par Node server nahi chalta, isliye checkout/payment/order-tracking Render deployment par
-chalte hain; preview par ek banner yeh batata hai.
+`pages.yml` static export banata hai (home, collections, product pages, cart/wishlist UI) aur
+`actions/deploy-pages` usse `trendsyounique.fashion` par publish karta hai.
+
+- **Base path:** custom domain par site root par hoti hai, isliye `PAGES_BASE_PATH` **khaali**
+  hota hai. `/manoj-Product` sirf `github.io` preview ke liye hai — galat base path se CSS/JS/
+  images sab 404 ho jaate hain (29 Oct 2026 ka outage).
+- `dist/CNAME` har build me likha jaata hai; purane `/manoj-Product/...` link root par redirect.
+- Detail + deploy/rollback steps: `docs/09-devops/github-pages.md`.
 
 One-command release: `bash infra/scripts/deploy.sh` (verify → build → backup → deploy hooks → health).
 Post-deploy health: `bash infra/monitoring/health.sh`.

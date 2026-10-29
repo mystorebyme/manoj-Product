@@ -19,6 +19,23 @@ const APP = path.join(ROOT, "apps/web");
 const APP_DIR = path.join(APP, "src/app");
 const TMP = path.join(ROOT, ".pages-preview-tmp");
 const BASE_PATH = process.env.PAGES_BASE_PATH ?? "";
+/** custom domain (jaise `trendsyounique.fashion`) — Pages artifact me CNAME banti hai */
+const CUSTOM_DOMAIN = (process.env.PAGES_CUSTOM_DOMAIN ?? "")
+  .trim()
+  .replace(/^https?:\/\//, "")
+  .replace(/\/+$/, "");
+/** site ka public URL — legacy redirects isi par bhejte hain */
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "").trim().replace(/\/+$/, "");
+/**
+ * Purane base paths (`/manoj-Product`, `/tannu-product`, ...) — jab site project-site
+ * path se root domain par shift hui thi, tab ke share/Google links toot gaye the.
+ * In sabke liye chhote redirect pages banti hain, taaki purane link bhi kaam karein.
+ */
+const LEGACY_BASE_PATHS = (process.env.PAGES_LEGACY_BASE_PATHS ?? "")
+  .split(",")
+  .map((value) => value.trim().replace(/^\/+|\/+$/g, ""))
+  .filter(Boolean)
+  .filter((value) => `/${value}` !== BASE_PATH.replace(/\/+$/, ""));
 
 const moved = [];
 function moveAway(relative) {
@@ -38,6 +55,45 @@ function restoreAll() {
     }
   }
   moved.length = 0;
+}
+
+/** dist ke andar har prerendered page ka URL path (`""` = home) */
+function listExportedPages(dist) {
+  const pages = [];
+  const skip = new Set(["images", "data", "_next", "_headers", ".nojekyll", ...LEGACY_BASE_PATHS]);
+  const walk = (dir, prefix) => {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      if (entry.isDirectory()) {
+        if (!prefix && skip.has(entry.name)) continue;
+        walk(path.join(dir, entry.name), `${prefix}${entry.name}/`);
+      } else if (entry.name === "index.html") {
+        pages.push(prefix.replace(/\/$/, ""));
+      }
+    }
+  };
+  walk(dist, "");
+  return pages;
+}
+
+/** chhota HTML redirect page — meta refresh + JS (query/hash bhi preserve) */
+function redirectHtml(target) {
+  return `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Redirecting… | TRENDS YOUNIQUE</title>
+<link rel="canonical" href="${target}">
+<meta name="robots" content="noindex,follow">
+<meta http-equiv="refresh" content="0; url=${target}">
+<script>location.replace(${JSON.stringify(target)} + location.search + location.hash);</script>
+</head>
+<body style="font-family:system-ui,sans-serif;padding:24px;text-align:center">
+<p>Ye page ab site ke naye address par hai.</p>
+<p><a href="${target}">${target}</a></p>
+</body>
+</html>
+`;
 }
 
 try {
@@ -103,6 +159,35 @@ try {
   fs.cpSync(out, dist, { recursive: true });
   // GitHub Pages Jekyll ko bypass kare
   fs.writeFileSync(path.join(dist, ".nojekyll"), "");
+
+  /**
+   * Custom domain ka CNAME. Pages dashboard me domain ek baar set ho gaya hai, par
+   * artifact me CNAME hone se workflow se publish hone par bhi domain bana rehta hai.
+   * (Bina iske GitHub Pages custom domain hata deta hai / 404 par bhej deta hai.)
+   */
+  if (CUSTOM_DOMAIN) {
+    fs.writeFileSync(path.join(dist, "CNAME"), `${CUSTOM_DOMAIN}\n`);
+  }
+
+  /**
+   * Purane `/<repo>/...` URLs → root domain. GitHub Pages project-site path par
+   * bana har link/index/WhatsApp message ab bhi chalna chahiye; warna traffic
+   * 404 par chala jaata hai. Har page ke liye ek chhota redirect file banate hain.
+   */
+  let legacyStubs = 0;
+  if (SITE_URL && LEGACY_BASE_PATHS.length) {
+    for (const page of listExportedPages(dist)) {
+      const target = page ? `${SITE_URL}/${page}/` : `${SITE_URL}/`;
+      for (const legacy of LEGACY_BASE_PATHS) {
+        const file = path.join(dist, legacy, ...(page ? page.split("/") : []), "index.html");
+        fs.mkdirSync(path.dirname(file), { recursive: true });
+        fs.writeFileSync(file, redirectHtml(target));
+        legacyStubs += 1;
+      }
+    }
+    console.log(`legacy redirects: ${legacyStubs} files (${LEGACY_BASE_PATHS.join(", ")} → /)`);
+  }
+
 
   /**
    * Cloudflare Pages ke headers (`_headers`). Next static export `public/` ko
