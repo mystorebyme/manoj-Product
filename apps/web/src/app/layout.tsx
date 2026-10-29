@@ -51,7 +51,12 @@ export const metadata: Metadata = {
     images: [{ url: siteConfig.ogImage, width: 1200, height: 630, alt: "TRENDS YOUNIQUE" }],
   },
   twitter: { card: "summary_large_image" },
-  alternates: { canonical: "/" },
+  /**
+   * Yahan canonical **nahi** rakhte: root layout ka canonical Next har page par
+   * merge ho jaata hai, jisse har product page "canonical = homepage" keh raha tha
+   * (Google sab products ko duplicate samajh kar index nahi karta). Har page apna
+   * canonical khud set karta hai (`alternates.canonical`).
+   */
   robots: { index: true, follow: true },
   /**
    * Google Search Console verification — owner ke account se.

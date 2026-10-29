@@ -1,6 +1,8 @@
-> **Note (hosting migration):** is repo ka primary hosting target ab **Cloudflare Pages** hai —
-> `docs/09-devops/cloudflare-pages.md` dekhein. Ye Netlify setup **rollback ke liye** jaan-boojh
-> kar chhoda gaya hai (build command + `dist` wahi hai, dono jagah chalta hai).
+> **Note (hosting migration):** live site ab **GitHub Pages** par hai (`trendsyounique.fashion`,
+> root par) — `docs/09-devops/github-pages.md` dekhein. Netlify aur Cloudflare Pages dono
+> **rollback** ke liye jaan-boojh kar chhode gaye hain (build command + `dist` wahi hai,
+> teeno jagah chalta hai). Netlify project ab paused hai (usage limit) — domain uspar wapas
+> nahi lagana.
 >
 # Netlify par site + apna domain (`trendsyounique.fashion`)
 

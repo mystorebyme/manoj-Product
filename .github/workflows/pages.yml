@@ -1,4 +1,4 @@
-name: GitHub Pages preview
+name: Deploy site (GitHub Pages)
 
 # GitHub Pages par live storefront deploy (browse ke liye, bilkul free hosting).
 #
@@ -44,9 +44,54 @@ jobs:
 
       - run: npm ci
 
+      # ---------------------------------------------------------------------
+      # URL ka faisla yahan hota hai — yahi wo bug tha jisse site "bekar" dikh rahi thi.
+      #
+      # Pehle base path hamesha `/<repo-name>` tha (github.io project-site ke liye
+      # sahi), par custom domain (`trendsyounique.fashion`) par Pages site **root**
+      # par serve hoti hai. Isliye har link/image/CSS `/manoj-Product/...` ban raha
+      # tha aur 404 de raha tha — page bina CSS, bina images, khaali.
+      #
+      # Ab: custom domain set hai to base path khaali (root). Custom domain hata dein
+      # to workflow khud `/repo` wala preview mode wapas le lega.
+      # Override karna ho to repo variable `PAGES_BASE_PATH` set kar dein.
+      # ---------------------------------------------------------------------
+      - name: Resolve site URL + base path
+        id: url
+        env:
+          CUSTOM_DOMAIN: ${{ vars.PAGES_CUSTOM_DOMAIN || 'trendsyounique.fashion' }}
+          FORCED_BASE_PATH: ${{ vars.PAGES_BASE_PATH }}
+        run: |
+          set -euo pipefail
+          CUSTOM_DOMAIN="${CUSTOM_DOMAIN#https://}"; CUSTOM_DOMAIN="${CUSTOM_DOMAIN#http://}"; CUSTOM_DOMAIN="${CUSTOM_DOMAIN%/}"
+          # `none` = custom domain hata diya (github.io project-site preview mode)
+          case "${CUSTOM_DOMAIN,,}" in none|off|-) CUSTOM_DOMAIN="" ;; esac
+          if [ -n "$CUSTOM_DOMAIN" ]; then
+            DEFAULT_BASE=""
+          else
+            DEFAULT_BASE="/${GITHUB_REPOSITORY#*/}"
+          fi
+          BASE_PATH="${FORCED_BASE_PATH:-$DEFAULT_BASE}"
+          if [ -n "$CUSTOM_DOMAIN" ]; then
+            SITE_URL="https://${CUSTOM_DOMAIN}"
+          else
+            SITE_URL="https://${GITHUB_REPOSITORY_OWNER}.github.io${BASE_PATH}"
+          fi
+          {
+            echo "site_url=${SITE_URL}"
+            echo "base_path=${BASE_PATH}"
+            echo "custom_domain=${CUSTOM_DOMAIN}"
+          } >> "$GITHUB_OUTPUT"
+          echo "site=${SITE_URL} base=${BASE_PATH:-/}"
+
       - name: Build static preview
         env:
-          PAGES_BASE_PATH: /${{ github.event.repository.name }}
+          PAGES_BASE_PATH: ${{ steps.url.outputs.base_path }}
+          # Pages artifact me CNAME — custom domain har deploy par bana rahe
+          PAGES_CUSTOM_DOMAIN: ${{ steps.url.outputs.custom_domain }}
+          # purane `/<repo>/...` links (Google index, WhatsApp messages) root par
+          # redirect ho jayein — chhote HTML stubs build ke baad banti hain
+          PAGES_LEGACY_BASE_PATHS: ${{ vars.PAGES_LEGACY_BASE_PATHS || format('/{0}', github.event.repository.name) }}
           # Live store (Render) ka URL — iske hone se Pages par checkout/payment/tracking
           # seedha Render API par jaate hain. Khaali ho to WhatsApp order flow chalta hai.
           # Repo → Settings → Variables → Actions me `STORE_API_URL` set kariye.
@@ -58,9 +103,37 @@ jobs:
           # galti se lagu nahi honge (25 Oct: unme purana deployment tha aur koi bhi
           # row sheet tak nahi pahunch rahi thi). Naya deployment lene par wahi file
           # badlein, ya NEXT_PUBLIC_SHEET_URL_OVERRIDE / _TOKEN_OVERRIDE use karein.
-          # Canonical/OG isi deployment ke hain (preview ko live store ka duplicate na samjha jaye)
-          NEXT_PUBLIC_SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+          # canonical / OG / sitemap / robots / WhatsApp product link — custom domain
+          NEXT_PUBLIC_SITE_URL: ${{ steps.url.outputs.site_url }}
         run: node scripts/pages/build-preview.mjs
+
+      - name: Build URL check (base path / robots / CNAME)
+        env:
+          BASE_PATH: ${{ steps.url.outputs.base_path }}
+          SITE_URL: ${{ steps.url.outputs.site_url }}
+          CUSTOM_DOMAIN: ${{ steps.url.outputs.custom_domain }}
+        run: |
+          set -euo pipefail
+          test -f dist/index.html
+          if [ -n "$BASE_PATH" ]; then
+            grep -q "${BASE_PATH}/_next/" dist/index.html
+            echo "base path ${BASE_PATH} inject hua ✔"
+          else
+            # root deploy me koi bhi purana prefix bacha nahi hona chahiye
+            if grep -q "/${GITHUB_REPOSITORY#*/}/_next/" dist/index.html; then
+              echo "::error::HTML me abhi bhi purana base path hai — site bina CSS/JS khulegi"
+              exit 1
+            fi
+            grep -q '"/_next/' dist/index.html
+            echo "root deploy ✔"
+          fi
+          grep -q "$SITE_URL" dist/robots.txt
+          grep -q "$SITE_URL" dist/sitemap.xml
+          if [ -n "$CUSTOM_DOMAIN" ]; then
+            grep -q "^${CUSTOM_DOMAIN}$" dist/CNAME
+            echo "CNAME ${CUSTOM_DOMAIN} ✔"
+          fi
+          echo "sab URL checks pass ✔"
 
       # Pages site pehle se enable hai (Settings → Pages → Source: GitHub Actions).
       # `enablement: true` se agar enable nahi hai to workflow khud try karta hai.

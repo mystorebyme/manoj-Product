@@ -678,3 +678,25 @@ banata hai. Product ID sirf sheet/admin me — storefront par kahin nahi.
 - Naye tests: `tests/unit/local-store.test.ts` (7) → unit **209**. Naya skill
   `.claude/skills/sheet-backend/SKILL.md`.
 - Docs: `docs/09-devops/repo-audit.md` §Round 41.
+
+### Round 42 — live hosting fix: GitHub Pages custom domain par site root se (2026-10-29)
+
+- **Bug:** `pages.yml` base path hamesha `/<repo>` (`/manoj-Product`) bhejta tha. Par
+  `trendsyounique.fashion` custom domain par Pages site **root** par serve hoti hai — isliye
+  HTML/JS/CSS/images ka har URL `/manoj-Product/...` ban raha tha aur 404 de raha tha.
+  Site bina CSS, bina images khul rahi thi (Netlify pause page bhi kuch paths par cache me tha).
+- **Fix:** naya workflow step `Resolve site URL + base path` — custom domain hai to base path
+  khaali + `NEXT_PUBLIC_SITE_URL=https://<domain>`; domain hata dein to khud `/<repo>` wapas.
+  `PAGES_BASE_PATH` variable se override ho sakta hai.
+- `build-preview.mjs`: `dist/CNAME` (custom domain har deploy par bana rahe) + purane
+  `/manoj-Product/...` links ke liye **513 redirect pages** (meta refresh + JS, query/hash bhi).
+- Naya guard step `Verify build URLs`: root deploy me purana base path, robots/sitemap URL ya
+  CNAME mismatch ho to build **fail** — ye bug dobara live nahi ja sakta.
+- **SEO bug saath me fix:** root layout ka `alternates.canonical: "/"` har page par merge ho raha
+  tha, isliye **har product page ka canonical homepage** tha (Google products index nahi karta).
+  Layout se hataya, product pages me `canonical` + `og:url` (`/products/<handle>`) add kiya.
+- Docs: naya `docs/09-devops/github-pages.md` (base path rule, CNAME, DNS, Cloudflare purge,
+  rollback), README deploy table, netlify.md ko "rollback only" mark kiya.
+- Verified locally: `node scripts/pages/build-preview.mjs` (root build) → 5,282 files / 137 MB,
+  `index.html` me `/_next/...`, CSS 200, `/manoj-Product/products/...` → root redirect,
+  `robots.txt` + `sitemap.xml` apne domain par, `npm run typecheck` clean, 209 unit tests pass.
