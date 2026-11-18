@@ -102,38 +102,6 @@ curl -s $SITE/api/settings | head -c 400
 Sab URLs `designerclothes.in` ke hone chahiye — kahin `onrender.com` ya
 `likshaclothing.com` nahi dikhna chahiye. `www` + non-`www` dono test karein.
 
-## 3.5 GitHub Pages + custom domain (`trendsyounique.fashion`)
-
-Public preview site GitHub Pages par custom domain ke saath **GitHub Actions** se deploy
-hoti hai. Root `CNAME` = `trendsyounique.fashion`; repo Settings → Pages → Source:
-**GitHub Actions** (`build_type: workflow`), HTTPS certificate apex + `www` ke liye approved.
-
-| `.github/workflows/pages.yml` step | Kya karta hai |
-| --- | --- |
-| `push` on `main` (ya *Run workflow*) | static build + deploy |
-| `CNAME` detect karo | base path **khaali** (`/`) — project page `/<repo>` nahi |
-| `NEXT_PUBLIC_SITE_URL` | `https://trendsyounique.fashion` → canonical, OG, sitemap, robots, WhatsApp, invoice links |
-| `dist/CNAME` + `dist/.nojekyll` | har deploy par custom domain bana rehta hai, Jekyll off |
-| `github-pages` environment | sirf `main` se deploy allowed; feature branches par **sirf build** (verification) |
-
-**Pehle kya gadbad thi:** workflow `PAGES_BASE_PATH=/manoj-Product` (project-page style)
-set karta tha, isliye custom domain par `/_next/*` aur `/images/*` 404 ho jaate the.
-Saath me GitHub ka sample `nextjs.yml` bhi `main` par chalta tha — dono ek hi `pages`
-concurrency group share karte the aur sample `./out` bina static export ke build karta tha
-(fail / cancel). Ab sample workflow hata diya gaya hai, ek hi Pages workflow bachi hai.
-
-Chalane ke liye:
-
-```bash
-gh workflow run pages.yml --ref main        # ya main par push karein
-gh run list --workflow=pages.yml --limit 3 # status
-curl -s https://trendsyounique.fashion/ | grep -o '<link rel="canonical"[^>]*>'
-```
-
-> Pages par Node server nahi chalta — checkout/payment/order tracking Render API par
-> jaate hain (`STORE_API_URL` repo variable). Isliye `apps/web/src/lib/cors.ts` me
-> `trendsyounique.fashion` aur `www.trendsyounique.fashion` allowlist me hain.
-
 > Note: `NEXT_PUBLIC_*` values **build time** par bake hoti hain. Render par env badalne ke
 > baad **Manual Deploy → Clear build cache & deploy** karein, warna purana URL HTML me reh jaata hai.
 

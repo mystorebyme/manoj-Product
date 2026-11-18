@@ -18,7 +18,7 @@ export const revalidate = 600;
 export const metadata: Metadata = {
   title: "Shop all collections — Anarkali, Lehenga, Printed Suit Sets",
   description:
-    "Browse every Designer Clothing edit: Anarkali suits, lehenga choli, printed suit sets, new arrivals and the Winter Sale — free shipping across India.",
+    "Browse every Designer Clothing edit: Anarkali suits, lehenga choli, printed suit sets, new arrivals and the Diwali sale — free shipping across India.",
   alternates: { canonical: "/collections" },
 };
 

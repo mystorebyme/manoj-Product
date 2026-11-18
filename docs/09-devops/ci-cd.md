@@ -26,24 +26,6 @@ jobs:
     - render deploy hook (api)
 ```
 
-## Deployment workflows
-
-| Workflow | Trigger | Kahan deploy |
-| --- | --- | --- |
-| `pages.yml` — **GitHub Pages — custom domain** | `main` push, session branches (build only), `workflow_dispatch` | `https://trendsyounique.fashion` (GitHub Pages, custom domain) |
-| `ci.yml` — CI | `main` push, PR, manual | gate only (typecheck · build · tests · smoke) |
-| `deploy.yml` — Deploy | manual, ya `ENABLE_VERCEL_DEPLOY=true` variable ke saath `main` push | Vercel (web/admin) + Render hook (api) |
-| `catalog-sync.yml` / `reviews-sync.yml` | daily cron + manual | catalogue/reviews seed commit |
-
-`pages.yml` root `CNAME` dekh kar base path decide karta hai: custom domain ho to `/`
-(root), warna `/<repo>`. Har artifact me `CNAME` + `.nojekyll` jaate hain, `NEXT_PUBLIC_SITE_URL`
-custom domain par set hota hai. `github-pages` environment ki branch policy sirf `main`
-allow karti hai — isliye feature branch par deploy job skip hota hai aur build verify hota hai.
-Pehle se maujood GitHub sample `nextjs.yml` hata diya gaya (dono ek hi `pages` concurrency
-group use karte the, aur `./out` bina `output: export` ke build karta tha).
-
-Details: `docs/09-devops/domain-and-brand.md` §3.5.
-
 ## Gates
 
 | Gate | Blocks merge |

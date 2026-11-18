@@ -633,14 +633,14 @@ const readExtra = (name, key) => {
 
   // live collections order + titles, jaisa store me hai
   const COLLECTION_COPY = {
-    "new-arrivals": { title: "New Arrivals", subtitle: "Freshly dropped winter favourites", sortOrder: 1 },
+    "new-arrivals": { title: "New Arrivals", subtitle: "Freshly dropped festive favourites", sortOrder: 1 },
     "party-wear-gown": { title: "Anarkali Suit", subtitle: "Designer Anarkali Suits", sortOrder: 2 },
     "likshas-choice": { title: "Liksha's Choice", subtitle: "Handpicked by our stylists", sortOrder: 3 },
     "lehnga-choli": { title: "Lehenga Choli", subtitle: "Our Range of Designer Lehenga Choli", sortOrder: 4 },
     "printed-suit-set": { title: "Printed Suit Set", subtitle: "Everyday ethnic ease", sortOrder: 5 },
     "trending": { title: "Trending", subtitle: "Top view in this week", sortOrder: 6 },
     "weddin-collection": { title: "Wedding Collection", subtitle: "Bridal & trousseau edit", sortOrder: 7 },
-    "sale": { title: "Sale", subtitle: "Limited-time winter prices", sortOrder: 8 },
+    "sale": { title: "Sale", subtitle: "Limited-time festive prices", sortOrder: 8 },
     "saree": { title: "Saree", subtitle: "Timeless six yards", sortOrder: 9 },
   };
 

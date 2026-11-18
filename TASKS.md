@@ -24,7 +24,7 @@ Priority: **P0** = launch blocker · **P1** = first week after launch · **P2** 
 
 ## P1 — week one
 
-- [x] Winter Sale 2026 hero + campaign copy (Round 17).
+- [ ] Diwali/November 2026 hero + occasion strip copy.
 - [ ] WhatsApp payment-link + order-confirmation template (prepaid link goes out within minutes).
 - [ ] Replace hotlinked CDN images with mirrored storage (R2/S3) + `srcset` sizes.
 - [ ] Shiprocket AWB automation (currently manual AWB in the order note).

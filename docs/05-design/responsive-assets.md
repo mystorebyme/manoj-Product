@@ -1,14 +1,13 @@
 # Responsive UI — logo, hero aur header (har screen size)
 
 Ye doc batata hai ki **kaunsa asset kis screen par** aata hai, assets kaise bante hain
-aur kaise verify karein. Sab kuch owner ke original files se — logo bilkul original hai,
-aur Winter Sale posters me sirf campaign ka text badla gaya hai (models, logo, 70% badge,
-background wahi).
+aur kaise verify karein. Sab kuch owner ke original files se — koi logo/banner redraw
+nahi hua.
 
 ## 1. Asset pipeline (ek command)
 
 ```bash
-npm run assets:brand                              # assets banao
+node scripts/brand/build-responsive-assets.mjs     # assets banao
 node scripts/brand/render-proof.mjs                # proof sheet (docs/assets/responsive-proof.png)
 ```
 
@@ -17,15 +16,12 @@ Inputs (repo me committed, owner ke uploads):
 | File | Kya hai |
 | --- | --- |
 | `assets/source/logo-original.png` | official 3D gold logo, transparent (1322×1190) |
-| `assets/source/hero-wide-original.png` | wide Diwali banner (2043×770, header baked) — **sirf header logo crop** ke liye |
-| `assets/source/hero-portrait-original.png` | portrait Diwali poster (1024×1536) — archive |
-| `assets/source/hero-wide-winter.png` | **Winter Sale** wide banner (1376×768) |
-| `assets/source/hero-portrait-winter.png` | **Winter Sale** portrait poster (843×1264) |
+| `assets/source/hero-wide-original.png` | wide Diwali banner (2043×770, header baked) |
+| `assets/source/hero-portrait-original.png` | portrait Diwali poster (1024×1536) |
 
-Campaign badalne par sirf `*-winter.*` source files badlo aur `npm run assets:brand` chalao.
-Script khud sirf `crop / trim / resize / WebP` karta hai. Header logo unki hi original wide
-banner ke header se crop hota hai (wahi flat version jo mockup me dikhta hai), taaki screen
-par bilkul wahi logo dikhe — letters ke shapes badle nahi.
+Script sirf `crop / trim / resize / WebP` karta hai. Header logo unki hi wide banner ke
+header se crop hota hai (wahi flat version jo mockup me dikhta hai), taaki screen par
+bilkul wahi logo dikhe — letters ke shapes badle nahi.
 
 ## 2. Logo assets
 
@@ -55,23 +51,17 @@ Logo `<picture>` se aata hai — browser **sirf ek** file download karta hai.
 
 | File | Size | Kahan | CSS box |
 | --- | --- | --- | --- |
-| `images/banners/banner-mobile.webp` | 860×1290 (~174 KB) | < 768px | `aspect-[860/1290]` |
-| `images/banners/banner-tablet.webp` | 1200×900 (~126 KB) | 768–1023px | `md:aspect-[4/3]` |
-| `images/banners/banner-desktop.webp` | 1779×594 (~101 KB) | ≥ 1024px | `lg:aspect-[1779/594]` |
-| `images/banners/banner-fluid.webp` | 1600×534 (~63 KB) | flexible/embed use | `object-fit: cover` |
+| `images/banners/banner-mobile.webp` | 860×1290 (~221 KB) | < 768px | `aspect-[860/1290]` |
+| `images/banners/banner-tablet.webp` | 1200×900 (~150 KB) | 768–1023px | `md:aspect-[4/3]` |
+| `images/banners/banner-desktop.webp` | 1779×594 (~156 KB) | ≥ 1024px | `lg:aspect-[1779/594]` |
+| `images/banners/banner-fluid.webp` | 1600×534 (~117 KB) | flexible/embed use | `object-fit: cover` |
 
-Ye **Winter Sale** campaign ke posters hain — "WINTER SALE", tagline "Wrap Up In Style
-This Winter", "FLAT 70% OFF" badge. Device ratios purane jaise hi hain, isliye CSS ya
-responsive tests me koi badlaav nahi.
-
-- **Desktop** = wide winter poster poori height me centre + usi poster ka blurred backdrop
-  kinaaron par (110px feathered fade). Source ~1.79:1 aur frame ~3:1 hai, isliye crop karne
-  se logo/chehre kat jaate — is tarah sab kuch bina crop dikhta hai.
+- **Desktop** banner wide source ka header-strip-free crop hai; source me baked do
+  carousel arrows (jo clickable lagte hain par sirf tasveer hain) side trim se hata diye.
 - **Tablet** = portrait poster 4:3 canvas ke centre me + usi poster ka blurred backdrop.
   Isliye koi chehra/kapda/text crop nahi hota (models kinaron par nahi kat-te) aur
   4:3 box bhi bhara rehta hai.
-- **Mobile** = portrait poster, halka side crop (860/1290 ratio) taaki phone par bada dikhe.
-- `images/og-image.jpg` (1200×630 social card) bhi isi desktop winter banner se banti hai.
+- **Mobile** = portrait poster, halka side crop (0.68 ratio) taaki phone par bada dikhe.
 - Har `aspect-ratio` file ke asli ratio ke barabar hai → **koi stretch/crop nahi**, aur
   `width/height` attributes se layout shift (CLS) zero.
 
