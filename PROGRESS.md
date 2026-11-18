@@ -580,6 +580,9 @@ dikhati (status WhatsApp se).
   strict count check ko warning + khaali-collection guard me badla, kyunki Round 35
   ke dedup / owner shoots ke baad catalogue ab live store ka exact mirror nahi raha.
   `build-catalog.mjs` ka `SOURCE` ab `https://trendsyounique.fashion` (canonical).
+- **Domain attach:** `pages.yml` ab `main` par `GITHUB_TOKEN` (`pages: write`) se
+  Settings → Pages ka `cname` bhi set karta hai, taaki sirf artifact ka `CNAME`
+  kaafi na ho aur custom domain par 404 na aaye.
 - **Golden commands:** `typecheck`, `catalog:verify`, `test:all` (9/0), `build:web`,
   `apps/admin` build — sab pass; local root custom-domain build me `CNAME`,
   `.nojekyll`, TRENDS YOUNIQUE header, Diwali 75% banner, canonical/OG/sitemap

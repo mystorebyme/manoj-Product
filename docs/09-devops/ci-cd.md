@@ -64,7 +64,8 @@ Deploy fail → previous deployment promote (Vercel instant rollback / Render pr
 | `deploy.yml` — Deploy | manual, ya `ENABLE_VERCEL_DEPLOY=true` variable ke saath `main` push | Vercel (web/admin) + Render hook (api) |
 | `catalog-sync.yml` / `reviews-sync.yml` | daily cron + manual | catalogue/reviews seed commit |
 
-`pages.yml` root `CNAME` dekh kar base path decide karta hai: custom domain ho to `/`
+`pages.yml` `main` par `GITHUB_TOKEN` se Pages settings ka `cname` bhi attach karta hai
+(artifact ke `CNAME` ke saath), aur root `CNAME` dekh kar base path decide karta hai: custom domain ho to `/`
 (root), warna `/<repo>`. Har artifact me `CNAME` + `.nojekyll` jaate hain,
 `NEXT_PUBLIC_SITE_URL` custom domain par set hota hai. `github-pages` environment ki
 branch policy sirf `main` allow karti hai — isliye feature branch par deploy job skip
