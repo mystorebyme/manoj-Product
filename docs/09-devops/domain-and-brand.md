@@ -1,18 +1,24 @@
 # Domain, brand aur links
 
+> **Current production (2026-11-18):** `trendsyounique.fashion` Vercel project
+> `trends-younique` se serve hota hai. GitHub Pages sirf
+> `https://mystorebyme.github.io/manoj-Product/` par project preview hai — custom
+> domain claim nahi. Cloudflare DNS Vercel target par point karta hai.
+
 ## 1. Apna domain lagana (recommended: ek hi domain, sab jagah)
 
 | Kahan | Kya set karna hai | Kyun |
 | --- | --- | --- |
-| Render → storefront | `NEXT_PUBLIC_SITE_URL=https://trendsyounique.fashion` | WhatsApp message, invoice, canonical/OG links isi se bante hain |
-| Render → storefront | `ADMIN_PANEL_URL=https://admin.trendsyounique.fashion` | Admin panel ka link (sheet ke `admin_url` se bhi aata hai) |
-| GitHub → Settings → Variables → Actions | `STORE_API_URL=https://trendsyounique.fashion` | GitHub Pages preview se order/payment API par jaata hai |
-| DNS | `A`/`CNAME` Render ke diye hue target par | `www` + apex dono |
-| Render → Custom Domain | `trendsyounique.fashion`, `www.trendsyounique.fashion` | Auto SSL |
+| Vercel → `trends-younique` → Env | `NEXT_PUBLIC_SITE_URL=https://trendsyounique.fashion` | canonical/OG/sitemap/robots/WhatsApp/invoice links isi se bante hain |
+| Vercel → `trends-younique` → Domains | `trendsyounique.fashion` + `www` (dono verified) | Auto SSL; custom domain par SSO protection nahi |
+| Cloudflare → DNS | `@` A `216.198.79.1` / `64.29.17.1` (ya CNAME `cname.vercel-dns.com.`), `www` CNAME | apex + www Vercel par point |
+| GitHub → Settings → Variables → Actions | `STORE_API_URL` | GitHub Pages **project preview** se order/payment API par jaata hai |
+| GitHub Pages | sirf `mystorebyme.github.io/manoj-Product/` | production nahi, custom domain claim nahi |
 
 **Rule:** WhatsApp par bheja gaya product/order link **isi site ka** hota hai
-(`window.location.origin`), purani/cloned store ka nahi. Custom domain par base path
-khaali (`/`) hota hai; github.io project preview par `/manoj-Product` judta hai.
+(`window.location.origin`), purani/cloned store ka nahi. Production (Vercel + custom
+domain) par base path khaali (`/`) hota hai; GitHub Pages project preview par
+`/manoj-Product` judta hai.
 
 ## 2. Brand
 
@@ -36,11 +42,15 @@ khaali (`/`) hota hai; github.io project preview par `/manoj-Product` judta hai.
 
 ## 3. Domain se pehle: poora env checklist (ek jagah)
 
-Domain kharidne se pehle sirf **ek** value badalni chahiye — `NEXT_PUBLIC_SITE_URL`.
+Production domain lagane par sirf **ek** value badalni chahiye — `NEXT_PUBLIC_SITE_URL`.
 Canonical, OG, sitemap, robots, product JSON-LD, WhatsApp message links, invoice/UPI
 callback — sab isi se bante hain (`apps/web/src/config/site.ts`).
 
 ### 3.1 Render → storefront (`apps/web`)
+
+> **Current production:** Vercel project `trends-younique` me bhi yahi
+> `NEXT_PUBLIC_SITE_URL=https://trendsyounique.fashion` set hai (production + preview).
+> Render blueprint future/full-app option hai; live storefront Vercel static build se chalta hai.
 
 | Variable | Domain ke saath | Kya control karta hai |
 | --- | --- | --- |
@@ -56,7 +66,7 @@ callback — sab isi se bante hain (`apps/web/src/config/site.ts`).
 
 | Variable | Value | Kyun |
 | --- | --- | --- |
-| `STORE_API_URL` | `https://trendsyounique.fashion` | Pages preview ka checkout/payment/track-order seedha Render API par jaata hai (`pages.yml` ise `NEXT_PUBLIC_API_BASE_URL` banata hai) |
+| `STORE_API_URL` | `https://trendsyounique.fashion` | GitHub Pages project preview ka checkout/payment/track-order seedha Render API par jaata hai (`pages.yml` ise `NEXT_PUBLIC_API_BASE_URL` banata hai) |
 
 Variable (secret nahi) rakhein — workflow `vars.STORE_API_URL` padhta hai. Set karne ya badalne par
 Pages workflow dobara chalao (Actions → Pages → Re-run) — static build me value inject hoti hai.
@@ -106,21 +116,22 @@ Sab URLs `trendsyounique.fashion` ke hone chahiye — kahin `onrender.com` ya
 > Note: `NEXT_PUBLIC_*` values **build time** par bake hoti hain. Render par env badalne ke
 > baad **Manual Deploy → Clear build cache & deploy** karein, warna purana URL HTML me reh jaata hai.
 
-### 3.5 GitHub Pages par custom domain (`pages.yml`)
+### 3.5 Production = Vercel, Pages = project preview
 
-Custom domain ab **GitHub Actions → GitHub Pages** se deploy hota hai:
+Custom domain `trendsyounique.fashion` ab **Vercel project `trends-younique`** se serve hota hai
+(Cloudflare DNS → Vercel). GitHub Pages sirf `https://mystorebyme.github.io/manoj-Product/`
+par project preview hai — isliye root `CNAME` aur Pages cname-attach step hata diye gaye hain.
 
-- Root `CNAME` = `trendsyounique.fashion` (aur Settings → Pages me bhi set).
-- `pages.yml` CNAME dekh kar `PAGES_BASE_PATH` khaali rakhta hai (root `/`), aur
-  `NEXT_PUBLIC_SITE_URL=https://trendsyounique.fashion` set karta hai.
-- Har artifact me `CNAME` + `.nojekyll` jaate hain (`scripts/pages/build-preview.mjs`
-  aur workflow dono), isliye deploy par domain drop nahi hota.
-- `github-pages` environment sirf `main` se deploy allow karta hai — feature branch
-  par sirf build (verification) hoti hai.
-- Diwali campaign (`flat 75% off`) ke liye `NEXT_PUBLIC_CAMPAIGN_*` env bhi workflow me hain.
+- Vercel env: `NEXT_PUBLIC_SITE_URL=https://trendsyounique.fashion` (production + preview).
+- Vercel build: `node scripts/pages/build-preview.mjs` → `dist`, root base path `/`.
+- `pages.yml` ab `PAGES_BASE_PATH=/manoj-Product` aur `.nojekyll` ke saath preview banata hai;
+  `NEXT_PUBLIC_SITE_URL` preview URL par set hota hai.
+- `github-pages` environment sirf `main` se deploy allow karta hai — feature branch par
+  sirf build (verification) hoti hai.
+- Diwali campaign (`flat 75% off`) ke liye `NEXT_PUBLIC_CAMPAIGN_*` env Vercel aur workflow
+  dono me hain.
 
-Purana `/manoj-Product` project-page setup ab nahi chalata; purana GitHub sample
-`nextjs.yml` bhi restore me hata diya gaya (wo `./out` bina `output: export` build karta tha).
+Cloudflare DNS values: [`docs/10-deployment/dns.md`](../10-deployment/dns.md).
 
 ## 4. Sheet kabhi public nahi
 

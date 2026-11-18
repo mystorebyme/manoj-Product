@@ -1,68 +1,71 @@
-# Deploy — storefront & admin (Vercel)
+# Deploy — production storefront (Vercel)
 
-## Projects
+`trendsyounique.fashion` ka **production target** Vercel project `trends-younique` hai.
+GitHub Pages sirf project preview (`https://mystorebyme.github.io/manoj-Product/`) hai —
+custom domain claim nahi.
 
-| Project | Root | Domain |
-| --- | --- | --- |
-| trends-younique | `apps/web` | trendsyounique.fashion, www |
-| trends-younique-admin | `apps/admin` | admin.trendsyounique.fashion |
-
-## Settings
-
-- Framework: Next.js (auto-detected)
-- Node: 22.x
-- Install: `npm install` (workspace root — Vercel root directory ke parent se install)
-- Build: `npm run build --workspace @liksha/web`
-- Output: `.next`
-- Region: `bom1` (Mumbai) — Indian traffic ke liye lowest TTFB
-
-## Env vars (web)
-
-`NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_WHATSAPP_NUMBER`, `ORDERS_API_URL`, `ADMIN_API_TOKEN`,
-`RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`, `RAZORPAY_WEBHOOK_SECRET`, `RESEND_API_KEY`, `EMAIL_FROM`, `ADMIN_EMAIL`
-
-## Env vars (admin)
-
-`ADMIN_EMAIL`, `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET`, `LIKHSA_DATA_DIR` (agar shared volume nahi to API mode), `API_BASE_URL`
-
-## Deploy flow
-
-```bash
-vercel --prod                  # web (root se, project linked)
-cd apps/admin && vercel --prod
-```
-
-GitHub integration on: `main` push = prod deploy; PR = preview URL.
-
-## Notes
-
-1. `.data` Vercel par ephemeral hai — orders **API/Render** par persist hone chahiye. Isliye prod me
-   `ORDERS_API_URL` set karke web ka `/api/orders` proxy mode use karo (Phase 2 hardening item).
-2. Admin same reason se API mode recommend; standalone mode sirf single-instance deploy (Render) par.
-3. Image domains `next.config.ts` me `cdn.shopify.com` + `images.remotePatterns`.
-
-## Live link (Round 8)
-
-Vercel par project `trends-younique` (root directory `apps/web`) banti hai; GitHub branch connect
-hone par har push par preview URL milta hai — wahi "live link" hai jo client ko bheja jaata hai.
-
-Monorepo settings jo zaroori hain:
+## Project (asli settings)
 
 | Setting | Value |
 | --- | --- |
-| Root Directory | `apps/web` |
-| Install Command | `npm install` (repo root — workspace deps) |
-| Build Command | `npm run build --workspace @liksha/web` |
-| Framework | Next.js |
-| Node | 22.x |
+| Team | `prakashs-projects-ad474173` (`team_Uy1pjnl8Qgh0P8nw55xpEvsO`) |
+| Project | `trends-younique` (`prj_EQ3QLpdZAFF6fnLQSHjOte7p4Crb`) |
+| Git | `mystorebyme/manoj-Product`, production branch `main` |
+| Framework | `vite` (static export) |
+| Install | `npm ci --include=dev --no-audit --no-fund` |
+| Build | `node scripts/pages/build-preview.mjs` |
+| Output | `dist` |
+| Node | `24.x` |
+| Production URL | `https://trends-younique.vercel.app` |
 
-Env (minimum for live preview):
+`main` par push = naya production deployment + automatic aliases. Git integration on hai;
+PR = SSO-protected preview URL.
 
-- `NEXT_PUBLIC_SITE_URL` = deployment URL
-- `ADMIN_API_TOKEN` (admin panel isi se storefront API call karta hai)
-- `OTP_DEV_MODE=on` (jab tak Firebase keys na hon; production me `off` + Firebase keys)
-- `DATABASE_URL` (optional — na ho to orders/notes/invoices container ke local JSON me jaate hain, jo deploy par reset hota hai)
+## Domains (Vercel project me already added)
 
-Data persistence: orders, status notes, delivery rules, store settings aur manual invoices sab
-`DATABASE_URL` hone par Postgres me jaate hain (migrations `0001`–`0004`). Sirf catalogue edits
-(title/price/photos/publish) repo checkout par chalte hain — deployed panel read-only mode dikhata hai.
+- `trendsyounique.fashion` (apex, verified)
+- `www.trendsyounique.fashion` (verified)
+- `trends-younique.vercel.app` (built-in)
+
+> Preview `*.vercel.app` URLs SSO-protected hain (`all_except_custom_domains`).
+> Custom domain par SSO nahi lagta — isliye Cloudflare se domain Vercel par point
+> karte hi site public ho jaati hai, bina login ke.
+
+## Env vars (production + preview)
+
+| Key | Value |
+| --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | `https://trendsyounique.fashion` |
+| `NEXT_PUBLIC_GSC_VERIFICATION` | `hFaqyp-9LdUXSKPA9RF011TkO2m_-7AUMasXqm_0dGI` |
+| `NEXT_PUBLIC_CAMPAIGN_ID` | `diwali-2026` |
+| `NEXT_PUBLIC_CAMPAIGN_START` | `2026-10-24T00:00:00+05:30` |
+| `NEXT_PUBLIC_CAMPAIGN_END` | `2026-11-30T23:59:59+05:30` |
+
+`NEXT_PUBLIC_SITE_URL` se canonical, OG, `robots.txt` host, `sitemap.xml` aur WhatsApp/
+invoice links custom domain par bante hain. Badalne ke baad production redeploy zaroori.
+
+## Cloudflare DNS
+
+Vercel `get_domain_config` ke mutabik domain pehle se `misconfigured: false` /
+`ipStatus: no-change` hai. Naye records daalne hon to:
+
+| Name | Type | Value |
+| --- | --- | --- |
+| `@` | A | `216.198.79.1` |
+| `@` | A | `64.29.17.1` |
+| `@` (alternate) | A | `76.76.21.21` |
+| `@` (CNAME flattening) | CNAME | `cname.vercel-dns.com.` |
+| `www` | CNAME | `cname.vercel-dns.com.` |
+
+Vercel-specific CNAME: `9df202833530d309.vercel-dns-017.com.`.
+
+## Redeploy / verify
+
+Vercel dashboard → Deployments → **Redeploy (production)**, ya connector se
+`create_deployment` with `git_source.ref=main`, `target=production`.
+
+```bash
+curl -I https://trendsyounique.fashion
+curl -s https://trendsyounique.fashion/robots.txt | grep -i '^Host:'
+# expected: Host: https://trendsyounique.fashion
+```

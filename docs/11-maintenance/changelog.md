@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.1.1] — 2026-11-18 — Vercel production target
+
+### Changed
+- Production storefront ab Vercel `trends-younique` se serve hota hai; Cloudflare DNS
+  apex/www ko Vercel par point karta hai. GitHub Pages se root `CNAME` aur custom-domain
+  attach step hata diya — ab sirf `/manoj-Product` project preview.
+- Vercel env `NEXT_PUBLIC_SITE_URL` → `https://trendsyounique.fashion`; production redeploy
+  se canonical/OG/robots/sitemap custom domain par.
+- `docs/10-deployment/vercel.md` / `dns.md` / `domain-and-brand.md` / `ci-cd.md` /
+  `render.md` / `README.md` Vercel-first state par update.
+
 ## [1.1.0] — 2026-11-18 — sahi TRENDS YOUNIQUE tree restore
 
 ### Fixed

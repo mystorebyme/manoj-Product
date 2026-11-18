@@ -55,22 +55,24 @@ jobs:
 Build fail → PR par fix, `main` par direct fix sirf deploy-breaking case me.
 Deploy fail → previous deployment promote (Vercel instant rollback / Render previous deploy).
 
-## Deployment workflows (Round 36 — sahi TRENDS YOUNIQUE tree)
+## Deployment workflows (Round 37 — Vercel production + Pages preview)
 
 | Workflow | Trigger | Kahan deploy |
 | --- | --- | --- |
-| `pages.yml` — GitHub Pages — TRENDS YOUNIQUE (custom domain) | `main` push, session branch (build only), `workflow_dispatch` | `https://trendsyounique.fashion` (GitHub Pages) |
+| `trends-younique` (Vercel Git integration) | `main` push / PR | `https://trendsyounique.fashion` (production) · SSO-protected preview URLs |
+| `pages.yml` — GitHub Pages project preview | `main` push, session branch (build only), `workflow_dispatch` | `https://mystorebyme.github.io/manoj-Product/` (preview only) |
 | `ci.yml` — CI | `main` push, PR, manual | gate only (typecheck · build · tests · smoke) |
 | `deploy.yml` — Deploy | manual, ya `ENABLE_VERCEL_DEPLOY=true` variable ke saath `main` push | Vercel (web/admin) + Render hook (api) |
 | `catalog-sync.yml` / `reviews-sync.yml` | daily cron + manual | catalogue/reviews seed commit |
 
-`pages.yml` `main` par `GITHUB_TOKEN` se Pages settings ka `cname` bhi attach karta hai
-(artifact ke `CNAME` ke saath), aur root `CNAME` dekh kar base path decide karta hai: custom domain ho to `/`
-(root), warna `/<repo>`. Har artifact me `CNAME` + `.nojekyll` jaate hain,
-`NEXT_PUBLIC_SITE_URL` custom domain par set hota hai. `github-pages` environment ki
-branch policy sirf `main` allow karti hai — isliye feature branch par deploy job skip
-hota hai aur build verify hoti hai. Purana GitHub sample `nextjs.yml` restore me hata
-diya gaya tha (dono ek hi `pages` concurrency group use karte the, aur `./out` bina
-`output: export` ke build karta tha).
+Production ab Vercel Git integration se `main` push par `trends-younique` me deploy hoti
+hai; `NEXT_PUBLIC_SITE_URL=https://trendsyounique.fashion` env se canonical/sitemap/robots
+custom domain par bante hain. `pages.yml` ab **sirf project preview** banata hai:
+root `CNAME` aur Pages cname-attach step hata diye gaye hain, base path hamesha
+`/<repo>` aur artifact me sirf `.nojekyll` jaata hai. Do platforms ek hi domain claim
+na karein — Cloudflare DNS seedha Vercel par point karta hai. `github-pages` environment
+ki branch policy sirf `main` allow karti hai — feature branch par deploy job skip hota
+hai aur build verify hoti hai. Purana GitHub sample `nextjs.yml` restore me hata diya
+gaya tha.
 
 Details: `docs/09-devops/domain-and-brand.md` §3.5.

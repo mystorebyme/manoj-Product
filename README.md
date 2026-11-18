@@ -33,9 +33,9 @@ api       →  api.trendsyounique.fashion        (REST /api/v1 for partners, mob
 
 | Target | Kya milta hai | Kaise |
 | --- | --- | --- |
-| Render (full app) | storefront + admin + Postgres + static preview | dashboard → New → Blueprint → repo → Apply (`render.yaml`), phir admin me `ADMIN_PASSWORD` set |
-| GitHub Pages | static preview (browse) | repo → Settings → Pages → Source = GitHub Actions (workflow ready) |
-| Vercel | storefront preview | project `trends-younique` (root `apps/web`) — Vercel GitHub App ko repo access chahiye |
+| **Vercel (production)** | `trendsyounique.fashion` + `trends-younique.vercel.app` | project `trends-younique`, build `node scripts/pages/build-preview.mjs`, output `dist`; Cloudflare DNS Vercel par point |
+| GitHub Pages | project preview only (`mystorebyme.github.io/manoj-Product/`) | repo → Settings → Pages → Source = GitHub Actions (`pages.yml`) — custom domain claim nahi |
+| Render (full app, optional) | storefront + admin + Postgres + static preview | dashboard → New → Blueprint → repo → Apply (`render.yaml`), phir admin me `ADMIN_PASSWORD` set |
 
 Detail: [`docs/10-deployment/render.md`](docs/10-deployment/render.md), [`docs/10-deployment/vercel.md`](docs/10-deployment/vercel.md).
 
@@ -221,7 +221,7 @@ catalogue integrity (count, prices, sizes, collection membership), session tampe
 | App | Host | Doc |
 | --- | --- | --- |
 | storefront + admin + Postgres | Render blueprint (`render.yaml`) → `https://trends-younique-storefront.onrender.com` | `docs/10-deployment/render.md` |
-| static browse preview | GitHub Pages (`.github/workflows/pages.yml`) | this file |
+| static browse preview (project page only) | GitHub Pages (`.github/workflows/pages.yml`) | this file |
 
 ### Render (production, same-to-same)
 
@@ -239,7 +239,7 @@ Migrations manually: `DATABASE_URL=postgres://… npm run db:migrate`
 
 ### GitHub Pages (sirf browse preview)
 
-`pages.yml` static export banata hai (home, collections, product pages, cart/wishlist UI).
+`pages.yml` ab sirf GitHub Pages project preview ka static export banata hai (production Vercel par hai).
 Pages par Node server nahi chalta, isliye checkout/payment/order-tracking Render deployment par
 chalte hain; preview par ek banner yeh batata hai.
 
