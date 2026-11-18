@@ -36,6 +36,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # `main` par Pages settings me custom domain bhi attach karo. Repo ka root
+      # CNAME artifact me hone ke saath ye zaroori hai — warna GitHub Pages
+      # github.io par fallback karta hai aur custom domain par 404 aata hai.
+      - name: Attach custom domain in Pages settings
+        if: github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          domain="$(tr -d '\r\n[:space:]' < CNAME)"
+          if [ -n "$domain" ]; then
+            gh api -X PUT "repos/${{ github.repository }}/pages" -f "cname=$domain" --silent \
+              || echo "warn: Pages cname update skipped — Settings → Pages me manually set karein"
+          fi
+
       - uses: actions/setup-node@v4
         with:
           node-version: 22
