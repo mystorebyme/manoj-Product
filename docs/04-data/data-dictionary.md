@@ -20,15 +20,15 @@
 
 | Key | Default | Effect |
 | --- | --- | --- |
-| `storeName` | Designer Clothing | header/footer text |
+| `storeName` | TRENDS YOUNIQUE | header/footer text |
 | `codLimit` | 350000 | checkout gating |
 | `codFee` | 5000 | order total |
 | `freeShipping` | true | shipping line |
-| `upiId` | likshaclothing@upi | manual fallback |
-| `supportPhone` | 8005900581 | header, order page |
-| `supportEmail` | Info.likshaclothing@gmail.com | contact |
+| `upiId` | trendsyounique@upi | manual fallback |
+| `supportPhone` | 7740992663 | header, order page |
+| `supportEmail` | care@trendsyounique.com | contact |
 | `announcement` | "Free shipping on all orders" | top bar |
-| `whatsappNumber` | 918005900581 | CTAs |
+| `whatsappNumber` | 917740992663 | CTAs |
 
 ## Field-level PII
 

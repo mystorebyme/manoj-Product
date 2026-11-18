@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.1.0] — 2026-11-18 — sahi TRENDS YOUNIQUE tree restore
+
+### Fixed
+- `main` par galat 503-file wali `Designer Clothing` / Tannu tree thi; Vercel par live
+  asli code (commit `7b164b36`, "Round 35b", 775 files) restore kiya gaya.
+- Site naam `TRENDS YOUNIQUE`, owner ka asli logo (`trends-*.png`), Diwali 75% campaign,
+  477-product catalogue aur sheet settings wapas aaye.
+- `trendsyounique.fashion` ke liye root `CNAME` + custom-domain `pages.yml` (root base path,
+  canonical/OG/sitemap custom domain par, `CNAME`/`.nojekyll` artifact me).
+- Stale `likshaclothing.com` / `Designer Clothing` / `tannu-product-` references docs,
+  env templates, Render blueprint aur workflows me saaf kiye.
+- `deploy.yml` ab manual-only (Vercel/Render secrets na hone par `main` push par red X nahi).
+- 477-product catalogue exact preserve; `verify-catalog.mjs` Round 35 dedup/owner shoots
+  ke hisaab se warning-based parity check (khaali collection abhi bhi fail).
+
+
 Format: [Keep a Changelog](https://keepachangelog.com/) + semver.
 
 ## [Unreleased]

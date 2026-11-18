@@ -23,7 +23,7 @@ customer/checkout use karta hai. Admin panel server actions se chalta hai.
   "shippedAt": "2026-10-24T07:12:00.000Z",
   "deliveredAt": null,
   "updatedAt": "2026-10-24T07:12:00.000Z",
-  "updatedBy": "admin@likshaclothing.com"
+  "updatedBy": "admin@trendsyounique.com"
 }
 ```
 

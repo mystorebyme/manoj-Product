@@ -1,5 +1,5 @@
 -- ═══════════════════════════════════════════════════════════════════════════
--- Liksha Clothing — production database schema (PostgreSQL 15+)
+-- TRENDS YOUNIQUE — production database schema (PostgreSQL 15+)
 --
 -- Design rules:
 --   1. Koi data miss na ho: har entity ka poora detail + audit trail.

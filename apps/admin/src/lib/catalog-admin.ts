@@ -189,7 +189,7 @@ export function setProductHidden(handle: string, hidden: boolean, actor: string)
 
 export function saveCollectionOverride(
   handle: string,
-  patch: { title?: string; subtitle?: string },
+  patch: { title?: string; subtitle?: string; image?: string },
 ): boolean {
   const overrides = readOverrides();
   overrides.collections[handle] = { ...overrides.collections[handle], ...patch };

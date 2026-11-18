@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # health.sh — ek shot me poora stack check. Cron/uptime monitor isi ko call kar sakta hai.
 #   bash infra/monitoring/health.sh
-#   WEB_URL=https://likshaclothing.com API_URL=https://api.likshaclothing.com bash infra/monitoring/health.sh
+#   WEB_URL=https://trendsyounique.fashion API_URL=https://api.trendsyounique.fashion bash infra/monitoring/health.sh
 set -uo pipefail
 
 WEB_URL="${WEB_URL:-http://localhost:3000}"

@@ -28,7 +28,7 @@ export function UpiQr({
           margin: 1,
           width: size,
           errorCorrectionLevel: "M",
-          color: { dark: "#862222", light: "#ffffff" },
+          color: { dark: "#6f1d2b", light: "#ffffff" },
         }),
       )
       .then((url: string) => {

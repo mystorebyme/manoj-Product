@@ -1,13 +1,13 @@
 ---
 name: catalogue-sync
-description: Import and verify the product catalogue from likshaclothing.com so titles, prices, MRP, sizes, images and collections match exactly. Use when products change, prices update, or parity is questioned.
+description: Import and verify the product catalogue from the owner's Shopify snapshot so titles, prices, MRP, sizes, images and collections match exactly. Use when products change, prices update, or parity is questioned.
 ---
 
 # Catalogue sync (exact match)
 
 ## Source of truth
 
-`https://www.likshaclothing.com` (Shopify). Local artifact: `database/seeds/catalog.json`
+`database/seeds/live/products.json` (Shopify snapshot). Local artifact: `database/seeds/catalog.json`
 (copied to `apps/web/src/data/` and `apps/admin/src/data/`).
 
 ## Pipeline

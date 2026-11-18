@@ -37,7 +37,7 @@ fi
 
 echo "==> post-deploy health"
 sleep 5
-WEB_URL="${WEB_URL:-https://likshaclothing.com}" \
-ADMIN_URL="${ADMIN_URL:-https://admin.likshaclothing.com}" \
-API_URL="${API_URL:-https://api.likshaclothing.com}" \
+WEB_URL="${WEB_URL:-https://trendsyounique.fashion}" \
+ADMIN_URL="${ADMIN_URL:-https://admin.trendsyounique.fashion}" \
+API_URL="${API_URL:-https://api.trendsyounique.fashion}" \
 bash infra/monitoring/health.sh

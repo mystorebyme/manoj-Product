@@ -13,12 +13,16 @@ const sortOptions = [
   { value: "title-asc", label: "Alphabetically, A-Z" },
 ];
 
+/**
+ * Price buckets — campaign price ke hisaab se (Diwali 75% off ke baad sabse mehnga
+ * product ~Rs. 1,600 hai). Purane Rs. 2,500+ buckets khaali dikhte the.
+ */
 const priceOptions = [
   { value: "all", label: "Price: all" },
-  { value: "under-2500", label: "Under Rs. 2,500" },
-  { value: "2500-3000", label: "Rs. 2,500 – 3,000" },
-  { value: "3000-3500", label: "Rs. 3,000 – 3,500" },
-  { value: "above-3500", label: "Rs. 3,500 & above" },
+  { value: "under-500", label: "Under Rs. 500" },
+  { value: "500-800", label: "Rs. 500 - 800" },
+  { value: "800-1200", label: "Rs. 800 - 1,200" },
+  { value: "above-1200", label: "Rs. 1,200 & above" },
 ];
 
 export function CollectionToolbar({
@@ -37,17 +41,17 @@ export function CollectionToolbar({
   onPriceChange: (value: string) => void;
 }) {
   return (
-    <div className="flex flex-col gap-3 border-b border-[#eee6de] pb-3 sm:flex-row sm:items-center sm:justify-between">
-      <p className="text-[11.5px] tracking-[.1em] text-[#8a8078] uppercase">
+    <div className="flex flex-col gap-3 border-b border-[#ece1d3] pb-3 sm:flex-row sm:items-center sm:justify-between">
+      <p className="text-[11.5px] tracking-[.1em] text-[#8a7d72] uppercase">
         {total} {total === 1 ? "product" : "products"}
-        {loading ? <span className="ml-2 text-[#862222]">updating…</span> : null}
+        {loading ? <span className="ml-2 text-[#6f1d2b]">updating…</span> : null}
       </p>
       <div className="flex flex-wrap items-center gap-2">
         <select
           value={priceRange}
           onChange={(event) => onPriceChange(event.target.value)}
           aria-label="Filter by price"
-          className="h-9 border border-[#e0d6ca] bg-white px-2.5 text-[11.5px] tracking-[.04em] outline-none focus:border-[#862222]"
+          className="h-9 border border-[#e0d6ca] bg-white px-2.5 text-[11.5px] tracking-[.04em] outline-none focus:border-[#6f1d2b]"
         >
           {priceOptions.map((option) => (
             <option key={option.value} value={option.value}>
@@ -59,7 +63,7 @@ export function CollectionToolbar({
           value={sort}
           onChange={(event) => onSortChange(event.target.value)}
           aria-label="Sort products"
-          className="h-9 border border-[#e0d6ca] bg-white px-2.5 text-[11.5px] tracking-[.04em] outline-none focus:border-[#862222]"
+          className="h-9 border border-[#e0d6ca] bg-white px-2.5 text-[11.5px] tracking-[.04em] outline-none focus:border-[#6f1d2b]"
         >
           {sortOptions.map((option) => (
             <option key={option.value} value={option.value}>

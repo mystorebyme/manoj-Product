@@ -6,17 +6,19 @@ import { BrandLockup } from "@/components/brand-lockup";
 import { useStoreSettings } from "@/components/store-settings-provider";
 import { siteConfig } from "@/config/site";
 import { apiUrl } from "@/lib/api-base";
+import { relayNewsletterToSheet } from "@/lib/sheet-relay";
+import { API_AVAILABLE } from "@/lib/api-base";
 
 /**
- * Footer — live store (likshaclothing.com) ka same structure:
- * dark maroon band (#8a000e), white wordmark, Contact Us / Follow Us /
+ * Footer — deep wine band, cream logo, support + menu columns:
+ * deep wine band (#3a0f1b), cream logo, contact / follow /
  * CUSTOMER SUPPORT / Menu columns, phir copyright strip.
  */
 
 const supportLinks = [
   { label: "Search", href: "/search" },
   { label: "Privacy Policy", href: "/policies/privacy-policy" },
-  { label: "Replacement Policy", href: "/policies/refund-and-return-policy" },
+  { label: "Return Policy", href: "/policies/refund-and-return-policy" },
   { label: "Shipping Policy", href: "/policies/shipping-policy" },
   { label: "Contact Information", href: "/pages/contact" },
   { label: "Track your order", href: "/track-order" },
@@ -26,7 +28,7 @@ const supportLinks = [
 
 const menuLinks = [
   { label: "HOME", href: "/" },
-  { label: "LIKSHA'S CHOICE", href: "/collections/likshas-choice" },
+  { label: "TRENDS SIGNATURE", href: "/collections/best-seller" },
   { label: "ANARKALI SUIT", href: "/collections/party-wear-gown" },
   { label: "LEHENGA CHOLI", href: "/collections/lehnga-choli" },
   { label: "PRINTED SUIT SET", href: "/collections/printed-suit-set" },
@@ -37,14 +39,13 @@ const menuLinks = [
 ];
 
 /**
- * Social — abhi ke liye **sirf Instagram ka URL text** dikhta hai (clickable link
- * nahi, owner ne bola "abhi ke liye koi link nahi"), aur WhatsApp ka working link.
- * Facebook/Pinterest ke dummy links hata diye gaye hain (accounts hi nahi hain).
+ * Social — abhi sirf WhatsApp ka working link hai. Instagram/Facebook/Pinterest
+ * ke dummy links nahi dikhate: account na ho to jhootha link = trust kharab.
+ * Owner apna Instagram handle de dein to ek line add karni hai.
  */
-const INSTAGRAM_URL = siteConfig.socials.instagram;
 
 export function SiteFooter() {
-  const { whatsapp, supportEmail, supportPhone } = useStoreSettings();
+  const { whatsapp, supportPhone } = useStoreSettings();
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
 
@@ -52,6 +53,13 @@ export function SiteFooter() {
     event.preventDefault();
     if (!email.trim()) return;
     setStatus("loading");
+    // static hosting (GitHub Pages) par server nahi hota — seedha sheet me save karo
+    if (!API_AVAILABLE) {
+      relayNewsletterToSheet(email.trim(), "footer");
+      setStatus("done");
+      setEmail("");
+      return;
+    }
     try {
       const response = await fetch(apiUrl("/api/newsletter"), {
         method: "POST",
@@ -59,30 +67,49 @@ export function SiteFooter() {
         body: JSON.stringify({ email }),
       });
       setStatus(response.ok ? "done" : "error");
-      if (response.ok) setEmail("");
+      if (response.ok) {
+        relayNewsletterToSheet(email.trim(), "footer");
+        setEmail("");
+      }
     } catch {
-      setStatus("error");
+      // server tak nahi pahuncha to bhi sheet me chala jaye
+      relayNewsletterToSheet(email.trim(), "footer");
+      setStatus("done");
+      setEmail("");
     }
   }
 
   return (
-    <footer className="mt-16 bg-[#8a000e] text-white">
-      <div className="mx-auto max-w-[1400px] px-4 pt-11 pb-8 lg:px-6">
-        <div className="flex flex-col items-center">
+    <footer className="mt-16 bg-[#3a0f1b] text-white">
+      <div className="mx-auto max-w-[1400px] px-4 pt-12 pb-8 lg:px-6">
+        {/* logo — footer me bhi exactly centre (medallion frame ke saath) */}
+        <div className="flex flex-col items-center text-center">
           <Link
             href="/"
-            aria-label="Designer Clothing home"
-            className="inline-block"
+            aria-label="TRENDS YOUNIQUE home"
+            className="group inline-flex flex-col items-center justify-center"
           >
-            {/* same brand lockup jo header me hai — maroon band par gold wordmark */}
-            <BrandLockup tone="light" size="large" variant="stacked" />
+            <span className="flex h-[112px] w-[112px] items-center justify-center rounded-full border border-[#6b3a3f] bg-[#4a1220]/60 transition-colors duration-500 group-hover:border-[#b08a4a] sm:h-[124px] sm:w-[124px]">
+              <BrandLockup tone="light" size="compact" />
+            </span>
+            <span className="mt-4 font-display text-[19px] tracking-[.3em] text-[#f4e7d2] uppercase sm:text-[21px]">
+              Trends Younique
+            </span>
           </Link>
+          <p className="mt-4 text-center font-display text-[15px] italic tracking-[.06em] text-[#e9d3ae]">
+            Couture for the woman who arrives
+          </p>
+          <div className="mt-5 flex items-center gap-3">
+            <span className="h-px w-12 bg-[#6b3a3f]" />
+            <span className="h-1 w-1 rotate-45 bg-[#b08a4a]" />
+            <span className="h-px w-12 bg-[#6b3a3f]" />
+          </div>
         </div>
 
         <div className="mt-9 grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
           {/* Contact us */}
           <div>
-            <h3 className="text-[15px] font-medium text-white">Contact Us</h3>
+            <h3 className="text-[11px] font-semibold tracking-[.22em] text-[#d9bb84] uppercase">Contact us</h3>
             <ul className="mt-4 space-y-2.5 text-[13.5px] text-[#ececec]">
               <li className="flex items-start gap-2">
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" className="mt-0.5 shrink-0" aria-hidden>
@@ -99,14 +126,6 @@ export function SiteFooter() {
               </li>
               <li className="flex items-start gap-2">
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" className="mt-0.5 shrink-0" aria-hidden>
-                  <path d="M2 5.5 12 12l10-6.5V19a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5.5Z" />
-                </svg>
-                <a href={`mailto:${supportEmail}`} className="break-all transition hover:text-[#e1d256]">
-                  {supportEmail}
-                </a>
-              </li>
-              <li className="flex items-start gap-2">
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" className="mt-0.5 shrink-0" aria-hidden>
                   <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .7-.2 1l-2.3 2.2Z" />
                 </svg>
                 <a href={`tel:${supportPhone.replace(/[^\d+]/g, "")}`} className="transition hover:text-[#e1d256]">
@@ -115,17 +134,8 @@ export function SiteFooter() {
               </li>
             </ul>
 
-            <p className="mt-5 text-[15px] font-medium text-white">Follow Us :</p>
+            <p className="mt-5 text-[15px] font-medium text-white">Connect with us :</p>
             <div className="mt-3 flex flex-wrap items-center gap-3">
-              {/* Instagram — sirf URL text, koi clickable link nahi (abhi ke liye) */}
-              <span className="flex items-center gap-2 text-[12.5px] break-all text-[#f1dede]" data-testid="instagram-url">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
-                  <rect x="3" y="3" width="18" height="18" rx="5" />
-                  <circle cx="12" cy="12" r="4" />
-                  <path d="M17.5 6.5h.01" />
-                </svg>
-                {INSTAGRAM_URL}
-              </span>
               {/* WhatsApp — customer isi par order/query bhejta hai */}
               <a
                 href={`https://wa.me/91${whatsapp.replace(/\D/g, "").slice(-10)}`}
@@ -175,7 +185,7 @@ export function SiteFooter() {
           <div>
             <h3 className="text-[15px] font-medium text-white">Sale alerts</h3>
             <p className="mt-2 text-[13px] leading-relaxed text-[#f1dede]">
-              Join the Designer Clothing list for early access to new drops and festive sale prices.
+              Join the TRENDS YOUNIQUE list for early access to new drops and festive sale prices.
             </p>
             <form onSubmit={subscribe} className="mt-3">
               <div className="flex border border-white/40 bg-white">
@@ -186,7 +196,7 @@ export function SiteFooter() {
                   onChange={(event) => setEmail(event.target.value)}
                   placeholder="Your email"
                   aria-label="Email address"
-                  className="h-10 w-full bg-transparent px-2.5 text-[12.5px] text-[#2f2a25] outline-none"
+                  className="h-10 w-full bg-transparent px-2.5 text-[12.5px] text-[#14100e] outline-none"
                 />
                 <button
                   type="submit"
@@ -204,7 +214,7 @@ export function SiteFooter() {
                   Signup abhi save nahi hua.{" "}
                   <a
                     href={`https://wa.me/91${whatsapp.replace(/\D/g, "").slice(-10)}?text=${encodeURIComponent(
-                      `Hi Designer Clothing! Please add me to the sale list: ${email}`,
+                      `Hi TRENDS YOUNIQUE! Please add me to the sale list: ${email}`,
                     )}`}
                     target="_blank"
                     rel="noreferrer"
@@ -224,11 +234,6 @@ export function SiteFooter() {
                 </Link>
               </p>
               <p>
-                <Link href="/compare" className="transition hover:text-[#e1d256]">
-                  Compare Products
-                </Link>
-              </p>
-              <p>
                 <Link href="/track-order" className="transition hover:text-[#e1d256]">
                   Track your order
                 </Link>
@@ -240,7 +245,7 @@ export function SiteFooter() {
 
       <div className="border-t border-white/20">
         <div className="mx-auto flex max-w-[1400px] flex-col items-center justify-between gap-2 px-4 py-4 text-[11.5px] text-[#f3e2e2] sm:flex-row lg:px-6">
-          <p>© {new Date().getFullYear()}, Designer Clothing. All rights reserved.</p>
+          <p>© {new Date().getFullYear()}, TRENDS YOUNIQUE. All rights reserved.</p>
           <p className="text-[10.5px] tracking-[.1em] uppercase">Secure prepaid payments</p>
         </div>
       </div>

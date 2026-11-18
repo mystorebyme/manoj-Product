@@ -9,9 +9,9 @@ description: Deploy storefront/admin/api, set env vars, verify health, and roll 
 
 | App | Host | Domain | Port local |
 | --- | --- | --- | --- |
-| web | Vercel | likshaclothing.com | 3000 |
-| admin | Vercel (project 2) | admin.likshaclothing.com | 3001 |
-| api | Render (Node + disk) | api.likshaclothing.com | 4000 |
+| web | Vercel | trendsyounique.fashion | 3000 |
+| admin | Vercel (project 2) | admin.trendsyounique.fashion | 3001 |
+| api | Render (Node + disk) | api.trendsyounique.fashion | 4000 |
 
 ## Pre-deploy
 
@@ -33,10 +33,10 @@ cd apps/admin && vercel --prod    # admin
 ## Verify (2 min)
 
 ```bash
-curl -s  https://likshaclothing.com/api/health
-curl -s  https://api.likshaclothing.com/api/v1/health
-curl -sI https://likshaclothing.com | head -3
-curl -s -o /dev/null -w "%{http_code}\n" https://admin.likshaclothing.com/login
+curl -s  https://trendsyounique.fashion/api/health
+curl -s  https://api.trendsyounique.fashion/api/v1/health
+curl -sI https://trendsyounique.fashion | head -3
+curl -s -o /dev/null -w "%{http_code}\n" https://admin.trendsyounique.fashion/login
 ```
 
 ## Rollback

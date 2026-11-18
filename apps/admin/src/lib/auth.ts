@@ -10,7 +10,7 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 const SECRET =
   process.env.ADMIN_SESSION_SECRET || process.env.ADMIN_API_TOKEN || "dev-only-secret-change-me";
 const PASSWORD = process.env.ADMIN_PASSWORD ?? "liksha2026";
-const EMAIL = process.env.ADMIN_EMAIL ?? "admin@likshaclothing.com";
+const EMAIL = process.env.ADMIN_EMAIL ?? "admin@trendsyounique.com";
 export const SESSION_COOKIE = "liksha_admin";
 /** 30 din — roz login karne ki zaroorat nahi. Har request par (middleware) sliding renew hota hai. */
 const MAX_AGE_SECONDS = 60 * 60 * 24 * 30;

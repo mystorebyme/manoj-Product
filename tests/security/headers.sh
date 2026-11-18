@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # headers.sh — production security headers ka quick probe.
 #   bash tests/security/headers.sh
-#   WEB_URL=https://likshaclothing.com ADMIN_URL=https://admin.likshaclothing.com bash tests/security/headers.sh
+#   WEB_URL=https://trendsyounique.fashion ADMIN_URL=https://admin.trendsyounique.fashion bash tests/security/headers.sh
 set -uo pipefail
 
 WEB_URL="${WEB_URL:-http://localhost:3000}"

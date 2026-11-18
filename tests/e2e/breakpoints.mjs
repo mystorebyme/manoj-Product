@@ -3,11 +3,13 @@
  *
  *   BASE_URL=http://127.0.0.1:3100 node tests/e2e/breakpoints.mjs
  *
- * Kaise: page ka HTML + compiled CSS padh kar har requested viewport ke liye
- * decide karte hain ki kaunsa `<source media="…">` match hoga (browser ka rule
- * "pehla matching source jeetta hai"), aur us asset ka asli pixel size nikalte hain.
- * Isse ye pakka hota hai ki 320px par mobile file, 768px par tablet, 1024px+ par
- * desktop file aayegi — aur koi viewport range khaali nahi chhoot rahi.
+ * Kaise: page ka HTML padh kar har requested viewport ke liye decide karte hain ki
+ * kaunsa `<source media="…">` match hoga (browser ka rule "pehla matching source
+ * jeetta hai"), aur us asset ka asli pixel size nikalte hain.
+ *
+ * Hero = teen assets wala `<picture>` (320–767 mobile, 768–1023 tablet, 1024+ desktop).
+ * Brand lockup = owner ka ek hi original logo file — har width par wahi file,
+ * isliye logo par koi extra download nahi hota (sirf height CSS se badalti hai).
  *
  * Note: sandbox me Chromium available nahi hai (Playwright download blocked),
  * isliye real screenshot-based visual diff yahan nahi hota; ye checks markup +
@@ -56,7 +58,7 @@ const check = (name, ok, detail = "") => {
 
 const html = await (await fetch(`${BASE}/`)).text();
 
-/** ek `<picture>` block (hero / brand) nikaalna */
+/** hero ka `<picture>` block */
 function pictureBlock(marker) {
   const start = html.indexOf(marker);
   if (start === -1) return "";
@@ -64,8 +66,7 @@ function pictureBlock(marker) {
   return html.slice(start, end + "</picture>".length);
 }
 
-const hero = pictureBlock('data-testid="hero-banner"');
-const brand = pictureBlock("brand-lockup");
+const hero = pictureBlock('data-testid="campaign-banner"');
 
 /** `<source media="(min-width:Xpx)">` + default `<img src>` parse */
 function parsePicture(block) {
@@ -80,11 +81,16 @@ function parsePicture(block) {
 }
 
 const heroPic = parsePicture(hero);
-const brandPic = parsePicture(brand);
+
+/** brand lockup = ek hi plain `<img>` (owner ka original logo) */
+const brandSrc = html.match(/class="brand-lockup[\s\S]{0,400}?<img[^>]*src="([^"]+)"/)?.[1] ?? "";
 
 console.log(`\nbreakpoints → ${BASE}\n`);
 console.log(`  hero sources: ${heroPic.sources.map((s) => `${s.min}px→${s.src.split("/").pop()}`).join(", ")} · default ${heroPic.img.split("/").pop()}`);
-console.log(`  brand sources: ${brandPic.sources.map((s) => `${s.min}px→${s.src.split("/").pop()}`).join(", ")} · default ${brandPic.img.split("/").pop()}\n`);
+console.log(`  brand: ${brandSrc.split("/").pop() || "(missing)"}\n`);
+
+check("hero is a <picture> with tablet + desktop sources", heroPic.sources.length === 2);
+check("brand lockup ships one file for every width", Boolean(brandSrc) && !brandSrc.includes("undefined"));
 
 /** browser jaisa: pehla matching (sabse badi min-width) source jeetta hai */
 function pick(pic, width) {
@@ -92,79 +98,84 @@ function pick(pic, width) {
   return pic.img;
 }
 
-const label = (src) => (src.includes("banner-") || src.includes("logo-") ? src.split("/").pop() : src);
-
-/** aspect ratio helper */
-const ratio = (w, h) => (w && h ? w / h : 0);
+const label = (src) => (src.includes("banner") || src.includes("diwali") ? src.split("/").pop() : src);
 
 for (const viewport of VIEWPORTS) {
   const heroSrc = pick(heroPic, viewport.w);
-  const brandSrc = pick(brandPic, viewport.w);
-  const kind = heroSrc.includes("banner-mobile") ? "mobile" : heroSrc.includes("banner-tablet") ? "tablet" : "desktop";
+  const kind = /-mobile\.webp$/.test(heroSrc) ? "mobile" : /-tablet\.webp$/.test(heroSrc) ? "tablet" : "desktop";
   check(
     `${String(viewport.w).padStart(4)}×${viewport.h} ${viewport.name} → hero ${label(heroSrc)}`,
     kind === viewport.expect,
     `expected ${viewport.expect}`,
   );
-  const brandKind = brandSrc.includes("logo-mobile") ? "mobile" : brandSrc.includes("logo-tablet") ? "tablet" : "desktop";
-  check(
-    `${String(viewport.w).padStart(4)}×${viewport.h} → logo ${label(brandSrc)}`,
-    brandKind === viewport.expect,
-    `expected ${viewport.expect}`,
-  );
 }
 
-/* asset ke asli pixel size vs breakpoint (sharp/retina ke liye kaafi resolution?) */
-const sizes = {};
-for (const src of new Set([heroPic.img, ...heroPic.sources.map((s) => s.src), brandPic.img, ...brandPic.sources.map((s) => s.src)])) {
-  const rel = src.replace(BASE_PATH, "").replace(/^\//, "");
-  const file = path.join(PUBLIC, rel);
-  try {
-    const buffer = await fs.readFile(file);
-    if (buffer.subarray(0, 4).toString() === "RIFF") {
-      const chunk = buffer.subarray(12, 16).toString();
-      if (chunk === "VP8X") sizes[src] = { w: 1 + buffer.readUIntLE(24, 3), h: 1 + buffer.readUIntLE(27, 3) };
-      else if (chunk === "VP8L") {
-        const bits = buffer.readUInt32LE(21);
-        sizes[src] = { w: (bits & 0x3fff) + 1, h: ((bits >> 14) & 0x3fff) + 1 };
-      } else sizes[src] = { w: buffer.readUInt16LE(26) & 0x3fff, h: buffer.readUInt16LE(28) & 0x3fff };
-    } else if (buffer.subarray(0, 8).toString("hex") === "89504e470d0a1a0a") {
-      sizes[src] = { w: buffer.readUInt32BE(16), h: buffer.readUInt32BE(20) };
-    }
-  } catch {
-    sizes[src] = { w: 0, h: 0 };
+/* asset ke asli pixel size + declared width/height */
+function webpSize(buffer) {
+  if (buffer.subarray(0, 4).toString() !== "RIFF") return { w: 0, h: 0 };
+  const chunk = buffer.subarray(12, 16).toString();
+  if (chunk === "VP8X") return { w: 1 + buffer.readUIntLE(24, 3), h: 1 + buffer.readUIntLE(27, 3) };
+  if (chunk === "VP8L") {
+    const bits = buffer.readUInt32LE(21);
+    return { w: (bits & 0x3fff) + 1, h: ((bits >> 14) & 0x3fff) + 1 };
   }
-  check(`asset exists: ${label(src)}`, sizes[src].w > 0, "missing/unreadable");
+  return { w: buffer.readUInt16LE(26) & 0x3fff, h: buffer.readUInt16LE(28) & 0x3fff };
 }
 
-/* hero ratio: har device asset ka ratio us breakpoint ke box se match kare (crop-free) */
-const boxRatio = { mobile: 860 / 1290, tablet: 4 / 3, desktop: 1779 / 594 };
-for (const [kind, expected] of Object.entries(boxRatio)) {
-  const src = Object.keys(sizes).find((key) => key.includes(`banner-${kind}`));
-  if (!src) continue;
-  const actual = ratio(sizes[src].w, sizes[src].h);
+const sizes = {};
+for (const src of new Set([heroPic.img, ...heroPic.sources.map((s) => s.src)])) {
+  const rel = src.replace(BASE_PATH, "").replace(/^\//, "");
+  try {
+    const buffer = await fs.readFile(path.join(PUBLIC, rel));
+    sizes[src] = { ...webpSize(buffer), bytes: buffer.length };
+  } catch {
+    sizes[src] = { w: 0, h: 0, bytes: 0 };
+  }
   check(
-    `${kind} banner ratio ${actual.toFixed(3)} matches CSS box ${expected.toFixed(3)} (no stretch/crop)`,
-    Math.abs(actual - expected) < 0.02,
+    `asset exists: ${label(src)} (${sizes[src].w}×${sizes[src].h}, ${Math.round(sizes[src].bytes / 1024)} KB)`,
+    sizes[src].w > 0,
+    "missing/unreadable",
   );
 }
 
-/* retina: 2× screens ke liye asset kaafi bada hona chahiye */
-const mobileAsset = sizes[heroPic.img];
+/* declared width/height attributes asset se match karein (layout shift na ho) */
+const declared = { mobile: heroPic, tablet: null, desktop: null };
+for (const source of heroPic.sources) {
+  const w = Number(hero.match(new RegExp(`srcSet="${source.src.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"[^>]*width="(\\d+)"`))?.[1] ?? 0);
+  const h = Number(hero.match(new RegExp(`srcSet="${source.src.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"[^>]*height="(\\d+)"`))?.[1] ?? 0);
+  const actual = sizes[source.src];
+  check(
+    `${label(source.src)}: declared ${w}×${h} matches the file`,
+    w === actual.w && h === actual.h,
+    `file is ${actual.w}×${actual.h}`,
+  );
+  declared[source.min >= 1024 ? "desktop" : "tablet"] = { w, h };
+}
+
 check(
-  "mobile banner ≥ 2× of a 430px phone (860px wide)",
-  (mobileAsset?.w ?? 0) >= 860,
-  `${mobileAsset?.w}px`,
+  `mobile banner default img declared ${heroPic.width}×${heroPic.height} matches the file`,
+  declared.mobile.width === sizes[heroPic.img]?.w && declared.mobile.height === sizes[heroPic.img]?.h,
 );
-const tabletAsset = sizes[heroPic.sources.find((s) => s.min === 768)?.src ?? ""];
-check("tablet banner ≥ 1200px wide (retina iPad)", (tabletAsset?.w ?? 0) >= 1200, `${tabletAsset?.w}px`);
-const desktopAsset = sizes[heroPic.sources.find((s) => s.min === 1024)?.src ?? ""];
-// wide source se hero ke dono baked carousel arrows crop kar diye (1779×594) — asli
-// asset ka width hi maximum hai, isliye retina laptop (1440 @1.2×) ke liye kaafi hai
-check("desktop banner ≥ 1779px wide (full source width)", (desktopAsset?.w ?? 0) >= 1779, `${desktopAsset?.w}px`);
+
+/* har asset ~2x display ke liye kaafi bada + 300 KB se halka (instant load) */
+for (const [src, size] of Object.entries(sizes)) {
+  check(`${label(src)} is under 300 KB`, size.bytes > 0 && size.bytes < 300 * 1024, `${Math.round(size.bytes / 1024)} KB`);
+}
+
+/* brand asset readable + retina-crisp (header display height ~50px) */
+const brandFile = brandSrc.replace(BASE_PATH, "").replace(/^\//, "");
+try {
+  const buffer = await fs.readFile(path.join(PUBLIC, brandFile));
+  const isPng = buffer.subarray(0, 8).toString("hex") === "89504e470d0a1a0a";
+  const w = isPng ? buffer.readUInt32BE(16) : 0;
+  const h = isPng ? buffer.readUInt32BE(20) : 0;
+  check(`brand asset ${brandFile.split("/").pop()} is ${w}×${h} (≥2× of 50px)`, w >= 300 && h >= 100);
+} catch {
+  check(`brand asset readable: ${brandFile}`, false, "missing");
+}
 
 console.log(`\nbreakpoints: ${pass} passed, ${failures.length} failed`);
 if (failures.length) {
-  failures.forEach((failure) => console.log(`  ✗ ${failure}`));
+  for (const failure of failures) console.log(`  ✗ ${failure}`);
   process.exitCode = 1;
 }

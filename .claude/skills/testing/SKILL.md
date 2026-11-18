@@ -29,8 +29,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { computeDiscount, COD_FEE } from "@liksha/validation";
 
-test("LIKSHA10 on Rs. 2,519", () => {
-  assert.equal(computeDiscount(251_910, "LIKSHA10"), 25_191);
+test("TRENDS10 on Rs. 2,519", () => {
+  assert.equal(computeDiscount(251_910, "TRENDS10"), 25_191);
 });
 ```
 

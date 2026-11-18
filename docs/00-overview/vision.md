@@ -1,6 +1,6 @@
 # Vision
 
-**Designer Clothing** designer ethnic wear (anarkali suits, lehenga choli, printed suit sets) bechta hai,
+**TRENDS YOUNIQUE** designer ethnic wear (anarkali suits, lehenga choli, printed suit sets) bechta hai,
 mostly Instagram/WhatsApp se. Website ka kaam sirf "brochure" nahi hai — customer ko wahi experience
 dena hai jo ek bade brand par milta hai, bina brand ki pehchaan khoye.
 

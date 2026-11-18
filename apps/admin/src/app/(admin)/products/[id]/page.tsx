@@ -2,7 +2,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getCollections, getProducts } from "@/lib/data";
 import { inr } from "@/lib/format";
-import { publishCatalogAction, saveProductEditAction, toggleProductVisibilityAction } from "@/app/actions";
+import {
+  moveProductImageAction,
+  publishCatalogAction,
+  saveProductEditAction,
+  setProductMainImageAction,
+  toggleProductVisibilityAction,
+} from "@/app/actions";
 import { catalogWritable, mergedProduct, overrideStats } from "@/lib/catalog-admin";
 import { getSession } from "@/lib/session";
 
@@ -177,21 +183,85 @@ export default async function ProductEditPage({ params }: { params: Promise<{ id
           </div>
 
           <div className="field">
-            <label>Photos (live store gallery — ek image sirf ek product par)</label>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-              {product.images.slice(0, 8).map((image) => (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  key={image}
-                  src={image}
-                  alt=""
-                  width={72}
-                  height={96}
-                  style={{ objectFit: "cover", border: "1px solid #e5e5e5" }}
-                />
-              ))}
+            <label>Photos — main image chuniye (customer ko yahi sabse pehle dikhti hai)</label>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }} data-testid="image-manager">
+              {product.images.slice(0, 10).map((image, index) => {
+                const isMain = index === 0;
+                return (
+                  <div key={image} style={{ width: 96 }}>
+                    <div style={{ position: "relative" }}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={image}
+                        alt=""
+                        width={96}
+                        height={128}
+                        style={{
+                          objectFit: "cover",
+                          border: isMain ? "2px solid #6f1d2b" : "1px solid #e5e5e5",
+                          width: 96,
+                          height: 128,
+                        }}
+                      />
+                      {isMain ? (
+                        <span
+                          style={{
+                            position: "absolute",
+                            left: 4,
+                            top: 4,
+                            background: "#6f1d2b",
+                            color: "#fff",
+                            fontSize: 9,
+                            letterSpacing: ".08em",
+                            padding: "2px 5px",
+                            textTransform: "uppercase",
+                          }}
+                        >
+                          Main
+                        </span>
+                      ) : null}
+                    </div>
+                    <div style={{ display: "flex", gap: 4, marginTop: 4 }}>
+                      {isMain ? null : (
+                        <form action={setProductMainImageAction}>
+                          <input type="hidden" name="handle" value={product.handle} />
+                          <input type="hidden" name="image" value={image} />
+                          <button className="btn btn-sm" type="submit" title="Main image banayein">
+                            Main
+                          </button>
+                        </form>
+                      )}
+                      <form action={moveProductImageAction}>
+                        <input type="hidden" name="handle" value={product.handle} />
+                        <input type="hidden" name="image" value={image} />
+                        <input type="hidden" name="direction" value="up" />
+                        <button className="btn btn-sm" type="submit" disabled={index === 0} title="Aage khiskayein">
+                          ↑
+                        </button>
+                      </form>
+                      <form action={moveProductImageAction}>
+                        <input type="hidden" name="handle" value={product.handle} />
+                        <input type="hidden" name="image" value={image} />
+                        <input type="hidden" name="direction" value="down" />
+                        <button
+                          className="btn btn-sm"
+                          type="submit"
+                          disabled={index >= Math.min(product.images.length, 10) - 1}
+                          title="Peeche khiskayein"
+                        >
+                          ↓
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-            <p className="small muted">{product.images.length} photos · gallery build se aati hai</p>
+            <p className="small muted">
+              {product.images.length} photos. Pehli photo main image hoti hai — card par, search me aur product
+              page ke top par wahi dikhti hai. Sirf ek photo wale product par card par image badalti nahi (cursor ke
+              saath halki si float karti hai). Publish ke baad live.
+            </p>
           </div>
         </div>
       </form>

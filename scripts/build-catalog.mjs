@@ -16,13 +16,15 @@
  * Snapshot refresh: `node scripts/catalog-sync/fetch-live.mjs` (ya GitHub Actions → Catalog sync).
  */
 import fs from "node:fs";
+import { cleanTitle } from "./clean-titles.mjs";
 import path from "node:path";
 import { normalizeSizes, canonicalSize } from "./lib/sizes.mjs";
 import { applySalePricing } from "./lib/sale-pricing.mjs";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const CDN = "https://cdn.shopify.com/s/files/1/0738/8345/1696/";
-const SOURCE = "https://www.likshaclothing.com";
+/** Canonical store URL (scrape origin alag ho sakta hai) — generated catalogue meta me jaata hai */
+const SOURCE = "https://trendsyounique.fashion";
 const LIVE = path.join(ROOT, "database/seeds/live");
 
 const readJson = (p) => JSON.parse(fs.readFileSync(p, "utf8"));
@@ -317,7 +319,7 @@ const readExtra = (name, key) => {
   const LIVE_TITLES = {
     "new-arrivals": "new arrivals",
     "party-wear-gown": "anarkali suit",
-    "likshas-choice": "likshas choice",
+    "trends-signature": "likshas choice",
     "lehnga-choli": "lehenga choli",
     "printed-suit-set": "printed suit set",
     "trending": "trending",
@@ -359,7 +361,8 @@ const readExtra = (name, key) => {
   const ratings = reviewRatings();
   const usedHandles = new Set();
   const products = [];
-  const stats = { images: 0, sizes: new Set(), noImage: [], duplicateImages: [] };
+  const stats = {
+    duplicates: [], images: 0, sizes: new Set(), noImage: [], duplicateImages: [] };
   /** poore catalogue me ek image sirf ek product par */
   const usedImages = new Set();
 
@@ -428,8 +431,8 @@ const readExtra = (name, key) => {
     if (usedHandles.has(handle)) handle = `${handle}-${source.id}`;
     usedHandles.add(handle);
 
-    const cleanTitle = stripEmoji(source.title.trim()).replace(/\s{2,}/g, " ");
-    const descriptionHtml = sanitizeHtml(source.body_html) || `<p>${cleanTitle}</p>`;
+    const plainTitle = stripEmoji(source.title.trim()).replace(/\s{2,}/g, " ");
+    const descriptionHtml = sanitizeHtml(source.body_html) || `<p>${plainTitle}</p>`;
     const details = htmlToLines(descriptionHtml).slice(0, 14);
     // `frontpage` live store ka home-page grouping hai (nav collection nahi) — featured flag me jaata hai
     const collections = [...liveCollectionsForProduct].filter((handle) => handle !== "frontpage").sort();
@@ -437,7 +440,8 @@ const readExtra = (name, key) => {
     products.push({
       handle,
       sourceHandle: source.handle,
-      title: stripEmoji(source.title.trim()).replace(/\s{2,}/g, " "),
+      // saaf naam: ALL-CAPS, double words aur common misspellings fix (clean-titles.mjs)
+      title: cleanTitle(stripEmoji(source.title.trim()).replace(/\s{2,}/g, " ")),
       price,
       compareAtPrice,
       images,
@@ -493,14 +497,19 @@ const readExtra = (name, key) => {
       }
     }
     if (patch.images && Array.isArray(patch.images) && patch.images.length) {
-      product.images = patch.images.filter((image) => typeof image === "string" && image.startsWith("https://"));
+      // owner apni uploaded (local `/images/shop/…`) ya CDN photo — dono chalti hain.
+      // Isi list ka pehla item main image hota hai, isliye order jaisa hai waisa hi rakho.
+      const images = patch.images.filter(
+        (image) => typeof image === "string" && (image.startsWith("https://") || image.startsWith("/images/")),
+      );
+      if (images.length) product.images = images;
     }
   }
   if (overriddenCount) console.log(`admin overrides applied: ${overriddenCount} products`);
 
   /* ---------- admin se add kiye gaye naye products (upload) ---------- */
   const COLLECTION_KEYS = new Set([
-    "new-arrivals", "party-wear-gown", "likshas-choice", "lehnga-choli",
+    "new-arrivals", "party-wear-gown", "trends-signature", "lehnga-choli",
     "printed-suit-set", "trending", "weddin-collection", "sale",
   ]);
   const VALID_SIZES = new Set(["XS", "S", "M", "L", "XL", "XXL", "3XL", "Free Size"]);
@@ -623,6 +632,43 @@ const readExtra = (name, key) => {
     console.log(`colour groups: ${Object.keys(colourGroups).length} designs / ${groupedCount} colourways`);
   }
 
+  /* ---------- duplicate products hatado (same photos, do handles) ---------- */
+  // do store snapshots (main + extra) me kuch designs dobara aate hain — same photos,
+  // alag handle aur alag price. Aise pair me se ek hi rakho (main store wala jeetta hai),
+  // warna grid me ek hi dress do baar dikhti hai.
+  const photoSetKey = (product) =>
+    product.images
+      .slice(0, 3)
+      .map((src) => src.split("/").slice(-2).join("/"))
+      .join("|");
+  const keptByPhotoSet = new Map();
+  const duplicateHandles = new Set();
+  for (const product of products) {
+    if (!product.images.length) continue;
+    const key = photoSetKey(product);
+    const kept = keptByPhotoSet.get(key);
+    if (!kept) {
+      keptByPhotoSet.set(key, product);
+      continue;
+    }
+    if (kept.source === "extra" && product.source !== "extra") {
+      duplicateHandles.add(kept.handle);
+      keptByPhotoSet.set(key, product);
+    } else {
+      duplicateHandles.add(product.handle);
+    }
+  }
+  if (duplicateHandles.size) {
+    const before = products.length;
+    for (let index = products.length - 1; index >= 0; index -= 1) {
+      if (duplicateHandles.has(products[index].handle)) {
+        stats.duplicates.push(products[index].handle);
+        products.splice(index, 1);
+      }
+    }
+    console.log(`duplicate products removed: ${before - products.length}`);
+  }
+
   /** listed products: ek group ka sirf representative (cards duplicate na dikhein) */
   const listedProducts = products.filter(
     (product) =>
@@ -634,9 +680,9 @@ const readExtra = (name, key) => {
   // live collections order + titles, jaisa store me hai
   const COLLECTION_COPY = {
     "new-arrivals": { title: "New Arrivals", subtitle: "Freshly dropped festive favourites", sortOrder: 1 },
-    "party-wear-gown": { title: "Anarkali Suit", subtitle: "Designer Anarkali Suits", sortOrder: 2 },
-    "likshas-choice": { title: "Liksha's Choice", subtitle: "Handpicked by our stylists", sortOrder: 3 },
-    "lehnga-choli": { title: "Lehenga Choli", subtitle: "Our Range of Designer Lehenga Choli", sortOrder: 4 },
+    "party-wear-gown": { title: "Anarkali Suits", subtitle: "Designer anarkali suits, floor-length flare", sortOrder: 2 },
+    "trends-signature": { title: "Trends Signature", subtitle: "Handpicked by our stylists", sortOrder: 3 },
+    "lehnga-choli": { title: "Lehenga Chunni & Choli Sets", subtitle: "Wedding-ready lehenga choli sets", sortOrder: 4 },
     "printed-suit-set": { title: "Printed Suit Set", subtitle: "Everyday ethnic ease", sortOrder: 5 },
     "trending": { title: "Trending", subtitle: "Top view in this week", sortOrder: 6 },
     "weddin-collection": { title: "Wedding Collection", subtitle: "Bridal & trousseau edit", sortOrder: 7 },
@@ -646,7 +692,7 @@ const readExtra = (name, key) => {
 
   const collections = [];
   // "Shop by edit" circles: har circle ki photo alag honi chahiye — ek hi image
-  // New Arrivals / Anarkali / Liksha's Choice me repeat nahi hogi.
+  // New Arrivals / Anarkali / Trends Signature me repeat nahi hogi.
   const usedCircleImages = new Set();
   for (const live of liveCollections) {
     const copy = COLLECTION_COPY[live.handle];
@@ -663,7 +709,8 @@ const readExtra = (name, key) => {
       handle: live.handle,
       title: collectionOverride.title || copy.title,
       subtitle: collectionOverride.subtitle || copy.subtitle,
-      image: picked?.images[0] ?? "",
+      // admin "circle ke liye photo" chun le to wahi jeetti hai
+      image: collectionOverride.image || picked?.images[0] || "",
       sortOrder: copy.sortOrder,
       productCount: listedProducts.filter((product) => product.collections.includes(live.handle)).length,
     });
@@ -695,7 +742,7 @@ const readExtra = (name, key) => {
 
   const catalog = {
     meta: {
-      store: "Liksha Clothing",
+      store: "TRENDS YOUNIQUE",
       source: SOURCE,
       cdn: CDN,
       currency: "INR",

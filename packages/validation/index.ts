@@ -18,13 +18,128 @@ export const phoneSchema = z
 
 export const emailSchema = z.string().trim().toLowerCase().email("Valid email daaliye");
 
+/**
+ * Quantity limits — ek hi jagah (web cart, API order, admin manual order sab yahi use karte hain).
+ *
+ *   1. Ek product (ek size/colour)   → max 10
+ *   2. Bade size (XL aur usse upar)  → max 30  (bulk / family order)
+ *   3. Poore order me total pieces   → max 15  (sirf bade size ka order ho to 30)
+ *
+ * Owner in numbers ko Google Sheet → Settings (`max_qty_per_item`, `max_qty_bulk`,
+ * `max_qty_per_order`) me badal sakta hai; khaali chhodne par yahi default rahenge.
+ */
+export const QUANTITY_LIMITS = {
+  /** ek line (product + size) */
+  perItem: 10,
+  /** XL, XXL, 3XL … par bulk limit */
+  perItemBulk: 30,
+  /** poore cart/order me pieces */
+  perOrder: 15,
+  /** sirf bulk sizes wale order ki total limit */
+  perOrderBulk: 30,
+} as const;
+
+/** Ye size bulk category me hai? (XL aur usse bade) */
+export function isBulkSize(size?: string | null): boolean {
+  const clean = String(size).trim().toUpperCase().replace(/\s+/g, " ");
+  if (!clean) return false;
+  if (/(^|\b)(FREE|ONESIZE|ONE SIZE)\b/.test(clean)) return false;
+  return /^(XL|XXL|2XL|3XL|XXXL|4XL|5XL|6XL)\b/.test(clean) || /\b(XL|XXL|2XL|3XL|4XL|5XL)\b/.test(clean);
+}
+
+/** Ek line ke liye kitne piece allowed — size ke hisaab se. */
+export function lineLimit(size?: string | null, limits: QuantityLimits = QUANTITY_LIMITS): number {
+  return isBulkSize(size) ? limits.perItemBulk : limits.perItem;
+}
+
+/** Poore order ke liye kitne piece allowed — sirf bulk lines hain to zyada. */
+export function orderLimit(
+  lines: { size?: string | null }[],
+  limits: QuantityLimits = QUANTITY_LIMITS,
+): number {
+  if (lines.length > 0 && lines.every((line) => isBulkSize(line.size))) return limits.perOrderBulk;
+  return limits.perOrder;
+}
+
+export type QuantityLimits = {
+  perItem: number;
+  perItemBulk: number;
+  perOrder: number;
+  perOrderBulk: number;
+};
+
+export type QuantityCheck = { ok: true } | { ok: false; message: string };
+
+/**
+ * Cart par limits lagao — ek hi function jo UI aur server dono chalate hain.
+ * `requested` us line ki nayi quantity hai.
+ */
+export function checkLineQuantity(
+  lines: { size?: string | null; quantity: number }[],
+  index: number,
+  requested: number,
+  limits: QuantityLimits = QUANTITY_LIMITS,
+): QuantityCheck {
+  const line = lines[index];
+  if (!line) return { ok: false, message: "Ye item cart me nahi mila." };
+  if (requested < 1) return { ok: true };
+  const limit = lineLimit(line.size, limits);
+  if (requested > limit) {
+    return {
+      ok: false,
+      message: `Is size ke liye max ${limit} piece allowed hain. Zyada chahiye to WhatsApp kariye.`,
+    };
+  }
+  const others = lines.reduce((sum, item, i) => (i === index ? sum : sum + item.quantity), 0);
+  const cap = orderLimit(
+    lines.map((item, i) => (i === index ? { size: item.size, ...item, quantity: requested } : item)),
+    limits,
+  );
+  if (others + requested > cap) {
+    return {
+      ok: false,
+      message: `Ek order me max ${cap} piece allowed hain. Bulk order ke liye WhatsApp kariye.`,
+    };
+  }
+  return { ok: true };
+}
+
+/** Order/cart ka poora check — server par order banne se pehle. */
+export function checkCartQuantity(
+  lines: { size?: string | null; quantity: number }[],
+  limits: QuantityLimits = QUANTITY_LIMITS,
+): QuantityCheck {
+  for (const line of lines) {
+    if (line.quantity < 1) return { ok: false, message: "Quantity kam se kam 1 honi chahiye." };
+    const limit = lineLimit(line.size, limits);
+    if (line.quantity > limit) {
+      return {
+        ok: false,
+        message: `Size ${line.size} ke liye max ${limit} piece allowed hain. Bulk ke liye WhatsApp kariye.`,
+      };
+    }
+  }
+  const total = lines.reduce((sum, line) => sum + line.quantity, 0);
+  const cap = orderLimit(lines, limits);
+  if (total > cap) {
+    return {
+      ok: false,
+      message: `Ek order me max ${cap} piece allowed hain. Bulk order ke liye WhatsApp kariye.`,
+    };
+  }
+  return { ok: true };
+}
+
 export const cartLineSchema = z.object({
   handle: z.string().min(1),
   size: z.string().min(1).max(40),
-  quantity: z.number().int().min(1).max(10),
+  /** colourway — optional (purane clients bhi kaam karein) */
+  colour: z.string().trim().max(40).optional().nullable(),
+  quantity: z.number().int().min(1).max(QUANTITY_LIMITS.perItemBulk),
 });
 
-export const createOrderSchema = z.object({
+export const createOrderSchema = z
+  .object({
   customerName: z.string().trim().min(2, "Poora naam daaliye").max(80),
   email: emailSchema,
   phone: phoneSchema,
@@ -36,7 +151,14 @@ export const createOrderSchema = z.object({
   couponCode: z.string().trim().toUpperCase().max(24).optional().nullable(),
   paymentMethod: z.enum(["prepaid", "cod"]).default("prepaid"),
   items: z.array(cartLineSchema).min(1, "Cart khaali hai").max(20),
-});
+  })
+  .superRefine((value, ctx) => {
+    // size-wise + order-wise limits (server aur UI dono yahi rule chalate hain)
+    const check = checkCartQuantity(value.items.map((item) => ({ size: item.size, quantity: item.quantity })));
+    if (!check.ok) {
+      ctx.addIssue({ code: "custom", message: check.message, path: ["items"] });
+    }
+  });
 
 export type CreateOrderInput = z.infer<typeof createOrderSchema>;
 

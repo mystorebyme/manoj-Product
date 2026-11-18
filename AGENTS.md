@@ -36,7 +36,7 @@ npm run dev / dev:admin / dev:api # ports 3000 / 3001 / 4000
 - Put secrets in `NEXT_PUBLIC_*` or in the repo.
 - Use `next/font/google` (breaks offline builds) or `next/image` with the Shopify CDN.
 - Delete or rename `database/seeds/catalog.json` structure without updating tests.
-- Invent product data. `likshaclothing.com` is the only source of truth.
+- Never invent product data. `database/seeds/live/products.json` (owner's Shopify snapshot) is the only source of truth.
 
 ## When stuck
 

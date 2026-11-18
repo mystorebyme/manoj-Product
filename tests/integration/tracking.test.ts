@@ -41,11 +41,11 @@ function seedOrder() {
 
 test("admin can move an order along the status machine", async () => {
   const orderNumber = seedOrder();
-  assert.equal((await data.updateOrderStatus(orderNumber, "confirmed", "admin@likshaclothing.com"))?.status, "confirmed");
-  assert.equal((await data.updateOrderStatus(orderNumber, "packed", "admin@likshaclothing.com"))?.status, "packed");
-  assert.equal((await data.updateOrderStatus(orderNumber, "shipped", "admin@likshaclothing.com"))?.status, "shipped");
+  assert.equal((await data.updateOrderStatus(orderNumber, "confirmed", "admin@trendsyounique.com"))?.status, "confirmed");
+  assert.equal((await data.updateOrderStatus(orderNumber, "packed", "admin@trendsyounique.com"))?.status, "packed");
+  assert.equal((await data.updateOrderStatus(orderNumber, "shipped", "admin@trendsyounique.com"))?.status, "shipped");
   // invalid jump (shipped -> packed) reject hota hai
-  assert.equal(await data.updateOrderStatus(orderNumber, "packed", "admin@likshaclothing.com"), null);
+  assert.equal(await data.updateOrderStatus(orderNumber, "packed", "admin@trendsyounique.com"), null);
 });
 
 test("courier + AWB are stored and audited", async () => {
@@ -53,7 +53,7 @@ test("courier + AWB are stored and audited", async () => {
   const updated = await data.setOrderTracking(
     orderNumber,
     { courier: "Delhivery", awb: "AWB-12345", url: "https://www.delhivery.com/track/package/AWB-12345" },
-    "admin@likshaclothing.com",
+    "admin@trendsyounique.com",
   );
   assert.ok(updated);
   assert.equal(updated!.tracking?.courier, "Delhivery");

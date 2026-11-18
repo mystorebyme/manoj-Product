@@ -14,9 +14,9 @@ const money = (paise: number) =>
 const dateLabel = (iso: string) =>
   new Date(iso).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
 
-const MAROON = "#862222";
-const INK = "#2f2a25";
-const MUTED = "#6b6259";
+const MAROON = "#6f1d2b";
+const INK = "#14100e";
+const MUTED = "#6f6259";
 const LINE = "#dcd2c7";
 const SOFT = "#f7f2ec";
 
@@ -248,7 +248,7 @@ export async function renderInvoicePdf(view: InvoiceView): Promise<Buffer> {
     doc.fillColor(MAROON).font("Helvetica-Bold").fontSize(7.5).text("DECLARATION", left, y);
     doc.fillColor(MUTED).font("Helvetica").fontSize(7.6).text(
       "We declare that this invoice shows the actual price of the goods described and that all particulars are true and correct. " +
-        "Goods are dispatched from Jaipur, Rajasthan. Prices are inclusive of GST. The goods once sold are eligible for 7 days replacement " +
+        "Goods are dispatched from Jaipur, Rajasthan. Prices are inclusive of GST. The goods once sold are eligible for 7 days return " +
         "only if unused and tags are intact. This is a computer-generated invoice and does not require a physical signature.",
       left,
       y + 11,

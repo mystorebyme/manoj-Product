@@ -49,7 +49,7 @@ Secret rotate = logout everywhere.
 ```bash
 grep -rn "sk_live\|rzp_live\|BEGIN PRIVATE KEY" --exclude-dir=node_modules . | head
 npm audit --omit=dev
-curl -sI https://likshaclothing.com | grep -iE "strict-transport|x-content-type|content-security"
+curl -sI https://trendsyounique.fashion | grep -iE "strict-transport|x-content-type|content-security"
 ```
 
 Details: `docs/07-security/*`.

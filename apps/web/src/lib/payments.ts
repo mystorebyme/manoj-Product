@@ -5,6 +5,9 @@ import fs from "node:fs";
 import path from "node:path";
 import { dataFile } from "@/lib/data-dir";
 import { siteConfig } from "@/config/site";
+import { manualUpiUri, storeUpiId } from "./upi-config";
+
+export { manualUpiUri, storeUpiId };
 
 /**
  * Payments — sirf backend decide karta hai ki paisa aaya ya nahi.
@@ -132,20 +135,6 @@ async function razorpayRequest<T>(
   return (await response.json()) as T;
 }
 
-/** store ka UPI — gateway down ho to bhi customer pay kar sake, par order manual verify ke baad confirm */
-export function manualUpiUri(amountPaise: number, orderNumber: string): string {
-  const vpa = process.env.STORE_UPI_ID ?? "likshaclothing@upi";
-  const name = process.env.STORE_UPI_NAME ?? "Designer Clothing";
-  const params = new URLSearchParams({
-    pa: vpa,
-    pn: name,
-    am: (amountPaise / 100).toFixed(2),
-    cu: "INR",
-    tn: `Order ${orderNumber}`,
-  });
-  return `upi://pay?${params.toString()}`;
-}
-
 /**
  * Payment intent banata hai. Gateway fail/block ho to agla account, sab fail hon to
  * manual UPI (order pending hi rehta hai jab tak backend verify na kare).
@@ -268,7 +257,7 @@ export async function createPaymentLink(
           currency: "INR",
           accept_partial: false,
           reference_id: order.orderNumber,
-          description: `Designer Clothing order ${order.orderNumber}`,
+          description: `TRENDS YOUNIQUE order ${order.orderNumber}`,
           customer: { name: order.customerName, email: order.email, contact: `+91${order.phone}` },
           notify: { sms: true, email: true },
           reminder_enable: true,
@@ -285,13 +274,15 @@ export async function createPaymentLink(
     }
   }
 
-  const upiUri = manualUpiUri(order.total, order.orderNumber);
+  const upiId = storeUpiId();
+  const upiUri = manualUpiUri(order.total, order.orderNumber) ?? undefined;
   return {
     mode: "manual",
     provider: "manual",
-    upiId: process.env.STORE_UPI_ID ?? "likshaclothing@upi",
+    upiId,
     upiUri,
-    message:
-      "UPI se pay kariye — payment backend verify hote hi order confirm ho jaayega. WhatsApp par bhi screenshot bhej sakte hain.",
+    message: upiId
+      ? "UPI se pay kariye — payment verify hote hi order confirm ho jaayega. WhatsApp par screenshot bhi bhej sakte hain."
+      : "Abhi online payment band hai. Order WhatsApp par confirm kariye — tracking aur payment link hum bhej denge.",
   };
 }

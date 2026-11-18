@@ -8,7 +8,7 @@ Ye doc Round 8 me bane parity work ka contract hai.
 `PATCH /api/admin/orders/:orderNumber` — `action: "status"`
 
 ```json
-{ "action": "status", "status": "confirmed", "note": "size confirm ho gaya", "actor": "admin@likshaclothing.com" }
+{ "action": "status", "status": "confirmed", "note": "size confirm ho gaya", "actor": "admin@trendsyounique.com" }
 ```
 
 - Allowed transitions `@liksha/validation` me hain (`placed → confirmed → packed → shipped → delivered`).
@@ -20,7 +20,7 @@ Ye doc Round 8 me bane parity work ka contract hai.
 `PATCH /api/admin/orders/:orderNumber` — `action: "note"`
 
 ```json
-{ "action": "note", "text": "Delhivery pickup kal subah", "actor": "admin@likshaclothing.com" }
+{ "action": "note", "text": "Delhivery pickup kal subah", "actor": "admin@trendsyounique.com" }
 ```
 
 - Type: `OrderStatusNote = { text, at, by, status }` (`@liksha/types`).
@@ -34,7 +34,7 @@ Ye doc Round 8 me bane parity work ka contract hai.
 `PATCH /api/admin/orders/:orderNumber` — `action: "payment"`
 
 ```json
-{ "action": "payment", "reference": "UPI-REF-123", "amount": 199900, "actor": "admin@likshaclothing.com" }
+{ "action": "payment", "reference": "UPI-REF-123", "amount": 199900, "actor": "admin@trendsyounique.com" }
 ```
 
 - `reference` (UTR) required — bina reference payment verify nahi hoti.

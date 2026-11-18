@@ -2,7 +2,7 @@
 
 ## Turant (bina deploy) — owner ke liye
 
-1. `http://localhost:3001/products` (prod: `admin.likshaclothing.com/products`)
+1. `http://localhost:3001/products` (prod: `admin.trendsyounique.fashion/products`)
 2. Product kholo → price/stock field → Save.
 3. Override `.data/overrides.json` me jaata hai, audit log me entry banti hai.
 4. Storefront next revalidation par naya price dikhata hai (server-side recompute se order total bhi match).

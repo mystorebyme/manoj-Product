@@ -19,6 +19,9 @@ concurrency:
 jobs:
   deploy:
     name: Deploy to production
+    # Vercel/Render secrets abhi configured nahi hain — `main` push par ye skip hota hai
+    # (red X nahi). Custom domain ki deployment `pages.yml` (GitHub Actions → Pages) karti hai.
+    if: ${{ github.event_name == 'workflow_dispatch' || vars.ENABLE_VERCEL_DEPLOY == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     environment: production
@@ -64,6 +67,6 @@ jobs:
         if: ${{ github.event.inputs.target == 'all' || github.event_name == 'push' }}
         run: bash infra/monitoring/health.sh
         env:
-          WEB_URL: https://likshaclothing.com
-          ADMIN_URL: https://admin.likshaclothing.com
-          API_URL: https://api.likshaclothing.com
+          WEB_URL: https://trendsyounique.fashion
+          ADMIN_URL: https://trends-younique-admin.onrender.com
+          API_URL: https://trends-younique-storefront.onrender.com

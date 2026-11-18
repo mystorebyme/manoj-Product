@@ -2,7 +2,11 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { applySalePricing, displayedPercent, salePriceFor, SALE_FINAL_PRICES } from "../../scripts/lib/sale-pricing.mjs";
 import { buildUpiUri, normaliseUpiId, normaliseUpiReference, formatUpiAmount } from "../../apps/web/src/lib/upi";
-import { normaliseSheetSettings, orderSheetRow } from "../../apps/web/src/lib/sheet-format";
+import {
+  normaliseSheetSettings,
+  orderSheetRow,
+  paymentSheetRow,
+} from "../../apps/web/src/lib/sheet-format";
 
 test("sale price always lands on ₹499/₹549/₹599/₹649/₹699", () => {
   for (let index = 0; index < 500; index += 1) {
@@ -49,7 +53,7 @@ test("applySalePricing sets price on product, every size and variant", () => {
 });
 
 test("UPI id validation", () => {
-  assert.equal(normaliseUpiId("dhakadgourav@fam"), "dhakadgourav@fam");
+  assert.equal(normaliseUpiId("store@upi"), "store@upi");
   assert.equal(normaliseUpiId("  liksha.clothing@okhdfcbank "), "liksha.clothing@okhdfcbank");
   assert.equal(normaliseUpiId("not-a-vpa"), null);
   assert.equal(normaliseUpiId("a@b"), null);
@@ -58,13 +62,13 @@ test("UPI id validation", () => {
 
 test("UPI URI carries amount, payee and order note", () => {
   const uri = buildUpiUri({
-    vpa: "dhakadgourav@fam",
-    name: "Designer Clothing",
+    vpa: "store@upi",
+    name: "TRENDS YOUNIQUE",
     amountPaise: 49_900,
     note: "Order LK-ABC123",
   });
   const params = new URLSearchParams(uri.replace("upi://pay?", ""));
-  assert.equal(params.get("pa"), "dhakadgourav@fam");
+  assert.equal(params.get("pa"), "store@upi");
   assert.equal(params.get("am"), "499.00");
   assert.equal(params.get("cu"), "INR");
   assert.equal(params.get("tn"), "Order LK-ABC123");
@@ -87,15 +91,15 @@ test("sheet settings parser handles Apps Script shapes", () => {
   const parsed = normaliseSheetSettings({
     ok: true,
     settings: {
-      upi_id: "dhakadgourav@fam",
-      support_phone: "8005900581",
-      support_email: "Info.likshaclothing@gmail.com",
-      announcement: "Diwali Sale — Flat 70% OFF",
+      upi_id: "store@upi",
+      support_phone: "7740992663",
+      support_email: "care@trendsyounique.com",
+      announcement: "New drop live — free shipping across India",
       free_shipping: "yes",
     },
   });
-  assert.equal(parsed?.upiId, "dhakadgourav@fam");
-  assert.equal(parsed?.supportPhone, "8005900581");
+  assert.equal(parsed?.upiId, "store@upi");
+  assert.equal(parsed?.supportPhone, "7740992663");
   assert.equal(parsed?.freeShipping, true);
   assert.equal(normaliseSheetSettings({ ok: false }), null);
   assert.equal(normaliseSheetSettings({ settings: {} }), null);
@@ -115,7 +119,7 @@ test("order sheet row carries payment + tracking details", () => {
       couponCode: null,
       items: [{ title: "Anarkali", size: "S [36]", quantity: 1 }],
       customerName: "Test Customer",
-      phone: "8005900581",
+      phone: "7740992663",
       email: "test@example.com",
       address: "12 MG Road",
       city: "Jaipur",
@@ -125,12 +129,37 @@ test("order sheet row carries payment + tracking details", () => {
       notes: null,
     } as never,
     "payment.paid",
-    { "UPI ID": "dhakadgourav@fam" },
+    { "UPI ID": "store@upi" },
   );
-  assert.equal(row["Order number"], "LK-ABC123");
-  assert.equal(row["Payment reference"], "412345678901");
-  assert.equal(row["UPI ID"], "dhakadgourav@fam");
-  assert.equal(row["Total"], 499);
+  // keys exactly `Orders` tab ke headers par (Apps Script header naam se map karta hai)
+  assert.equal(row["Order ID"], "LK-ABC123");
+  assert.equal(row["Payment ref"], "412345678901");
+  assert.equal(row["Total ₹"], 499);
+  assert.equal(row["Status"], "shipped");
+  assert.equal(row["Items"], "Anarkali (S [36]) x1");
+  assert.equal(row["Qty total"], 1);
   assert.equal(row["AWB"], "AWB123");
-  assert.equal(row["Item details"], "Anarkali (S [36]) x1");
+  assert.equal(row["Courier"], "Delhivery");
+  assert.equal(row["Tracking URL"], "https://track.example/1");
+  assert.equal(row["Email"], "test@example.com");
+  assert.equal(row["Address"], "12 MG Road");
+  assert.match(String(row["WhatsApp"]), /^https:\/\/wa\.me\/917740992663$/);
+
+  const payment = paymentSheetRow(
+    {
+      orderNumber: "LK-ABC123",
+      status: "shipped",
+      customerName: "Test Customer",
+      phone: "7740992663",
+      total: 49_900,
+      paymentStatus: "paid",
+      payment: { reference: "412345678901", gateway: "manual-upi" },
+    } as never,
+    "payment.paid",
+    { "UPI ID": "store@upi" },
+  );
+  assert.equal(payment["Order ID"], "LK-ABC123");
+  assert.equal(payment["UPI ID"], "store@upi");
+  assert.equal(payment["Total ₹"], 499);
+  assert.equal(payment.Event, "payment.paid");
 });

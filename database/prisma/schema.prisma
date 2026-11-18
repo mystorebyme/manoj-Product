@@ -1,4 +1,4 @@
-// Liksha Clothing — production schema (Phase 2)
+// TRENDS YOUNIQUE — production schema (Phase 2)
 // Phase 1 me catalogue `database/seeds/catalog.json` se build hota hai aur orders
 // `.data/orders.json` me. Schema yahan pehle se ready hai taaki migration clean rahe.
 //

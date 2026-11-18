@@ -1,6 +1,6 @@
 # Guide: naya product add karna
 
-Product data ka source **likshaclothing.com** hai. Do raste hain:
+Product data ka source owner's Shopify snapshot (`database/seeds/live/products.json`) hai. Do raste hain:
 
 ## A. Store par product live hai (normal case)
 
@@ -45,7 +45,7 @@ publish karo, phir sync.
 
 ## Collections
 
-`likshaclothing.com` ke 9 collections: new-arrivals, party-wear-gown, saree, likshas-choice,
+Catalogue ke collections: new-arrivals, party-wear-gown, saree, likshas-choice,
 lehnga-choli, printed-suit-set, weddin-collection, trending, sale.
 Naya collection chahiye to `scripts/build-catalog.mjs` ka collection map + `apps/web/src/lib/collections.ts`
 (nav labels) update karo.

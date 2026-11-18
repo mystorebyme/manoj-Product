@@ -14,8 +14,8 @@
 ```bash
 npm i -g vercel
 vercel login
-cd apps/web && vercel link     # project: liksha-web
-vercel env add NEXT_PUBLIC_SITE_URL production   # https://likshaclothing.com
+cd apps/web && vercel link     # project: trends-younique
+vercel env add NEXT_PUBLIC_SITE_URL production   # https://trendsyounique.fashion
 vercel env add ADMIN_API_TOKEN production
 vercel env add RAZORPAY_KEY_ID production
 vercel env add RAZORPAY_KEY_SECRET production
@@ -23,19 +23,19 @@ vercel env add RAZORPAY_WEBHOOK_SECRET production
 vercel --prod
 ```
 
-Settings → Domains → `likshaclothing.com` + `www` (DNS records jo Vercel de).
+Settings → Domains → `trendsyounique.fashion` + `www` (DNS records jo Vercel de).
 
 ## 2. Vercel — admin
 
 ```bash
-cd apps/admin && vercel link   # project: liksha-admin
+cd apps/admin && vercel link   # project: trends-younique-admin
 vercel env add ADMIN_EMAIL production
 vercel env add ADMIN_PASSWORD production
 vercel env add ADMIN_SESSION_SECRET production
 vercel --prod
 ```
 
-Domain: `admin.likshaclothing.com`. `noindex` header already set (`next.config.ts`).
+Domain: `admin.trendsyounique.fashion`. `noindex` header already set (`next.config.ts`).
 
 ## 3. Render — API
 
@@ -48,16 +48,16 @@ Domain: `admin.likshaclothing.com`. `noindex` header already set (`next.config.t
 
 ## 4. Razorpay webhook
 
-Dashboard → Webhooks → add `https://api.likshaclothing.com/api/v1/webhooks/razorpay`,
+Dashboard → Webhooks → add `https://api.trendsyounique.fashion/api/v1/webhooks/razorpay`,
 events: `payment_link.paid`, `payment.captured`, `payment.failed`, `refund.processed`.
 Secret same rakho jo `RAZORPAY_WEBHOOK_SECRET` me hai.
 
 ## 5. Verify
 
 ```bash
-curl -s https://likshaclothing.com/api/health
-curl -s https://api.likshaclothing.com/api/v1/health
-curl -sI https://admin.likshaclothing.com | grep -i robots
+curl -s https://trendsyounique.fashion/api/health
+curl -s https://api.trendsyounique.fashion/api/v1/health
+curl -sI https://admin.trendsyounique.fashion | grep -i robots
 ```
 
 Manual: COD order place karо, admin me dikhe, status badlo, order page refresh.

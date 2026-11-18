@@ -1,9 +1,8 @@
 "use client";
 
-import { readJson } from "@/lib/http-json";
-
 import { useState } from "react";
 import { ProductCard } from "@/components/product-card";
+import { fetchCatalogPage } from "@/lib/catalog-page";
 import type { Product } from "@/types/catalog";
 
 /**
@@ -39,13 +38,17 @@ export function ProductGridWithMore({
     setError(null);
     try {
       const params = new URLSearchParams(query);
-      params.set("offset", String(products.length));
-      params.set("limit", String(pageSize));
-      const response = await fetch(`/api/products?${params.toString()}`);
-      if (!response.ok) throw new Error("failed");
-      const parsed = await readJson<{ data: Product[] }>(response);
-      if (!parsed.data?.data) throw new Error("failed");
-      setProducts((current) => [...current, ...parsed.data!.data]);
+      // static hosting (GitHub Pages / Netlify) par `/api/products` nahi hota —
+      // `fetchCatalogPage` khud local `catalog-lite.json` par fallback karta hai.
+      const payload = await fetchCatalogPage({
+        handle: params.get("collection"),
+        sort: params.get("sort"),
+        price: params.get("price"),
+        q: params.get("q"),
+        offset: products.length,
+        limit: pageSize,
+      });
+      setProducts((current) => [...current, ...payload.data]);
     } catch {
       setError("Aur products load nahi hue. Internet check kar ke dobara try kariye.");
     } finally {
@@ -67,17 +70,17 @@ export function ProductGridWithMore({
             type="button"
             onClick={loadMore}
             disabled={loading}
-            className="border border-[#862222] px-8 py-3 text-[11px] font-semibold tracking-[.18em] text-[#862222] uppercase transition hover:bg-[#862222] hover:text-white disabled:opacity-60"
+            className="border border-[#6f1d2b] px-8 py-3 text-[11px] font-semibold tracking-[.18em] text-[#6f1d2b] uppercase transition hover:bg-[#6f1d2b] hover:text-white disabled:opacity-60"
           >
             {loading ? "Loading…" : "Load more products"}
           </button>
-          <p className="text-[10.5px] tracking-[.12em] text-[#9c8f82] uppercase">
+          <p className="text-[10.5px] tracking-[.12em] text-[#a3948a] uppercase">
             Showing {products.length} of {total} products
           </p>
           {error ? <p className="text-[11px] text-[#b3261e]">{error}</p> : null}
         </div>
       ) : total > pageSize ? (
-        <p className="mt-8 text-center text-[10.5px] tracking-[.12em] text-[#9c8f82] uppercase">
+        <p className="mt-8 text-center text-[10.5px] tracking-[.12em] text-[#a3948a] uppercase">
           All {total} products shown
         </p>
       ) : null}

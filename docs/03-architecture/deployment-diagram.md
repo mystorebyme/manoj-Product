@@ -3,13 +3,13 @@
 ## Phase 1 (current)
 
 ```
-                 DNS: likshaclothing.com
+                 DNS: trendsyounique.fashion
                           │
                  ┌────────▼─────────┐
                  │ Vercel (edge)    │  apps/web  (static + serverless functions)
                  └────────┬─────────┘
                           │
-      admin.likshaclothing.com ──► Vercel project 2 (apps/admin)
+      admin.trendsyounique.fashion ──► Vercel project 2 (apps/admin)
                           │
                  ┌────────▼─────────┐
                  │ Render web svc   │  apps/api (Node 22, persistent disk for .data)

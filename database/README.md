@@ -2,7 +2,7 @@
 
 ## Phase 1 (aaj chal raha hai)
 
-- **Catalogue**: `seeds/catalog.json` — build artifact. Source: likshaclothing.com se scrape kiya gaya
+- **Catalogue**: `seeds/catalog.json` — build artifact. Source: owner's Shopify snapshot se liya gaya
   (287 products, 9 collections), `npm run catalog:build` se regenerate hota hai.
 - **Orders / messages**: `.data/*.json` (repo root) — file store, atomic write ke saath.
   Storefront, admin aur api teeno **ek hi file** padhte hain, isliye order turant admin me dikhta hai.

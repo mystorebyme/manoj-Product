@@ -16,9 +16,14 @@ export interface SizePricing {
 }
 
 export interface Product {
+  /**
+   * Owner-facing stable product id (jaise `1042`) — reviews, sheet aur orders
+   * me isi se product pehchana jaata hai, kyunki handle badal sakta hai.
+   */
+  id?: string;
   /** URL-safe ASCII slug (emoji/space strip karke) */
   handle: string;
-  /** original likshaclothing.com handle — traceability ke liye */
+  /** original source-store handle — traceability ke liye */
   sourceHandle: string;
   title: string;
   /** selling price in paise */
@@ -146,6 +151,8 @@ export interface OrderItem {
   handle: string;
   title: string;
   image: string;
+  /** colourway ka naam — WhatsApp / invoice / sheet me dikhta hai */
+  colour?: string | null;
   size: string;
   quantity: number;
   /** unit price in paise */

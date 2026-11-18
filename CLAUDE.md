@@ -7,7 +7,7 @@ short version aur pointers.
 
 - Monorepo: `apps/web` (3000), `apps/admin` (3001), `apps/api` (4000), shared `packages/*`.
 - Paisa paise me. Server price compute karta hai. Catalogue generated JSON hai.
-- 287 products, 9 collections, data source `likshaclothing.com`.
+- 477 products, collections, data source `database/seeds/live/products.json`.
 - Payments third-party (Razorpay); hum card data kabhi nahi chhoote.
 
 ## Skills (`.claude/skills/`)

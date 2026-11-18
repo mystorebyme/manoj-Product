@@ -4,6 +4,7 @@ import { readJson } from "@/lib/http-json";
 
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
 import { API_AVAILABLE, apiUrl } from "@/lib/api-base";
+import { fetchSheetPublicSettings } from "@/lib/sheet-public-settings";
 
 /**
  * Owner-editable store details (phone, WhatsApp, email, UPI ID, announcement).
@@ -12,8 +13,10 @@ import { API_AVAILABLE, apiUrl } from "@/lib/api-base";
  * `/api/settings` par merge karke deta hai. Client 60s me ek baar refresh karta
  * hai, isliye owner sheet me number badale to site thodi der me update ho jaati hai.
  *
- * API na ho (GitHub Pages static preview) to niche wale defaults dikhte hain —
- * layout tootta nahi, koi error toast nahi.
+ * API na ho (GitHub Pages static preview) to settings seedha **Google Sheet** ke
+ * `Settings` tab se aati hain (`?action=public`) — owner wahan number/announcement
+ * badalta hai aur site 1 minute me update ho jaati hai, redeploy ke bina.
+ * Sheet bhi na mile to niche wale defaults dikhte hain — layout tootta nahi.
  */
 export type PublicSettings = {
   announcement: string;
@@ -23,17 +26,30 @@ export type PublicSettings = {
   supportEmail: string;
   whatsapp: string;
   freeShipping: boolean;
+  /** owner sheet se quantity limits */
+  maxQtyPerItem?: number;
+  maxQtyBulk?: number;
+  maxQtyPerOrder?: number;
+  brandName?: string;
+  tagline?: string;
   updatedAt?: string;
+  /** delivery blocks — owner ke `Settings` tab se (state/PIN band karne ke liye) */
+  blockedStates?: string | string[];
+  blockedPincodes?: string | string[];
 };
 
 export const DEFAULT_PUBLIC_SETTINGS: PublicSettings = {
   announcement: "",
-  upiId: "dhakadgourav@fam",
-  upiName: "Designer Clothing",
-  supportPhone: "8005900581",
-  supportEmail: "Info.likshaclothing@gmail.com",
-  whatsapp: "8005900581",
+  upiId: "",
+  upiName: "TRENDS YOUNIQUE",
+  supportPhone: "7740992663",
+  supportEmail: "care@trendsyounique.com",
+  whatsapp: "7740992663",
   freeShipping: true,
+  maxQtyPerItem: 10,
+  maxQtyBulk: 30,
+  maxQtyPerOrder: 15,
+  brandName: "TRENDS YOUNIQUE",
 };
 
 type ContextValue = {
@@ -53,14 +69,32 @@ export function StoreSettingsProvider({ children }: { children: ReactNode }) {
   const [settings, setSettings] = useState<PublicSettings>(DEFAULT_PUBLIC_SETTINGS);
   const [ready, setReady] = useState(false);
 
+  /** Sheet ke Settings tab se live values (server na ho tab bhi owner control rakhe) */
+  const mergeSheetSettings = useCallback(async () => {
+    const live = await fetchSheetPublicSettings();
+    if (!live) return;
+    setSettings((current) =>
+      ({
+        ...current,
+        ...Object.fromEntries(
+          Object.entries(live).filter(([, value]) => value !== undefined && value !== "" && value !== null),
+        ),
+      }) as PublicSettings,
+    );
+  }, []);
+
   const refresh = useCallback(async () => {
     if (!API_AVAILABLE) {
+      await mergeSheetSettings();
       setReady(true);
       return;
     }
     try {
       const response = await fetch(apiUrl("/api/settings"), { cache: "no-store" });
-      if (!response.ok) return;
+      if (!response.ok) {
+        await mergeSheetSettings();
+        return;
+      }
       const parsed = await readJson<{ data?: Partial<PublicSettings> }>(response);
       const data = parsed.data?.data;
       if (!data) return;
@@ -68,16 +102,19 @@ export function StoreSettingsProvider({ children }: { children: ReactNode }) {
         ...current,
         ...Object.fromEntries(Object.entries(data).filter(([, value]) => value !== undefined && value !== "")),
       }) as PublicSettings);
+      // Sheet owner ka final control hai — API ke baad sheet ki values upar rehti hain
+      await mergeSheetSettings();
     } catch {
-      // offline / API down — defaults hi rehne do
+      // offline / API down — sheet se try karo, warna defaults
+      await mergeSheetSettings();
     } finally {
       setReady(true);
     }
-  }, []);
+  }, [mergeSheetSettings]);
 
   useEffect(() => {
     void refresh();
-    if (!API_AVAILABLE) return;
+    // static hosting par bhi 60s refresh (sheet se live settings), warna kuch nahi
     const timer = window.setInterval(() => {
       if (document.visibilityState === "visible") void refresh();
     }, 60_000);

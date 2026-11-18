@@ -25,12 +25,18 @@ import {
   verifyOrderPayment,
 } from "@/lib/data";
 import {
-  createAdminProduct,
+  mergedProduct,
   publishCatalog,
   saveCollectionOverride,
   saveProductOverride,
   setProductHidden,
 } from "@/lib/catalog-admin";
+import { deleteProduct, productSheetRow, saveProduct, toggleProductStatus } from "@liksha/product-store";
+import { MAX_IMAGES_PER_PRODUCT, saveUploadedImages } from "@/lib/uploads";
+import { upsertProductRow } from "@/lib/sheets";
+
+/** admin form ke size options — stock ke saath */
+const SIZES = ["XS", "S", "M", "L", "XL", "XXL", "3XL", "4XL", "Free Size"];
 import { requireSession } from "@/lib/session";
 import type { OrderStatus } from "@liksha/types";
 
@@ -164,6 +170,9 @@ export async function saveSettingsAction(formData: FormData) {
     supportEmail: String(formData.get("supportEmail") ?? ""),
     whatsapp: String(formData.get("whatsapp") ?? ""),
     adminUrl: String(formData.get("adminUrl") ?? ""),
+    maxQtyPerItem: Number(formData.get("maxQtyPerItem") ?? 10) || 10,
+    maxQtyBulk: Number(formData.get("maxQtyBulk") ?? 30) || 30,
+    maxQtyPerOrder: Number(formData.get("maxQtyPerOrder") ?? 15) || 15,
   }, actor);
   appendAudit({ actor, action: "settings.updated", target: "store" });
   revalidatePath("/settings");
@@ -223,6 +232,66 @@ export async function saveProductEditAction(formData: FormData) {
   revalidatePath(`/products/${handle}`);
 }
 
+/**
+ * "Main image" chuno — customer ko card aur product page par sabse pehle yahi
+ * photo dikhti hai, isliye owner khud decide kare kaunsi photo attract karti hai.
+ *
+ * Kaam kaise: catalogue me **images ka order** hi main image banata hai
+ * (`images[0]`), isliye chuni hui photo ko list me sabse aage le aate hain —
+ * baaki photos ka order waise hi rehta hai.
+ */
+export async function setProductMainImageAction(formData: FormData) {
+  const session = await requireSession();
+  const handle = String(formData.get("handle") ?? "");
+  const image = String(formData.get("image") ?? "").trim();
+  if (!handle || !image) return;
+
+  const product = mergedProduct(handle);
+  if (!product || !product.images.includes(image)) return;
+
+  const ordered = [image, ...product.images.filter((candidate) => candidate !== image)];
+  saveProductOverride(handle, { images: ordered }, session.email);
+  appendAudit({
+    actor: session.email,
+    action: "product.main_image",
+    target: handle,
+    meta: { image },
+  });
+  revalidatePath("/products");
+  revalidatePath(`/products/${handle}`);
+}
+
+/**
+ * Ek photo ko aage/peeche khiskao (chhota reorder) — `direction` "up" | "down".
+ * Pehli photo hi main image hoti hai, isliye "up" se wo main ban jaati hai.
+ */
+export async function moveProductImageAction(formData: FormData) {
+  const session = await requireSession();
+  const handle = String(formData.get("handle") ?? "");
+  const image = String(formData.get("image") ?? "").trim();
+  const direction = String(formData.get("direction") ?? "up");
+  if (!handle || !image) return;
+
+  const product = mergedProduct(handle);
+  if (!product) return;
+  const images = [...product.images];
+  const index = images.indexOf(image);
+  if (index < 0) return;
+  const target = direction === "up" ? index - 1 : index + 1;
+  if (target < 0 || target >= images.length) return;
+  [images[index], images[target]] = [images[target]!, images[index]!];
+
+  saveProductOverride(handle, { images }, session.email);
+  appendAudit({
+    actor: session.email,
+    action: "product.images_reordered",
+    target: handle,
+    meta: { image, direction },
+  });
+  revalidatePath("/products");
+  revalidatePath(`/products/${handle}`);
+}
+
 export async function toggleProductVisibilityAction(formData: FormData) {
   const session = await requireSession();
   const handle = String(formData.get("handle") ?? "");
@@ -235,9 +304,12 @@ export async function toggleProductVisibilityAction(formData: FormData) {
 export async function saveCollectionEditAction(formData: FormData) {
   const session = await requireSession();
   const handle = String(formData.get("handle") ?? "");
+  const image = String(formData.get("image") ?? "").trim();
   saveCollectionOverride(handle, {
     title: String(formData.get("title") ?? "").trim() || undefined,
     subtitle: String(formData.get("subtitle") ?? "").trim() || undefined,
+    // home ke circle / collection header ki photo (local `/images/…` ya https)
+    ...(image ? { image } : {}),
   });
   appendAudit({ actor: session.email, action: "collection.edited", target: handle });
   revalidatePath("/collections");
@@ -258,49 +330,111 @@ export async function publishCatalogAction() {
   revalidatePath("/collections");
 }
 
-/* ───────────────────────── naya product + 10 photos ───────────────────────── */
+/* ───────────────────────── naya product + photos (upload) ───────────────────────── */
 
+/**
+ * Product save — admin se photos upload, naam, price, MRP, size + stock, colour.
+ *
+ * Data `@liksha/product-store` me jaata hai (`.data/products.json`), jise storefront
+ * seedha padhta hai — isliye publish/rebuild ka intezaar nahi. Saath hi Google Sheet
+ * ke `Products` tab me row upsert hoti hai (owner ke liye readable DB).
+ */
 export async function createProductAction(formData: FormData) {
   const session = await requireSession();
   const text = (key: string) => String(formData.get(key) ?? "").trim();
 
-  const images = formData
-    .getAll("image")
+  const files = formData.getAll("photos").filter((entry): entry is File => entry instanceof File && entry.size > 0);
+  const { urls, errors } = await saveUploadedImages(files);
+
+  // purane photos bhi rakh sakte hain (edit ke waqt)
+  const kept = formData
+    .getAll("existingPhoto")
     .map((value) => String(value).trim())
-    .filter(Boolean)
-    .slice(0, 10);
+    .filter((value) => value.startsWith("/api/uploads/"));
+  const images = [...kept, ...urls].slice(0, MAX_IMAGES_PER_PRODUCT);
 
-  const priceRupees = Number(text("price"));
-  const result = createAdminProduct(
-    {
-      title: text("title"),
-      handle: text("handle"),
-      price: Number.isFinite(priceRupees) ? Math.round(priceRupees * 100) : 0,
-      images,
-      collections: formData.getAll("collections").map((value) => String(value)),
-      sizes: formData.getAll("sizes").map((value) => String(value)),
-      description: text("description"),
-      fabric: text("fabric"),
-      color: text("color"),
-      category: text("category") || "anarkali",
-    },
-    session.email,
-  );
+  // rupees → paise (blank chhodne par base price hi lagta hai)
+  const rupees = (key: string) => {
+    const value = Number(text(key));
+    return Number.isFinite(value) && value > 0 ? Math.round(value * 100) : 0;
+  };
 
-  if (!result.ok || !result.handle) {
-    redirect(`/products/new?error=${encodeURIComponent(result.error ?? "Product save nahi hua")}`);
+  const sizes = SIZES.map((size) => ({
+    size,
+    stock: Math.max(0, Math.round(Number(text(`stock_${size}`)) || 0)),
+    // size-wise pricing — admin yahan XL/XXL ka alag price daal sakta hai
+    price: rupees(`price_${size}`) || null,
+  })).filter((entry) => formData.get(`size_${entry.size}`) !== null || entry.stock > 0);
+
+  const handle = text("handle");
+  const result = saveProduct({
+    handle: handle || undefined,
+    title: text("title"),
+    price: rupees("price"),
+    compareAtPrice: rupees("compareAtPrice") || null,
+    images,
+    colours: text("colours")
+      .split(",")
+      .map((colour) => colour.trim())
+      .filter(Boolean),
+    sizes: sizes.length ? sizes : undefined,
+    description: text("description"),
+    fabric: text("fabric"),
+    collection: text("collection") || "new-arrivals",
+    category: text("category") || "anarkali",
+    status: text("status") === "draft" ? "draft" : "published",
+    actor: session.email,
+  });
+
+  if (!result.ok) {
+    const message = errors.length ? `${result.error} (${errors[0]})` : result.error;
+    redirect(`/products/new?error=${encodeURIComponent(message)}`);
   }
 
-  const publish = await publishCatalog();
+  // sheet row (best-effort — panel isliye fail nahi hota)
+  const sheetOk = await upsertProductRow(productSheetRow(result.product));
+
   appendAudit({
     actor: session.email,
-    action: "product.created",
-    target: result.handle!,
-    meta: { images: images.length, published: publish.ok },
+    action: "product.saved",
+    target: result.product.handle,
+    meta: { images: images.length, status: result.product.status, sheet: sheetOk },
   });
+
   revalidatePath("/products");
   revalidatePath("/");
-  redirect(`/products/${encodeURIComponent(result.handle!)}?created=1`);
+  redirect(`/products?created=${encodeURIComponent(result.product.handle)}`);
+}
+
+/** Product ko draft/live toggle karo (storefront turant badal jaata hai). */
+export async function toggleProductStatusAction(formData: FormData) {
+  const session = await requireSession();
+  const handle = String(formData.get("handle") ?? "").trim();
+  if (!handle) return;
+  const updated = toggleProductStatus(handle);
+  if (updated) {
+    await upsertProductRow(productSheetRow(updated));
+    appendAudit({
+      actor: session.email,
+      action: "product.status",
+      target: handle,
+      meta: { status: updated.status },
+    });
+  }
+  revalidatePath("/products");
+  revalidatePath("/");
+}
+
+/** Product delete (sirf admin-uploaded products; purana catalogue untouched). */
+export async function deleteProductAction(formData: FormData) {
+  const session = await requireSession();
+  const handle = String(formData.get("handle") ?? "").trim();
+  if (!handle) return;
+  if (deleteProduct(handle)) {
+    appendAudit({ actor: session.email, action: "product.deleted", target: handle, meta: {} });
+  }
+  revalidatePath("/products");
+  revalidatePath("/");
 }
 
 /* ───────────────────────── manual order (admin) ───────────────────────── */

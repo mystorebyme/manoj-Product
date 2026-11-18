@@ -5,11 +5,11 @@ Priority: **P0** = launch blocker · **P1** = first week after launch · **P2** 
 ## P0 — before going live
 
 - [ ] **Live Razorpay keys** in Vercel + Render (`RAZORPAY_KEY_ID`, `_KEY_SECRET`, `_WEBHOOK_SECRET`)
-      and register `https://api.likshaclothing.com/api/v1/webhooks/razorpay`.
+      and register `https://api.trendsyounique.fashion/api/v1/webhooks/razorpay`.
 - [x] **Full catalogue media** — live snapshot committed (`database/seeds/live/`): 287 products,
       1,971 images (avg 6.8/product), real `body_html` descriptions, size-wise pricing. Refresh anytime
       with `npm run catalog:sync` (or GitHub Actions → *Catalog sync*).
-- [ ] **Price parity spot-check** — 10 random products vs likshaclothing.com (title, price, MRP, sizes).
+- [ ] **Price parity spot-check** — 10 random products vs trendsyounique.fashion (title, price, MRP, sizes).
       (`npm run catalog:verify` already checks snapshot parity; manual check is for eyes-on confidence.)
 - [ ] **Production secrets** — rotate `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET`, `ADMIN_API_TOKEN`
       (dev defaults exist in the repo on purpose; prod boot check should fail on them).
@@ -79,3 +79,11 @@ Priority: **P0** = launch blocker · **P1** = first week after launch · **P2** 
 - [ ] Monthly restore rehearsal from backup.
 - [x] Removed `clone-liksha-clothing-website/`, `scripts/sync-live-products.mjs`, `scripts/data/*`
       (bootstrap-only inputs) — catalogue ab seedha live snapshot se banta hai.
+
+## Round 36 (2026-11-18)
+
+- [x] Galat Tannu / `TRENDS YOUNIQUE` tree hata kar asli `7b164b36` TRENDS YOUNIQUE tree restore.
+- [x] Owner ka asli logo + Diwali 75% campaign + 477-product catalogue wapas.
+- [x] `trendsyounique.fashion` ke liye GitHub Actions → Pages custom-domain deploy (root `CNAME`).
+- [x] Stale Liksha / Tannu / TRENDS YOUNIQUE references docs, env aur workflows me saaf.
+- [x] `deploy.yml` manual-only (Vercel/Render secrets na hone par false failures band).

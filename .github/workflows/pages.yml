@@ -1,21 +1,23 @@
-name: GitHub Pages preview
+name: GitHub Pages — TRENDS YOUNIQUE (custom domain)
 
-# GitHub Pages par static preview (browse karne ke liye).
-# Poora site — cart, checkout, payment, order tracking, admin — Render par chalta hai
-# (render.yaml). Pages par Node server nahi chalta, isliye yahan sirf static pages.
+# Asli storefront: TRENDS YOUNIQUE (Vercel deployment 7b164b36 se restore kiya gaya).
+# Repo ka custom domain: trendsyounique.fashion (root `CNAME` + Settings → Pages).
+# Isliye Pages build ROOT (/) par banti hai — koi `/<repo>` base path nahi.
+# Canonical / OG / sitemap / robots / WhatsApp links bhi custom domain par hain.
+#
+# `main` par push = build + deploy. Session branch par sirf build (verification),
+# kyunki `github-pages` environment sirf `main` se deploy allow karta hai.
+# Actions tab se "Run workflow" bhi chal sakta hai.
 
 on:
   push:
     branches:
-      - arena/f713eef1-tannu-product
       - main
+      - arena/04883c02-manoj-product
     paths-ignore:
       - ".reviews-sync-trigger"
       - "database/seeds/reviews/**"
   workflow_dispatch:
-
-# NOTE: empty commits path filters ke saath workflow trigger nahi karte —
-# rebuild chahiye to koi file change karke push karein.
 
 permissions:
   contents: read
@@ -28,6 +30,7 @@ concurrency:
 
 jobs:
   build:
+    name: static build for ${{ github.ref_name }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -40,20 +43,48 @@ jobs:
 
       - run: npm ci
 
-      - name: Build static preview
+      # CNAME ho to root deploy (custom domain), warna project page (/<repo>).
+      - name: Resolve Pages URL + base path
+        id: site
+        run: |
+          if [ -s CNAME ]; then
+            domain="$(tr -d '\r\n[:space:]' < CNAME)"
+            echo "domain=$domain" >> "$GITHUB_OUTPUT"
+            echo "base_path=" >> "$GITHUB_OUTPUT"
+            echo "site_url=https://$domain" >> "$GITHUB_OUTPUT"
+          else
+            echo "domain=" >> "$GITHUB_OUTPUT"
+            echo "base_path=/${{ github.event.repository.name }}" >> "$GITHUB_OUTPUT"
+            echo "site_url=https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}" >> "$GITHUB_OUTPUT"
+          fi
+          cat "$GITHUB_OUTPUT" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Build static site
         env:
-          PAGES_BASE_PATH: /${{ github.event.repository.name }}
-          # Live store (Render) ka URL — iske hone se Pages par checkout/payment/tracking
-          # seedha Render API par jaate hain. Khaali ho to WhatsApp order flow chalta hai.
-          # Repo → Settings → Variables → Actions me `STORE_API_URL` set kariye.
+          PAGES_BASE_PATH: ${{ steps.site.outputs.base_path }}
+          # Live store (Render) ka URL — Pages par checkout/payment/tracking isi API par jaate hain.
+          # Repo → Settings → Variables → Actions me `STORE_API_URL` set karein.
           NEXT_PUBLIC_API_BASE_URL: ${{ vars.STORE_API_URL }}
-          NEXT_PUBLIC_LIVE_STORE_URL: ${{ vars.STORE_API_URL || 'https://likshaclothing.onrender.com' }}
-          # Canonical/OG isi deployment ke hain (preview ko live store ka duplicate na samjha jaye)
-          NEXT_PUBLIC_SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+          NEXT_PUBLIC_LIVE_STORE_URL: ${{ vars.STORE_API_URL || 'https://trends-younique-storefront.onrender.com' }}
+          # canonical / OG / sitemap / robots / WhatsApp links custom domain par
+          NEXT_PUBLIC_SITE_URL: ${{ steps.site.outputs.site_url }}
+          # Asli Vercel deployment jaisa Diwali campaign (flat 75% off, 24 Oct – 30 Nov 2026)
+          NEXT_PUBLIC_CAMPAIGN_ID: diwali-2026
+          NEXT_PUBLIC_CAMPAIGN_START: 2026-10-24T00:00:00+05:30
+          NEXT_PUBLIC_CAMPAIGN_END: 2026-11-30T23:59:59+05:30
+          NEXT_PUBLIC_GSC_VERIFICATION: hFaqyp-9LdUXSKPA9RF011TkO2m_-7AUMasXqm_0dGI
         run: node scripts/pages/build-preview.mjs
 
-      # Pages site pehle se enable hai (Settings → Pages → Source: GitHub Actions).
-      # `enablement: true` se agar enable nahi hai to workflow khud try karta hai.
+      # Har deployment me CNAME artifact ke root me hona chahiye, warna GitHub
+      # custom domain setting drop kar deta hai aur site github.io par chal jaati hai.
+      - name: Keep CNAME + .nojekyll in artifact
+        run: |
+          if [ -s CNAME ]; then cp CNAME dist/CNAME; fi
+          touch dist/.nojekyll
+          printf 'Pages URL: %s\nbase path: %s\n' \
+            "${{ steps.site.outputs.site_url }}" \
+            "${{ steps.site.outputs.base_path || '/' }}" >> "$GITHUB_STEP_SUMMARY"
+
       - id: pages
         uses: actions/configure-pages@v5
         with:
@@ -70,7 +101,9 @@ jobs:
           path: dist
 
   deploy:
+    name: deploy to trendsyounique.fashion
     needs: build
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment:
       name: github-pages

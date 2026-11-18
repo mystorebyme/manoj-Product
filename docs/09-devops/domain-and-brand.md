@@ -4,34 +4,35 @@
 
 | Kahan | Kya set karna hai | Kyun |
 | --- | --- | --- |
-| Render → storefront | `NEXT_PUBLIC_SITE_URL=https://designerclothes.in` | WhatsApp message, invoice, canonical/OG links isi se bante hain |
-| Render → storefront | `ADMIN_PANEL_URL=https://admin.designerclothes.in` | Admin panel ka link (sheet ke `admin_url` se bhi aata hai) |
-| GitHub → Settings → Variables → Actions | `STORE_API_URL=https://designerclothes.in` | GitHub Pages preview se order/payment API par jaata hai |
+| Render → storefront | `NEXT_PUBLIC_SITE_URL=https://trendsyounique.fashion` | WhatsApp message, invoice, canonical/OG links isi se bante hain |
+| Render → storefront | `ADMIN_PANEL_URL=https://admin.trendsyounique.fashion` | Admin panel ka link (sheet ke `admin_url` se bhi aata hai) |
+| GitHub → Settings → Variables → Actions | `STORE_API_URL=https://trendsyounique.fashion` | GitHub Pages preview se order/payment API par jaata hai |
 | DNS | `A`/`CNAME` Render ke diye hue target par | `www` + apex dono |
-| Render → Custom Domain | `designerclothes.in`, `www.designerclothes.in` | Auto SSL |
+| Render → Custom Domain | `trendsyounique.fashion`, `www.trendsyounique.fashion` | Auto SSL |
 
 **Rule:** WhatsApp par bheja gaya product/order link **isi site ka** hota hai
-(`window.location.origin`), purani/cloned store ka nahi. Static preview par base path
-(`/tannu-product-`) bhi jud jaata hai.
+(`window.location.origin`), purani/cloned store ka nahi. Custom domain par base path
+khaali (`/`) hota hai; github.io project preview par `/manoj-Product` judta hai.
 
 ## 2. Brand
 
-- Naam: `Designer Clothing` (`apps/web/src/config/site.ts` → `siteConfig.name`).
-- Logo (owner ka final, koi redraw nahi) — device ke hisaab se alag file:
-  - `apps/web/public/images/brand/logo-mobile.png` — header, <768px
-  - `apps/web/public/images/brand/logo-tablet.png` — header, 768–1023px
-  - `apps/web/public/images/brand/logo-desktop.png` — header + invoice masthead, ≥1024px
-  - `apps/web/public/images/brand/logo-fluid.png` — stacked, footer / invoice / any size
-  - `apps/web/public/images/brand/logo-mark-{128,192,512}.png` — favicon, Apple touch icon, PWA, invoice PDF, admin
-  - `apps/web/public/images/og-image.jpg` — social share card (1200×630, wide hero se)
+- Naam: `TRENDS YOUNIQUE` (`apps/web/src/config/site.ts` → `siteConfig.name`).
+- Logo owner ke original file (`assets/source/trends-younique-logo-original.png`) se banta hai —
+  koi redraw nahi (`scripts/brand/build-trends-assets.py`):
+  - `apps/web/public/images/brand/trends-header.png` — crest + wordmark (header, light bg)
+  - `apps/web/public/images/brand/trends-header-cream.png` — cream (maroon/dark bg)
+  - `apps/web/public/images/brand/trends-lockup.png` — stacked full lockup (footer, invoices, about)
+  - `apps/web/public/images/brand/trends-lockup-cream.png` — stacked, cream (dark bg)
+  - `apps/web/public/images/brand/trends-mark-{64,128,192,512}.png` — square crest (favicon, PWA, WhatsApp thumb)
+  - `apps/web/public/images/og-image.jpg` — social share card (1200×630)
   - Ek hi component: `apps/web/src/components/brand-lockup.tsx` (header, mobile menu, footer)
-  - Admin: `apps/admin/public/invoice-logo.png` (horizontal lockup) + `/brand-mark.png` (sidebar/login)
-  - Pipeline + breakpoints: `scripts/brand/build-responsive-assets.mjs`, `docs/05-design/responsive-assets.md`
-- Phone / WhatsApp: `8005900581` (Settings sheet se override ho sakta hai:
+  - Admin: `apps/admin/public/invoice-logo.png` + `/brand-mark.png` + `trends-mark-*.png`
+- Phone / WhatsApp: `7740992663` (Settings sheet se override ho sakta hai:
   `support_phone`, `whatsapp`).
-- UPI: `dhakadgourav@fam` (`upi_id`, `upi_name` sheet se).
-- Instagram (abhi sirf URL text, link nahi): `https://www.instagram.com/designer_clothing_9`
-  (`siteConfig.socials.instagram`). WhatsApp hi working social link hai.
+- UPI: **owner ki apni UPI id** — Sheet `Settings` ke `upi_id` / `upi_name`, ya `STORE_UPI_ID` env.
+  Khaali ho to site par UPI card nahi khulta (koi placeholder VPA nahi dikhta).
+- Instagram: owner abhi handle dena baaki hai (`siteConfig.socials.instagram` khaali hai).
+  WhatsApp hi working social link hai.
 
 ## 3. Domain se pehle: poora env checklist (ek jagah)
 
@@ -43,19 +44,19 @@ callback — sab isi se bante hain (`apps/web/src/config/site.ts`).
 
 | Variable | Domain ke saath | Kya control karta hai |
 | --- | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | `https://designerclothes.in` | canonical + `metadataBase`, `sitemap.xml`, `robots.txt` host, product/offer JSON-LD URL, UPI callback URL, WhatsApp order link fallback |
-| `NEXT_PUBLIC_LIVE_STORE_URL` | `https://designerclothes.in` | "Buy on live store" type fallback links |
-| `ADMIN_PANEL_URL` | `https://admin.designerclothes.in` | admin button/link (sheet ki `admin_url` row isko override karti hai) |
-| `STORE_UPI_ID` / `STORE_UPI_NAME` | `dhakadgourav@fam` / `Designer Clothing` | UPI QR (sheet `upi_id`/`upi_name` override karte hain) |
+| `NEXT_PUBLIC_SITE_URL` | `https://trendsyounique.fashion` | canonical + `metadataBase`, `sitemap.xml`, `robots.txt` host, product/offer JSON-LD URL, UPI callback URL, WhatsApp order link fallback |
+| `NEXT_PUBLIC_LIVE_STORE_URL` | `https://trendsyounique.fashion` | "Buy on live store" type fallback links |
+| `ADMIN_PANEL_URL` | `https://admin.trendsyounique.fashion` | admin button/link (sheet ki `admin_url` row isko override karti hai) |
+| `STORE_UPI_ID` / `STORE_UPI_NAME` | *(khaali — owner khud daalta hai)* / `TRENDS YOUNIQUE` | UPI QR (sheet `upi_id`/`upi_name` override karte hain) |
 | `ADMIN_API_TOKEN` | 32+ char random | admin → storefront API auth |
 | `GOOGLE_SHEETS_WEBAPP_URL` / `GOOGLE_SHEETS_TOKEN` | Apps Script `/exec` | owner settings + order/payment log |
-| `CONTACT_EMAIL` | `Info.likshaclothing@gmail.com` | contact form delivery |
+| `CONTACT_EMAIL` | `care@trendsyounique.com` | contact form delivery |
 
 ### 3.2 GitHub → Settings → Variables (`STORE_API_URL`)
 
 | Variable | Value | Kyun |
 | --- | --- | --- |
-| `STORE_API_URL` | `https://designerclothes.in` | Pages preview ka checkout/payment/track-order seedha Render API par jaata hai (`pages.yml` ise `NEXT_PUBLIC_API_BASE_URL` banata hai) |
+| `STORE_API_URL` | `https://trendsyounique.fashion` | Pages preview ka checkout/payment/track-order seedha Render API par jaata hai (`pages.yml` ise `NEXT_PUBLIC_API_BASE_URL` banata hai) |
 
 Variable (secret nahi) rakhein — workflow `vars.STORE_API_URL` padhta hai. Set karne ya badalne par
 Pages workflow dobara chalao (Actions → Pages → Re-run) — static build me value inject hoti hai.
@@ -72,16 +73,16 @@ set karte hi order seedha Render par banta hai, UPI payment ke baad wahi order p
 
 ### 3.3 Custom domain + SSL
 
-1. Render → storefront → **Settings → Custom Domains** → `designerclothes.in` + `www.designerclothes.in` add.
+1. Render → storefront → **Settings → Custom Domains** → `trendsyounique.fashion` + `www.trendsyounique.fashion` add.
 2. DNS (registrar): apex `A` → Render ka IP; `www` `CNAME` → `<service>.onrender.com`.
 3. Render SSL auto (Let's Encrypt) — 10–30 min.
 4. `www` → apex **Redirect** (ya ulta) — dono par site khule, canonical ek hi ho.
-5. Admin alag subdomain par ho to `admin.designerclothes.in` bhi add karein (admin app alag service hai).
+5. Admin alag subdomain par ho to `admin.trendsyounique.fashion` bhi add karein (admin app alag service hai).
 
 ### 3.4 Domain ke baad verify (copy-paste)
 
 ```bash
-SITE=https://designerclothes.in
+SITE=https://trendsyounique.fashion
 
 # canonical + OG absolute URL
 curl -s $SITE | grep -o '<link rel="canonical"[^>]*>' | head -1
@@ -99,11 +100,27 @@ curl -s "$SITE/products/$(curl -s $SITE/sitemap.xml | grep -o 'products/[a-z0-9-
 curl -s $SITE/api/settings | head -c 400
 ```
 
-Sab URLs `designerclothes.in` ke hone chahiye — kahin `onrender.com` ya
-`likshaclothing.com` nahi dikhna chahiye. `www` + non-`www` dono test karein.
+Sab URLs `trendsyounique.fashion` ke hone chahiye — kahin `onrender.com` ya
+`trendsyounique.fashion` nahi dikhna chahiye. `www` + non-`www` dono test karein.
 
 > Note: `NEXT_PUBLIC_*` values **build time** par bake hoti hain. Render par env badalne ke
 > baad **Manual Deploy → Clear build cache & deploy** karein, warna purana URL HTML me reh jaata hai.
+
+### 3.5 GitHub Pages par custom domain (`pages.yml`)
+
+Custom domain ab **GitHub Actions → GitHub Pages** se deploy hota hai:
+
+- Root `CNAME` = `trendsyounique.fashion` (aur Settings → Pages me bhi set).
+- `pages.yml` CNAME dekh kar `PAGES_BASE_PATH` khaali rakhta hai (root `/`), aur
+  `NEXT_PUBLIC_SITE_URL=https://trendsyounique.fashion` set karta hai.
+- Har artifact me `CNAME` + `.nojekyll` jaate hain (`scripts/pages/build-preview.mjs`
+  aur workflow dono), isliye deploy par domain drop nahi hota.
+- `github-pages` environment sirf `main` se deploy allow karta hai — feature branch
+  par sirf build (verification) hoti hai.
+- Diwali campaign (`flat 75% off`) ke liye `NEXT_PUBLIC_CAMPAIGN_*` env bhi workflow me hain.
+
+Purana `/manoj-Product` project-page setup ab nahi chalata; purana GitHub sample
+`nextjs.yml` bhi restore me hata diya gaya (wo `./out` bina `output: export` build karta tha).
 
 ## 4. Sheet kabhi public nahi
 

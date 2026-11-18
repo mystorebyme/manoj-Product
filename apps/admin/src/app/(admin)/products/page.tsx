@@ -4,6 +4,8 @@ import { inr } from "@/lib/format";
 import { updateStockAction } from "@/app/actions";
 import { getSession } from "@/lib/session";
 import { ReadOnlyNotice } from "@/components/read-only-notice";
+import { listAdminProducts } from "@liksha/product-store";
+import { deleteProductAction, toggleProductStatusAction } from "@/app/actions";
 
 export const dynamic = "force-dynamic";
 
@@ -17,6 +19,9 @@ export default async function ProductsPage({
   const term = q.trim().toLowerCase();
   const perPage = 20;
   const currentPage = Math.max(1, Number(page) || 1);
+
+  // owner ke uploaded products (storefront inhe turant dikhata hai)
+  const uploaded = listAdminProducts();
 
   const all = getProducts()
     .filter((product) =>
@@ -54,6 +59,74 @@ export default async function ProductsPage({
             </button>
           </form>
         </div>
+      </div>
+
+      <div className="panel">
+        <div className="panel-head">
+          <h2>Uploaded by you</h2>
+          <span className="badge">{uploaded.length} products</span>
+        </div>
+        {uploaded.length === 0 ? (
+          <div className="panel-body">
+            <p style={{ fontSize: 12.5, color: "var(--muted)" }}>
+              Abhi koi naya product upload nahi hua. <Link href="/products/new">Add product</Link> se
+              photos, naam, price aur size daaliye — website par turant live ho jaayega.
+            </p>
+          </div>
+        ) : (
+          <table>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Sizes (stock)</th>
+                <th>Status</th>
+                <th className="right">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {uploaded.map((product) => (
+                <tr key={product.handle}>
+                  <td>
+                    <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img className="thumb" src={product.images[0]} alt="" />
+                      <div>
+                        <strong style={{ fontWeight: 500 }}>{product.title}</strong>
+                        <div style={{ fontSize: 11.5, color: "var(--muted)" }}>{product.handle}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>{inr(product.price)}</td>
+                  <td style={{ fontSize: 11.5 }}>
+                    {product.sizes.map((entry) => `${entry.size} (${entry.stock})`).join(" · ")}
+                  </td>
+                  <td>
+                    <span className={`badge ${product.status === "published" ? "badge-success" : ""}`}>
+                      {product.status === "published" ? "Live" : "Draft"}
+                    </span>
+                  </td>
+                  <td className="right">
+                    <div className="actions" style={{ justifyContent: "flex-end" }}>
+                      <form action={toggleProductStatusAction}>
+                        <input type="hidden" name="handle" value={product.handle} />
+                        <button className="btn btn-sm" type="submit">
+                          {product.status === "published" ? "Unpublish" : "Publish"}
+                        </button>
+                      </form>
+                      <form action={deleteProductAction}>
+                        <input type="hidden" name="handle" value={product.handle} />
+                        <button className="btn btn-sm btn-danger" type="submit">
+                          Delete
+                        </button>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
 
       <div className="panel">

@@ -1,5 +1,5 @@
 /**
- * LIKSHA CLOTHING — Google Sheet ↔ website bridge (Apps Script)
+ * TRENDS YOUNIQUE — Google Sheet ↔ website bridge (Apps Script)
  * ------------------------------------------------------------
  * Yeh script ek hi Google Sheet ke saath kaam karta hai:
  *
@@ -13,7 +13,7 @@
  * SETUP (ek baar, 5 minute):
  *   1. Google Sheet kholiye → Extensions → Apps Script.
  *   2. Is file ka poora code paste kijiye.
- *   3. Neeche TOKEN me koi lamba random word daaliye (jaise 'liksha-9f3k2m').
+ *   3. Neeche TOKEN me koi lamba random word daaliye (jaise 'trends-9f3k2m').
  *   4. Save → Run → `setup` (permission maange to Allow).
  *   5. Deploy → New deployment → type "Web app"
  *        Execute as: Me
@@ -29,7 +29,7 @@
  */
 
 /** Apna secret token yahan daaliye (website ke GOOGLE_SHEETS_TOKEN se same) */
-var TOKEN = 'CHANGE-ME-liksha-token';
+var TOKEN = 'CHANGE-ME-trends-token';
 
 var HEADERS = {
   Orders: [
@@ -50,12 +50,12 @@ var HEADERS = {
 
 /** Settings sheet ke keys — website inhe padhti hai */
 var DEFAULT_SETTINGS = [
-  ['support_phone', '8005900581'],
-  ['whatsapp', '8005900581'],
-  ['support_email', 'Info.likshaclothing@gmail.com'],
-  ['upi_id', 'dhakadgourav@fam'],
-  ['upi_name', 'Designer Clothing'],
-  ['announcement', 'Diwali Sale — Flat 70% OFF · Final price ₹499 onwards'],
+  ['support_phone', '7740992663'],
+  ['whatsapp', '7740992663'],
+  ['support_email', 'care@trendsyounique.com'],
+  ['upi_id', ''],
+  ['upi_name', 'TRENDS YOUNIQUE'],
+  ['announcement', 'New drop live — free shipping across India'],
   ['gstin', ''],
   ['free_shipping', 'true'],
   // admin panel ka link — sirf owner ke liye (frontend par kabhi nahi dikhta)
@@ -98,7 +98,7 @@ function setup() {
   settings.setFrozenRows(1);
   settings.getRange(1, 1, 1, 2).setFontWeight('bold');
 
-  SpreadsheetApp.getActiveSpreadsheet().toast('Liksha sheets ready ✔', 'Setup', 5);
+  SpreadsheetApp.getActiveSpreadsheet().toast('Trends sheets ready ✔', 'Setup', 5);
 }
 
 function readSettings_() {

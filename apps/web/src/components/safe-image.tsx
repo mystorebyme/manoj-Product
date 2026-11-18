@@ -19,6 +19,7 @@ export function SafeImage({
   fetchPriority,
   sizes,
   fallbackSrc = FALLBACK,
+  failureMode = "placeholder",
 }: {
   src: string;
   alt: string;
@@ -28,8 +29,15 @@ export function SafeImage({
   sizes?: string;
   /** CDN fail hone par kya dikhe — default brand placeholder */
   fallbackSrc?: string;
+  /**
+   * `hide` = image fail hone par kuch na dikhe (jaise card ka hover photo, taaki
+   * neeche wali asli photo hi dikhti rahe — broken icon bilkul nahi).
+   */
+  failureMode?: "placeholder" | "hide";
 }) {
   const [failed, setFailed] = useState(false);
+
+  if (failed && failureMode === "hide") return null;
 
   return (
     // eslint-disable-next-line @next/next/no-img-element

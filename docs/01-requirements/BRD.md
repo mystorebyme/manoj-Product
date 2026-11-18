@@ -2,7 +2,7 @@
 
 ## 1. Business context
 
-Designer Clothing (Jaipur) — designer ethnic wear label. Sales mainly Instagram DMs aur WhatsApp par.
+TRENDS YOUNIQUE (Jaipur) — designer ethnic wear label. Sales mainly Instagram DMs aur WhatsApp par.
 Problems: repeated questions (price, size availability, COD), order tracking manual, stock
 out-of-sync, koi single source of truth nahi.
 
@@ -18,7 +18,7 @@ out-of-sync, koi single source of truth nahi.
 
 | Role | Zaroorat |
 | --- | --- |
-| Owner (Tannu) | Sales visibility, price/stock control, zero downtime |
+| Owner (TRENDS YOUNIQUE) | Sales visibility, price/stock control, zero downtime |
 | Catalog manager | Product add/edit, image, price |
 | Dispatch | Order list, address, status update |
 | Customer | Browse, size clarity, COD/prepaid, tracking |

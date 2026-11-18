@@ -2,7 +2,7 @@
 
 | Role | Kaun | Responsibility |
 | --- | --- | --- |
-| Product owner | Store owner (Tannu) | Priority, pricing, offers, final design approval |
+| Product owner | Store owner (TRENDS YOUNIQUE) | Priority, pricing, offers, final design approval |
 | Tech lead / full-stack dev | 1 (AI-assisted) | Architecture, code, deploy, docs |
 | Catalogue manager | Owner/staff | Product add, images, price, stock |
 | Dispatch | Family/staff | Packing, AWB, status update |

@@ -76,11 +76,11 @@ test("order Postgres me likha jaata hai, JSON file nahi banti", async () => {
 
 test("admin status + tracking Postgres me persist hote hain", async () => {
   const { orderNumber } = await orders.createOrder(payload);
-  await orders.updateOrderStatus(orderNumber, "confirmed", "admin@likshaclothing.com");
+  await orders.updateOrderStatus(orderNumber, "confirmed", "admin@trendsyounique.com");
   await orders.setTracking(
     orderNumber,
     { courier: "Delhivery", awb: "AWB-PG-1", url: "https://www.delhivery.com/track/AWB-PG-1" },
-    "admin@likshaclothing.com",
+    "admin@trendsyounique.com",
   );
 
   const reread = await orders.getOrder(orderNumber);
@@ -113,7 +113,7 @@ test("payment verify hone par order confirmed hota hai", async () => {
     gateway: "manual-upi",
     reference: "UPI-REF-1",
     amount: 100,
-    actor: "admin@likshaclothing.com",
+    actor: "admin@trendsyounique.com",
   });
   assert.equal(result?.order.paymentStatus, "paid");
   assert.equal(result?.order.status, "confirmed");
@@ -124,12 +124,12 @@ test("payment verify hone par order confirmed hota hai", async () => {
 
 test("admin ka status note Postgres me persist hota hai aur customer page par milta hai", async () => {
   const { orderNumber } = await orders.createOrder(payload);
-  const saved = await orders.setStatusNote(orderNumber, "  Delhivery pickup kal subah  ", "admin@likshaclothing.com");
+  const saved = await orders.setStatusNote(orderNumber, "  Delhivery pickup kal subah  ", "admin@trendsyounique.com");
   assert.equal(saved?.statusNote?.text, "Delhivery pickup kal subah");
 
   const reread = await orders.getOrder(orderNumber);
   assert.equal(reread?.statusNote?.text, "Delhivery pickup kal subah");
-  assert.equal(reread?.statusNote?.by, "admin@likshaclothing.com");
+  assert.equal(reread?.statusNote?.by, "admin@trendsyounique.com");
   assert.equal(reread?.statusNote?.status, "placed");
 
   const column = await db.query<{ status_note: { text: string } | null }>(
@@ -139,7 +139,7 @@ test("admin ka status note Postgres me persist hota hai aur customer page par mi
   assert.equal(column.rows[0]?.status_note?.text, "Delhivery pickup kal subah");
 
   // khaali text = note clear
-  const cleared = await orders.setStatusNote(orderNumber, "", "admin@likshaclothing.com");
+  const cleared = await orders.setStatusNote(orderNumber, "", "admin@trendsyounique.com");
   assert.equal(cleared?.statusNote ?? null, null);
   assert.equal((await orders.getOrder(orderNumber))?.statusNote ?? null, null);
 });
@@ -147,7 +147,7 @@ test("admin ka status note Postgres me persist hota hai aur customer page par mi
 test("manual invoice Postgres me save hota hai (redeploy par nahi khota)", async () => {
   const invoices = await import("../../apps/web/src/lib/manual-invoices.ts");
   const first = await invoices.createManualInvoice({
-    createdBy: "admin@likshaclothing.com",
+    createdBy: "admin@trendsyounique.com",
     customerName: "Walk-in Customer",
     phone: "9876500001",
     address: "1 Johari Bazaar",
@@ -160,7 +160,7 @@ test("manual invoice Postgres me save hota hai (redeploy par nahi khota)", async
   assert.equal(first.total, 200_000);
 
   const second = await invoices.createManualInvoice({
-    createdBy: "admin@likshaclothing.com",
+    createdBy: "admin@trendsyounique.com",
     customerName: "Another Customer",
     phone: "9876500002",
     address: "2 MI Road",
@@ -195,9 +195,9 @@ test("contact form ka message Postgres me save hota hai aur admin mark-handled k
   assert.equal(found?.subject, "Sizing help");
   assert.equal(found?.handled, false);
 
-  const handled = await messages.markMessageHandled(saved.id, "admin@likshaclothing.com");
+  const handled = await messages.markMessageHandled(saved.id, "admin@trendsyounique.com");
   assert.equal(handled?.handled, true);
-  assert.equal(handled?.handledBy, "admin@likshaclothing.com");
+  assert.equal(handled?.handledBy, "admin@trendsyounique.com");
   assert.ok(handled?.handledAt);
 
   const rows = await db.query<{ subject: string }>(
@@ -218,7 +218,7 @@ test("blocked pincode par order place nahi hota", async () => {
       deliveryDays: "4-7 business days",
       freeShipping: true,
     },
-    "admin@likshaclothing.com",
+    "admin@trendsyounique.com",
   );
 
   const blocked = await orders
@@ -252,7 +252,7 @@ test("delivery rules Postgres me persist hote hain aur pincode check par lagte h
       deliveryDays: "3-5 business days",
       freeShipping: true,
     },
-    "admin@likshaclothing.com",
+    "admin@trendsyounique.com",
   );
 
   const saved = await delivery.getDeliverySettings({ fresh: true });

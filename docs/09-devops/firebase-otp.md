@@ -5,20 +5,20 @@ Firebase config set nahi hai. Neeche 6 step me asli SMS OTP chalu ho jaayega.
 
 ## 1. Firebase project banao
 
-1. [console.firebase.google.com](https://console.firebase.google.com) → **Add project** → naam `liksha-clothing`.
+1. [console.firebase.google.com](https://console.firebase.google.com) → **Add project** → naam `trends-younique`.
 2. Google Analytics optional hai (skip kar sakte hain).
 
 ## 2. Web app register karo
 
-1. Project home → **</> (Web)** icon → App nickname: `liksha-web` → **Register app**.
+1. Project home → **</> (Web)** icon → App nickname: `trends-younique` → **Register app**.
 2. Screen par `firebaseConfig` object milega — uski values copy kar lein:
 
 ```js
 {
   apiKey: "AIza…",
-  authDomain: "liksha-clothing.firebaseapp.com",
-  projectId: "liksha-clothing",
-  storageBucket: "liksha-clothing.appspot.com",
+  authDomain: "trends-younique.firebaseapp.com",
+  projectId: "trends-younique",
+  storageBucket: "trends-younique.appspot.com",
   messagingSenderId: "1234567890",
   appId: "1:1234567890:web:abc123"
 }
@@ -28,8 +28,8 @@ Firebase config set nahi hai. Neeche 6 step me asli SMS OTP chalu ho jaayega.
 
 1. Console → **Build → Authentication → Get started**.
 2. **Sign-in method** tab → **Phone** → Enable → Save.
-3. **Settings → Authorized domains** me add karein: `localhost`, `likshaclothing.onrender.com`,
-   `liksha-clothing.vercel.app`, aur aapka asli domain (`www.likshaclothing.com`).
+3. **Settings → Authorized domains** me add karein: `localhost`, `trends-younique-storefront.onrender.com`,
+   `trends-younique.vercel.app`, aur aapka asli domain (`www.trendsyounique.fashion`).
 
 > SMS quota: Blaze plan par hi zyada SMS milte hain. Free (Spark) plan me limited quota hota hai —
 > testing ke liye kaafi hai, live traffic par Blaze + budget alert lagayein.

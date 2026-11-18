@@ -13,7 +13,7 @@
     }
    ]
   },
-  "luxe-lucknowi-sequence-anarkali-suit-set": {
+  "luxe-lucknowi-sequins-anarkali-suit-set": {
    "handle": "black-luxe-lucknowi-sequence-anarkali-suit-set",
    "colours": [
     {
@@ -130,6 +130,19 @@
     }
    ]
   },
+  "faux-blooming-anarkali-style-sarara-suit-set": {
+   "handle": "black-faux-blooming-anarkali-style-sarara-suit-set-copy",
+   "colours": [
+    {
+     "name": "White",
+     "handle": "black-faux-blooming-anarkali-style-sarara-suit-set-copy"
+    },
+    {
+     "name": "Black",
+     "handle": "black-faux-blooming-anarkali-style-sarara-suit-set"
+    }
+   ]
+  },
   "peacock-design-heavy-traditional-crop-top-with-shrug": {
    "handle": "peacock-design-heavy-traditional-crop-top-with-shrug-purple",
    "colours": [
@@ -164,8 +177,8 @@
  "byHandle": {
   "light-pink-anarkali-suit-set": "colour-anarkali-suit-set",
   "pista-colour-anarkali-suit-set": "colour-anarkali-suit-set",
-  "black-luxe-lucknowi-sequence-anarkali-suit-set": "luxe-lucknowi-sequence-anarkali-suit-set",
-  "red-luxe-lucknowi-sequence-anarkali-suit-set": "luxe-lucknowi-sequence-anarkali-suit-set",
+  "black-luxe-lucknowi-sequence-anarkali-suit-set": "luxe-lucknowi-sequins-anarkali-suit-set",
+  "red-luxe-lucknowi-sequence-anarkali-suit-set": "luxe-lucknowi-sequins-anarkali-suit-set",
   "premium-pink-anarkali-suit-set": "premium-anarkali-suit-set",
   "premium-maroon-anarkali-suit-set": "premium-anarkali-suit-set",
   "maroon-coloured-designer-anarkali-suit": "coloured-designer-anarkali-suit",
@@ -182,6 +195,8 @@
   "premium-quality-5-layers-blue-anarkali-suit-set-copy": "premium-quality-5-layers-anarkali-suit-set",
   "premium-quality-bandhej-green-anarkali-suit-set-copy": "premium-quality-bandhej-anarkali-suit-set",
   "premium-quality-anarkali-suit-set-copy-3": "premium-quality-bandhej-anarkali-suit-set",
+  "black-faux-blooming-anarkali-style-sarara-suit-set-copy": "faux-blooming-anarkali-style-sarara-suit-set",
+  "black-faux-blooming-anarkali-style-sarara-suit-set": "faux-blooming-anarkali-style-sarara-suit-set",
   "peacock-design-heavy-traditional-crop-top-with-shrug-cream": "peacock-design-heavy-traditional-crop-top-with-shrug",
   "peacock-design-heavy-traditional-crop-top-with-shrug-sky-blue": "peacock-design-heavy-traditional-crop-top-with-shrug",
   "peacock-design-heavy-traditional-crop-top-with-shrug-purple": "peacock-design-heavy-traditional-crop-top-with-shrug",

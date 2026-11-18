@@ -1,0 +1,56 @@
+# Netlify — TRENDS YOUNIQUE storefront (static export)
+#
+# Netlify par sirf **storefront** chalti hai (browse, cart, checkout → WhatsApp,
+# Google Sheet me order/enquiry). Isme Node server nahi hota, isliye:
+#   • products static HTML se aate hain (instant load, CDN edge),
+#   • "Load more" / filter / sort `catalog-lite.json` se client-side chalte hain,
+#   • order, contact form, enquiry, newsletter, review — sab seedha Apps Script
+#     web app par jaate hain (browser se), aur wahan se Google Sheet me.
+#
+# Domain: Site configuration → Domain management → add `trendsyounique.fashion`.
+# Detail steps: docs/09-devops/netlify.md
+
+[build]
+  command = "npm ci && node scripts/pages/build-preview.mjs"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+  # root domain (basePath khaali) — GitHub Pages jaisa /repo/ prefix nahi chahiye
+  PAGES_BASE_PATH = ""
+  # canonical / OG / sitemap isi domain par
+  NEXT_PUBLIC_SITE_URL = "https://trendsyounique.fashion"
+  # koi alag Node backend nahi — checkout WhatsApp + Google Sheet flow par chalta hai
+  NEXT_PUBLIC_API_BASE_URL = ""
+
+# ---------------------------------------------------------------------------
+# security + caching headers (GitHub Pages par ye set nahi ho paate)
+# ---------------------------------------------------------------------------
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "SAMEORIGIN"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/catalog-lite.json"
+  [headers.values]
+    Cache-Control = "public, max-age=300, stale-while-revalidate=86400"
+
+[[headers]]
+  for = "/catalog-index.json"
+  [headers.values]
+    Cache-Control = "public, max-age=300, stale-while-revalidate=86400"

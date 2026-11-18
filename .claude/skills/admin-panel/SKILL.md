@@ -7,8 +7,8 @@ description: Build or extend a screen in apps/admin — auth, server actions, au
 
 ## Access
 
-- App: `http://localhost:3001` (prod `admin.likshaclothing.com`)
-- Login: `ADMIN_EMAIL` / `ADMIN_PASSWORD` (dev default `admin@likshaclothing.com` / `liksha2026`)
+- App: `http://localhost:3001` (prod `admin.trendsyounique.fashion`)
+- Login: `ADMIN_EMAIL` / `ADMIN_PASSWORD` (dev default `admin@trendsyounique.com` / `liksha2026`)
 - Cookie `liksha_admin` = `base64url(payload).HMAC-SHA256`, 8h, `httpOnly`, `sameSite=lax`
 - Middleware: `apps/admin/src/middleware.ts` — sab `(admin)` routes protected, warna `307 /login?next=`
 

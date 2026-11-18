@@ -1,13 +1,13 @@
-# Designer Clothing — storefront, admin & API
+# TRENDS YOUNIQUE — storefront, admin & API
 
-Production-grade ecommerce monorepo for **Designer Clothing** (designer anarkali suits, lehenga choli and
-printed suit sets). The catalogue mirrors [likshaclothing.com](https://www.likshaclothing.com) exactly:
+Production-grade ecommerce monorepo for **TRENDS YOUNIQUE** (designer anarkali suits, lehenga choli and
+printed suit sets). The catalogue mirrors the owner's Shopify snapshot exactly:
 same titles, same prices (in paise), same MRP, same sizes, same collections.
 
 ```
-web app   →  likshaclothing.com            (customer storefront, 287 static product pages)
-admin app →  admin.likshaclothing.com      (owner panel: orders, stock, prices, settings)
-api       →  api.likshaclothing.com        (REST /api/v1 for partners, mobile, webhooks)
+web app   →  trendsyounique.fashion            (customer storefront, 287 static product pages)
+admin app →  admin.trendsyounique.fashion      (owner panel: orders, stock, prices, settings)
+api       →  api.trendsyounique.fashion        (REST /api/v1 for partners, mobile, webhooks)
 ```
 
 > **Payment policy:** third-party only (Razorpay hosted links + verified webhooks). No card data ever
@@ -35,7 +35,7 @@ api       →  api.likshaclothing.com        (REST /api/v1 for partners, mobile,
 | --- | --- | --- |
 | Render (full app) | storefront + admin + Postgres + static preview | dashboard → New → Blueprint → repo → Apply (`render.yaml`), phir admin me `ADMIN_PASSWORD` set |
 | GitHub Pages | static preview (browse) | repo → Settings → Pages → Source = GitHub Actions (workflow ready) |
-| Vercel | storefront preview | project `liksha-clothing` (root `apps/web`) — Vercel GitHub App ko repo access chahiye |
+| Vercel | storefront preview | project `trends-younique` (root `apps/web`) — Vercel GitHub App ko repo access chahiye |
 
 Detail: [`docs/10-deployment/render.md`](docs/10-deployment/render.md), [`docs/10-deployment/vercel.md`](docs/10-deployment/vercel.md).
 
@@ -49,8 +49,8 @@ kar deta hai aur site blank milti hai):
 | Build Command | `npm ci && node scripts/pages/build-preview.mjs` |
 | Publish Directory | `dist` |
 
-Ya behtar: **New → Blueprint** se `render.yaml` apply karein — wahan `liksha-preview` (static) aur
-`liksha-storefront`/`liksha-admin` (full app) dono define hain.
+Ya behtar: **New → Blueprint** se `render.yaml` apply karein — wahan `trends-younique-preview` (static) aur
+`trends-younique-storefront`/`trends-younique-admin` (full app) dono define hain.
 
 ## Admin login (baat-baat par logout nahi)
 
@@ -97,7 +97,7 @@ Sheet ka account, admin link (`admin_url`) aur payment ke har stage (`pending` �
 
 ## Domain + brand
 
-Apna domain (`designerclothes.in` jaisa) lagane ke steps, Render/Vercel env variables aur
+Apna domain (`trendsyounique.fashion` jaisa) lagane ke steps, Render/Vercel env variables aur
 brand/logo rules: [`docs/09-devops/domain-and-brand.md`](docs/09-devops/domain-and-brand.md).
 
 ## Contact form ("Send us a message")
@@ -135,7 +135,7 @@ npm run dev:admin          # admin       http://localhost:3001
 npm run dev:api            # api         http://localhost:4000/api/v1/health
 ```
 
-Dev admin login: `admin@likshaclothing.com` / `liksha2026` (change before go-live — `ADMIN_PASSWORD`).
+Dev admin login: `admin@trendsyounique.com` / `liksha2026` (change before go-live — `ADMIN_PASSWORD`).
 
 Docker alternative: `docker compose up --build` (web 3000, admin 3001, api 4000, shared `.data` volume).
 
@@ -220,13 +220,13 @@ catalogue integrity (count, prices, sizes, collection membership), session tampe
 
 | App | Host | Doc |
 | --- | --- | --- |
-| storefront + admin + Postgres | Render blueprint (`render.yaml`) → `https://likshaclothing.onrender.com` | `docs/10-deployment/render.md` |
+| storefront + admin + Postgres | Render blueprint (`render.yaml`) → `https://trends-younique-storefront.onrender.com` | `docs/10-deployment/render.md` |
 | static browse preview | GitHub Pages (`.github/workflows/pages.yml`) | this file |
 
 ### Render (production, same-to-same)
 
 1. Render dashboard → **New → Blueprint** → repo select (`render.yaml` mil jayega).
-2. Blueprint 3 cheezein banata hai: `liksha-storefront`, `liksha-admin` aur `liksha-db` (Postgres).
+2. Blueprint 3 cheezein banata hai: `trends-younique-storefront`, `trends-younique-admin` aur `trends-younique-db` (Postgres).
 3. `ADMIN_PASSWORD` dashboard me set kariye (blueprint me `sync: false` hai).
 4. Pehla boot par `npm run db:migrate` chalta hai — `database/schema.sql` + `database/migrations/*`
    apply hote hain, phir server start hota hai.
@@ -291,4 +291,4 @@ Human walkthroughs: `agent-guides/`.
 
 ---
 
-© Designer Clothing. Proprietary — not for redistribution. Built as a production system, not a template.
+© TRENDS YOUNIQUE. Proprietary — not for redistribution. Built as a production system, not a template.

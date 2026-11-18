@@ -5,7 +5,7 @@
 | ID | File | Case | Expected |
 | --- | --- | --- | --- |
 | U1 | `tests/unit/pricing.test.ts` | subtotal for 2 items | exact paise sum |
-| U2 | U1 | LIKSHA10 on 251910 | discount 25191 |
+| U2 | U1 | TRENDS10 on 251910 | discount 25191 |
 | U3 | U1 | WELCOME15 below min order | discount 0 + invalid reason |
 | U4 | U1 | COD fee added | total +5000 |
 | U5 | U1 | free shipping always | shipping 0 |
