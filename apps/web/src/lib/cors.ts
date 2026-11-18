@@ -11,13 +11,10 @@
  * Allowlist hi chalti hai (koi `*` nahi), kyunki in routes me customer ka
  * phone/address aata hai:
  *   - apni site (`NEXT_PUBLIC_SITE_URL`)
- *   - GitHub Pages origin (repo preview) + custom domain (root `CNAME`)
+ *   - GitHub Pages origin (repo preview)
  *   - localhost (dev/preview)
  *   - apne `*.onrender.com` hosts
  */
-
-/** Root `CNAME` — GitHub Pages isi custom domain par serve hoti hai. */
-const PAGES_CUSTOM_DOMAIN = "https://trendsyounique.fashion";
 
 function extraOrigins(): string[] {
   return (process.env.CORS_ALLOWED_ORIGINS ?? "")
@@ -31,8 +28,6 @@ function allowlist(): string[] {
   return [
     ...(site ? [site, site.replace("://www.", "://")] : []),
     "https://mystorebyme.github.io",
-    PAGES_CUSTOM_DOMAIN,
-    PAGES_CUSTOM_DOMAIN.replace("://", "://www."),
     "http://localhost:3000",
     "http://127.0.0.1:3000",
     "http://localhost:3100",

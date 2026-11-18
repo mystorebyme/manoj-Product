@@ -12,11 +12,6 @@ on:
         type: choice
         options: [all, web, admin, api]
 
-# NOTE: Vercel/Render secrets abhi configured nahi hain, isliye `main` push par
-# ye workflow skip hota hai (red X nahi). Custom domain ki deployment `pages.yml`
-# (GitHub Actions → GitHub Pages) karti hai. Vercel/Render chahiye to
-# repo variable `ENABLE_VERCEL_DEPLOY=true` set karein ya Actions tab se manual run karein.
-
 concurrency:
   group: deploy-production
   cancel-in-progress: false
@@ -24,7 +19,6 @@ concurrency:
 jobs:
   deploy:
     name: Deploy to production
-    if: ${{ github.event_name == 'workflow_dispatch' || vars.ENABLE_VERCEL_DEPLOY == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     environment: production

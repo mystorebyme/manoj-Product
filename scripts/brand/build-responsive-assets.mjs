@@ -8,15 +8,6 @@
  *   assets/source/hero-wide-original.png      (2043×770 — header baked hai)
  *   assets/source/hero-portrait-original.png  (1024×1536 poster — mobile/tablet)
  *
- * Campaign (Winter Sale) hero input — owner ke hi posters, sirf campaign text badla
- * gaya hai ("HAPPY Diwali SALE" → "WINTER SALE", tagline → "Wrap Up In Style This Winter");
- * models, logo, 70% badge aur background wahi hain:
- *   assets/source/hero-wide-winter.png        (1376×768 wide winter banner)
- *   assets/source/hero-portrait-winter.png    (843×1264 portrait winter poster)
- *
- * Purane Diwali source files logo crop ke liye repo me hain — banner ab winter
- * sources se bante hain. Campaign badalne par sirf in 2 files + ye script update karo.
- *
  * Header logo kahan se aata hai
  * -----------------------------
  * Owner ke mockup me header ka logo **flat orange/black** version hai (gold ring +
@@ -34,11 +25,11 @@
  *   brand/logo-mark-{128,192,512}.png  square mark on black (favicon, PWA, admin, invoice)
  *   banners/banner-mobile.webp   860×1290 portrait  (<768px)
  *   banners/banner-tablet.webp   1200×900  4:3      (768–1023px)
- *   banners/banner-desktop.webp  1779×594  wide     (≥1024px)
+ *   banners/banner-desktop.webp  2043×598  wide     (≥1024px)
  *   banners/banner-fluid.webp    1600 wide (flexible containers)
- *   images/og-image.jpg          1200×630 social card (winter banner se)
+ *   images/og-image.jpg          1200×630 social card
  *
- * Run: npm run assets:brand   (ya node scripts/brand/build-responsive-assets.mjs)
+ * Run: node scripts/brand/build-responsive-assets.mjs
  */
 import fs from "node:fs/promises";
 import path from "node:path";
@@ -53,9 +44,6 @@ const BANNER = path.join(OUT, "banners");
 const LOGO_3D = path.join(SRC, "logo-original.png");
 const WIDE = path.join(SRC, "hero-wide-original.png");
 const PORTRAIT = path.join(SRC, "hero-portrait-original.png");
-/** Winter Sale campaign sources (owner ke posters ka winter edition) */
-const WIDE_WINTER = path.join(SRC, "hero-wide-winter.png");
-const PORTRAIT_WINTER = path.join(SRC, "hero-portrait-winter.png");
 
 await fs.mkdir(BRAND, { recursive: true });
 await fs.mkdir(BANNER, { recursive: true });
@@ -181,80 +169,58 @@ for (const size of [128, 192, 512]) {
     .toFile(path.join(BRAND, `logo-mark-${size}.png`));
 }
 
-/* ─────────────────── hero banners (Winter Sale) ───────────────────
- * Campaign "Winter Sale" hai, isliye banner winter source posters se bante hain.
- * Original Diwali wide file upar sirf header-logo crop ke liye use hui hai.
- *
- * Device ratios pehle jaise hi hain (CSS: 1779/594, 4:3, 860/1290) — layout ya
- * responsive tests me koi change nahi. Wide winter source ~1.79:1 hai aur desktop
- * frame ~3:1, isliye poster ko poora (bina crop) beech me rakhte hain aur kinaare
- * usi poster ke blurred backdrop se bhare jaate hain (tablet wali technique).
+/* ───────────────────────── hero banners ─────────────────────────
+ * Wide source me site header baked hai (0–170px) — utna crop karke hata dete hain.
  */
-const DESK_W = 1779;
-const DESK_H = 594;
-const deskBackdrop = await sharp(WIDE_WINTER)
-  .resize(DESK_W, DESK_H, { fit: "cover", position: "centre" })
-  .blur(34)
-  .modulate({ brightness: 0.95, saturation: 1.04 })
+const WIDE_TOP = 176;
+/**
+ * Wide source me carousel ke do safed arrow buttons baked hain (clickable lagte
+ * hain par sirf tasveer hain). Hero par side trim karke unhe hata dete hain —
+ * `object-fit: cover` + side trim se composition same rehta hai, koi fake UI nahi.
+ */
+const SIDE_TRIM = 132;
+const wideFull = await sharp(WIDE).extract({ left: 0, top: WIDE_TOP, width: 2043, height: 770 - WIDE_TOP }).toBuffer();
+const wide = await sharp(wideFull)
+  .extract({ left: SIDE_TRIM, top: 0, width: 2043 - SIDE_TRIM * 2, height: 770 - WIDE_TOP })
   .toBuffer();
-const deskPoster = await sharp(WIDE_WINTER).resize({ height: DESK_H }).toBuffer();
-const deskPosterMeta = await sharp(deskPoster).metadata();
-const deskPosterW = deskPosterMeta.width ?? 1064;
-console.log(`wide winter hero: ${DESK_W} × ${DESK_H} (poster ${deskPosterW}px centred)`);
+const wideMeta = await sharp(wide).metadata();
+const wideW = wideMeta.width ?? 2043;
+const wideH = wideMeta.height ?? 594;
+console.log(`wide hero: ${wideW} × ${wideH}`);
 
-/** Poster ke dono kinaare 110px me fade — hard edge nahi, blurred backdrop me mil jaata hai. */
-const FEATHER = 110;
-const { data: posterPixels, info: posterInfo } = await sharp(deskPoster)
-  .ensureAlpha()
-  .raw()
-  .toBuffer({ resolveWithObject: true });
-for (let y = 0; y < posterInfo.height; y += 1) {
-  for (let x = 0; x < posterInfo.width; x += 1) {
-    const i = (y * posterInfo.width + x) * 4;
-    const edge = Math.min(x, posterInfo.width - 1 - x);
-    posterPixels[i + 3] = Math.round(Math.min(1, edge / FEATHER) * 255);
-  }
-}
-const softPoster = await sharp(posterPixels, {
-  raw: { width: posterInfo.width, height: posterInfo.height, channels: 4 },
-}).png().toBuffer();
+await sharp(wide).webp({ quality: 84, effort: 6 }).toFile(path.join(BANNER, "banner-desktop.webp"));
+await sharp(wide).resize({ width: 1600 }).webp({ quality: 80, effort: 6 }).toFile(path.join(BANNER, "banner-fluid.webp"));
 
-const desktopBanner = await sharp(deskBackdrop)
-  .composite([{ input: softPoster, left: Math.round((DESK_W - deskPosterW) / 2), top: 0 }])
-  .webp({ quality: 84, effort: 6 })
-  .toBuffer();
-await fs.writeFile(path.join(BANNER, "banner-desktop.webp"), desktopBanner);
-await sharp(desktopBanner)
-  .resize({ width: 1600 })
-  .webp({ quality: 80, effort: 6 })
-  .toFile(path.join(BANNER, "banner-fluid.webp"));
-
-/** Tablet: 4:3 frame — portrait poster poora beech me + usi poster ka blurred backdrop. */
+/**
+ * Tablet: 4:3 frame. Wide banner ke centre crop me models ke kapde kinaron par
+ * kat jaate hain, isliye portrait poster ko 4:3 canvas ke beech me rakhte hain
+ * aur baaki jagah **usi poster ka blurred backdrop** — kuch bhi crop nahi hota,
+ * text/badge/faces poore. (Yahi owner ke mockup ke tablet view jaisa lagta hai.)
+ */
 const TAB_W = 1200;
 const TAB_H = 900;
-const tabBackdrop = await sharp(PORTRAIT_WINTER)
+const tabBackdrop = await sharp(PORTRAIT)
   .resize(TAB_W, TAB_H, { fit: "cover", position: "centre" })
   .blur(34)
   .modulate({ brightness: 0.92, saturation: 1.05 })
   .toBuffer();
-const tabPoster = await sharp(PORTRAIT_WINTER).resize({ height: TAB_H }).toBuffer();
+const tabPoster = await sharp(PORTRAIT).resize({ height: TAB_H }).toBuffer();
 await sharp(tabBackdrop)
   .composite([{ input: tabPoster, gravity: "centre" }])
   .webp({ quality: 84, effort: 6 })
   .toFile(path.join(BANNER, "banner-tablet.webp"));
 
-/** Mobile: portrait poster ka centre crop → 860×1290 (ratio 2:3) */
-const posterMeta = await sharp(PORTRAIT_WINTER).metadata();
-const posterW = posterMeta.width ?? 843;
-const posterH = posterMeta.height ?? 1264;
-const mobileW = Math.min(posterW, Math.round(posterH * (860 / 1290)));
-await sharp(PORTRAIT_WINTER)
+const posterMeta = await sharp(PORTRAIT).metadata();
+const posterW = posterMeta.width ?? 1024;
+const posterH = posterMeta.height ?? 1536;
+const mobileW = Math.min(posterW, Math.round(posterH * 0.68));
+await sharp(PORTRAIT)
   .extract({ left: Math.round((posterW - mobileW) / 2), top: 0, width: mobileW, height: posterH })
-  .resize({ width: 860, height: 1290, fit: "fill" })
+  .resize({ width: 860 })
   .webp({ quality: 82, effort: 6 })
   .toFile(path.join(BANNER, "banner-mobile.webp"));
 
-await sharp(desktopBanner)
+await sharp(path.join(BANNER, "banner-desktop.webp"))
   .resize({ width: 1200, height: 630, fit: "cover", position: "centre" })
   .jpeg({ quality: 84, mozjpeg: true })
   .toFile(path.join(OUT, "og-image.jpg"));
