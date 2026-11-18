@@ -587,3 +587,24 @@ dikhati (status WhatsApp se).
   `apps/admin` build — sab pass; local root custom-domain build me `CNAME`,
   `.nojekyll`, TRENDS YOUNIQUE header, Diwali 75% banner, canonical/OG/sitemap
   `trendsyounique.fashion` verify kiye.
+
+## Round 37 — Vercel ko final production target banaya (2026-11-18)
+
+- **User decision:** "ab isko Vercel se de dena, Cloudflare mai domain dal dunga". Isliye
+  GitHub Pages ka custom-domain claim hata diya: root `CNAME` delete, `pages.yml` se
+  cname-attach step / `dist/CNAME` copy hata kar workflow sirf
+  `https://mystorebyme.github.io/manoj-Product/` project preview banata hai.
+- **Vercel:** project `trends-younique` (`prj_EQ3QLpdZAFF6fnLQSHjOte7p4Crb`) hi production hai;
+  `main` push par Git integration se deploy + aliases (`trendsyounique.fashion`,
+  `www.trendsyounique.fashion`, `trends-younique.vercel.app`).
+- **Env:** `NEXT_PUBLIC_SITE_URL` `https://trends-younique.vercel.app` →
+  `https://trendsyounique.fashion` (production + preview), taaki canonical / OG /
+  robots / sitemap custom domain par bane. Production redeploy kiya.
+- **Domain:** Vercel `get_domain_config` = `misconfigured: false`, `ipStatus: no-change`,
+  Cloudflare nameservers. DNS target `@` A `216.198.79.1` / `64.29.17.1` (ya
+  `76.76.21.21`), CNAME `cname.vercel-dns.com.`, `www` CNAME same.
+- **Note:** diya gaya `trends-younique-5y580tdsr-...vercel.app` purana `7b164b36`
+  deployment (`dpl_BN1X...`) hai aur SSO-protected hai; custom domain par SSO nahi lagta,
+  isliye Cloudflare pointing ke baad site bina login ke public hogi.
+- Docs `vercel.md`, `dns.md`, `domain-and-brand.md`, `ci-cd.md`, `render.md`, `README.md`
+  aur changelog Vercel-first state par update kiye.

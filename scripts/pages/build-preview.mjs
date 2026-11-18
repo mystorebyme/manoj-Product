@@ -101,12 +101,9 @@ try {
   const dist = path.join(ROOT, "dist");
   fs.rmSync(dist, { recursive: true, force: true });
   fs.cpSync(out, dist, { recursive: true });
-  // GitHub Pages Jekyll ko bypass kare
+  // GitHub Pages Jekyll ko bypass kare. Production Vercel par hai; yahan custom-domain
+  // CNAME artifact me nahi bhejte, warna do platforms ek hi domain claim kar dete hain.
   fs.writeFileSync(path.join(dist, ".nojekyll"), "");
-  // Root CNAME = custom domain (Settings → Pages). Artifact me hone se har deploy
-  // par domain bana rehta hai — GitHub kabhi github.io par fallback nahi karta.
-  const cname = path.join(ROOT, "CNAME");
-  if (fs.existsSync(cname)) fs.copyFileSync(cname, path.join(dist, "CNAME"));
   console.log(`static preview ready: ${dist} (${BASE_PATH || "/"})`);
 } finally {
   fs.rmSync(path.join(APP_DIR, "search"), { recursive: true, force: true });

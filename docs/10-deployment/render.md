@@ -1,7 +1,7 @@
 # Deploy — Render (TRENDS YOUNIQUE storefront + admin + Postgres)
 
 Yeh **full app** deployment hai (Node server + Postgres). Public customer site
-`https://trendsyounique.fashion` GitHub Pages se chalati hai (`pages.yml`); Render
+`https://trendsyounique.fashion` Vercel project `trends-younique` se chalati hai (Cloudflare DNS); Render
 services API / admin / order-processing ke liye hain.
 
 Sab kuch repo ke `render.yaml` (Blueprint) se banta hai — dashboard me manually service

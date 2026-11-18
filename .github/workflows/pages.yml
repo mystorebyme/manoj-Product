@@ -1,9 +1,11 @@
-name: GitHub Pages — TRENDS YOUNIQUE (custom domain)
+name: GitHub Pages — TRENDS YOUNIQUE project preview
 
-# Asli storefront: TRENDS YOUNIQUE (Vercel deployment 7b164b36 se restore kiya gaya).
-# Repo ka custom domain: trendsyounique.fashion (root `CNAME` + Settings → Pages).
-# Isliye Pages build ROOT (/) par banti hai — koi `/<repo>` base path nahi.
-# Canonical / OG / sitemap / robots / WhatsApp links bhi custom domain par hain.
+# Production storefront ab Vercel project `trends-younique` se serve hota hai:
+#   https://trends-younique.vercel.app  ->  https://trendsyounique.fashion (Cloudflare DNS)
+# Ye workflow sirf GitHub Pages ka PROJECT PREVIEW banata hai:
+#   https://mystorebyme.github.io/manoj-Product/
+# Custom domain / root CNAME / Pages cname-attach yahan se hata diye gaye hain, taaki
+# do platforms ek hi domain claim na karein.
 #
 # `main` par push = build + deploy. Session branch par sirf build (verification),
 # kyunki `github-pages` environment sirf `main` se deploy allow karta hai.
@@ -13,7 +15,7 @@ on:
   push:
     branches:
       - main
-      - arena/04883c02-manoj-product
+      - arena/b064654c-manoj-product
     paths-ignore:
       - ".reviews-sync-trigger"
       - "database/seeds/reviews/**"
@@ -36,20 +38,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # `main` par Pages settings me custom domain bhi attach karo. Repo ka root
-      # CNAME artifact me hone ke saath ye zaroori hai — warna GitHub Pages
-      # github.io par fallback karta hai aur custom domain par 404 aata hai.
-      - name: Attach custom domain in Pages settings
-        if: github.ref == 'refs/heads/main'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          domain="$(tr -d '\r\n[:space:]' < CNAME)"
-          if [ -n "$domain" ]; then
-            gh api -X PUT "repos/${{ github.repository }}/pages" -f "cname=$domain" --silent \
-              || echo "warn: Pages cname update skipped — Settings → Pages me manually set karein"
-          fi
-
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -57,47 +45,33 @@ jobs:
 
       - run: npm ci
 
-      # CNAME ho to root deploy (custom domain), warna project page (/<repo>).
+      # Project page hamesha /<repo> base path par; custom domain claim nahi.
       - name: Resolve Pages URL + base path
         id: site
         run: |
-          if [ -s CNAME ]; then
-            domain="$(tr -d '\r\n[:space:]' < CNAME)"
-            echo "domain=$domain" >> "$GITHUB_OUTPUT"
-            echo "base_path=" >> "$GITHUB_OUTPUT"
-            echo "site_url=https://$domain" >> "$GITHUB_OUTPUT"
-          else
-            echo "domain=" >> "$GITHUB_OUTPUT"
-            echo "base_path=/${{ github.event.repository.name }}" >> "$GITHUB_OUTPUT"
-            echo "site_url=https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}" >> "$GITHUB_OUTPUT"
-          fi
+          echo "base_path=/${{ github.event.repository.name }}" >> "$GITHUB_OUTPUT"
+          echo "site_url=https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}" >> "$GITHUB_OUTPUT"
           cat "$GITHUB_OUTPUT" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Build static site
         env:
           PAGES_BASE_PATH: ${{ steps.site.outputs.base_path }}
-          # Live store (Render) ka URL — Pages par checkout/payment/tracking isi API par jaate hain.
-          # Repo → Settings → Variables → Actions me `STORE_API_URL` set karein.
           NEXT_PUBLIC_API_BASE_URL: ${{ vars.STORE_API_URL }}
           NEXT_PUBLIC_LIVE_STORE_URL: ${{ vars.STORE_API_URL || 'https://trends-younique-storefront.onrender.com' }}
-          # canonical / OG / sitemap / robots / WhatsApp links custom domain par
+          # Preview ka canonical / OG / sitemap / robots project-page URL par
           NEXT_PUBLIC_SITE_URL: ${{ steps.site.outputs.site_url }}
-          # Asli Vercel deployment jaisa Diwali campaign (flat 75% off, 24 Oct – 30 Nov 2026)
           NEXT_PUBLIC_CAMPAIGN_ID: diwali-2026
           NEXT_PUBLIC_CAMPAIGN_START: 2026-10-24T00:00:00+05:30
           NEXT_PUBLIC_CAMPAIGN_END: 2026-11-30T23:59:59+05:30
           NEXT_PUBLIC_GSC_VERIFICATION: hFaqyp-9LdUXSKPA9RF011TkO2m_-7AUMasXqm_0dGI
         run: node scripts/pages/build-preview.mjs
 
-      # Har deployment me CNAME artifact ke root me hona chahiye, warna GitHub
-      # custom domain setting drop kar deta hai aur site github.io par chal jaati hai.
-      - name: Keep CNAME + .nojekyll in artifact
+      - name: Ensure .nojekyll in artifact
         run: |
-          if [ -s CNAME ]; then cp CNAME dist/CNAME; fi
           touch dist/.nojekyll
           printf 'Pages URL: %s\nbase path: %s\n' \
             "${{ steps.site.outputs.site_url }}" \
-            "${{ steps.site.outputs.base_path || '/' }}" >> "$GITHUB_STEP_SUMMARY"
+            "${{ steps.site.outputs.base_path }}" >> "$GITHUB_STEP_SUMMARY"
 
       - id: pages
         uses: actions/configure-pages@v5
@@ -115,7 +89,7 @@ jobs:
           path: dist
 
   deploy:
-    name: deploy to trendsyounique.fashion
+    name: deploy to github-pages project preview
     needs: build
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest

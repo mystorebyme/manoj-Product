@@ -87,3 +87,10 @@ Priority: **P0** = launch blocker · **P1** = first week after launch · **P2** 
 - [x] `trendsyounique.fashion` ke liye GitHub Actions → Pages custom-domain deploy (root `CNAME`).
 - [x] Stale Liksha / Tannu / TRENDS YOUNIQUE references docs, env aur workflows me saaf.
 - [x] `deploy.yml` manual-only (Vercel/Render secrets na hone par false failures band).
+
+## Round 37 (2026-11-18) — Vercel final
+
+- [x] Root `CNAME` + Pages custom-domain attach hata kar GitHub Pages ko project preview banaya.
+- [x] Vercel `trends-younique` ko production target confirm; `NEXT_PUBLIC_SITE_URL` custom domain par set.
+- [x] Cloudflare DNS values (`@` A / CNAME, `www` CNAME) docs me likhe.
+- [x] Production redeploy + custom-domain `robots.txt` / canonical verify.
