@@ -24,7 +24,7 @@ const indianStates = [
 export function CheckoutForm() {
   const { lines, subtotal, count, clear, isOpen, closeCart, removeLine } = useCart();
   const router = useRouter();
-  // festive sale me final price already 499–699 hai — koi extra coupon nahi
+  // Winter Sale me final price already 499–699 hai — koi extra coupon nahi
   const { upiId, upiName, whatsapp } = useStoreSettings();
   const [whatsappHref, setWhatsappHref] = useState<string | null>(null);
   // sirf prepaid — COD option hata diya gaya hai

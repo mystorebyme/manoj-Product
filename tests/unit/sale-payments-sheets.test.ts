@@ -90,7 +90,7 @@ test("sheet settings parser handles Apps Script shapes", () => {
       upi_id: "dhakadgourav@fam",
       support_phone: "8005900581",
       support_email: "Info.likshaclothing@gmail.com",
-      announcement: "Diwali Sale — Flat 70% OFF",
+      announcement: "Winter Sale — Flat 70% OFF",
       free_shipping: "yes",
     },
   });

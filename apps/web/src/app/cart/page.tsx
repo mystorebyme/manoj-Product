@@ -8,7 +8,7 @@ import { cartWhatsAppMessage, whatsappLink } from "@/lib/whatsapp";
 
 export default function CartPage() {
   const { lines, subtotal, setQuantity, removeLine } = useCart();
-  // festive sale: final price already ₹499–₹699 — koi coupon stack nahi hota
+  // Winter Sale: final price already ₹499–₹699 — koi coupon stack nahi hota
   const total = Math.max(0, subtotal);
   const freeShippingMet = true;
 
@@ -119,7 +119,7 @@ export default function CartPage() {
             </div>
 
             <p className="mt-4 border border-[#eadfce] bg-[#fdf8f0] px-3 py-2.5 text-[11px] leading-relaxed text-[#8a7a5f]">
-              Festive sale price already applied — <strong>no coupon needed</strong>. Free shipping on every prepaid order.
+              Winter Sale price already applied — <strong>no coupon needed</strong>. Free shipping on every prepaid order.
             </p>
 
             <Link

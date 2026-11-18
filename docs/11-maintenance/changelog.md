@@ -4,6 +4,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/) + semver.
 
 ## [Unreleased]
 
+- Winter Sale campaign: Diwali copy → Winter Sale (hero posters, announcement bar,
+  header, cart/checkout/footer, admin + sheet defaults, collection subtitles)
+- GitHub Pages deployment on the custom domain (`trendsyounique.fashion`) fixed: root
+  base path, CNAME in the artifact, canonical/OG URLs; stale `nextjs.yml` removed
 - Homepage festive (Diwali 2026) hero copy refresh
 - `orders/[orderNumber]` ko `@/lib/orders` par port karna (drizzle import remove)
 

@@ -26,7 +26,7 @@ export default function CouponsPage() {
             {Object.keys(COUPONS).length === 0 ? (
               <tr>
                 <td colSpan={3}>
-                  <strong>Koi active coupon nahi.</strong> Festive sale me final price already ₹499–₹699 hai —
+                  <strong>Koi active coupon nahi.</strong> Winter Sale me final price already ₹499–₹699 hai —
                   extra percentage coupon price ko is range se neeche le jaata, isliye band rakhe hain.
                 </td>
               </tr>
