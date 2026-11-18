@@ -51,6 +51,20 @@ export default async function SettingsPage() {
           </div>
           <div className="row">
             <div className="field">
+              <label htmlFor="maxQtyPerItem">Max qty — ek item (ek size)</label>
+              <input id="maxQtyPerItem" name="maxQtyPerItem" type="number" min="1" max="99" defaultValue={settings.maxQtyPerItem} />
+            </div>
+            <div className="field">
+              <label htmlFor="maxQtyBulk">Max qty — XL aur usse bade</label>
+              <input id="maxQtyBulk" name="maxQtyBulk" type="number" min="1" max="999" defaultValue={settings.maxQtyBulk} />
+            </div>
+            <div className="field">
+              <label htmlFor="maxQtyPerOrder">Max qty — poora order</label>
+              <input id="maxQtyPerOrder" name="maxQtyPerOrder" type="number" min="1" max="999" defaultValue={settings.maxQtyPerOrder} />
+            </div>
+          </div>
+          <div className="row">
+            <div className="field">
               <label htmlFor="upiId">UPI ID (payments yahan aate hain)</label>
               <input id="upiId" name="upiId" defaultValue={settings.upiId} placeholder="name@bank" />
             </div>

@@ -4,8 +4,8 @@
 
 | Project | Root | Domain |
 | --- | --- | --- |
-| liksha-web | `apps/web` | likshaclothing.com, www |
-| liksha-admin | `apps/admin` | admin.likshaclothing.com |
+| trends-younique | `apps/web` | trendsyounique.fashion, www |
+| trends-younique-admin | `apps/admin` | admin.trendsyounique.fashion |
 
 ## Settings
 
@@ -43,7 +43,7 @@ GitHub integration on: `main` push = prod deploy; PR = preview URL.
 
 ## Live link (Round 8)
 
-Vercel par project `liksha-clothing` (root directory `apps/web`) banti hai; GitHub branch connect
+Vercel par project `trends-younique` (root directory `apps/web`) banti hai; GitHub branch connect
 hone par har push par preview URL milta hai — wahi "live link" hai jo client ko bheja jaata hai.
 
 Monorepo settings jo zaroori hain:

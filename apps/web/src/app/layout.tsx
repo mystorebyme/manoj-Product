@@ -8,12 +8,14 @@ import { FloatingHelp } from "@/components/floating-help";
 import { AnnouncementBar } from "@/components/announcement-bar";
 import { WishlistProvider } from "@/components/wishlist-provider";
 import { StoreSettingsProvider } from "@/components/store-settings-provider";
+import { Analytics } from "@/components/analytics";
+import { SheetQueueBoot } from "@/components/sheet-queue-boot";
 import { brandAssets, logoMark, siteConfig } from "@/config/site";
 import { assetUrl } from "@/lib/format";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
-  applicationName: "Designer Clothing",
+  applicationName: "TRENDS YOUNIQUE",
   // browser tab / home-screen icon — owner ka brand mark (local asset)
   icons: {
     icon: [
@@ -24,37 +26,45 @@ export const metadata: Metadata = {
     shortcut: [{ url: logoMark }],
     apple: [{ url: brandAssets.mark192, sizes: "180x180" }],
   },
-  appleWebApp: { capable: true, title: "Designer Clothing", statusBarStyle: "default" },
+  appleWebApp: { capable: true, title: "TRENDS YOUNIQUE", statusBarStyle: "default" },
   manifest: assetUrl("/manifest.webmanifest"),
   title: {
-    default: "Designer Clothing | Designer Anarkali Suits, Lehenga Choli & Suit Sets",
-    template: "%s | Designer Clothing",
+    default: "TRENDS YOUNIQUE | Designer Anarkali Suits, Lehenga Choli & Suit Sets",
+    template: "%s | TRENDS YOUNIQUE",
   },
   description:
-    "Shop premium designer Anarkali suits, lehenga choli and printed suit sets at Designer Clothing. Free shipping across India, secure prepaid checkout and 7 days easy replacement.",
+    "TRENDS YOUNIQUE — premium designer Anarkali suits, lehenga choli and printed suit sets. Order on WhatsApp or checkout online, free shipping across India.",
   keywords: [
     "designer anarkali suits",
     "lehenga choli online",
     "printed suit set",
     "party wear gown",
-    "liksha clothing",
+    "trends younique",
   ],
   openGraph: {
-    title: "Designer Clothing | Designer Anarkali Suits",
+    title: "TRENDS YOUNIQUE | Designer Anarkali Suits",
     description:
       "Premium designer Anarkali suits, lehengas and printed suit sets crafted for every celebration.",
     type: "website",
     url: siteConfig.url,
-    siteName: "Designer Clothing",
-    images: [{ url: siteConfig.ogImage, width: 1200, height: 630, alt: "Designer Clothing" }],
+    siteName: "TRENDS YOUNIQUE",
+    images: [{ url: siteConfig.ogImage, width: 1200, height: 630, alt: "TRENDS YOUNIQUE" }],
   },
   twitter: { card: "summary_large_image" },
   alternates: { canonical: "/" },
   robots: { index: true, follow: true },
+  /**
+   * Google Search Console verification — owner ke account se.
+   * Env `NEXT_PUBLIC_GSC_VERIFICATION` se badla ja sakta hai (naya property add karein to).
+   */
+  verification: {
+    google:
+      process.env.NEXT_PUBLIC_GSC_VERIFICATION ?? "hFaqyp-9LdUXSKPA9RF011TkO2m_-7AUMasXqm_0dGI",
+  },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#862222",
+  themeColor: "#4a1220",
   width: "device-width",
   initialScale: 1,
 };
@@ -68,10 +78,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link rel="preconnect" href="https://cdn.shopify.com" crossOrigin="anonymous" />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Jost:wght@300;400;500;600&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500&display=swap"
         />
       </head>
-      <body className="text-[#2f2a25]">
+      <body className="text-[#14100e]">
         {/* JS band ho to scroll-reveal content chhupna nahi chahiye */}
         <noscript>
           <style>{".reveal-init{opacity:1!important;transform:none!important}"}</style>
@@ -87,6 +97,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           </WishlistProvider>
         </CartProvider>
         </StoreSettingsProvider>
+        {/* GA4 — har page ka page_view (NEXT_PUBLIC_GA_ID set hone par hi load hota hai) */}
+        <Analytics />
+        {/* jo sheet rows pending reh gayi thi, wo khud bhej do */}
+        <SheetQueueBoot />
       </body>
     </html>
   );

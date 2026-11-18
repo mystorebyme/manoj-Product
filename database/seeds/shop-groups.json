@@ -1,0 +1,1019 @@
+{
+  "_note": "Owner ke WhatsApp images (repo root images/) se bane product groups. Ek group = ek product; group ke andar ki saari photos usi dress ki hain (gallery). Jo dress alag hai wo alag group. `scripts/build-shop-catalog.mjs` isse short webp banata hai aur catalogue me products add karta hai. Naya product add karna ho to yahan ek object jodiye aur script chalaiye.",
+  "groups": [
+    {
+      "handle": "meera-mint-green-gota-pearl-kurta-set",
+      "title": "Meera Mint Green Gota Pearl Kurta Set",
+      "colour": "Mint Green",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "new-arrivals",
+        "suit-set-gown",
+        "trends-signature"
+      ],
+      "mrp": 269900,
+      "files": [
+        "0001",
+        "0002",
+        "0003",
+        "0005",
+        "0013"
+      ]
+    },
+    {
+      "handle": "ruhi-wine-anarkali-floral-sleeve-set",
+      "title": "Ruhi Wine Anarkali with Floral Sleeve Work",
+      "colour": "Wine",
+      "fabric": "Georgette",
+      "category": "anarkali",
+      "collections": [
+        "new-arrivals",
+        "party-wear-gown",
+        "weddin-collection"
+      ],
+      "mrp": 329900,
+      "files": [
+        "0004",
+        "0006",
+        "0007",
+        "0008",
+        "0014",
+        "0015",
+        "0016",
+        "0020",
+        "0012"
+      ]
+    },
+    {
+      "handle": "dhriti-green-leaf-print-dupatta-anarkali",
+      "title": "Dhriti Green Anarkali with Leaf-Print Dupatta",
+      "colour": "Light Green",
+      "fabric": "Mul Cotton",
+      "category": "anarkali",
+      "collections": [
+        "new-arrivals",
+        "party-wear-gown"
+      ],
+      "mrp": 289900,
+      "files": [
+        "0022",
+        "0061"
+      ]
+    },
+    {
+      "handle": "saanjh-olive-silk-kurta-pant-set",
+      "title": "Saanjh Olive Silk Kurta & Pant Set",
+      "colour": "Olive",
+      "fabric": "Silk Blend",
+      "category": "suit-set",
+      "collections": [
+        "new-arrivals",
+        "suit-set-gown"
+      ],
+      "mrp": 299900,
+      "files": [
+        "0063",
+        "0077"
+      ]
+    },
+    {
+      "handle": "tara-brown-zari-tree-kurta-set",
+      "title": "Tara Brown Zari Tree Kurta Set",
+      "colour": "Brown",
+      "fabric": "Silk Blend",
+      "category": "suit-set",
+      "collections": [
+        "new-arrivals",
+        "suit-set-gown",
+        "trends-signature"
+      ],
+      "mrp": 279900,
+      "files": [
+        "0053",
+        "0058",
+        "0079"
+      ]
+    },
+    {
+      "handle": "gulaabi-rani-pink-flared-anarkali",
+      "title": "Gulaabi Rani Pink Flared Anarkali",
+      "colour": "Rani Pink",
+      "fabric": "Georgette",
+      "category": "anarkali",
+      "collections": [
+        "party-wear-gown",
+        "weddin-collection"
+      ],
+      "mrp": 319900,
+      "files": [
+        "0009"
+      ]
+    },
+    {
+      "handle": "pari-pink-ikat-print-kurta-set",
+      "title": "Pari Pink Ikat Print Kurta Set",
+      "colour": "Pink",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set",
+        "suit-set-gown"
+      ],
+      "mrp": 219900,
+      "files": [
+        "0010"
+      ]
+    },
+    {
+      "handle": "gulaal-pink-net-dupatta-anarkali",
+      "title": "Gulaal Pink Anarkali with Net Dupatta",
+      "colour": "Pink",
+      "fabric": "Georgette",
+      "category": "anarkali",
+      "collections": [
+        "party-wear-gown",
+        "new-arrivals"
+      ],
+      "mrp": 299900,
+      "files": [
+        "0011"
+      ]
+    },
+    {
+      "handle": "neelam-teal-floral-print-kurta-set",
+      "title": "Neelam Teal Floral Print Kurta Set",
+      "colour": "Teal",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set",
+        "suit-set-gown"
+      ],
+      "mrp": 229900,
+      "files": [
+        "0017"
+      ]
+    },
+    {
+      "handle": "gulnaaz-ivory-bandhani-dupatta-set",
+      "title": "Gulnaaz Ivory Kurta with Bandhani Dupatta",
+      "colour": "Ivory",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "new-arrivals",
+        "suit-set-gown"
+      ],
+      "mrp": 259900,
+      "files": [
+        "0018"
+      ]
+    },
+    {
+      "handle": "zoya-navy-buti-print-kurta-set",
+      "title": "Zoya Navy Buti Print Kurta Set",
+      "colour": "Navy",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set",
+        "suit-set-gown"
+      ],
+      "mrp": 229900,
+      "files": [
+        "0019"
+      ]
+    },
+    {
+      "handle": "ira-rust-printed-kurta-set",
+      "title": "Ira Rust Printed Kurta Set",
+      "colour": "Rust",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set"
+      ],
+      "mrp": 219900,
+      "files": [
+        "0021"
+      ]
+    },
+    {
+      "handle": "aanya-orange-buti-kurta-palazzo-set",
+      "title": "Aanya Orange Buti Kurta & Palazzo Set",
+      "colour": "Orange",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set",
+        "suit-set-gown"
+      ],
+      "mrp": 209900,
+      "files": [
+        "0023"
+      ]
+    },
+    {
+      "handle": "mahira-magenta-ikat-kurta-set",
+      "title": "Mahira Magenta Ikat Print Kurta Set",
+      "colour": "Magenta",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set"
+      ],
+      "mrp": 219900,
+      "files": [
+        "0024"
+      ]
+    },
+    {
+      "handle": "saanvi-yellow-foil-print-kurta-set",
+      "title": "Saanvi Yellow Foil Print Kurta Set",
+      "colour": "Yellow",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set",
+        "new-arrivals"
+      ],
+      "mrp": 239900,
+      "files": [
+        "0025"
+      ]
+    },
+    {
+      "handle": "tara-teal-white-print-kurta-set",
+      "title": "Tara Teal White-Print Kurta Set",
+      "colour": "Teal",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set"
+      ],
+      "mrp": 229900,
+      "files": [
+        "0026"
+      ]
+    },
+    {
+      "handle": "naina-mint-floral-kurta-set",
+      "title": "Naina Mint Floral Print Kurta Set",
+      "colour": "Mint",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set"
+      ],
+      "mrp": 219900,
+      "files": [
+        "0027"
+      ]
+    },
+    {
+      "handle": "vanya-green-jaal-print-kurta-set",
+      "title": "Vanya Green Jaal Print Kurta Set",
+      "colour": "Green",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set"
+      ],
+      "mrp": 229900,
+      "files": [
+        "0028"
+      ]
+    },
+    {
+      "handle": "kiara-navy-sequin-buti-kurta-set",
+      "title": "Kiara Navy Sequin Buti Kurta Set",
+      "colour": "Navy",
+      "fabric": "Georgette",
+      "category": "suit-set",
+      "collections": [
+        "party-wear-gown",
+        "suit-set-gown"
+      ],
+      "mrp": 259900,
+      "files": [
+        "0029"
+      ]
+    },
+    {
+      "handle": "reeva-chartreuse-print-kurta-set",
+      "title": "Reeva Chartreuse Print Kurta Set",
+      "colour": "Chartreuse",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set"
+      ],
+      "mrp": 209900,
+      "files": [
+        "0030"
+      ]
+    },
+    {
+      "handle": "amaira-turquoise-mirror-kurta-set",
+      "title": "Amaira Turquoise Mirror-Work Kurta Set",
+      "colour": "Turquoise",
+      "fabric": "Georgette",
+      "category": "suit-set",
+      "collections": [
+        "new-arrivals",
+        "suit-set-gown"
+      ],
+      "mrp": 249900,
+      "files": [
+        "0031"
+      ]
+    },
+    {
+      "handle": "meher-olive-ajrakh-kurta-set",
+      "title": "Meher Olive Ajrakh Print Kurta Set",
+      "colour": "Olive",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set"
+      ],
+      "mrp": 229900,
+      "files": [
+        "0032"
+      ]
+    },
+    {
+      "handle": "isha-burgundy-dot-print-kurta-set",
+      "title": "Isha Burgundy Dot-Print Kurta Set",
+      "colour": "Burgundy",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set"
+      ],
+      "mrp": 219900,
+      "files": [
+        "0033"
+      ]
+    },
+    {
+      "handle": "nitya-grey-blue-buti-kurta-set",
+      "title": "Nitya Grey Blue-Buti Kurta Set",
+      "colour": "Grey Blue",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set"
+      ],
+      "mrp": 209900,
+      "files": [
+        "0034"
+      ]
+    },
+    {
+      "handle": "riya-navy-paisley-kurta-set",
+      "title": "Riya Navy Paisley Print Kurta Set",
+      "colour": "Navy",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set"
+      ],
+      "mrp": 219900,
+      "files": [
+        "0035"
+      ]
+    },
+    {
+      "handle": "kiyara-beige-sheer-dupatta-set",
+      "title": "Kiyara Beige Kurta with Sheer Printed Dupatta",
+      "colour": "Beige",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "suit-set-gown"
+      ],
+      "mrp": 239900,
+      "files": [
+        "0036"
+      ]
+    },
+    {
+      "handle": "ahana-olive-white-print-kurta-set",
+      "title": "Ahana Olive White-Print Kurta Set",
+      "colour": "Olive",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set"
+      ],
+      "mrp": 219900,
+      "files": [
+        "0037"
+      ]
+    },
+    {
+      "handle": "dhara-magenta-fringe-dupatta-set",
+      "title": "Dhara Magenta Kurta with Fringe Dupatta",
+      "colour": "Magenta",
+      "fabric": "Silk Blend",
+      "category": "suit-set",
+      "collections": [
+        "weddin-collection",
+        "suit-set-gown"
+      ],
+      "mrp": 259900,
+      "files": [
+        "0038"
+      ]
+    },
+    {
+      "handle": "noor-black-floral-applique-kurta-set",
+      "title": "Noor Black Floral Applique Kurta Set",
+      "colour": "Black",
+      "fabric": "Organza",
+      "category": "suit-set",
+      "collections": [
+        "party-wear-gown",
+        "new-arrivals"
+      ],
+      "mrp": 269900,
+      "files": [
+        "0039"
+      ]
+    },
+    {
+      "handle": "zeenat-mustard-geometric-kurta-set",
+      "title": "Zeenat Mustard Geometric Print Kurta Set",
+      "colour": "Mustard",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set"
+      ],
+      "mrp": 219900,
+      "files": [
+        "0040"
+      ]
+    },
+    {
+      "handle": "avni-blue-floral-stripe-dupatta-set",
+      "title": "Avni Blue Floral Kurta with Stripe Dupatta",
+      "colour": "Blue",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set",
+        "suit-set-gown"
+      ],
+      "mrp": 229900,
+      "files": [
+        "0041"
+      ]
+    },
+    {
+      "handle": "ishita-navy-bloom-kurta-set",
+      "title": "Ishita Navy Bloom Print Kurta Set",
+      "colour": "Navy",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set"
+      ],
+      "mrp": 229900,
+      "files": [
+        "0042"
+      ]
+    },
+    {
+      "handle": "naina-sunflower-batik-kurta-set",
+      "title": "Naina Sunflower Batik Print Kurta Set",
+      "colour": "Yellow",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set",
+        "new-arrivals"
+      ],
+      "mrp": 229900,
+      "files": [
+        "0043"
+      ]
+    },
+    {
+      "handle": "gulmohar-red-rose-print-kurta-set",
+      "title": "Gulmohar Red Rose-Print Kurta Set",
+      "colour": "Red",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set",
+        "new-arrivals"
+      ],
+      "mrp": 229900,
+      "files": [
+        "0044"
+      ]
+    },
+    {
+      "handle": "tanvi-yellow-ikat-kurta-set",
+      "title": "Tanvi Yellow Ikat Print Kurta Set",
+      "colour": "Yellow",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set"
+      ],
+      "mrp": 219900,
+      "files": [
+        "0045"
+      ]
+    },
+    {
+      "handle": "lavanya-lilac-abstract-kurta-set",
+      "title": "Lavanya Lilac Abstract Print Kurta Set",
+      "colour": "Lilac",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set"
+      ],
+      "mrp": 219900,
+      "files": [
+        "0046"
+      ]
+    },
+    {
+      "handle": "pihu-pink-block-print-kurta-set",
+      "title": "Pihu Pink Block-Print Kurta Set",
+      "colour": "Pink",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set"
+      ],
+      "mrp": 219900,
+      "files": [
+        "0047"
+      ]
+    },
+    {
+      "handle": "akira-mustard-ajrakh-dupatta-set",
+      "title": "Akira Mustard Kurta with Ajrakh Dupatta",
+      "colour": "Mustard",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set",
+        "suit-set-gown"
+      ],
+      "mrp": 229900,
+      "files": [
+        "0048"
+      ]
+    },
+    {
+      "handle": "myra-mauve-floral-kurta-set",
+      "title": "Myra Mauve Floral Print Kurta Set",
+      "colour": "Mauve",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set"
+      ],
+      "mrp": 219900,
+      "files": [
+        "0049"
+      ]
+    },
+    {
+      "handle": "iraa-blush-ikat-kurta-set",
+      "title": "Iraa Blush Ikat Print Kurta Set",
+      "colour": "Blush Pink",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set"
+      ],
+      "mrp": 219900,
+      "files": [
+        "0050"
+      ]
+    },
+    {
+      "handle": "siya-purple-ikat-stripe-palazzo-set",
+      "title": "Siya Purple Ikat Kurta with Stripe Palazzo",
+      "colour": "Purple",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set"
+      ],
+      "mrp": 219900,
+      "files": [
+        "0051"
+      ]
+    },
+    {
+      "handle": "janki-maroon-block-print-kurta-set",
+      "title": "Janki Maroon Block-Print Kurta Set",
+      "colour": "Maroon",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set",
+        "suit-set-gown"
+      ],
+      "mrp": 229900,
+      "files": [
+        "0052"
+      ]
+    },
+    {
+      "handle": "ruhi-rani-pink-flare-anarkali",
+      "title": "Ruhi Rani Pink Flare Anarkali Set",
+      "colour": "Rani Pink",
+      "fabric": "Georgette",
+      "category": "anarkali",
+      "collections": [
+        "party-wear-gown",
+        "new-arrivals"
+      ],
+      "mrp": 319900,
+      "files": [
+        "0054"
+      ]
+    },
+    {
+      "handle": "aahana-peach-floral-kurta-set",
+      "title": "Aahana Peach Floral Kurta Set",
+      "colour": "Peach",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "suit-set-gown",
+        "printed-suit-set"
+      ],
+      "mrp": 249900,
+      "files": [
+        "0055"
+      ]
+    },
+    {
+      "handle": "rhea-wine-zari-kurta-set",
+      "title": "Rhea Wine Zari Kurta Set",
+      "colour": "Wine",
+      "fabric": "Silk Blend",
+      "category": "suit-set",
+      "collections": [
+        "weddin-collection",
+        "suit-set-gown"
+      ],
+      "mrp": 269900,
+      "files": [
+        "0056"
+      ]
+    },
+    {
+      "handle": "utsav-rack-assorted-kurta-styles",
+      "title": "Utsav Silk Kurta Set — Assorted Shades",
+      "colour": "Assorted",
+      "fabric": "Silk Blend",
+      "category": "suit-set",
+      "collections": [
+        "suit-set-gown"
+      ],
+      "mrp": 289900,
+      "files": [
+        "0057"
+      ]
+    },
+    {
+      "handle": "vanya-emerald-booti-kurta-set",
+      "title": "Vanya Emerald Gold-Booti Kurta Set",
+      "colour": "Emerald",
+      "fabric": "Silk Blend",
+      "category": "suit-set",
+      "collections": [
+        "weddin-collection",
+        "suit-set-gown"
+      ],
+      "mrp": 279900,
+      "files": [
+        "0059"
+      ]
+    },
+    {
+      "handle": "kashish-copper-zari-border-kurta-set",
+      "title": "Kashish Copper Zari-Border Kurta Set",
+      "colour": "Copper",
+      "fabric": "Silk Blend",
+      "category": "suit-set",
+      "collections": [
+        "weddin-collection",
+        "new-arrivals"
+      ],
+      "mrp": 269900,
+      "files": [
+        "0060"
+      ]
+    },
+    {
+      "handle": "tara-teal-printed-kurta-set",
+      "title": "Tara Teal Printed Kurta Set",
+      "colour": "Teal",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set"
+      ],
+      "mrp": 219900,
+      "files": [
+        "0064"
+      ]
+    },
+    {
+      "handle": "noor-maroon-floral-applique-hanger-set",
+      "title": "Noor Maroon Floral Applique Kurta Set",
+      "colour": "Maroon",
+      "fabric": "Organza",
+      "category": "suit-set",
+      "collections": [
+        "party-wear-gown",
+        "suit-set-gown"
+      ],
+      "mrp": 259900,
+      "files": [
+        "0065"
+      ]
+    },
+    {
+      "handle": "shreya-teal-thread-work-kurta-set",
+      "title": "Shreya Teal Thread-Work Kurta Set",
+      "colour": "Teal",
+      "fabric": "Silk Blend",
+      "category": "suit-set",
+      "collections": [
+        "new-arrivals",
+        "suit-set-gown"
+      ],
+      "mrp": 259900,
+      "files": [
+        "0066"
+      ]
+    },
+    {
+      "handle": "zara-black-ivory-ikat-kurta-set",
+      "title": "Zara Black & Ivory Ikat Kurta Set",
+      "colour": "Black",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set"
+      ],
+      "mrp": 229900,
+      "files": [
+        "0067"
+      ]
+    },
+    {
+      "handle": "mehak-cream-floral-kurta-set",
+      "title": "Mehak Cream Floral Print Kurta Set",
+      "colour": "Cream",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set",
+        "suit-set-gown"
+      ],
+      "mrp": 229900,
+      "files": [
+        "0069"
+      ]
+    },
+    {
+      "handle": "riddhi-purple-embroidered-yoke-set",
+      "title": "Riddhi Purple Embroidered Yoke Kurta Set",
+      "colour": "Purple",
+      "fabric": "Silk Blend",
+      "category": "suit-set",
+      "collections": [
+        "new-arrivals",
+        "suit-set-gown"
+      ],
+      "mrp": 259900,
+      "files": [
+        "0070"
+      ]
+    },
+    {
+      "handle": "anaya-black-multicolour-circle-kurta-set",
+      "title": "Anaya Black Circle-Print Kurta Set",
+      "colour": "Black",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set",
+        "new-arrivals"
+      ],
+      "mrp": 229900,
+      "files": [
+        "0071"
+      ]
+    },
+    {
+      "handle": "saanvi-olive-white-embroidered-set",
+      "title": "Saanvi Olive White-Embroidered Kurta Set",
+      "colour": "Olive",
+      "fabric": "Silk Blend",
+      "category": "suit-set",
+      "collections": [
+        "new-arrivals",
+        "suit-set-gown"
+      ],
+      "mrp": 249900,
+      "files": [
+        "0072"
+      ]
+    },
+    {
+      "handle": "nazia-yellow-zari-kurta-set",
+      "title": "Nazia Yellow Zari Kurta Set",
+      "colour": "Yellow",
+      "fabric": "Silk Blend",
+      "category": "suit-set",
+      "collections": [
+        "weddin-collection",
+        "new-arrivals"
+      ],
+      "mrp": 259900,
+      "files": [
+        "0073"
+      ]
+    },
+    {
+      "handle": "maitri-mustard-zari-dupatta-set",
+      "title": "Maitri Mustard Zari-Dupatta Kurta Set",
+      "colour": "Mustard",
+      "fabric": "Silk Blend",
+      "category": "suit-set",
+      "collections": [
+        "weddin-collection",
+        "suit-set-gown"
+      ],
+      "mrp": 259900,
+      "files": [
+        "0074"
+      ]
+    },
+    {
+      "handle": "iraa-deep-green-floral-anarkali",
+      "title": "Iraa Deep Green Floral Anarkali",
+      "colour": "Deep Green",
+      "fabric": "Georgette",
+      "category": "anarkali",
+      "collections": [
+        "party-wear-gown",
+        "new-arrivals"
+      ],
+      "mrp": 299900,
+      "files": [
+        "0075"
+      ]
+    },
+    {
+      "handle": "naina-magenta-ikat-anarkali",
+      "title": "Naina Magenta Ikat Anarkali",
+      "colour": "Magenta",
+      "fabric": "Mul Cotton",
+      "category": "anarkali",
+      "collections": [
+        "printed-suit-set",
+        "party-wear-gown"
+      ],
+      "mrp": 249900,
+      "files": [
+        "0076"
+      ]
+    },
+    {
+      "handle": "gulnar-lime-floral-patiala-set",
+      "title": "Gulnar Lime Floral Kurta & Patiala Set",
+      "colour": "Lime Green",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set",
+        "new-arrivals"
+      ],
+      "mrp": 219900,
+      "files": [
+        "0078"
+      ]
+    },
+    {
+      "handle": "vibha-purple-white-ikat-kurta-set",
+      "title": "Vibha Purple & White Ikat Kurta Set",
+      "colour": "Purple",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set"
+      ],
+      "mrp": 219900,
+      "files": [
+        "0080"
+      ]
+    },
+    {
+      "handle": "aahana-rose-gold-print-kurta-set",
+      "title": "Aahana Rose Gold-Print Kurta Set",
+      "colour": "Rose Pink",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set",
+        "new-arrivals"
+      ],
+      "mrp": 219900,
+      "files": [
+        "0081"
+      ]
+    },
+    {
+      "handle": "noor-vermillion-hanger-kurta-set",
+      "title": "Noor Vermillion Gold-Work Kurta Set",
+      "colour": "Vermillion",
+      "fabric": "Silk Blend",
+      "category": "suit-set",
+      "collections": [
+        "weddin-collection",
+        "new-arrivals"
+      ],
+      "mrp": 269900,
+      "files": [
+        "0082"
+      ]
+    },
+    {
+      "handle": "gulnaaz-ivory-sheer-dupatta-set",
+      "title": "Gulnaaz Ivory Kurta with Sheer Dupatta",
+      "colour": "Ivory",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "suit-set-gown",
+        "new-arrivals"
+      ],
+      "mrp": 239900,
+      "files": [
+        "0083"
+      ]
+    },
+    {
+      "handle": "mahira-white-blue-bloom-kurta-set",
+      "title": "Mahira White Blue-Bloom Kurta Set",
+      "colour": "White",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set",
+        "new-arrivals"
+      ],
+      "mrp": 219900,
+      "files": [
+        "0084"
+      ]
+    },
+    {
+      "handle": "zoya-black-white-block-kurta-set",
+      "title": "Zoya Black & White Block-Print Kurta Set",
+      "colour": "Black",
+      "fabric": "Mul Cotton",
+      "category": "suit-set",
+      "collections": [
+        "printed-suit-set"
+      ],
+      "mrp": 219900,
+      "files": [
+        "0085"
+      ]
+    },
+    {
+      "handle": "ishani-olive-thread-work-kurta-set",
+      "title": "Ishani Olive Thread-Work Kurta Set",
+      "colour": "Olive Brown",
+      "fabric": "Silk Blend",
+      "category": "suit-set",
+      "collections": [
+        "new-arrivals",
+        "suit-set-gown"
+      ],
+      "mrp": 249900,
+      "files": [
+        "0062"
+      ]
+    }
+  ]
+}

@@ -43,8 +43,8 @@ customer badal nahi sakta. Order API token ka phone aur form ke phone match kart
    `liksha-clothing`.
 2. **Build → Authentication → Get started → Sign-in method → Phone → Enable.**
 3. **Project settings → General → Your apps → Web app add karein** → config milta hai.
-4. **Authentication → Settings → Authorized domains** me `likshaclothing.com`,
-   `www.likshaclothing.com` aur preview domain add karein (localhost pehle se hota hai).
+4. **Authentication → Settings → Authorized domains** me `trendsyounique.fashion`,
+   `www.trendsyounique.fashion` aur preview domain add karein (localhost pehle se hota hai).
 5. Env set karein (hosting dashboard + local `.env.local`):
 
 ```bash

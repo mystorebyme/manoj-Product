@@ -11,7 +11,7 @@
  * Header logo kahan se aata hai
  * -----------------------------
  * Owner ke mockup me header ka logo **flat orange/black** version hai (gold ring +
- * gown + DESIGNER CLOTHING), jo unki hi bheji hui wide banner ke header me already
+ * gown + purana wordmark), jo unki hi bheji hui wide banner ke header me already
  * hai. Wahi crop karke teen device files banate hain — isliye screen par wahi logo
  * dikhta hai jo owner ne mockup me dikhaya, aur letter shapes bilkul original hain.
  * 3D gradient version (`logo-original.png`) official full logo hai — invoice,

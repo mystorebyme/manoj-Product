@@ -61,7 +61,7 @@ npm run build:all
 vercel --prod                 # web
 cd apps/admin && vercel --prod
 git push origin main          # api auto-deploy (Render)
-curl -s https://api.likshaclothing.com/api/v1/health
+curl -s https://api.trendsyounique.fashion/api/v1/health
 ```
 
 ## 8. After

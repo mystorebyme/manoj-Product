@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # lighthouse.sh — performance budget check. Network chahiye (npm registry).
 #   bash tests/performance/lighthouse.sh                      # local build
-#   URL=https://likshaclothing.com bash tests/performance/lighthouse.sh
+#   URL=https://trendsyounique.fashion bash tests/performance/lighthouse.sh
 set -euo pipefail
 
 URL="${URL:-http://localhost:3000}"

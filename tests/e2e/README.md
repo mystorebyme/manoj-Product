@@ -5,7 +5,7 @@ Two layers:
 1. **`smoke.mjs`** — zero dependency, HTTP only. Runs against a production build.
    ```bash
    npm run build:web && npm run start --workspace @liksha/web &
-   npm run test:smoke                       # or BASE_URL=https://likshaclothing.com npm run test:smoke
+   npm run test:smoke                       # or BASE_URL=https://trendsyounique.fashion npm run test:smoke
    ```
    Checks: health, home, collection, PDP (price/sizes/add-to-bag), search, order create + order page,
    unknown order 404, sitemap.

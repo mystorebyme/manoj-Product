@@ -100,7 +100,7 @@ size + ratio check karta hai.
 
 - Instagram abhi **sirf URL text** hai (clickable nahi): `https://www.instagram.com/designer_clothing_9`
   (`siteConfig.socials.instagram`). Link chalu karna ho to footer me `<span>` ko `<a href>` kar dena.
-- WhatsApp hi working link hai (`https://wa.me/918005900581`).
+- WhatsApp hi working link hai (`https://wa.me/917740992663`).
 - Facebook/Pinterest ke dummy links hata diye gaye (accounts nahi hain).
 
 ## 7. Checkout UPI

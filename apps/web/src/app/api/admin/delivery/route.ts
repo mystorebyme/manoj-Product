@@ -31,7 +31,7 @@ export async function PUT(request: Request) {
   }
 
   const actor =
-    (body as { actor?: string })?.actor?.slice(0, 120) || "admin@likshaclothing.com";
+    (body as { actor?: string })?.actor?.slice(0, 120) || "admin@trendsyounique.com";
   const payload = (body as { settings?: unknown })?.settings ?? body;
   const settings = await saveDeliverySettings(payload, actor);
   return Response.json({ data: settings });

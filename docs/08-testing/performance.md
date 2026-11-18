@@ -28,7 +28,7 @@ Measured on the production build (`next start`, 2026-10-24).
 
 ```bash
 npm run build   # route table me size dekho
-npx lighthouse https://likshaclothing.com --preset=desktop --only-categories=performance
+npx lighthouse https://trendsyounique.fashion --preset=desktop --only-categories=performance
 ```
 
 ## Known issues

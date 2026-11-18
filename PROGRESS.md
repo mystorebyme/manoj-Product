@@ -184,3 +184,403 @@ Owner ka full-site audit prompt. Sabse pehle code/data inspect kiya, phir fix + 
 - **Tests:** naya `tests/e2e/round16.mjs` (37 checks) + `tests/e2e/links.mjs` (45 pages
   crawl) CI me; smoke 86/0, responsive 40/0, breakpoints 48/0, unit 89/0.
 - Docs: `docs/08-testing/round16-audit.md` (issues, decisions, verification matrix).
+
+## Round 17 — TRENDS YOUNIQUE rebrand, WhatsApp orders aur Google Sheet DB (2026-10-25)
+
+Project kisi aur ka tha; owner ne ise apne brand ke hisaab se poora badalne ko kaha.
+Sab kuch ek hi pass me: brand, WhatsApp order flow, admin panel, sheet database.
+
+**Brand**
+- Naam/logo **TRENDS YOUNIQUE** — owner ki di hui logo file se assets bane
+  (`scripts/brand/build-trends-assets.py`): header lockup, cream version (maroon bg),
+  stacked lockup, 4 square marks (favicon/PWA/WhatsApp thumb), invoice logo.
+- Palette: ink `#14100e`, wine `#6f1d2b`, wine-deep `#4a1220`, gold `#b08a4a`,
+  cream `#faf6ef`, sand `#eadfce`. Fonts: Cormorant Garamond + Jost.
+- Home hero naya (2026 drop, "Couture for the woman who arrives"), announcement bar
+  naye messages par, footer wine band + cream logo + gold heading.
+- Purane brand ke saare strings hata diye: `likshaclothing.com` email/handle/host
+  (`care@trendsyounique.com`), `likshaclothing@upi` → `trendsyounique@upi`,
+  admin login email `admin@trendsyounique.com`, invoice/sheet/docs.
+
+**WhatsApp = order channel (koi gateway nahi)**
+- Product page par "Order on WhatsApp": message me naam · colour · size · qty · price · link.
+- Cart drawer + cart page par "Send cart on WhatsApp": poora cart ek message me
+  (item-wise colour/size/qty/price + total) — aur saath hi `Enquiries` me log.
+- Cart se order place hone ke baad order page par WhatsApp confirmation link
+  (`orderWhatsAppMessage`) — ab **colour bhi** message me jaata hai.
+- Har click se pehle `POST /api/enquiry` (sendBeacon) → detail DB + sheet me save.
+
+**Quantity limits (owner: 10 / 30 / 15)**
+- Ek line 10 pieces, XL+ 30, poora order 15 (sirf XL+ order ho to 30).
+- Teen numbers sheet `Settings` + admin Settings se configurable.
+- `createOrderSchema.superRefine` server par bhi yahi rule lagata hai — UI bypass nahi hota.
+- `tests/unit/quantity-limits.test.ts` (10 tests).
+
+**Admin panel (sirf zaroori)**
+- Multi-image upload (12 tak, 8 MB, jpg/png/webp/avif, pehli = cover), naam, price, MRP,
+  colour, collection, **size + stock + size-wise price** (khaali = base price), draft/live.
+- Size-wise price storefront tak pahunchta hai (`sizePricing`) aur sheet row me
+  `XL (2 @2899)` ki tarah dikhta hai.
+- Settings page: brand, WhatsApp, UPI, announcement + teen quantity limits.
+- Uploaded photos `/api/uploads/<name>` se serve hote hain; admin panel `noindex` +
+  HMAC cookie session.
+
+**Google Sheet = database (link public nahi)**
+- Sheet: `TRENDS YOUNIQUE — Store DB`, tabs Orders · Order Items · Products · Enquiries ·
+  Payments · Settings · Messages · Newsletter · Read Me.
+- `scripts/google-apps-script/trends-sheets.gs`: `setup()`, `settings`, `recent`, `health`,
+  `append`, `upsert`; token-protected; deploy as *Me* + *Anyone*.
+- **Bug fix:** `orderSheetRow` purane column naam bhej raha tha (`Order number`, `Total`,
+  `Item details`) jabki sheet ke headers (`Order ID`, `Total ₹`, `Items`) — Apps Script
+  header ke naam se map karta hai, isliye customer ka phone/address chupchaap khaali
+  reh jaata. Ab keys exactly headers par, plus naye `orderItemRows` (har item ki alag row
+  with colour/size/qty/price/link) aur `paymentSheetRow` (Payments tab).
+- `tests/unit/sheet-headers.test.ts` — header contract test jo `.gs` file se headers padh
+  kar row keys se compare karta hai (drift pakad leta hai).
+- Docs: `docs/09-devops/google-sheets.md` (setup, tabs, settings keys, verify commands).
+
+**Sheet = "every detail" (Round 17b)**
+- Owner ne kaha: sheet me **har detail** aani chahiye. Isliye columns poore kiye:
+  - Orders (27): email, WhatsApp link, discount, coupon, payment method, courier, AWB, tracking URL
+  - Order Items (12): colour + order status, product link, image
+  - Products (15): discount %, category, fabric, size-wise `XL (2 @2899)`
+  - Enquiries (10): enquiry ID + item-wise colour·size·qty·price·link
+  - Payments (12): method
+- Row builders ab pure module (`sheet-format.ts`) me — Messages/Newsletter/Enquiries bhi wahin se.
+- **Outbox:** Apps Script down/timeout ho to row `.data/sheet-outbox.json` me queue hoti hai aur
+  agli successful call par purani rows pehle chali jaati hain — detail gum nahi hoti.
+- Checkout ka WhatsApp fallback bhi ab enquiry log karta hai (naam, phone, poora address).
+- `tests/unit/sheet-outbox.test.ts` (4) + header-contract test ab "koi zaroori cell khaali
+  nahi" bhi check karta hai. `Read Me` tab `setup()` se regenerate hota hai (Hinglish guide).
+- `writeSheetSettings` ab brand, tagline aur teen quantity limits bhi sheet me likhta hai.
+
+**Verification**
+- `npm run typecheck` — web + admin + api clean.
+- `npm run test:unit` — 116/0, `npm run test:integration` — 40/0.
+- Manual (dev servers): product save → PDP 200 / listing / `/api/products`; order with
+  colour → stored order + order page + WhatsApp link; settings round-trip (10/30/15 →
+  8/25/12 → restore); admin pages 200 with session.
+
+## Round 18 — WhatsApp-first checkout, sheet relay aur "poochhein" (2026-10-25)
+
+Owner: "cart me add karke buy kare to WhatsApp par le jaaye, buy-now bhi wahi, aur sheet me
+data save nahi ho raha — setup kaise karun?" Isliye flow poora WhatsApp-first kiya.
+
+- **Checkout:** naya primary CTA **"Send order on WhatsApp"** — naam/phone/address/pincode
+  validate karke poora order (item link · colour · size · qty · price + address + notes +
+  total + UPI) pre-filled WhatsApp me kholta hai. Usi click par enquiry/order DB me aur
+  sheet me bhi chala jaata hai. Online payment (`Pay online & place order`) secondary.
+- **PDP:** "Buy it now" → checkout (detail bharne ke liye), "Order on WhatsApp" (ek click),
+  aur naya **"Poochhein — size, fabric ya delivery?"** button jo item ke link ke saath
+  owner se sawaal bhejta hai.
+- **Sheet relay (static hosting ka fix):** GitHub Pages par Node server nahi hota, isliye
+  `lib/sheet-relay.ts` browser se seedha Apps Script par rows bhejta hai
+  (`no-cors`, write-only token). Server ho to pehle jaisa API path bhi chalta hai.
+- **Apps Script:** naya `WRITE_TOKEN` (append-only), `WRITE_SHEETS` allowlist, 40 row cap.
+- **Admin:** Google Sheet page par "Sheet setup — 5 minute" steps + naye product form me
+  4–6 photos ki salah. Naya guide: `docs/09-devops/sheet-setup-5-min.md`.
+- Tests: `tests/unit/whatsapp-order.test.ts` (5) — message me link/colour/size/qty/address
+  aur "undefined" na aane ki guarantee. Unit 121/0, integration 40/0.
+
+## Round 22 — cart bug fix, naya theme layer, poora Apps Script (2026-10-25)
+
+**Cart bug (asli wajah mil gayi):** "Add to cart dabao par cart khaali".
+`cart-provider` naya item add karte waqt limit check `checkLineQuantity(lines, lines.length, …)`
+se karta tha — us index par koi line hoti hi nahi, to function turant
+`{ ok: false, "Ye item cart me nahi mila." }` deta tha. Isliye **naya item kabhi cart me
+jaata hi nahi tha** (sirf pehle se maujood item ki quantity badhti thi).
+
+- Saari cart logic ab pure module `apps/web/src/lib/cart-logic.ts` me: `addToCart`,
+  `updateQuantity`, `removeFromCart`, `mergeCarts`, `cartTotals`.
+- Fix: pehle **candidate cart** banta hai, phir usi par validate hota hai → naya item
+  add hota hai, quantity badhti hai, limits (10 / XL 30 / order 15) wahi lagti hain.
+- Side-effects (notice) state updater ke andar se hata kar `linesRef` par shift — double
+  render par bhi behaviour deterministic.
+- `tests/unit/cart-logic.test.ts` (12 tests): naya item add, duplicate merge, per-line
+  limit, XL 30, order cap 15, quantity 0 = remove, storage merge.
+
+**Naya theme layer (`globals.css` → 2026 theme):** ivory "gallery" card frame with gold
+corner ticks, gold gradient badges, quick-add pill (desktop hover / mobile always),
+serif section titles + gold eyebrow, refined buttons, hero me gold frame + vertical
+"Hand-finished in Jaipur" side label + quick category links, warm paper texture bands.
+
+**Apps Script:** `Newsletter` me `Source` column, `health` me token-status,
+naya `schema` action (website ko tabs/headers bata deta hai), har bade tab par filter,
+`setup()` sab tabs + headers + Settings + Read Me banata hai.
+
+**Sheet relay breadth:** ab footer newsletter aur contact form bhi static hosting par
+seedha sheet me likhte hain (server na ho to bhi data save).
+
+**Tests:** unit 133/0, integration 40/0, typecheck clean.
+
+## Round 23 — Apps Script live + website ka sheet bridge configure (2026-10-25)
+
+Owner ne `/exec` deployment de diya. Sandbox se script.google.com `curl` se reachable
+nahi hai, lekin `fetch_page` se **GET** chalta hai — usse deployment verify hua:
+
+- `?action=health` → `ok: true`, tabs: Orders (1 test row), Order Items, Products,
+  Enquiries, Payments, Settings (15 rows), Messages, Newsletter. Yaani `setup()` chal chuka hai.
+- Deployed version purana tha (health me token flags nahi aaye) → naya `VERSION` +
+  `?action=ping` + `?action=verify_write` add kiya, taaki deployment check ho sake.
+- **Security fix:** master token abhi default `CHANGE-ME-trends-token` tha, yaani URL
+  jaanne wala koi bhi `?action=recent&sheet=Orders` se aapke orders padh sakta tha.
+  Ab script me placeholder hai (jo kisi ko pata nahi) aur asli master token sirf chat me
+  diya gaya. Write token (public-by-design) script + website me same rakha gaya, aur
+  ek test dono ko match karta hai.
+
+Website side: naya `apps/web/src/lib/sheet-config.ts` — `/exec` URL + write token ke
+build-time defaults (env var se override ho sakte hain). Isliye GitHub Pages par repo
+variables set karne ki zaroorat nahi; order/enquiry/contact/newsletter seedha sheet me.
+
+Tests: unit **138/0** (5 naye sheet-config tests), typecheck clean.
+
+Round 23 addendum: relay dono tokens (naya `tyw-…` + transition) bhejta hai, isliye
+purani deployment par bhi rows save hoti hain aur naya version deploy hone ke baad
+transition token ki request chup-chaap reject ho jaati hai (duplicate row nahi banti).
+
+Round 23 (cont.) — live settings from sheet + write-path self-test
+
+- `?action=public`: sirf non-secret settings (whatsapp, announcement, UPI, quantity limits).
+  Site ab static hosting par bhi ye padhti hai (60s cache) → owner sheet me number badale,
+  site 1 minute me update, redeploy nahi.
+- `?action=append_test` (write token): browser se write-path verify, Orders me TY-SELFTEST row.
+- VERSION r5.
+- Note: `.github/workflows/sheet-check.yml` banaya tha, par GitHub branch-only naye workflow
+  ko register nahi karta (dispatch 404) — hataya. Verification ab URL se hoti hai.
+- Owner ka deployment abhi bhi **Version 1 (purana code)** chala raha hai: `?action=ping`
+  par `unauthorized` aata hai. Unhe "New version" deploy karna hai.
+
+### Round 23 result — sheet bridge LIVE ✅
+
+Owner ne naya deployment banaya (URL badal gaya):
+`…/AKfycbwQxTH7BIhPkYvlTi7SWzUnh5WD2mP-AijXB2vrfLr9j3TvcD7fW3XtM4N9406VYDhO/exec`
+
+Verify kiya (GET se, fetch_page):
+- `?action=ping` → `{"ok":true,"version":"2026-10-25.r5"}`
+- `?action=public` → Settings tab se live values (brandName, whatsapp, limits 10/30/15)
+- `?action=append_test` → `{"ok":true,"written":1,"ref":"TY-SELFTEST-1792901670395"}`
+  yaani **write path end-to-end kaam kar raha hai** (Orders tab me row pahunchi).
+
+Config naye URL par shift kiya, transition/legacy write token hata diya (ab bekaar).
+Purana deployment (AKfycbztH…, Version 1, master token public default) abhi zinda hai —
+owner ko usse **archive/delete** karna chahiye, warna wo URL purana code (aur default
+master token) chalaata rahega.
+
+## Round 24 — online payment poora hata, sheet write double-transport, self-check page
+
+Owner ki shikayat: checkout par UPI/QR + "Pay online & place order" dikh raha tha aur UPI ID
+**kisi aur ki** (cloned project se aayi hui) thi. Website par online payment
+bilkul nahi hona chahiye.
+
+- Checkout se **Payment section, UPI QR, UPI apps, "Pay online & place order" button** — sab hata.
+  Ab sirf: order details → **Send order on WhatsApp**. Payment owner WhatsApp par batata hai.
+- Purane project ki UPI id saare defaults se hata di (web + admin + store-settings + tests + render.yaml).
+- `checkoutWhatsAppMessage` se payment/UPI line gayab (test bhi update).
+- Orders page se UPI payment block hata.
+
+Sheet me data na aane par (real order `TY-NBL7ITUPM` kabhi nahi pahuncha):
+- `relayRows` ab **do transport** se bhejta hai: form-encoded `fetch` (no-cors) + **hidden form POST**
+  (iframe) — CORS/redirect kuch bhi ho, row pahunchti hai.
+- Script me **duplicate guard** (`rowKeyOf_` / `existingKeys_`): Orders = Order ID, Order Items =
+  Order ID+Product+Size+Colour, Newsletter = Email. Isliye do transport se double row nahi banti.
+- `doPost` ab **form-encoded** body bhi padhta hai (`e.parameter`).
+- Naya page **`/sheet-check`**: ping → token match → settings → test row, sab browser se, aur
+  aakhri relay ka log. Owner khud 10 second me verify kar sakta hai.
+
+## Round 24 (cont.) — 3 naye original products + sheet-based reviews
+
+**Naye products (apne original shoot images — AI se banaye, kahin se copy nahi):**
+| Product | Price | Images |
+| --- | --- | --- |
+| Meher Wine Velvet Zari Anarkali Set | ₹2,499 (MRP ₹4,599) | 3 (front / detail / side) |
+| Noor Ivory Chikankari Kurta & Palazzo Set | ₹1,899 (MRP ₹3,499) | 3 |
+| Rani Emerald Raw Silk Gota Lehenga Choli | ₹3,499 (MRP ₹6,299) | 3 |
+
+- Images `apps/web/public/images/own/` me (repo ke andar, Shopify CDN par depend nahi).
+- `source: "own"` — imported catalogue ki parity checks se alag, kyunki inke price/photos
+  owner khud set karta hai. Test `own products: 3+ original photos` isko guard karta hai.
+- `imageUrl()` local `/images/...` path par base path lagata hai (Pages par 404 na ho).
+- catalog verify: meta.source ki hard-coded likshaclothing check hata di (ab store URL),
+  count meta se aata hai.
+
+**Reviews (asli, sheet-backed):**
+- Apps Script me naya tab **Reviews** (`Timestamp, Handle, Product, Name, Rating, Title, Body, Status, Source`)
+- Product page ka "Write a review" ab **real form**: naam + 1–5 star + text → `Reviews` tab me
+  row (`Status = pending`). Har review ka source site ka apna URL hai — koi fake review nahi.
+- `?action=reviews&handle=…` sirf **publish** kiye hue reviews deta hai (naam, rating, text;
+  koi phone/email nahi) → approve karne par site par turant dikh jaate hain, redeploy nahi.
+- Sheet na mile to site ke Trustoo-synced reviews jaise the waise dikhte hain.
+
+Round 24 (cont.): relay ab **JSON fetch + form POST dono** bhejta hai (purane script version par
+bhi data save, naye par form fallback). Script me Enquiries/Messages/Reviews ke duplicate keys bhi
+add kiye (r8) — do transport se double row nahi banti.
+
+## Round 25 — Diwali 75% campaign engine, banner assets, domain, nav/collections
+
+**Banner assets** (owner ke 3 PNG se, crop ke bina, WebP):
+`apps/web/public/images/banners/trends-younique-diwali-75-off-{desktop,tablet,mobile}.webp`
+— desktop 1920×1081, tablet 1280×960, mobile 1024×1536 (278/258/305 kB).
+
+**Campaign engine — `apps/web/src/lib/campaign.ts`:**
+- Ek jagah config: dates, discount %, banner assets, CTA, announcement.
+- `CAMPAIGNS[]` registry → mahine ke hisaab se rotate (dates ke bahar offer gayab).
+- `campaignPrice(mrp, 75)` = MRP ka 25% (poore rupee) — **MRP ko kabhi nahi chhedte**,
+  isliye "flat 75% off" sach hai. 446/446 products par exactly 75% (test).
+- `withCampaignPricing()` `store.ts` me lagti hai, isliye card, PDP, size-price, cart,
+  checkout, invoice, WhatsApp message aur JSON-LD — sab ek hi price dikhate hain.
+- Hero: campaign chalu ho to **owner ka banner** (banner me text already hai, isliye
+  overlay copy hata di — do headline ek doosre par nahi chadhte); khatam hote hi
+  editorial hero wapas. Announcement bar aur header strip me bhi campaign line.
+- JSON-LD `priceRange` ab asli catalogue se, hard-coded ₹499–₹699 hata.
+
+**Domain:** default site URL ab `https://trendsyounique.fashion` (config, api-base,
+CORS allowlist me domain + www). Render fallback sirf tab jab env set ho.
+
+**Brand/config:** collection display titles saaf kiye (Anarkali Suits, Lehenga Chunni &
+Choli Sets, Suit Sets & Gowns, Printed Suits, Wedding & Festive Wear) — URLs waise hi.
+Header nav ab Anarkali · Lehenga · Suit Sets · Printed · Wedding · New In · Sale (10 links,
+1024px par scroll-safe).
+
+**Collections jo inventory hi nahi rakhte** (owner list me the, par 0 products):
+Salwar Suits, Dupatta/Chunni, Festive Wear (alag) — jaan-boojh kar **nahi** banaye,
+kyunki khaali collection = jhootha nav. Inventory aane par add honge.
+
+Docs: `docs/09-devops/campaigns.md` (mahine ka rotation + naya campaign + env switches).
+Tests: **145 unit + 40 integration + 9**, typecheck clean, catalog verify clean.
+
+### Round 25 (cont.) — titles saaf, nav collections, build pipeline
+
+- `scripts/clean-titles.mjs` — ALL-CAPS → Title Case, "Beutifull/Lehnga/Waite/Sequence/Jari/Pent"
+  spelling fix, duplicate words ("Anarkali Anarkali"), keyword-stuffed 110+ akshar titles.
+  **234 titles** update (teeno catalogue copies + seeds). Handles/URLs waise hi — koi
+  purana link nahi toota.
+- `scripts/build-catalog.mjs` ab build ke waqt bhi wahi `cleanTitle()` lagata hai (generated
+  copy dobara ganda na ho). Local variable rename (`plainTitle`) — import shadow nahi hota.
+- `lib/collections.ts` (client nav) aur home ke circle labels saaf: Anarkali Suits, Lehenga
+  Chunni & Choli Sets, Suit Sets & Gowns, Printed Suits, Wedding & Festive Wear.
+
+Round 25 (cont.): price filter buckets campaign ke hisaab se (Under 500 / 500-800 /
+800-1200 / 1200+) — pehle Rs. 2,500+ ke buckets sab khaali dikhte the.
+
+## Round 27 — "sheet me data nahi aa raha" ka asli root cause + bug sweep
+
+**Root cause (prove kiya, guess nahi):** live site **galat Apps Script deployment** par bhej rahi
+thi. GitHub repo variables me jo `SHEET_WEBAPP_URL` tha, uska jawab har request par
+`{"ok":false,"error":"unauthorized"}` aata tha — isliye order, contact form, enquiry, newsletter,
+review… kuch bhi sheet tak nahi pahuncha. Sheet me sirf purane self-test rows the.
+
+Proof (GitHub Actions runner se, browser jaisa hi POST): **sahi** deployment par row turant
+`Orders` me aa gayi; purane par `unauthorized`. Per-tab matrix:
+`Orders ✅ · Order Items ✅ · Enquiries ✅ · Messages ✅ · Newsletter ✅ · Reviews ✅ ·
+Payments ⛔ (by design — browser write token us tab ko chhoo hi nahi sakta)`.
+
+Fix:
+- `lib/sheet-config.ts` — verified URL + write token **code me**; purane `SHEET_*` env ignore,
+  naye safe override (`NEXT_PUBLIC_SHEET_URL_OVERRIDE` / `_TOKEN_OVERRIDE`).
+  `public/sheet-endpoint.json` + unit test = live deploy par galat URL dobara nahi lag sakta.
+- `pages.yml` se stale variables hata diye.
+- `google-sheets.ts`: GET append (jawab verify) → POST fallback.
+- relay: GET-first, phir beacon, phir form, phir 1px pixel; har batch alag (bade order ka
+  baaki hissa 20s nahi rukta), 7 din purani row drop, storage keys `trends:*`.
+- `/sheet-check/`: r8 par bhi sach — GET verify na ho to POST se test row, aur page **noindex**.
+
+**Bug sweep (chhote bugs jo mile):**
+- `STORE_UPI_ID` ka banaya hua fallback (`trendsyounique@upi`) → khaali par UPI card hi nahi;
+  `.env.example`/`render.yaml`/legacy .gs me **doosre project ki UPI id** thi — hata di (galat
+  account me paisa ja sakta tha).
+- Order page par "Pay via UPI below" likha tha par koi UPI card render hi nahi hota tha → saaf
+  COD/WhatsApp copy, dead imports hataye.
+- 4 duplicate products (same photos, do handles — main + extra store) → dedupe + build-script
+  pass + unit test (catalogue 517 → 513).
+- `clean-titles`: "PartyWear/SuitSet/Lehenga choli" ab saaf ("Party Wear Suit Set", …).
+- Product page par jhootha "prepaid only" → "COD available"; size-price note sirf sach hone par.
+- Wishlist/cache/queue keys `liksha:*`/`nyx:*` → `trends:*` (migration ke saath), CSS tokens
+  `--ty-*`.
+- `robots.txt`: `/sheet-check`, `/admin/` disallow.
+
+Tests: **163 unit + 40 integration + 9**, typecheck + build clean, local e2e smoke 88 / round16 37
+/ links 40 / responsive 38 — fail 0.
+
+**Owner ke liye baaki (optional):** Apps Script me repo ka r9 code paste karke
+*Manage deployments → Edit → New version → Deploy* karein. Usse step 4 ka jawab bhi verify hoga
+(GET write). Data **abhi bhi** aa raha hai — POST rasta purane deployment par bhi chalta hai.
+
+
+## Round 28 — "products load nahi hue" ka asli bug, single-image card, email/Instagram off, Netlify
+
+### 1. "Aur products load nahi hue. Dobara try kariye." — root cause
+
+`collection-browser.tsx` me:
+
+```ts
+const all = await readJson<Product[]>(response);   // ❌ readJson { data, error } deta hai
+if (!Array.isArray(all)) throw new Error("catalog parse failed");
+```
+
+`readJson()` wrapper object deta hai, array nahi — isliye `Array.isArray()` **hamesha false**
+tha. GitHub Pages / Netlify (static, koi API nahi) par "Load more" aur sort/price filter
+har click par error dete the. Ab:
+
+- `lib/local-catalog.ts` — filter/sort/price-bucket/search/pagination ek jagah (pure functions)
+- `lib/catalog-page.ts` — pehle `/api/products`, fail ho to `catalog-lite.json`
+- search grid (`product-grid-client.tsx`) par pehle koi fallback hi nahi tha — ab hai
+- `catalog-lite.json` me `listed` flag (server jaisa exact count) → "Load more (N left)" ka
+  number server se bilkul match (425/425 new arrivals)
+- tests: pagination/duplicate-free, price buckets, sort, search, API-404 fallback,
+  count parity per collection, aur bug ka regression guard
+
+### 2. Product card — single image
+
+Sirf ek photo wale products par **image badalti nahi** (pehle hover par cross-fade ka
+system tha). Ab wahi photo cursor ke saath halki float karti hai (`--cursor-x/y`,
+`scale 1.045`), `prefers-reduced-motion` aur touch devices par off. Multi-image cards
+par pehle jaisa cross-fade.
+
+### 3. Admin — main image chuno
+
+Product edit → image manager: **Main** (main image) aur **↑ / ↓** reorder. `images[0]` hi
+card, search aur PDP par pehli photo hoti hai. Naya product form par bhi saaf likha hai.
+Actions: `setProductMainImageAction`, `moveProductImageAction` (override me images order).
+
+### 4. Website se support email hata, Instagram hata, 7 day return
+
+- Email: footer, contact page, header drawer, account page, policy/privacy text,
+  contact form ka mailto, JSON-LD — sab se hata. Sirf WhatsApp + call.
+- Instagram link (`designer_clothing_9`) hata — owner apna handle baad me dega.
+- "7 day easy exchange" / "7 days replacement" → **"7 day return"** (home trust strip,
+  announcement, checkout, product page, invoice, policy page title).
+
+### 5. Netlify + apna domain
+
+`netlify.toml` (build `npm ci && node scripts/pages/build-preview.mjs`, publish `dist`,
+root base path, cache + security headers) aur `docs/09-devops/netlify.md` — import,
+domain (`trendsyounique.fashion`) ke DNS steps, HTTPS, sheet check, troubleshooting.
+Track-order page ab bina server wali hosting par jhootha "Open live tracking" link nahi
+dikhati (status WhatsApp se).
+
+## Round 36 — sahi TRENDS YOUNIQUE tree restore + custom domain (2026-11-18)
+
+- **Problem:** `main` ka initial commit (`63632d3`) 503 files ka alag `Designer Clothing` /
+  Liksha codebase tha. Usi par Winter Sale + custom-domain workflow merge kar diya gaya tha
+  (PR #12), aur `trendsyounique.fashion` par galat brand live ho gaya tha.
+- **Revert:** PR #13 ne `21bf51e` ko revert karke `main` ko `c5f296e` par wapas laaya —
+  magar wo bhi wahi galat tree thi.
+- **Asli source:** Vercel project `trends-younique` isi repo ke delete hue branch
+  `arena/e13f4af5-manoj-product` ke commit `7b164b36` ("Round 35b") se deployed tha.
+  Vahan `site.ts` = `TRENDS YOUNIQUE`, owner ka `trends-younique-logo-original.png`,
+  Diwali 75% banners, `care@trendsyounique.com`, phone `7740992663`, custom-domain CORS.
+- **Fix:** us commit ki poori 775-file tree current branch par restore ki; `CNAME`,
+  custom-domain `pages.yml`, `dist/CNAME` copy, campaign env, `render.yaml` branch `main`,
+  stale brand strings, docs aur tests update kiye.
+- **Deploy:** `main` par merge ke baad `pages.yml` GitHub Pages par `https://trendsyounique.fashion`
+  publish karta hai; `deploy.yml` ab manual-only.
+- **Catalogue:** Vercel wali 477-product tree (271 imported + 135 guest + 71 owner shoots)
+  exact restore ki gayi — `catalog:build` se regenerate nahi kiya, warna 35 products
+  (owner shoots) gayab ho jaate. `verify-catalog.mjs` me live-snapshot membership ka
+  strict count check ko warning + khaali-collection guard me badla, kyunki Round 35
+  ke dedup / owner shoots ke baad catalogue ab live store ka exact mirror nahi raha.
+  `build-catalog.mjs` ka `SOURCE` ab `https://trendsyounique.fashion` (canonical).
+- **Golden commands:** `typecheck`, `catalog:verify`, `test:all` (9/0), `build:web`,
+  `apps/admin` build — sab pass; local root custom-domain build me `CNAME`,
+  `.nojekyll`, TRENDS YOUNIQUE header, Diwali 75% banner, canonical/OG/sitemap
+  `trendsyounique.fashion` verify kiye.

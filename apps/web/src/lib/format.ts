@@ -1,5 +1,5 @@
 /**
- * Local asset (public/ folder) ka URL. GitHub Pages par site `/tannu-product-/`
+ * Local asset (public/ folder) ka URL. GitHub Pages par site `/manoj-Product/`
  * ke neeche rehti hai, isliye base path add karna zaroori hai — warna image 404.
  */
 const ASSET_BASE = process.env.NEXT_PUBLIC_PAGES_BASE_PATH ?? "";
@@ -35,8 +35,11 @@ export function discountPercent(price: number, compareAtPrice?: number | null): 
 
 /** Shopify CDN image ko chhota size me maango -> fast load */
 export function imageUrl(src: string | undefined, width = 600): string {
-  if (!src) return "/images/placeholder.svg";
-  if (!src.includes("cdn.shopify.com")) return src;
+  if (!src) return `${ASSET_BASE}/images/placeholder.svg`;
+  if (!src.includes("cdn.shopify.com")) {
+    // apni upload ki hui local image — GitHub Pages ke base path ke saath
+    return src.startsWith("/") ? `${ASSET_BASE}${src}` : src;
+  }
   return `${src}${src.includes("?") ? "&" : "?"}width=${width}`;
 }
 

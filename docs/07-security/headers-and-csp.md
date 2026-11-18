@@ -20,7 +20,7 @@ img-src 'self' https://cdn.shopify.com https://*.shopifycdn.com data: blob:;
 script-src 'self' 'unsafe-inline' https://checkout.razorpay.com;
 style-src 'self' 'unsafe-inline';
 font-src 'self' data:;
-connect-src 'self' https://api.likshaclothing.com https://api.razorpay.com;
+connect-src 'self' https://api.trendsyounique.fashion https://api.razorpay.com;
 frame-src https://api.razorpay.com https://checkout.razorpay.com;
 form-action 'self';
 base-uri 'self';
@@ -40,5 +40,5 @@ upgrade-insecure-requests;
 
 ## Verify
 
-`curl -I https://likshaclothing.com | grep -i -E 'content-security|x-frame|strict-transport'`
+`curl -I https://trendsyounique.fashion | grep -i -E 'content-security|x-frame|strict-transport'`
 + https://securityheaders.com score ≥ A.

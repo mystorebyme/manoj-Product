@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # uptime.sh — 1 minute loop (systemd/cron ke bina, foreground me).
-#   WEB_URL=https://likshaclothing.com bash infra/monitoring/uptime.sh
+#   WEB_URL=https://trendsyounique.fashion bash infra/monitoring/uptime.sh
 # Har failure par ek line log karta hai; 3 lagataar failure = alert hook.
 set -uo pipefail
 

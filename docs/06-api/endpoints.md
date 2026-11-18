@@ -1,6 +1,6 @@
 # API endpoints (v1)
 
-Base: `http://localhost:4000/api/v1` (prod: `https://api.likshaclothing.com/api/v1`)
+Base: `http://localhost:4000/api/v1` (prod: `https://api.trendsyounique.fashion/api/v1`)
 
 | Method | Path | Auth | Description |
 | --- | --- | --- | --- |

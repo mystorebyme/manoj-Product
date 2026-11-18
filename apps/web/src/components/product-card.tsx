@@ -10,12 +10,15 @@ import { SafeImage } from "@/components/safe-image";
 import { Stars } from "@/components/stars";
 import { colourSwatch } from "@/lib/colour";
 import { coloursFor } from "@/lib/colour-index";
+import { useSheetMainImage } from "@/lib/sheet-products";
 
 /**
- * Product card — live store (likshaclothing.com) jaisa:
+ * Product card — premium editorial layout:
  *  - hover par pehli image hat jaati hai aur doosri image cursor ke saath
  *    background me halki si move karti hai (parallax follow)
- *  - image ke **upar** icons: wishlist (heart), compare (eye), aur niche add-to-cart
+ *  - **sirf ek image** wale products par image badalti nahi — wahi image cursor ke
+ *    saath halki si float karti hai (owner: "jo image hai vo hi rehni chahiye")
+ *  - image ke **upar** wishlist (heart), niche "Add to cart" — clean, sirf zaroori
  *  - price ke niche colour swatches
  */
 export function ProductCard({
@@ -26,12 +29,12 @@ export function ProductCard({
   colours?: { name: string; handle: string }[];
 }) {
   const { addItem } = useCart();
-  const { isWished, toggleWishlist, isCompared, toggleCompare } = useWishlist();
+  const { isWished, toggleWishlist } = useWishlist();
   const wished = isWished(product.handle);
-  const compared = isCompared(product.handle);
   const colourOptions = colours ?? coloursFor(product.handle);
   const off = discountPercent(product.price, product.compareAtPrice);
-  const primary = product.images[0];
+  // owner Sheet ke `MainImage` tab se main photo badal sakta hai
+  const primary = useSheetMainImage(product.handle, product.images[0]);
   const hoverImage = product.images[1] ?? null;
   const mediaRef = useRef<HTMLDivElement>(null);
   const frame = useRef<number | null>(null);
@@ -70,14 +73,16 @@ export function ProductCard({
   const defaultSize = availableSizes[0] ?? product.sizes[0] ?? "Free Size";
 
   return (
-    <div className="group relative flex flex-col">
-      <div className="relative overflow-hidden bg-[#f6f1ec]">
+    <div className="ty-card group relative flex flex-col">
+      {/* ivory mat + gold hairline — card ko "framed print" jaisa premium look deta hai */}
+      <div className="ty-card-frame relative overflow-hidden">
         <Link href={`/products/${product.handle}`} className="block" data-testid="product-card">
           <div
             ref={mediaRef}
-            className="card-media relative aspect-[3/4] w-full"
-            onMouseMove={hoverImage ? follow : undefined}
-            onMouseLeave={hoverImage ? reset : undefined}
+            className={`card-media relative aspect-[3/4] w-full ${hoverImage ? "" : "is-single"}`}
+            onMouseMove={follow}
+            onMouseLeave={reset}
+            onTouchEnd={reset}
           >
             <SafeImage
               src={imageUrl(primary, 600)}
@@ -89,6 +94,7 @@ export function ProductCard({
               <SafeImage
                 src={imageUrl(hoverImage, 600)}
                 alt=""
+                failureMode="hide"
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                 className="card-media-alt absolute inset-0 h-full w-full object-cover"
               />
@@ -97,17 +103,13 @@ export function ProductCard({
         </Link>
 
         {off > 0 ? (
-          <span className="absolute left-2 top-2 bg-[#862222] px-1.5 py-0.5 text-[9.5px] font-semibold tracking-[.08em] text-white uppercase">
-            {off}% off
-          </span>
+          <span className="ty-badge absolute left-2 top-2">{off}% off</span>
         ) : null}
         {soldOut ? (
-          <span className="absolute left-2 top-8 bg-[#222] px-1.5 py-0.5 text-[9px] font-semibold tracking-[.1em] text-white uppercase">
-            Sold out
-          </span>
+          <span className="ty-badge absolute left-2 top-8 bg-[#14100e] text-[#f3e7d3]">Sold out</span>
         ) : null}
 
-        {/* image ke upar icons — wishlist / compare (real store jaisa right side stack) */}
+        {/* image ke upar sirf wishlist — compare/eye icon (purane template ka) hata diya */}
         <div className="absolute right-2 top-2 flex flex-col gap-1.5">
           <button
             type="button"
@@ -116,30 +118,15 @@ export function ProductCard({
             aria-pressed={wished}
             data-testid="wishlist-toggle"
             title={wished ? "In wishlist" : "Add to wishlist"}
-            className={`flex h-8 w-8 items-center justify-center rounded-full bg-white/95 shadow-sm transition hover:bg-white ${
-              wished ? "text-[#c2185b]" : "text-[#2f2a25]"
+            className={`flex h-8 w-8 items-center justify-center rounded-full border bg-white/95 shadow-sm backdrop-blur transition hover:scale-105 ${
+              wished ? "border-[#c2185b]/30 text-[#c2185b]" : "border-transparent text-[#14100e] hover:border-[#b08a4a]/50"
             }`}
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill={wished ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.6">
               <path d="M20.8 5.6a5 5 0 0 0-7.1 0L12 7.3l-1.7-1.7a5 5 0 1 0-7.1 7.1L12 21.5l8.8-8.8a5 5 0 0 0 0-7.1Z" />
             </svg>
           </button>
-          <button
-            type="button"
-            onClick={() => toggleCompare(product.handle)}
-            aria-label={compared ? `Remove ${product.title} from compare` : `Compare ${product.title}`}
-            aria-pressed={compared}
-            data-testid="compare-toggle"
-            title={compared ? "In compare list" : "Add to compare"}
-            className={`flex h-8 w-8 items-center justify-center rounded-full bg-white/95 shadow-sm transition hover:bg-white ${
-              compared ? "text-[#862222]" : "text-[#2f2a25]"
-            }`}
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-              <path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6-10-6-10-6Z" />
-              <circle cx="12" cy="12" r="2.6" />
-            </svg>
-          </button>
+
         </div>
 
         <button
@@ -161,25 +148,35 @@ export function ProductCard({
               colour: product.colourName ?? product.color,
             })
           }
-          className={`absolute inset-x-0 bottom-0 py-2.5 text-[10.5px] font-semibold tracking-[.16em] uppercase transition-transform duration-300 group-hover:translate-y-0 focus-visible:translate-y-0 max-sm:translate-y-0 ${
+          className={`ty-quickadd absolute inset-x-2 bottom-2 flex items-center justify-center gap-1.5 py-2.5 text-[10px] font-semibold tracking-[.18em] uppercase transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 focus-visible:translate-y-0 focus-visible:opacity-100 max-sm:translate-y-0 max-sm:opacity-100 ${
             soldOut
-              ? "cursor-not-allowed bg-[#4a423b] text-white/90"
-              : "bg-[#862222] text-white"
+              ? "cursor-not-allowed bg-[#3a322c]/95 text-white/80"
+              : "bg-[#4a1220]/95 text-[#f6ecdc] hover:bg-[#6f1d2b]"
           }`}
         >
-          {soldOut ? "Sold out" : "Add to cart"}
+          {soldOut ? (
+            "Sold out"
+          ) : (
+            <>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
+                <path d="M6 7h12l1.2 13H4.8L6 7Z" />
+                <path d="M9 7a3 3 0 0 1 6 0" />
+              </svg>
+              Add to cart
+            </>
+          )}
         </button>
       </div>
 
-      <div className="flex flex-1 flex-col pt-2.5 text-center">
+      <div className="flex flex-1 flex-col px-0.5 pt-3 text-center">
         <Link
           href={`/products/${product.handle}`}
-          className="line-clamp-2 text-[12px] font-medium leading-snug text-[#2f2a25] transition hover:text-[#862222] sm:text-[12.5px]"
+          className="line-clamp-2 font-display text-[13.5px] leading-snug tracking-[.01em] text-[#231a16] transition-colors hover:text-[#6f1d2b] sm:text-[14.5px]"
         >
           {product.title}
         </Link>
         {product.reviewCount > 0 ? (
-          <p className="mt-1 flex items-center justify-center gap-1 text-[10px] text-[#8a8078]">
+          <p className="mt-1 flex items-center justify-center gap-1 text-[10px] text-[#8a7d72]">
             <Stars value={product.rating} size={10} />
             <span>
               {product.rating.toFixed(1)} ({product.reviewCount})
@@ -187,10 +184,11 @@ export function ProductCard({
           </p>
         ) : null}
         <div className="mt-1.5 flex items-center justify-center gap-1.5 text-[12px]">
+          {/* pehle sale price (jo dena hai), phir MRP struck — product page jaisa hi order */}
+          <span className="font-semibold text-[#6f1d2b]">{formatPrice(product.price)}</span>
           {product.compareAtPrice && product.compareAtPrice > product.price ? (
             <span className="text-[#a49a90] line-through">{formatPrice(product.compareAtPrice)}</span>
           ) : null}
-          <span className="font-semibold text-[#862222]">{formatPrice(product.price)}</span>
         </div>
         {colourOptions.length > 1 ? (
           <div className="mt-1.5 flex items-center justify-center gap-1.5">

@@ -23,8 +23,8 @@ test("secret badalne par purana token invalid ho jaata hai", () => {
 });
 
 test("callback URL site base + signed token deta hai", () => {
-  const url = upiReturnCallbackUrl("https://designerclothes.in/", "LK-ABC123", "tok123");
-  assert.equal(url, "https://designerclothes.in/orders/LK-ABC123?upi=return&t=tok123");
+  const url = upiReturnCallbackUrl("https://trendsyounique.fashion/", "LK-ABC123", "tok123");
+  assert.equal(url, "https://trendsyounique.fashion/orders/LK-ABC123?upi=return&t=tok123");
 });
 
 test("UPI app ke query params se reference nikalta hai", () => {

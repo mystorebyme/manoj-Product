@@ -3,7 +3,7 @@
 ## Brand direction
 
 Modern Indian ethnic wear — rich maroon, cream paper, generous whitespace, editorial serif headings.
-Reference: likshaclothing.com ka premium festive feel, par ours cleaner aur faster.
+Reference: trendsyounique.fashion ka premium festive feel, par ours cleaner aur faster.
 
 ## Principles
 

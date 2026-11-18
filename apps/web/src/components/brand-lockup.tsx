@@ -1,21 +1,15 @@
 import { brandAssets } from "@/config/site";
 
 /**
- * Brand lockup — owner ka **original** logo (gold crown + gown + DESIGNER CLOTHING
- * wordmark), bilkul jaisa diya gaya hai (koi redraw/typography change nahi).
+ * Brand lockup — owner ka **original** logo (crown + gown crest + TRENDS YOUNIQUE),
+ * bilkul jaisa diya gaya hai (koi redraw / typography change nahi).
  *
- * Device ke hisaab se **alag asset** aata hai, `<picture>` se — browser sirf ek hi
- * file download karta hai:
- *   - <768px   → `logo-mobile.png`  compact horizontal (mark chhota, naam bada)
- *   - 768–1023 → `logo-tablet.png`  horizontal, mark bada
- *   - ≥1024px  → `logo-desktop.png` full horizontal lockup (highest resolution)
+ * Assets `python3 scripts/brand/build-trends-assets.py` se bante hain:
+ *   - `variant="header"`  → crest + wordmark (horizontal) — site header, light bg
+ *   - `variant="stacked"` → poora lockup (crest upar, wordmark neeche) — footer / invoice
  *
- * `variant="stacked"` → `logo-fluid.png` (mark upar, wordmark neeche) — footer jaisi
- * jagah jahan height available hai par width kam.
- *
- * `tone="light"` (maroon footer) par logo ko cream plate par rakhte hain — original
- * logo ka wordmark black hai aur maroon par invisible ho jaata. Logo khud kabhi
- * recolor nahi hota.
+ * `tone="light"` dark (wine/ink) background ke liye **cream** version deta hai —
+ * logo khud recolor nahi hota, sirf uski cream-ink variant aati hai.
  */
 export function BrandLockup({
   tone = "dark",
@@ -23,47 +17,34 @@ export function BrandLockup({
   variant = "header",
   className = "",
 }: {
-  /** `dark` = light background (header), `light` = maroon/dark footer */
+  /** `dark` = light background (header), `light` = wine/ink background (footer) */
   tone?: "dark" | "light";
   /** `header` = nav, `compact` = mobile drawer, `large` = footer */
   size?: "header" | "compact" | "large";
-  /** `header` = horizontal lockup per device, `stacked` = fluid stacked file */
+  /** `header` = horizontal lockup, `stacked` = full vertical lockup */
   variant?: "header" | "stacked";
   className?: string;
 }) {
+  const stacked = variant === "stacked";
+  const src = stacked
+    ? tone === "light"
+      ? brandAssets.fluidCream
+      : brandAssets.fluid
+    : tone === "light"
+      ? brandAssets.desktopCream
+      : brandAssets.desktop;
+
   return (
-    <span
-      data-size={size}
-      data-variant={variant}
-      className={`brand-lockup inline-flex items-center ${
-        tone === "light" ? "rounded-sm bg-[#fdfaf4] px-2.5 py-2" : ""
-      } ${className}`}
-    >
-      {variant === "stacked" ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={brandAssets.fluid}
-          alt="Designer Clothing"
-          width={660}
-          height={397}
-          decoding="async"
-          className="block w-auto max-w-full object-contain"
-        />
-      ) : (
-        <picture>
-          <source media="(min-width:1024px)" srcSet={brandAssets.desktop} />
-          <source media="(min-width:768px)" srcSet={brandAssets.tablet} />
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={brandAssets.mobile}
-            alt="Designer Clothing"
-            width={403}
-            height={112}
-            decoding="async"
-            className="block w-auto max-w-full object-contain"
-          />
-        </picture>
-      )}
+    <span data-size={size} data-variant={variant} data-tone={tone} className={`brand-lockup inline-flex items-center ${className}`}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={src}
+        alt="TRENDS YOUNIQUE"
+        width={stacked ? 969 : 936}
+        height={stacked ? 1144 : 326}
+        decoding="async"
+        className="block w-auto max-w-full object-contain"
+      />
     </span>
   );
 }

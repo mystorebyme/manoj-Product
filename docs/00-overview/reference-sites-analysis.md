@@ -1,6 +1,6 @@
 # Reference sites analysis
 
-Kaam ka source: **likshaclothing.com** (existing Shopify store) — yahi asli data source hai.
+Kaam ka source: owner's Shopify snapshot (`database/seeds/live/products.json`) — yahi asli data source hai.
 Catalogue, prices, sizes, images aur collection naming wahan se liye gaye hain taaki customer ko
 same product mile.
 

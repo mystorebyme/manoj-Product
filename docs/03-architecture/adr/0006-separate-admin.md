@@ -9,7 +9,7 @@ me admin code jaata tha aur auth logic public app me rehti thi.
 
 ## Decision
 
-`apps/admin` alag Next.js app, apna deploy, apna domain (`admin.likshaclothing.com`), `noindex`, cookie session.
+`apps/admin` alag Next.js app, apna deploy, apna domain (`admin.trendsyounique.fashion`), `noindex`, cookie session.
 
 ## Consequences
 

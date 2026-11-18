@@ -1,18 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useCart } from "@/components/cart-provider";
 import { formatPrice, imageUrl } from "@/lib/format";
 import { SafeImage } from "@/components/safe-image";
 import { useStoreSettings } from "@/components/store-settings-provider";
-import { API_AVAILABLE, apiUrl } from "@/lib/api-base";
-import { buildUpiUri } from "@/lib/upi";
-import { UpiQr } from "@/components/upi-qr";
-import { UpiApps } from "@/components/upi-apps";
-import { postJson, readJson } from "@/lib/http-json";
-import { checkPincodeOffline } from "@/lib/pincode-offline";
+import { readJson } from "@/lib/http-json";
+import { addressStates, verifyAddress, type AddressVerdict } from "@/lib/address-check";
+import {
+  checkoutWhatsAppMessage,
+  logWhatsAppEnquiry,
+  whatsappLink,
+  whatsappNumber,
+} from "@/lib/whatsapp";
+import { newOrderRef, relayOrderToSheet, relayRows } from "@/lib/sheet-relay";
 
 const indianStates = [
   "Andhra Pradesh", "Assam", "Bihar", "Chandigarh", "Chhattisgarh", "Delhi", "Goa", "Gujarat",
@@ -22,28 +24,26 @@ const indianStates = [
 ];
 
 export function CheckoutForm() {
-  const { lines, subtotal, count, clear, isOpen, closeCart, removeLine } = useCart();
-  const router = useRouter();
-  // festive sale me final price already 499–699 hai — koi extra coupon nahi
-  const { upiId, upiName, whatsapp } = useStoreSettings();
+  const { lines, subtotal, count, isOpen, closeCart, removeLine } = useCart();
+  // campaign/sale price already final hai — koi extra coupon nahi
+  const { whatsapp, blockedStates, blockedPincodes } = useStoreSettings();
   const [whatsappHref, setWhatsappHref] = useState<string | null>(null);
-  // sirf prepaid — COD option hata diya gaya hai
-  const payment = "prepaid" as const;
-  const [submitting, setSubmitting] = useState(false);
+  // ek hi submission par ek hi enquiry/order row (dobara click se duplicate na bane)
+  const enquiryLogged = useRef(false);
+  const orderRefOnce = useRef<string | null>(null);
   // OTP step hata diya gaya hai (owner request) — order sirf details par
   const [error, setError] = useState<string | null>(null);
-  // delivery check — admin ke rules + India Post data se
-  const [pinStatus, setPinStatus] = useState<
-    { ok: boolean; message: string; state: string | null; district: string | null } | null
-  >(null);
+  // delivery check — PIN ka asli state (India Post data) + owner ke blocks
+  const [pinStatus, setPinStatus] = useState<AddressVerdict | null>(null);
   const [pinBusy, setPinBusy] = useState(false);
+  const [states, setStates] = useState<string[]>(indianStates);
   const [form, setForm] = useState({
     customerName: "",
     email: "",
     phone: "",
     address: "",
     city: "",
-    state: "Gujarat",
+    state: "Rajasthan",
     pincode: "",
     notes: "",
   });
@@ -52,7 +52,25 @@ export function CheckoutForm() {
     if (isOpen) closeCart();
   }, [isOpen, closeCart]);
 
-  // 6 digit poore hone par apne aap check — galat/blocked pincode par aage nahi jaane dete
+  // state list seedha India Post data se (jo state pincode data me hai wahi dropdown me)
+  useEffect(() => {
+    let alive = true;
+    void addressStates().then((list) => {
+      if (alive && list.length) setStates(list);
+    });
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  /**
+   * PIN + state ka mel yahin check hota hai:
+   *   - PIN India Post me hai?
+   *   - Owner ne wo state/PIN block kiya hai?
+   *   - PIN ka state aur chuna hua state ek hai? (Rajasthan address + Kerala PIN = block)
+   * Har check sheet ke `AddressCheck` tab me log hota hai, taaki owner dekh sake
+   * kis state/PIN par galat address aa rahe hain.
+   */
   useEffect(() => {
     const pin = form.pincode;
     if (pin.length !== 6) {
@@ -62,23 +80,35 @@ export function CheckoutForm() {
     let active = true;
     setPinBusy(true);
     const timer = setTimeout(() => {
-      fetch(`/api/delivery/check?pincode=${encodeURIComponent(pin)}`, { cache: "no-store" })
-        .then((response) => readJson<{ data?: { serviceable: boolean; message: string; state: string | null; district: string | null } }>(response))
-        .then(async (parsed) => {
+      void verifyAddress(form.state, pin, {
+        states: blockedStates,
+        pincodes: blockedPincodes,
+      })
+        .then((verdict) => {
           if (!active) return;
-          // API na ho (static Pages) ya reply kharab ho to India Post data se khud check
-          const result = parsed.data?.data ?? (await checkPincodeOffline(pin));
-          if (!active) return;
-          setPinStatus({ ok: result.serviceable, message: result.message, state: result.state, district: result.district });
-          // state auto-fill: admin ne jis state ko allow kiya hai wahi select rahe
-          if (result.serviceable && result.state) update("state", result.state);
-        })
-        .catch(async () => {
-          if (!active) return;
-          const result = await checkPincodeOffline(pin);
-          if (!active) return;
-          setPinStatus({ ok: result.serviceable, message: result.message, state: result.state, district: result.district });
-          if (result.serviceable && result.state) update("state", result.state);
+          setPinStatus(verdict);
+          // verification ka record owner ki sheet me (sirf admin dekhta hai)
+          if (verdict.pinState) {
+            relayRows([
+              {
+                sheet: "AddressCheck",
+                row: {
+                  Timestamp: new Date().toISOString(),
+                  Result: verdict.ok ? "ok" : verdict.mismatch ? "state-mismatch" : verdict.blocked ? `blocked-${verdict.blocked}` : "unknown-pin",
+                  Customer: form.customerName,
+                  Phone: form.phone,
+                  Address: form.address,
+                  City: form.city,
+                  "State chosen": form.state,
+                  PIN: pin,
+                  "PIN state": verdict.pinState,
+                  District: verdict.district,
+                  Blocked: verdict.blocked ?? "",
+                  "Source page": "/checkout",
+                },
+              },
+            ]);
+          }
         })
         .finally(() => {
           if (active) setPinBusy(false);
@@ -89,7 +119,8 @@ export function CheckoutForm() {
       clearTimeout(timer);
       setPinBusy(false);
     };
-  }, [form.pincode]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form.pincode, form.state, blockedStates, blockedPincodes]);
 
   const discount = 0;
   const total = Math.max(0, subtotal - discount);
@@ -98,29 +129,115 @@ export function CheckoutForm() {
     setForm((current) => ({ ...current, [field]: value }));
   }
 
-  /** static preview / server down — poora order WhatsApp par (owner usi se confirm karta hai) */
-  function whatsappOrderLink(): string {
-    const itemLines = lines
-      .map((line) => `• ${line.title} — size ${line.size}${line.colour ? `, ${line.colour}` : ""} × ${line.quantity}`)
-      .join("\n");
-    const text = [
-      "Hi Designer Clothing, I want to place this order:",
-      "",
-      itemLines,
-      "",
-      `Total: ${formatPrice(total)} (prepaid, UPI: ${upiId})`,
-      "",
-      `Name: ${form.customerName}`,
-      `Phone: ${form.phone}`,
-      `Email: ${form.email}`,
-      `Address: ${form.address}, ${form.city}, ${form.state} — ${form.pincode}`,
-      form.notes ? `Notes: ${form.notes}` : "",
-      "",
-      "I will share the UPI payment screenshot here.",
-    ]
-      .filter(Boolean)
-      .join("\n");
-    return `https://wa.me/91${whatsapp.replace(/\D/g, "").slice(-10)}?text=${encodeURIComponent(text)}`;
+  /**
+   * **Primary flow: order seedha WhatsApp par.**
+   *
+   * Customer details bharta hai → "Send order on WhatsApp" dabata hai →
+   * poora order (item link, colour, size, qty, price + address) owner ke
+   * WhatsApp par chala jaata hai, aur usi waqt DB + Google Sheet me row save hoti hai.
+   */
+  function sendOrderOnWhatsApp(): void {
+    if (lines.length === 0) return;
+    const missing = validateDetails();
+    if (missing) {
+      setError(missing);
+      return;
+    }
+    setError(null);
+
+    // ek hi cart ke liye ek hi ref — dobara click par wahi ref, nayi row nahi
+    const firstSend = orderRefOnce.current === null;
+    const orderRef = orderRefOnce.current ?? newOrderRef();
+    orderRefOnce.current = orderRef;
+    const payload = lines.map((line) => ({
+      title: line.title,
+      handle: line.handle,
+      colour: line.colour ?? null,
+      size: line.size ?? null,
+      quantity: line.quantity,
+      price: line.price,
+    }));
+
+    // 1) SHEET SABSE PEHLE — order ki row kisi API/WhatsApp par depend nahi karti.
+    //    (Pehle ye enquiry log ke baad chalta tha; wahan kuch bhi throw ho jaye to
+    //    sheet me order pahunchta hi nahi tha.)
+    if (firstSend) {
+      try {
+        relayOrderToSheet({
+          orderRef,
+          customerName: form.customerName,
+          phone: form.phone,
+          email: form.email,
+          address: form.address,
+          city: form.city,
+          state: form.state,
+          pincode: form.pincode,
+          notes: form.notes,
+          items: lines.map((line) => ({
+            title: line.title,
+            handle: line.handle,
+            colour: line.colour ?? null,
+            size: line.size ?? null,
+            quantity: line.quantity,
+            price: line.price,
+            image: line.image,
+          })),
+          total,
+        });
+      } catch {
+        /* relay khud queue me daal deta hai; yahan kuch na karo */
+      }
+    }
+
+    // 2) Enquiry log (cart/checkout ka snapshot — sheet + server dono)
+    if (firstSend && !enquiryLogged.current) {
+      enquiryLogged.current = true;
+      try {
+        logWhatsAppEnquiry({
+          type: "checkout",
+          items: payload,
+          total,
+          customer: form.customerName,
+          phone: form.phone,
+          note: [form.address, form.city, form.state, form.pincode, form.notes]
+            .filter(Boolean)
+            .join(", ")
+            .slice(0, 480),
+        });
+      } catch {
+        /* enquiry log fail ho to bhi order row ja chuki hai */
+      }
+    }
+
+    // 2) WhatsApp — poora detail pre-filled
+    const href = whatsappLink(
+      checkoutWhatsAppMessage({
+        items: payload,
+        total,
+        name: form.customerName,
+        phone: form.phone,
+        email: form.email,
+        address: form.address,
+        city: form.city,
+        state: form.state,
+        pincode: form.pincode,
+        notes: form.notes,
+        orderRef,
+      }),
+      whatsappNumber(whatsapp),
+    );
+    setWhatsappHref(href);
+    window.open(href, "_blank", "noopener");
+  }
+
+  /** WhatsApp se pehle zaroori fields — customer ko saaf message */
+  function validateDetails(): string | null {
+    if (form.customerName.trim().length < 2) return "Poora naam daaliye.";
+    if (form.phone.replace(/\D/g, "").length !== 10) return "10 digit WhatsApp number daaliye (is par hum confirm karenge).";
+    if (form.address.trim().length < 10) return "Poora address daaliye — house number, street, area.";
+    if (form.city.trim().length < 2) return "City daaliye.";
+    if (form.pincode.replace(/\D/g, "").length !== 6) return "6 digit pincode daaliye.";
+    return null;
   }
 
   async function submit(event: React.FormEvent) {
@@ -131,58 +248,30 @@ export function CheckoutForm() {
       return;
     }
     if (!pinStatus.ok) {
-      setError(pinStatus.message);
+      setError(
+        pinStatus.mismatch
+          ? `${pinStatus.message} (Address ka state aur PIN code ek hi state ka hona chahiye.)`
+          : pinStatus.message,
+      );
       return;
     }
     setError(null);
     setWhatsappHref(null);
+    enquiryLogged.current = false;
+    orderRefOnce.current = null;
 
-    // GitHub Pages par server nahi hai — order WhatsApp par jaata hai, 404/network error nahi
-    if (!API_AVAILABLE) {
-      setWhatsappHref(whatsappOrderLink());
-      return;
-    }
-
-    setSubmitting(true);
-    try {
-      // idempotency key -> double click par do order nahi bante
-      const idempotencyKey =
-        typeof crypto !== "undefined" && "randomUUID" in crypto
-          ? crypto.randomUUID()
-          : `${Date.now()}-${Math.random()}`;
-      const result = await postJson<{ orderNumber?: string; error?: string }>(
-        apiUrl("/api/orders"),
-        {
-          ...form,
-          paymentMethod: payment,
-          items: lines.map((line) => ({ handle: line.handle, size: line.size, quantity: line.quantity })),
-        },
-        { timeoutMs: 25_000, headers: { "Idempotency-Key": idempotencyKey } },
-      );
-
-      if (!result.data?.orderNumber) {
-        setError(result.data?.error ?? result.error ?? "Order place nahi hua. Details check karke dobara try kariye.");
-        setWhatsappHref(whatsappOrderLink());
-        setSubmitting(false);
-        return;
-      }
-      clear();
-      router.push(`/orders/${result.data.orderNumber}`);
-    } catch (error) {
-      console.warn("order submit failed", error);
-      setError("Order server tak nahi pahuncha. Dobara try kariye, ya WhatsApp par order bhej dijiye — wahan hum turant confirm karte hain.");
-      setWhatsappHref(whatsappOrderLink());
-      setSubmitting(false);
-    }
+    // Online payment / card / UPI website par nahi hai — order seedha WhatsApp par.
+    // (Har hosting par yahi ek rasta hai: owner WhatsApp par confirm karta hai.)
+    sendOrderOnWhatsApp();
   }
 
   if (lines.length === 0) {
     return (
-      <div className="border border-[#eee6de] px-6 py-20 text-center">
-        <p className="text-sm text-[#6b6259]">Your cart is empty — add a suit set to checkout.</p>
+      <div className="border border-[#ece1d3] px-6 py-20 text-center">
+        <p className="text-sm text-[#6f6259]">Your cart is empty — add a suit set to checkout.</p>
         <Link
           href="/collections/party-wear-gown"
-          className="mt-5 inline-block bg-[#862222] px-7 py-3 text-[11px] font-semibold tracking-[.16em] text-white uppercase"
+          className="mt-5 inline-block bg-[#6f1d2b] px-7 py-3 text-[11px] font-semibold tracking-[.16em] text-white uppercase"
         >
           Shop now
         </Link>
@@ -194,7 +283,7 @@ export function CheckoutForm() {
     <form onSubmit={submit} className="grid gap-8 lg:grid-cols-[1.5fr_1fr]">
       <div className="space-y-6">
         <section>
-          <h2 className="text-[11px] font-semibold tracking-[.16em] text-[#862222] uppercase">Contact</h2>
+          <h2 className="text-[11px] font-semibold tracking-[.16em] text-[#6f1d2b] uppercase">Contact</h2>
           <div className="mt-3 grid gap-3 sm:grid-cols-2">
             <Field label="Full name" required value={form.customerName} onChange={(v) => update("customerName", v)} />
             <Field
@@ -217,7 +306,7 @@ export function CheckoutForm() {
         </section>
 
         <section>
-          <h2 className="text-[11px] font-semibold tracking-[.16em] text-[#862222] uppercase">Shipping address</h2>
+          <h2 className="text-[11px] font-semibold tracking-[.16em] text-[#6f1d2b] uppercase">Shipping address</h2>
           <div className="mt-3 grid gap-3 sm:grid-cols-2">
             <Field
               label="Address (house, street, area)"
@@ -228,13 +317,13 @@ export function CheckoutForm() {
             />
             <Field label="City" required value={form.city} onChange={(v) => update("city", v)} />
             <div>
-              <label className="text-[10.5px] tracking-[.12em] text-[#6b6259] uppercase">State</label>
+              <label className="text-[10.5px] tracking-[.12em] text-[#6f6259] uppercase">State</label>
               <select
                 value={form.state}
                 onChange={(event) => update("state", event.target.value)}
-                className="mt-1 h-11 w-full border border-[#ddd2c6] bg-white px-3 text-[13px] outline-none focus:border-[#862222]"
+                className="mt-1 h-11 w-full border border-[#ded1c0] bg-white px-3 text-[13px] outline-none focus:border-[#6f1d2b]"
               >
-                {indianStates.map((state) => (
+                {states.map((state) => (
                   <option key={state} value={state}>
                     {state}
                   </option>
@@ -249,16 +338,26 @@ export function CheckoutForm() {
                 value={form.pincode}
                 onChange={(v) => update("pincode", v.replace(/\D/g, "").slice(0, 6))}
               />
-              {pinBusy ? <p className="mt-1 text-[11px] text-[#8a8078]">Checking delivery…</p> : null}
+              {pinBusy ? <p className="mt-1 text-[11px] text-[#8a7d72]">Checking delivery…</p> : null}
               {pinStatus ? (
                 <p
                   className={`mt-1 text-[11px] leading-relaxed ${pinStatus.ok ? "text-[#2f7a3f]" : "text-[#a11d1d]"}`}
                   data-testid="pincode-status"
                 >
                   {pinStatus.ok
-                    ? `Deliverable${pinStatus.district ? ` — ${pinStatus.district}, ${pinStatus.state}` : ""}. Free shipping, 4-7 business days.`
+                    ? `Deliverable${pinStatus.district ? ` — ${pinStatus.district}, ${pinStatus.pinState}` : ""}. Free shipping, 4-7 business days.`
                     : pinStatus.message}
                 </p>
+              ) : null}
+              {pinStatus?.mismatch && pinStatus.pinState ? (
+                <button
+                  type="button"
+                  onClick={() => update("state", pinStatus.pinState!)}
+                  data-testid="fix-state"
+                  className="mt-1.5 inline-flex items-center border border-[#6f1d2b] px-3 py-1.5 text-[10.5px] font-semibold tracking-[.12em] text-[#6f1d2b] uppercase"
+                >
+                  State {pinStatus.pinState} kariye
+                </button>
               ) : null}
             </div>
             <Field label="Order notes (optional)" value={form.notes} onChange={(v) => update("notes", v)} />
@@ -266,49 +365,31 @@ export function CheckoutForm() {
         </section>
 
         <section>
-          <h2 className="text-[11px] font-semibold tracking-[.16em] text-[#862222] uppercase">Payment</h2>
+          <h2 className="text-[11px] font-semibold tracking-[.16em] text-[#6f1d2b] uppercase">Payment</h2>
           <div className="mt-3 border border-[#e5dbd0] bg-[#fdf8f7] p-3.5">
-            <div className="flex items-start gap-3">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#862222" strokeWidth="1.7" className="mt-0.5 shrink-0" aria-hidden>
-                <path d="M12 3l7 3v6c0 4.2-2.9 7.6-7 9-4.1-1.4-7-4.8-7-9V6l7-3z" />
-                <path d="M9 12l2 2 4-4" />
-              </svg>
-              <div className="min-w-0">
-                <p className="text-[12.5px] font-medium">Prepaid order — UPI (GPay, PhonePe, Paytm)</p>
-                <p className="mt-0.5 text-[11.5px] leading-relaxed text-[#8a8078]">
-                  You will get the payment page right after placing the order — scan the QR or pay to the UPI ID.
-                  Payment goes straight to the store account, with no gateway charges.
-                </p>
-                <p className="mt-1.5 break-all text-[11.5px] font-medium text-[#862222]">UPI: {upiId}</p>
-                <div className="mt-2.5">
-                  <UpiApps
-                    uri={buildUpiUri({
-                      vpa: upiId,
-                      name: upiName,
-                      amountPaise: total,
-                      note: "Designer Clothing order",
-                    })}
-                    upiId={upiId}
-                    amountPaise={total}
-                    showAppButtons={false}
-                  />
-                </div>
-              </div>
-            </div>
+            <p className="text-[12.5px] font-medium">No online payment on the website</p>
+            <p className="mt-1 text-[11.5px] leading-relaxed text-[#8a7d72]">
+              Aap order WhatsApp par bhejiye — owner khud confirm karke payment ki detail (UPI / bank) wahin
+              WhatsApp par bhejenge. Website par koi card / UPI / gateway detail nahi maangi jaati.
+            </p>
           </div>
         </section>
       </div>
 
-      <aside className="h-fit border border-[#eee6de] bg-[#faf8f5] p-5 lg:sticky lg:top-[92px]">
+      <aside className="h-fit border border-[#ece1d3] bg-[#fdfaf5] p-5 lg:sticky lg:top-[92px]">
         <h2 className="text-[11px] font-semibold tracking-[.16em] uppercase">Order summary ({count})</h2>
-        <ul className="mt-3 divide-y divide-[#eee6de]">
+        <ul className="mt-3 divide-y divide-[#ece1d3]">
           {lines.map((line) => (
             <li key={line.key} className="flex gap-2.5 py-2.5">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <SafeImage src={imageUrl(line.image, 200)} alt={line.title} className="h-16 w-12 shrink-0 object-cover" />
+              <SafeImage
+                src={imageUrl(line.image, 240)}
+                alt={line.title}
+                className="h-20 w-14 shrink-0 object-cover"
+              />
               <div className="flex-1">
                 <p className="line-clamp-2 text-[11.5px] leading-snug">{line.title}</p>
-                <p className="mt-0.5 text-[10.5px] text-[#8a8078]">
+                <p className="mt-0.5 text-[10.5px] text-[#8a7d72]">
                   {line.size}
                   {line.colour ? ` · ${line.colour}` : ""} · Qty {line.quantity}
                 </p>
@@ -317,7 +398,7 @@ export function CheckoutForm() {
                   onClick={() => removeLine(line.key)}
                   data-testid="summary-remove"
                   aria-label={`Remove ${line.title} from order`}
-                  className="mt-1 text-[10px] tracking-[.06em] text-[#9a8f85] uppercase underline transition hover:text-[#862222]"
+                  className="mt-1 text-[10px] tracking-[.06em] text-[#9a8f85] uppercase underline transition hover:text-[#6f1d2b]"
                 >
                   Remove
                 </button>
@@ -329,16 +410,16 @@ export function CheckoutForm() {
 
         <div className="mt-4 space-y-2 border-t border-[#e7ddd2] pt-3 text-[12.5px]">
           <div className="flex justify-between">
-            <span className="text-[#6b6259]">Subtotal</span>
+            <span className="text-[#6f6259]">Subtotal</span>
             <span>{formatPrice(subtotal)}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-[#6b6259]">Shipping</span>
+            <span className="text-[#6f6259]">Shipping</span>
             <span className="text-[#2f7a3f]">Free</span>
           </div>
           <div className="flex items-center justify-between border-t border-[#e7ddd2] pt-2.5 text-[14.5px] font-semibold">
             <span>Total</span>
-            <span className="text-[#862222]">{formatPrice(total)}</span>
+            <span className="text-[#6f1d2b]">{formatPrice(total)}</span>
           </div>
         </div>
 
@@ -347,58 +428,41 @@ export function CheckoutForm() {
         {whatsappHref ? (
           <div className="mt-3 border border-[#c9dcc9] bg-[#eef7ee] p-3" data-testid="checkout-whatsapp">
             <p className="text-[11.5px] leading-relaxed text-[#2f6b3f]">
-              Your order is ready — send it on WhatsApp to confirm. Pay{" "}
-              <strong>{formatPrice(total)}</strong> to UPI <strong className="break-all">{upiId}</strong> and share
-              the screenshot there.
+              <strong>Order ready!</strong> WhatsApp khul gaya hai — bas <em>Send</em> dabaiye. Nahi khula to neeche
+              wale button se bhej dein. Order confirm hone par payment ki detail owner WhatsApp par bhejenge.
             </p>
-            <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-start">
-              <div className="w-[128px] shrink-0 rounded-sm border border-[#c9dcc9] bg-white p-1">
-                <UpiQr
-                  uri={buildUpiUri({
-                    vpa: upiId,
-                    name: upiName,
-                    amountPaise: total,
-                    note: "Designer Clothing order",
-                  })}
-                  alt={`UPI QR to pay ${formatPrice(total)}`}
-                  className="h-auto w-full"
-                  size={240}
-                />
-              </div>
-              <div className="min-w-0 flex-1">
-                <UpiApps
-                  uri={buildUpiUri({
-                    vpa: upiId,
-                    name: upiName,
-                    amountPaise: total,
-                    note: "Designer Clothing order",
-                  })}
-                  upiId={upiId}
-                  amountPaise={total}
-                  showAppButtons={false}
-                />
-                <a
-                  href={whatsappHref}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-2.5 inline-flex h-10 items-center justify-center bg-[#25D366] px-4 text-[10.5px] font-semibold tracking-[.12em] text-white uppercase"
-                >
-                  Send order on WhatsApp
-                </a>
-              </div>
-            </div>
+            <a
+              href={whatsappHref}
+              target="_blank"
+              rel="noreferrer"
+              data-testid="checkout-whatsapp-link"
+              className="mt-2.5 inline-flex h-11 w-full items-center justify-center gap-2 bg-[#25D366] px-4 text-[10.5px] font-semibold tracking-[.12em] text-white uppercase sm:w-auto"
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                <path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.2 14.1c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1a11.6 11.6 0 0 1-5.9-5.2c-.4-.7-.6-1.4-.6-2 0-.6.3-1.2.6-1.6.2-.2.4-.3.6-.3h.5c.2 0 .4 0 .5.4l.7 1.7c.1.2 0 .4-.1.6l-.4.5c-.1.1-.2.3-.1.5a7.5 7.5 0 0 0 3.3 2.9c.2.1.4.1.5-.1l.6-.7c.2-.2.3-.2.5-.1l1.6.8c.2.1.4.2.4.4 0 .2 0 .9-.2 1.4Z" />
+              </svg>
+              Open WhatsApp again
+            </a>
           </div>
         ) : null}
 
+        {/* Main CTA — order WhatsApp par (owner wahin confirm karta hai) */}
         <button
-          type="submit"
-          data-testid="checkout-submit"
-          disabled={submitting}
-          className="mt-4 w-full bg-[#862222] py-3 text-[11.5px] font-semibold tracking-[.16em] text-white uppercase disabled:opacity-60"
+          type="button"
+          onClick={sendOrderOnWhatsApp}
+          data-testid="checkout-whatsapp-send"
+          className="mt-4 flex w-full items-center justify-center gap-2 bg-[#25D366] py-3.5 text-[11.5px] font-semibold tracking-[.14em] text-white uppercase transition hover:bg-[#1eb757]"
         >
-          {submitting ? "Placing order…" : `Place order · ${formatPrice(total)}`}
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+            <path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.2 14.1c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1a11.6 11.6 0 0 1-5.9-5.2c-.4-.7-.6-1.4-.6-2 0-.6.3-1.2.6-1.6.2-.2.4-.3.6-.3h.5c.2 0 .4 0 .5.4l.7 1.7c.1.2 0 .4-.1.6l-.4.5c-.1.1-.2.3-.1.5a7.5 7.5 0 0 0 3.3 2.9c.2.1.4.1.5-.1l.6-.7c.2-.2.3-.2.5-.1l1.6.8c.2.1.4.2.4.4 0 .2 0 .9-.2 1.4Z" />
+          </svg>
+          Send order on WhatsApp · {formatPrice(total)}
         </button>
-        <p className="mt-2 text-center text-[10.5px] leading-relaxed text-[#8a8078]">
+        <p className="mt-1.5 text-center text-[10.5px] leading-relaxed text-[#8a7d72]">
+          Detail (item link, colour, size, qty, address) pre-filled jaati hai — bas Send dabaiye.
+        </p>
+
+        <p className="mt-2 text-center text-[10.5px] leading-relaxed text-[#8a7d72]">
           Final price is already sale price — no coupon needed. By placing this order you agree to our{" "}
           <Link href="/policies/terms-and-conditions" className="underline">
             Terms &amp; Conditions
@@ -437,14 +501,14 @@ function Field({
 }) {
   return (
     <div className={className}>
-      <label className="text-[10.5px] tracking-[.12em] text-[#6b6259] uppercase">{label}</label>
+      <label className="text-[10.5px] tracking-[.12em] text-[#6f6259] uppercase">{label}</label>
       <input
         value={value}
         onChange={(event) => onChange(event.target.value)}
         required={required}
         type={type}
         inputMode={inputMode}
-        className="mt-1 h-11 w-full border border-[#ddd2c6] bg-white px-3 text-[13px] outline-none focus:border-[#862222]"
+        className="mt-1 h-11 w-full border border-[#ded1c0] bg-white px-3 text-[13px] outline-none focus:border-[#6f1d2b]"
       />
     </div>
   );

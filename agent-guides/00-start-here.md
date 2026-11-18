@@ -20,7 +20,7 @@ bash scripts/setup.sh  # data dir, checks, seed
 
 ```bash
 npm run dev        # storefront  http://localhost:3000
-npm run dev:admin  # admin       http://localhost:3001  (admin@likshaclothing.com / liksha2026)
+npm run dev:admin  # admin       http://localhost:3001  (admin@trendsyounique.com / liksha2026)
 npm run dev:api    # api         http://localhost:4000/api/v1/health
 ```
 

@@ -5,7 +5,7 @@
 - [ ] 287 products exact title/price/MRP/sizes/images (5 random spot-check vs store)
 - [ ] 9 collections correct products
 - [ ] Policies live: shipping, returns, privacy, terms, FAQ
-- [ ] Contact details: phone 8005900581, email Info.likshaclothing@gmail.com
+- [ ] Contact details: phone 7740992663, email care@trendsyounique.com
 - [ ] Footer social links (Instagram, WhatsApp)
 - [ ] Size chart page
 
@@ -13,7 +13,7 @@
 
 - [ ] COD order ≤ Rs. 3,500 → order page
 - [ ] COD > Rs. 3,500 blocked
-- [ ] Coupon LIKSHA10 / WELCOME15
+- [ ] Coupon TRENDS10 / WELCOME15
 - [ ] Order tracking by number
 - [ ] Admin login + status change + audit
 - [ ] Admin stock 0 → sold out

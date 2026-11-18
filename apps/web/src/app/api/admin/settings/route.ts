@@ -20,7 +20,7 @@ export async function PUT(request: Request) {
   } catch {
     return Response.json({ error: "Invalid JSON body." }, { status: 400 });
   }
-  const actor = (body as { actor?: string })?.actor?.slice(0, 120) || "admin@likshaclothing.com";
+  const actor = (body as { actor?: string })?.actor?.slice(0, 120) || "admin@trendsyounique.com";
   const payload = (body as { settings?: unknown })?.settings ?? body;
   return Response.json({ data: await saveStoreSettings(payload, actor) });
 }

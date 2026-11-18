@@ -5,7 +5,7 @@
 1. Admin dashboard → naye orders count.
 2. `placed` orders ko WhatsApp par confirm karo → admin me `confirmed`.
 3. Pending prepaid payments check (Razorpay dashboard).
-4. Health: `curl -s https://api.likshaclothing.com/api/v1/health`.
+4. Health: `curl -s https://api.trendsyounique.fashion/api/v1/health`.
 
 ## Weekly
 

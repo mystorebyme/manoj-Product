@@ -1,11 +1,11 @@
 openapi: 3.0.3
 info:
-  title: Designer Clothing API
+  title: TRENDS YOUNIQUE API
   version: 1.0.0
-  description: Products, orders, payments for likshaclothing.com
+  description: Products, orders, payments for trendsyounique.fashion
 servers:
   - url: http://localhost:4000/api/v1
-  - url: https://api.likshaclothing.com/api/v1
+  - url: https://api.trendsyounique.fashion/api/v1
 tags:
   - name: catalogue
   - name: orders

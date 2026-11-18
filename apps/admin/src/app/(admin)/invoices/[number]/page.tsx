@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AutoPrint } from "@/components/auto-print";
-import { getManualInvoice } from "@/lib/data";
+import { getManualInvoice, getSettings } from "@/lib/data";
 import { invoiceFromSlug, invoiceSlug } from "@/lib/invoice-slug";
 import { inr } from "@/lib/format";
 import {
@@ -21,6 +21,8 @@ export default async function ManualInvoicePage({ params }: { params: Promise<{ 
   const { number } = await params;
   const invoice = await getManualInvoice(invoiceFromSlug(number));
   if (!invoice) notFound();
+  // seller details admin settings / Google Sheet se — invoice par kuch hardcode nahi
+  const store = await getSettings();
 
   const interState = invoice.state.trim().toLowerCase() !== SELLER_STATE.toLowerCase();
   const lines = invoice.items.map((item) => {
@@ -59,13 +61,13 @@ export default async function ManualInvoicePage({ params }: { params: Promise<{ 
         <header className="invoice-head">
           <div>
             {/* same to same logo jo PDF/HTML invoice par hai */}
-            <img src="/invoice-logo.png" alt="Designer Clothing" width={196} height={51} />
+            <img src="/invoice-logo.png" alt="TRENDS YOUNIQUE" width={196} height={51} />
             <p className="invoice-muted" style={{ marginTop: 8 }}>
-              Designer Clothing · Jaipur, Rajasthan
+              TRENDS YOUNIQUE · Jaipur, Rajasthan
               <br />
-              GSTIN: 08AAACL1234K1Z5 · info.likshaclothing@gmail.com
+              GSTIN: {store.gstin?.trim() || "GSTIN pending"} · {store.supportEmail}
               <br />
-              8005900581
+              {store.supportPhone}
             </p>
           </div>
           <div style={{ textAlign: "right" }}>
@@ -165,7 +167,7 @@ export default async function ManualInvoicePage({ params }: { params: Promise<{ 
         <footer className="invoice-foot">
           <p>{invoice.notes ?? "Tax inclusive invoice. Exchange within 7 days with original tags."}</p>
           <p>
-            This is a computer generated invoice · Designer Clothing
+            This is a computer generated invoice · TRENDS YOUNIQUE
           </p>
         </footer>
       </article>

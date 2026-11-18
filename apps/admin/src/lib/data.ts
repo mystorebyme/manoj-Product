@@ -270,18 +270,26 @@ export type StoreSettings = {
   whatsapp: string;
   /** admin panel ka link — sheet ke Settings tab se (customer ko nahi dikhta) */
   adminUrl: string;
+  /** quantity limits — storefront inhe follow karta hai (Google Sheet Settings se bhi) */
+  maxQtyPerItem: number;
+  maxQtyBulk: number;
+  maxQtyPerOrder: number;
 };
 
 const DEFAULT_SETTINGS: StoreSettings = {
-  announcement: "Diwali Sale — Flat 70% OFF · Final price ₹499 onwards",
+  announcement: "New drop live — free shipping across India",
   freeShipping: true,
-  upiId: "dhakadgourav@fam",
-  upiName: "Designer Clothing",
-  gstin: "27AAAAA0000A1Z5",
-  supportPhone: "8005900581",
-  supportEmail: "Info.likshaclothing@gmail.com",
-  whatsapp: "8005900581",
+  upiId: "",
+  upiName: "TRENDS YOUNIQUE",
+  // GSTIN owner admin settings / Google Sheet se daalta hai — koi banaya hua number nahi
+  gstin: "",
+  supportPhone: "7740992663",
+  supportEmail: "care@trendsyounique.com",
+  whatsapp: "7740992663",
   adminUrl: process.env.ADMIN_PANEL_URL ?? "",
+  maxQtyPerItem: 10,
+  maxQtyBulk: 30,
+  maxQtyPerOrder: 15,
 };
 
 export type ManualOrderInput = {
@@ -320,6 +328,8 @@ export type SheetOverview = {
   settings?: Partial<StoreSettings>;
   live?: Partial<StoreSettings>;
   sheet?: string | null;
+  /** sheet tak na pahunch paayi rows (retry queue) */
+  pending?: number;
   hint?: string;
   recent?: {
     orders: Record<string, string | number>[];
@@ -338,6 +348,7 @@ export async function getSheetOverview(): Promise<SheetOverview> {
     configured: Boolean(process.env.GOOGLE_SHEETS_WEBAPP_URL),
     settings: await getSettings(),
     recent: { orders: [], payments: [], messages: [] },
+    pending: 0,
     hint: "Local/dev me sheet rows sirf storefront ke through aati hain (STORE_API_URL set kariye).",
   };
 }

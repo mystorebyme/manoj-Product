@@ -15,11 +15,11 @@ export default async function AdminLayout({ children }: { children: ReactNode })
     <div className="shell">
       <aside className="sidebar">
         <div className="brand">
-          {/* wahi mark jo storefront header me hai */}
+          {/* wahi crest jo storefront header me hai */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/brand-mark.png" alt="Designer Clothing" className="brand-mark" width={34} height={34} />
-          DESIGNER
-          <small>CLOTHING · ADMIN</small>
+          <img src="/brand-mark.png" alt="TRENDS YOUNIQUE" className="brand-mark" width={34} height={34} />
+          TRENDS
+          <small>YOUNIQUE · ADMIN</small>
         </div>
         <AdminNav pendingOrders={pending} />
         <div className="foot">

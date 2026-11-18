@@ -8,20 +8,44 @@ const root = process.cwd(); // npm test root se chalta hai
 const file = path.join(root, "database/seeds/catalog.json");
 const catalog = JSON.parse(fs.readFileSync(file, "utf8")) as Catalog;
 const products: Product[] = catalog.products;
-/** extra store (guest) products — live-store parity sirf liksha products par hoti hai */
-const likshaProducts = products.filter((product) => (product as Product & { source?: string }).source !== "extra");
+/** extra store (guest) products — live-store parity sirf imported products par hoti hai */
+const sourceOf = (product: Product) => (product as Product & { source?: string }).source;
+const likshaProducts = products.filter((product) => sourceOf(product) !== "extra" && sourceOf(product) !== "own");
+/** brand ke apne shoot products (owner uploads) — inke price/photos owner set karta hai */
+const ownProducts = products.filter((product) => sourceOf(product) === "own");
+const importedProducts = products.filter((product) => sourceOf(product) !== "own");
 const liveDir = path.join(root, "database/seeds/live");
 const liveProducts: any[] = JSON.parse(fs.readFileSync(path.join(liveDir, "products.json"), "utf8")).products;
 const liveMembership: Record<string, string[]> = JSON.parse(
   fs.readFileSync(path.join(liveDir, "membership.json"), "utf8"),
 ).collections;
+/**
+ * Round 33: ek hi dress do listing me thi (source store ne `-copy` / Shopify id
+ * ke saath dobara list kiya tha, kabhi alag naam se). Duplicate listings hata di
+ * gayi hain aur `overrides.hidden` me record hain — live snapshot tab bhi poora
+ * cover hota hai jab hidden list count ho.
+ */
+const hiddenHandles: string[] = JSON.parse(
+  fs.readFileSync(path.join(root, "database/seeds/admin/overrides.json"), "utf8"),
+).hidden ?? [];
+const hidden = new Set(hiddenHandles);
+const sampleHandles = liveProducts.map((product: { handle: string }) => product.handle as string);
+/** snapshot me aaye kuch non-product entries (collection/manual rows) — pehle se ignore */
+const NON_PRODUCT_HANDLES = new Set(["✨-ruby-royale-red-anarkali-suit-set", "partial-payment"]);
+const uncoveredLive = sampleHandles.filter(
+  (handle: string) =>
+    !hidden.has(handle) &&
+    !NON_PRODUCT_HANDLES.has(handle) &&
+    !products.some((product) => product.handle === handle),
+);
 
 test("catalogue has the full live product set", () => {
-  assert.equal(likshaProducts.length, 287);
-  assert.equal(catalog.meta.liveProductCount, 287);
+  assert.deepEqual(uncoveredLive, [], `live products catalogue me nahi: ${uncoveredLive.join(", ")}`);
+  assert.ok(hiddenHandles.length <= 40, "duplicate listings ki list chhoti rehni chahiye");
+  assert.equal(catalog.meta.liveProductCount, likshaProducts.length);
   assert.equal(catalog.meta.productCount, products.length);
   assert.equal(catalog.meta.moneyUnit, "paise");
-  assert.equal(catalog.meta.source, "https://www.likshaclothing.com");
+  assert.equal(catalog.meta.source, "https://trendsyounique.onrender.com");
 });
 
 test("web and admin copies are identical to the canonical seed", () => {
@@ -45,9 +69,9 @@ test("every product has a positive integer price in paise", () => {
   }
 });
 
-test("festive sale: every final price is ₹499 / ₹549 / ₹599 / ₹649 / ₹699", () => {
+test("festive sale: every imported price is ₹499 / ₹549 / ₹599 / ₹649 / ₹699", () => {
   const allowed = [49_900, 54_900, 59_900, 64_900, 69_900];
-  for (const product of products) {
+  for (const product of importedProducts) {
     assert.ok(
       allowed.includes(product.price),
       `${product.handle}: final price ${product.price} sale set me nahi hai`,
@@ -60,7 +84,7 @@ test("festive sale: every final price is ₹499 / ₹549 / ₹599 / ₹649 / ₹
 });
 
 test("festive sale: discount badge only shows 60% or 70%", () => {
-  for (const product of products) {
+  for (const product of importedProducts) {
     const percent = Math.round(((product.compareAtPrice! - product.price) / product.compareAtPrice!) * 100);
     assert.ok([60, 70].includes(percent), `${product.handle}: ${percent}% discount`);
   }
@@ -77,12 +101,40 @@ test("compare-at price is always above selling price when present", () => {
   }
 });
 
-test("every product has at least one CDN image and one size", () => {
+test("every product has at least one image (CDN ya apni upload) and one size", () => {
   for (const product of products) {
     assert.ok(product.images.length >= 1, `${product.handle} has no image`);
-    assert.match(product.images[0]!, /^https:\/\/cdn\.shopify\.com\//);
+    if (sourceOf(product) === "own") {
+      assert.match(product.images[0]!, /^\/images\//, `${product.handle}: local image path chahiye`);
+    } else {
+      assert.match(product.images[0]!, /^https:\/\/cdn\.shopify\.com\//);
+    }
     assert.ok(product.sizes.length >= 1, `${product.handle} has no sizes`);
   }
+});
+
+test("own products: apni images, sach me 75% off, har size ka price", () => {
+  assert.ok(ownProducts.length >= 60, "owner ke apne products catalogue me hone chahiye");
+  let multiPhoto = 0;
+  for (const product of ownProducts) {
+    assert.ok(product.images.length >= 1, `${product.handle}: koi photo nahi`);
+    if (product.images.length >= 2) multiPhoto += 1;
+    for (const image of product.images) {
+      assert.match(image, /^\/images\/shop\//, `${product.handle}: local image path chahiye`);
+    }
+    // MRP se exactly 25% (75% off) — jhoothi discount nahi
+    const off = Math.round(((product.compareAtPrice! - product.price) / product.compareAtPrice!) * 100);
+    assert.equal(off, 75, `${product.handle}: ${off}% off`);
+    for (const [size, entry] of Object.entries(product.sizePricing ?? {})) {
+      assert.equal(
+        Math.round(((entry.compareAtPrice! - entry.price) / entry.compareAtPrice!) * 100),
+        75,
+        `${product.handle} ${size}: size price par 75% off nahi`,
+      );
+    }
+  }
+  // same dress ki kai photos ek hi product me group hui hain
+  assert.ok(multiPhoto >= 5, `multi-photo groups kam hain (${multiPhoto})`);
 });
 
 test("sizes use the store's display format", () => {
@@ -99,7 +151,7 @@ test("nine live collections exist and membership is from the real set", () => {
   // 9 live collections + extra store ki alag collections (guest edits)
   for (const handle of [
     "lehnga-choli",
-    "likshas-choice",
+    "trends-signature",
     "new-arrivals",
     "party-wear-gown",
     "printed-suit-set",
@@ -127,12 +179,28 @@ test("collection counts match the live store snapshot", () => {
   }
   for (const [handle, handles] of Object.entries(liveMembership)) {
     if (handle === "frontpage") continue; // home-page grouping, nav collection nahi
-    assert.equal(counts[handle] ?? 0, handles.length, `${handle} count drifted from the live store`);
+    // trending: owner ke liye curated best-sellers add kiye gaye hain (Round 33),
+    // isliye live store se zyada ho sakta hai — par chhota hi rahega.
+    if (handle === "trending") {
+      assert.ok((counts[handle] ?? 0) >= 10 && (counts[handle] ?? 0) <= 30, "trending edit 10–30 products ka ho");
+      continue;
+    }
+    // duplicate listing hatayi gayi ho to live count se kam hona sahi hai
+    const liveHandles = new Set(sampleHandles);
+    const expected = handles.filter((item) => !hidden.has(item) || !liveHandles.has(item)).length;
+    assert.ok(
+      (counts[handle] ?? 0) <= handles.length,
+      `${handle} count live store se zyada nahi ho sakta`,
+    );
+    assert.ok(
+      (counts[handle] ?? 0) >= expected - hiddenHandles.length,
+      `${handle} count bahut kam hai (live ${handles.length}, catalogue ${counts[handle] ?? 0})`,
+    );
   }
   assert.equal(counts["saree"], undefined); // store par bhi khaali
 });
 
-test("every product carries the full live gallery", () => {
+test("every imported product carries the full live gallery", () => {
   const liveByHandle = new Map(liveProducts.map((product) => [product.handle, product]));
   const liveHandles = new Set(liveByHandle.keys());
   // ek image sirf ek product par dikhni chahiye — isliye jo photo kisi dusre product par

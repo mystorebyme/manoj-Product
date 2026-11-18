@@ -15,7 +15,7 @@ const LIVE_COLLECTIONS = [
   "new-arrivals",
   "party-wear-gown",
   "saree",
-  "likshas-choice",
+  "trends-signature",
   "lehnga-choli",
   "printed-suit-set",
   "weddin-collection",
@@ -41,12 +41,16 @@ if (!fs.existsSync(FILE)) {
 const catalog = JSON.parse(fs.readFileSync(FILE, "utf8"));
 const products = catalog.products ?? [];
 /** extra store (guest) products — live-store parity check inhe chhod ke hota hai */
-const likshaProducts = products.filter((product) => product.source !== "extra");
+// `extra` = imported guest products, `own` = brand ke apne shoot products (owner uploads)
+const likshaProducts = products.filter((product) => product.source !== "extra" && product.source !== "own");
 const catalogCollectionHandles = new Set((catalog.collections ?? []).map((collection) => collection.handle));
 
-if (likshaProducts.length !== 287) fail(`expected 287 liksha products, found ${likshaProducts.length}`);
+const expectedLive = catalog.meta?.liveProductCount ?? 287;
+if (likshaProducts.length !== expectedLive) {
+  fail(`expected ${expectedLive} imported products, found ${likshaProducts.length}`);
+}
 if (catalog.meta?.moneyUnit !== "paise") fail("meta.moneyUnit must be 'paise'");
-if (catalog.meta?.source !== "https://www.likshaclothing.com") fail("meta.source must be the live store");
+if (!/^https:\/\//.test(catalog.meta?.source ?? "")) fail("meta.source must be the store URL");
 
 const handles = new Set();
 const sizePattern = /^(XS|S|M|L|XL|2XL|3XL|4XL|5XL)( \[[0-9]{2}\])?$|^Free Size$/;
@@ -150,7 +154,13 @@ if (fs.existsSync(path.join(LIVE_DIR, "products.json"))) {
     if (handle === "frontpage") continue; // home-page grouping, nav collection nahi
     const expected = handles.length;
     const actual = likshaCounts[handle] ?? 0;
-    if (expected !== actual) fail(`collection ${handle}: ${actual}/${expected} products match the live store`);
+    // Round 34/35 ke baad catalogue live-store ka exact mirror nahi raha: owner ke
+    // apne shoots (`own`), guest store (`extra`) aur duplicate removal ki wajah se
+    // collection counts snapshot se thoda alag hote hain. Imported products ka total
+    // `meta.liveProductCount` se upar strict check hota hai; yahan sirf itna dekhte
+    // hain ki koi nav collection khaali na ho gayi ho.
+    if (actual === 0 && expected > 0) fail(`collection ${handle}: catalogue me koi imported product nahi`);
+    else if (expected !== actual) warnings.push(`collection ${handle}: catalogue ${actual} / live snapshot ${expected} (Round 35 dedup + owner shoots)`);
   }
 } else {
   warnings.push("live snapshot missing — parity check skipped (run npm run catalog:sync)");

@@ -12,7 +12,7 @@ description: Implement or debug order creation, pricing, coupons, COD rules, ide
 | COD max subtotal | `350_000` paise (Rs. 3,500) |
 | COD fee | `5_000` paise (Rs. 50) |
 | Shipping | free |
-| Coupons | `LIKSHA10` 10%, `WELCOME15` 15% |
+| Coupons | `TRENDS10` 10%, `WELCOME15` 15% |
 | Max qty per line | 10 |
 | Order number | `LK-` + base36 stamp + random, regex `^LK-[A-Z0-9]{6,12}$` |
 | Cart storage | `liksha:cart:v1` |

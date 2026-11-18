@@ -15,16 +15,16 @@ test("Pages preview origin ko allow karta hai (static site -> Render API)", () =
 });
 
 test("apne onrender host allow, koi bhi random site nahi", () => {
-  assert.ok(corsHeaders(req("https://likshaclothing.onrender.com"))["Access-Control-Allow-Origin"]);
+  assert.ok(corsHeaders(req("https://trends-younique-storefront.onrender.com"))["Access-Control-Allow-Origin"]);
   assert.equal(corsHeaders(req("https://evil.example"))["Access-Control-Allow-Origin"], undefined);
   assert.equal(corsHeaders(req())["Access-Control-Allow-Origin"], undefined);
 });
 
 test("CORS_ALLOWED_ORIGINS se extra domain jodta hai", () => {
-  process.env.CORS_ALLOWED_ORIGINS = "https://designerclothes.in";
+  process.env.CORS_ALLOWED_ORIGINS = "https://trendsyounique.fashion";
   assert.equal(
-    corsHeaders(req("https://designerclothes.in"))["Access-Control-Allow-Origin"],
-    "https://designerclothes.in",
+    corsHeaders(req("https://trendsyounique.fashion"))["Access-Control-Allow-Origin"],
+    "https://trendsyounique.fashion",
   );
   delete process.env.CORS_ALLOWED_ORIGINS;
 });

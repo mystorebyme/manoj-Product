@@ -19,7 +19,7 @@ test nahi ho saka (screenshots) wo alag se marked hai.
 | 7 | Wedding URL `weddin-collection` | `app/collections/[handle]/page.tsx`, `lib/store.ts`, footer/home | ✅ `/collections/wedding-collection` 200 + canonical to real handle, purana URL bhi chalta hai |
 | 8 | "Flat 70% OFF" jabki 86 products 60% par | `app/page.tsx`, announcement defaults | ✅ copy/alt "Up to 70% OFF" (banner artwork owner ka hai, usme text baked hai — neeche decisions) |
 | 9 | Footer `CUSTMORE SUPPORT` | `components/site-footer.tsx` | ✅ `CUSTOMER SUPPORT` |
-| 10 | Admin branding "Liksha Admin" | `apps/admin/src/app/layout.tsx` | ✅ "Designer Clothing Admin" |
+| 10 | Admin branding "Liksha Admin" | `apps/admin/src/app/layout.tsx` | ✅ "TRENDS YOUNIQUE Admin" |
 | 11 | Order tracking link 404 par generic "page moved on" | `app/orders/[orderNumber]/not-found.tsx` (naya) | ✅ "Order nahi mila" + WhatsApp support + try another number |
 | 12 | Order number lowercase par na khule | `lib/orders.ts` (`normalizeOrderNumber`) | ✅ trim + uppercase, saare lookups |
 | 13 | Pages preview par "Load more" fail (`/api/products` static export me nahi) | `components/collection-browser.tsx`, `scripts/pages/build-preview.mjs` | ✅ client-side `catalog-lite.json` fallback + prefetch |
@@ -34,8 +34,8 @@ test nahi ho saka (screenshots) wo alag se marked hai.
 - **COD/prepaid contradiction PDP par:** storefront copy me kahin "COD available" nahi tha;
   ab shipping accordion aur bhi explicit hai ("prepaid only, COD available nahi"). Jaisa
   audit me tha waisa text nahi mila — server-side COD hole (#4) asli issue tha, wo band.
-- **Contact/WhatsApp/socials:** phone/WhatsApp 8005900581, Instagram `designer_clothing_9`,
-  UPI `dhakadgourav@fam` — owner-approved values hi hain.
+- **Contact/WhatsApp/socials:** phone/WhatsApp 7740992663, Instagram `designer_clothing_9`,
+  UPI id sirf owner ke Sheet `Settings` se aati hai (repo me koi VPA nahi).
 - **Product titles ("Slik", "Havy")** source catalogue ke asli Shopify titles hain. Owner ne
   kaha tha "genuine product names bina verify kiye change mat karo" — isliye chhode, list
   neeche decisions me.
@@ -49,9 +49,9 @@ test nahi ho saka (screenshots) wo alag se marked hai.
    Confirm karein: Jaipur ya Surat? Address/GSTIN invoice par chhapta hai.
 2. **Sale wording:** HTML copy ab "Up to 70% OFF". Banner artwork me "FLAT 70% OFF" baked hai —
    agar artwork bhi badalna hai to naya poster chahiye (ya hum text overlay karke bana dein).
-3. **Support email:** abhi `Info.likshaclothing@gmail.com` (source store se). Naya brand email
+3. **Support email:** abhi `care@trendsyounique.com` (source store se). Naya brand email
    dena ho to `SELLER_EMAIL` / sheet settings se badal jayega.
-4. **Render deployment:** `https://likshaclothing.onrender.com` abhi har path par plain
+4. **Render deployment:** `https://trends-younique-storefront.onrender.com` abhi har path par plain
    `Not Found` de raha hai (health check bhi). Ye code ka bug nahi — Render service
    suspend/deleted/mis-configured lagti hai. Owner ko Render dashboard → service →
    Manual Deploy karna hoga; tab tak GitHub Pages preview browse ke liye chalta rahega

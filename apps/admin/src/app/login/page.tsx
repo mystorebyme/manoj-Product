@@ -14,10 +14,10 @@ export default async function LoginPage({
       <div className="login-card">
         <div className="brand">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/brand-mark.png" alt="Designer Clothing" width={64} height={64} style={{ display: "block", margin: "0 auto 6px", borderRadius: 999 }} />
-          DESIGNER CLOTHING
+          <img src="/brand-mark.png" alt="TRENDS YOUNIQUE" width={64} height={64} style={{ display: "block", margin: "0 auto 6px", borderRadius: 999 }} />
+          TRENDS YOUNIQUE
         </div>
-        <div className="sub">CLOTHING · ADMIN</div>
+        <div className="sub">TRENDS YOUNIQUE · ADMIN</div>
         <LoginForm next={next ?? "/"} />
         <p className="small muted" style={{ marginTop: 16, textAlign: "center" }}>
           Authorised staff only. Har login audit log me record hota hai.

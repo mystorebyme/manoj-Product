@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { siteConfig } from "@/config/site";
+import { SupportPhone, SupportWhatsAppLink } from "@/components/support-text";
 
 /**
  * Order tracking ka apna "not found" — global 404 ki jagah customer ko saaf
@@ -9,11 +9,10 @@ import { siteConfig } from "@/config/site";
  * database reset ke baad ka number.
  */
 export default function OrderNotFound() {
-  const wa = siteConfig.whatsapp.replace(/\D/g, "").slice(-10);
   return (
     <div className="container-liksha py-14 lg:py-20" data-testid="order-not-found">
-      <div className="mx-auto max-w-[620px] border border-[#eee6de] bg-[#faf8f5] p-6 text-center sm:p-9">
-        <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#f7e9e9] text-[#862222]">
+      <div className="mx-auto max-w-[620px] border border-[#ece1d3] bg-[#fdfaf5] p-6 text-center sm:p-9">
+        <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#f7e9e9] text-[#6f1d2b]">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
             <circle cx="12" cy="12" r="9" />
             <path d="M9 9.5a3 3 0 1 1 4.2 2.7c-.8.4-1.2 1-1.2 1.8" />
@@ -21,7 +20,7 @@ export default function OrderNotFound() {
           </svg>
         </span>
         <h1 className="mt-4 font-display text-[26px] font-medium sm:text-[32px]">Order nahi mila</h1>
-        <p className="mx-auto mt-2 max-w-[460px] text-[13px] leading-relaxed text-[#6b6259]">
+        <p className="mx-auto mt-2 max-w-[460px] text-[13px] leading-relaxed text-[#6f6259]">
           Is number se koi order humare system me nahi hai. Ho sakta hai number galat type ho gaya ho,
           ya order abhi sync na hua ho. Number <strong>LK-</strong> se shuru hota hai — dobara check kar
           ke try kariye.
@@ -30,23 +29,20 @@ export default function OrderNotFound() {
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link
             href="/track-order"
-            className="bg-[#862222] px-6 py-3 text-[11px] font-semibold tracking-[.16em] text-white uppercase"
+            className="bg-[#6f1d2b] px-6 py-3 text-[11px] font-semibold tracking-[.16em] text-white uppercase"
           >
             Try another number
           </Link>
-          <a
-            href={`https://wa.me/91${wa}`}
-            target="_blank"
-            rel="noopener noreferrer"
+          <SupportWhatsAppLink
+            label="WhatsApp support"
             className="inline-flex items-center gap-2 border border-[#25D366] px-6 py-3 text-[11px] font-semibold tracking-[.14em] text-[#128c4b] uppercase"
-          >
-            WhatsApp support
-          </a>
+            message="Hi TRENDS YOUNIQUE, my order shows as not found."
+          />
         </div>
 
-        <p className="mt-4 text-[11.5px] leading-relaxed text-[#8a8078]">
+        <p className="mt-4 text-[11.5px] leading-relaxed text-[#8a7d72]">
           Order kiya tha aur number bilkul sahi hai? WhatsApp par order number bhejiye — team 24 ghante
-          me status bata degi. Support: <strong>{siteConfig.phone}</strong>
+          me status bata degi. Support: <strong><SupportPhone /></strong>
         </p>
       </div>
     </div>

@@ -11,14 +11,14 @@ export const dynamic = "force-static";
 export default function manifest(): MetadataRoute.Manifest {
   const base = process.env.NEXT_PUBLIC_PAGES_BASE_PATH ?? "";
   return {
-    name: "Designer Clothing",
-    short_name: "Designer Clothing",
+    name: "TRENDS YOUNIQUE",
+    short_name: "TRENDS YOUNIQUE",
     description: siteConfig.description,
     start_url: `${base}/` || "/",
     scope: `${base}/` || "/",
     display: "standalone",
-    background_color: "#000000",
-    theme_color: "#862222",
+    background_color: "#14100e",
+    theme_color: "#6f1d2b",
     icons: [
       { src: `${base}/images/brand/logo-mark-192.png`, sizes: "192x192", type: "image/png", purpose: "any" },
       { src: brandAssets.mark, sizes: "512x512", type: "image/png", purpose: "any" },

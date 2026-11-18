@@ -35,7 +35,7 @@ export default async function SearchPage({
     <div className="container-liksha py-9">
       <div className="mx-auto max-w-[640px] text-center">
         <h1 className="font-display text-[28px] font-medium sm:text-[34px]">Search our store</h1>
-        <p className="mt-1 text-[11px] tracking-[.14em] text-[#9c8f82] uppercase">
+        <p className="mt-1 text-[11px] tracking-[.14em] text-[#a3948a] uppercase">
           Anarkali suits · Lehenga choli · Printed suit sets
         </p>
         <div className="mt-4">
@@ -46,18 +46,18 @@ export default async function SearchPage({
       <div className="mt-9">
         {term ? (
           <>
-            <p className="mb-5 text-[11.5px] tracking-[.1em] text-[#8a8078] uppercase">
+            <p className="mb-5 text-[11.5px] tracking-[.1em] text-[#8a7d72] uppercase">
               {results.length} results for &ldquo;{term}&rdquo;
             </p>
 
             {suggestions.length > 0 ? (
               <div className="mb-6 flex flex-wrap items-center gap-2" data-testid="search-terms">
-                <span className="text-[10.5px] tracking-[.14em] text-[#9c8f82] uppercase">Related searches</span>
+                <span className="text-[10.5px] tracking-[.14em] text-[#a3948a] uppercase">Related searches</span>
                 {suggestions.map((suggestion) => (
                   <a
                     key={suggestion}
                     href={`/search?q=${encodeURIComponent(suggestion)}`}
-                    className="border border-[#e0d6ca] px-3 py-1.5 text-[11.5px] hover:border-[#862222] hover:text-[#862222]"
+                    className="border border-[#e0d6ca] px-3 py-1.5 text-[11.5px] hover:border-[#6f1d2b] hover:text-[#6f1d2b]"
                   >
                     {suggestion}
                   </a>
@@ -73,14 +73,14 @@ export default async function SearchPage({
               />
             ) : (
               <div>
-                <p className="py-8 text-center text-sm text-[#6b6259]">
+                <p className="py-8 text-center text-sm text-[#6f6259]">
                   No products were found matching your selection.
                 </p>
                 <div className="mt-2">
                   <h2 className="text-center font-display text-[22px] font-medium sm:text-[26px]">
                     You may also like
                   </h2>
-                  <p className="mt-1 text-center text-[11px] tracking-[.14em] text-[#9c8f82] uppercase">
+                  <p className="mt-1 text-center text-[11px] tracking-[.14em] text-[#a3948a] uppercase">
                     Handpicked from our best-selling edits
                   </p>
                   <div className="mt-6">
@@ -93,13 +93,13 @@ export default async function SearchPage({
         ) : (
           <div>
             <div className="text-center">
-              <p className="text-[12px] tracking-[.14em] text-[#9c8f82] uppercase">Popular searches</p>
+              <p className="text-[12px] tracking-[.14em] text-[#a3948a] uppercase">Popular searches</p>
               <div className="mt-3 flex flex-wrap justify-center gap-2">
                 {POPULAR_TAGS.map((tag) => (
                   <a
                     key={tag}
                     href={`/search?q=${encodeURIComponent(tag)}`}
-                    className="border border-[#e0d6ca] px-3 py-1.5 text-[11.5px] hover:border-[#862222] hover:text-[#862222]"
+                    className="border border-[#e0d6ca] px-3 py-1.5 text-[11.5px] hover:border-[#6f1d2b] hover:text-[#6f1d2b]"
                   >
                     {tag}
                   </a>
@@ -111,7 +111,7 @@ export default async function SearchPage({
               <h2 className="text-center font-display text-[24px] font-medium sm:text-[28px]">
                 Recommended for you
               </h2>
-              <p className="mt-1 text-center text-[11px] tracking-[.14em] text-[#9c8f82] uppercase">
+              <p className="mt-1 text-center text-[11px] tracking-[.14em] text-[#a3948a] uppercase">
                 Trending picks
               </p>
               <div className="mt-6">

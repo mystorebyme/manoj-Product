@@ -1,5 +1,5 @@
 import { getStoreSettings } from "@/lib/store-settings";
-import { readSheetRecent, readSheetSettings, sheetsConfigured } from "@/lib/google-sheets";
+import { outboxCount, readSheetRecent, readSheetSettings, sheetsConfigured } from "@/lib/google-sheets";
 
 export const dynamic = "force-dynamic";
 
@@ -21,6 +21,7 @@ export async function GET(request: Request) {
       settings: current,
       sheet: null,
       recent: { orders: [], payments: [], messages: [] },
+      pending: outboxCount(),
       hint: "GOOGLE_SHEETS_WEBAPP_URL + GOOGLE_SHEETS_TOKEN set kariye (docs/09-devops/google-sheets.md).",
     });
   }
@@ -44,5 +45,7 @@ export async function GET(request: Request) {
       payments: payments ?? [],
       messages: messages ?? [],
     },
+    // sheet down tha to kitni rows queue me hain (agli call par khud chali jayengi)
+    pending: outboxCount(),
   });
 }

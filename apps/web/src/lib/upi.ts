@@ -8,7 +8,7 @@
  */
 
 export type UpiTarget = {
-  /** dhakadgourav@fam jaisa VPA */
+  /** jaise `store@bank` */
   vpa: string;
   /** payee name (UPI app me dikhta hai) */
   name: string;

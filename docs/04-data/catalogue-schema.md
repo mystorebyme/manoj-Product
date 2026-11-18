@@ -1,13 +1,13 @@
 # Catalogue schema
 
-Source of truth: `likshaclothing.com` (Shopify product JSON). Local: `database/seeds/catalog.json`.
+Source of truth: owner's Shopify snapshot (`database/seeds/live/products.json`). Local: `database/seeds/catalog.json`.
 
 ```ts
 type Product = {
   handle: string;          // "luxury-mustard-embroidered-georgette-anarkali-suit"
   title: string;           // exact store title
   description: string;     // HTML (h3 / p / ul-li)
-  vendor: string;          // "Designer Clothing"
+  vendor: string;          // "TRENDS YOUNIQUE"
   productType: string;     // "Anarkali suit", "Lehenga", ...
   price: number;           // paise, 349900 = Rs. 3,499
   compareAtPrice: number | null;  // paise, 799900

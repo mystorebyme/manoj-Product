@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { readJson } from "@/lib/http-json";
-import { assetUrl } from "@/lib/format";
+import { fetchCatalogPage } from "@/lib/catalog-page";
 import { CollectionToolbar } from "@/components/collection-toolbar";
 import { ProductCard } from "@/components/product-card";
 import type { Product } from "@/types/catalog";
@@ -43,11 +43,8 @@ export function CollectionBrowser({
   const [error, setError] = useState<string | null>(null);
   const firstRender = useRef(true);
   /** neeche tak scroll karte hi agle products khud load ho jaate hain */
-  const sentinelRef = useRef<HTMLDivElement | null>(null);
   /** prefetched pages: "sort|price|offset" → payload */
   const pages = useRef(new Map<string, { data: Product[]; total: number }>());
-  /** static preview ke liye poora chhota catalogue (ek hi baar download) */
-  const localCatalog = useRef<Product[] | null>(null);
 
   const buildQuery = useCallback(
     (nextSort: string, nextPrice: string) => {
@@ -57,55 +54,13 @@ export function CollectionBrowser({
     [handle],
   );
 
-  /** GitHub Pages fallback — static catalogue par wahi filter/sort/pagination */
+  /** GitHub Pages / Netlify fallback — static catalogue par wahi filter/sort/pagination */
   const localPage = useCallback(
     async (nextSort: string, nextPrice: string, offset: number) => {
-      if (!localCatalog.current) {
-        const response = await fetch(assetUrl("/catalog-lite.json"), { cache: "force-cache" });
-        if (!response.ok) throw new Error("catalog fetch failed");
-        const all = await readJson<Product[]>(response);
-        if (!Array.isArray(all)) throw new Error("catalog parse failed");
-        localCatalog.current = all;
-      }
-      // colour group ka sirf ek card (server jaisa behaviour)
-      const seen = new Set<string>();
-      let list = localCatalog.current.filter((product) => {
-        const key = (product as Product & { colourGroup?: string | null }).colourGroup ?? product.handle;
-        if (seen.has(key)) return false;
-        seen.add(key);
-        return true;
-      });
-      if (handle && handle !== "all") {
-        list = list.filter((product) => product.collections?.includes(handle));
-      }
-      const inRange: Record<string, (p: Product) => boolean> = {
-        "under-2500": (p) => p.price < 250000,
-        "2500-3000": (p) => p.price >= 250000 && p.price < 300000,
-        "3000-3500": (p) => p.price >= 300000 && p.price < 350000,
-        "above-3500": (p) => p.price >= 350000,
-      };
-      if (inRange[nextPrice]) list = list.filter(inRange[nextPrice]!);
-      const sorted = [...list];
-      switch (nextSort) {
-        case "price-low":
-          sorted.sort((a, b) => a.price - b.price);
-          break;
-        case "price-high":
-          sorted.sort((a, b) => b.price - a.price);
-          break;
-        case "discount":
-          sorted.sort(
-            (a, b) =>
-              (b.compareAtPrice ?? b.price) - b.price - ((a.compareAtPrice ?? a.price) - a.price),
-          );
-          break;
-        case "title-asc":
-          sorted.sort((a, b) => a.title.localeCompare(b.title));
-          break;
-        default:
-          sorted.sort((a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured)));
-      }
-      return { data: sorted.slice(offset, offset + PAGE_SIZE), total: sorted.length };
+      // 25 Oct ka bug: yahan `readJson()` ka poora object aata hai, array nahi —
+      // isliye `Array.isArray()` hamesha false hota tha aur "Load more" har baar fail.
+      // Ab logic ek jagah (`lib/catalog-page.ts`) hai aur unit-tested hai.
+      return fetchCatalogPage({ handle, sort: nextSort, price: nextPrice, offset, limit: PAGE_SIZE });
     },
     [handle],
   );
@@ -155,7 +110,7 @@ export function CollectionBrowser({
     [fetchPage],
   );
 
-  // shared link (?sort=price-low&price=under-2500) khulta hai to wahi state apply karo
+  // shared link (?sort=price-low&price=under-500) khulta hai to wahi state apply karo
   useEffect(() => {
     if (!firstRender.current) return;
     firstRender.current = false;
@@ -206,42 +161,6 @@ export function CollectionBrowser({
 
   const hasMore = items.length < total;
 
-  // idle time me pehla "load more" page pehle se le lo (instant feel)
-  useEffect(() => {
-    if (!hasMore) return;
-    const prefetch = () => {
-      void fetchPage(sort, price, items.length).catch(() => undefined);
-    };
-    const idle = (window as Window & { requestIdleCallback?: (cb: () => void) => number })
-      .requestIdleCallback;
-    if (typeof idle === "function") {
-      idle(prefetch);
-      return;
-    }
-    const timer = window.setTimeout(prefetch, 1200);
-    return () => window.clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasMore, sort, price, items.length, fetchPage]);
-
-  useEffect(() => {
-    const node = sentinelRef.current;
-    if (!node || !hasMore) return;
-    if (typeof IntersectionObserver === "undefined") return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (!entries.some((entry) => entry.isIntersecting)) return;
-        if (appending || loading) return;
-        void loadMore();
-      },
-      // 900px pehle se trigger — user ko spinner nahi dikhta
-      { rootMargin: "900px 0px" },
-    );
-    observer.observe(node);
-    return () => observer.disconnect();
-    // loadMore/items badalne par naya sentinel observe karna zaroori hai
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasMore, appending, loading, items.length, sort, price]);
-
   return (
     <div className="container-liksha">
       <CollectionToolbar
@@ -257,8 +176,8 @@ export function CollectionBrowser({
         {items.length === 0 ? (
           (emptyState ?? (
             <div className="py-20 text-center">
-              <p className="font-display text-[24px] text-[#2f2a25]">No styles here just yet</p>
-              <p className="mx-auto mt-2 max-w-[420px] text-[12.5px] leading-relaxed text-[#6b6259]">
+              <p className="font-display text-[24px] text-[#14100e]">No styles here just yet</p>
+              <p className="mx-auto mt-2 max-w-[420px] text-[12.5px] leading-relaxed text-[#6f6259]">
                 Try a different filter, or browse the edits our customers are loving right now.
               </p>
             </div>
@@ -278,16 +197,23 @@ export function CollectionBrowser({
             {error ? <p className="mt-5 text-center text-[12px] text-[#a02020]">{error}</p> : null}
 
             {hasMore ? (
-              <div ref={sentinelRef} className="mt-10 text-center" data-testid="auto-load-sentinel">
+              /**
+               * Sirf button se load — auto (scroll par) loading owner ki request par
+               * hata di gayi hai, taaki customer khud decide kare kitne dekhe.
+               */
+              <div className="mt-10 text-center" data-testid="load-more">
                 <button
                   type="button"
                   onClick={() => void loadMore()}
                   disabled={appending || loading}
-                  className="border border-[#862222] px-8 py-3 text-[11px] font-semibold tracking-[.16em] text-[#862222] uppercase transition hover:bg-[#862222] hover:text-white disabled:opacity-50"
+                  data-testid="load-more-button"
+                  className="border border-[#6f1d2b] px-8 py-3 text-[11px] font-semibold tracking-[.16em] text-[#6f1d2b] uppercase transition hover:bg-[#6f1d2b] hover:text-white disabled:opacity-50"
                 >
                   {appending ? "Loading…" : `Load more (${total - items.length} left)`}
                 </button>
-                <p className="mt-2 text-[10.5px] text-[#a49a90]">Scroll karte hi agle styles khud load ho jaate hain</p>
+                <p className="mt-2 text-[10.5px] text-[#a49a90]">
+                  {items.length} / {total} styles
+                </p>
               </div>
             ) : (
               <p className="mt-10 text-center text-[11px] tracking-[.14em] text-[#a49a90] uppercase">

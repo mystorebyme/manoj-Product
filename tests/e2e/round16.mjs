@@ -76,7 +76,7 @@ async function main() {
     "unknown order explains 'Order nahi mila'",
     /Order nahi mila/i.test(missingOrder.text) && /Try another number/i.test(missingOrder.text),
   );
-  check("not-found order offers WhatsApp support", /wa\.me\/918005900581/.test(missingOrder.text));
+  check("not-found order offers WhatsApp support", /wa\.me\/917740992663/.test(missingOrder.text));
 
   /* ── 3. reviews: no fake sample data ────────────────────────────────── */
   const catalog = JSON.parse((await get("/api/products?limit=48&sort=price-low")).text);
@@ -144,7 +144,7 @@ async function main() {
   check("server refuses COD (prepaid only)", cod.status === 400, `status ${cod.status}`);
 
   /* ── 6. truthful sale + brand copy ──────────────────────────────────── */
-  check("home says 'Up to 70% Off'", /Up to\s*(<[^>]+>)?70%/.test(home.text));
+  check("home announces the live campaign discount (75% off)", /75% off/i.test(home.text));
   check("no 'Flat 70% OFF' claim in storefront copy", !/Flat 70%\s*Off/i.test(home.text));
   check("footer spelling fixed", /CUSTOMER SUPPORT/.test(home.text) && !/CUSTMORE/.test(home.text));
   check("best sellers section is on the home page", home.text.includes('data-testid="best-sellers"'));

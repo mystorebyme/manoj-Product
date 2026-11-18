@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { ContactForm } from "@/components/contact-form";
 import { ContactDetails } from "@/components/contact-details";
 import { TrackOrderForm } from "@/components/track-order-form";
+import { SupportText, SupportWhatsAppLink } from "@/components/support-text";
 
 type PageContent = {
   title: string;
@@ -21,7 +22,7 @@ const pages: Record<string, PageContent> = {
     title: "About Us",
     eyebrow: "Our Story",
     intro:
-      "Designer Clothing is a celebration of Indian craftsmanship — designed for the woman who carries tradition with effortless modernity.",
+      "TRENDS YOUNIQUE is a celebration of Indian craftsmanship — designed for the woman who carries tradition with effortless modernity.",
     sections: [
       {
         heading: "Crafted for your celebrations",
@@ -40,7 +41,7 @@ const pages: Record<string, PageContent> = {
       {
         heading: "Here when you need us",
         body: [
-          "Our team is available on WhatsApp 24/7 for sizing help, fabric close-ups and order tracking. Free shipping across India on every prepaid order, with 7 days replacement.",
+          "Our team is available on WhatsApp 24/7 for sizing help, fabric close-ups and order tracking. Free shipping across India on every prepaid order, with 7 days return.",
         ],
       },
     ],
@@ -104,15 +105,15 @@ const pages: Record<string, PageContent> = {
     ],
   },
   "replacement-policy": {
-    title: "Replacement Policy",
-    eyebrow: "Easy exchanges",
-    intro: "Simply return it within 7 days for an exchange.",
+    title: "Return Policy",
+    eyebrow: "Easy returns",
+    intro: "Simply return it within 7 days of delivery.",
     sections: [
       {
-        heading: "7 days replacement",
+        heading: "7 days return",
         body: [
           "If the product is damaged, has a manufacturing defect or was incorrectly shipped, request a replacement within 7 days of delivery.",
-          "The item must be unused, unwashed and have all original tags intact. Share an unboxing video or clear photographs on WhatsApp 8005900581 along with your order number.",
+          "The item must be unused, unwashed and have all original tags intact. Share an unboxing video or clear photographs on WhatsApp {{whatsapp}} along with your order number.",
         ],
       },
       {
@@ -151,7 +152,7 @@ const pages: Record<string, PageContent> = {
       {
         heading: "Your rights",
         body: [
-          "You may request access, correction or deletion of your personal data by emailing Info.likshaclothing@gmail.com. We respond within 30 days.",
+          "You may request access, correction or deletion of your personal data by messaging us on WhatsApp ({{phone}}). We respond within 30 days.",
         ],
       },
     ],
@@ -176,7 +177,7 @@ const pages: Record<string, PageContent> = {
       {
         heading: "Intellectual property",
         body: [
-          "All photography, designs and content on this site belong to Designer Clothing and may not be reused without written permission.",
+          "All photography, designs and content on this site belong to TRENDS YOUNIQUE and may not be reused without written permission.",
         ],
       },
     ],
@@ -251,10 +252,10 @@ export default async function ContentPage({
 
   return (
     <div>
-      <div className="border-b border-[#eee6de] bg-[#faf7f3] py-10 text-center">
-        <p className="text-[10.5px] tracking-[.18em] text-[#9c8f82] uppercase">{page.eyebrow}</p>
+      <div className="border-b border-[#ece1d3] bg-[#faf7f3] py-10 text-center">
+        <p className="text-[10.5px] tracking-[.18em] text-[#a3948a] uppercase">{page.eyebrow}</p>
         <h1 className="mt-1.5 font-display text-[30px] font-medium tracking-[.03em] sm:text-[38px]">{page.title}</h1>
-        <p className="mx-auto mt-2 max-w-[620px] px-4 text-[12.5px] leading-relaxed text-[#6b6259]">{page.intro}</p>
+        <p className="mx-auto mt-2 max-w-[620px] px-4 text-[12.5px] leading-relaxed text-[#6f6259]">{page.intro}</p>
       </div>
 
       <div className="container-liksha py-10">
@@ -262,13 +263,13 @@ export default async function ContentPage({
           <div className="space-y-8">
             {page.sections.map((section) => (
               <section key={section.heading}>
-                <h2 className="font-display text-[21px] font-medium text-[#862222] sm:text-[24px]">
+                <h2 className="font-display text-[21px] font-medium text-[#6f1d2b] sm:text-[24px]">
                   {section.heading}
                 </h2>
                 <div className="mt-2 space-y-2.5">
                   {section.body.map((paragraph) => (
-                    <p key={paragraph} className="text-[13px] leading-relaxed text-[#5c534b]">
-                      {paragraph}
+                    <p key={paragraph} className="text-[13px] leading-relaxed text-[#3d332c]">
+                      <SupportText text={paragraph} />
                     </p>
                   ))}
                 </div>
@@ -280,7 +281,7 @@ export default async function ContentPage({
             <div className="mt-9 overflow-x-auto">
               <table className="w-full min-w-[460px] border-collapse text-[12.5px]">
                 <thead>
-                  <tr className="bg-[#862222] text-white">
+                  <tr className="bg-[#6f1d2b] text-white">
                     {["Size", "Bust (in)", "Waist (in)", "Hip (in)", "Bottom length"].map((head) => (
                       <th key={head} className="px-3 py-2.5 text-left font-medium tracking-[.06em] uppercase">
                         {head}
@@ -296,7 +297,7 @@ export default async function ContentPage({
                     ["XL", "40", "36", "42", "38"],
                     ["XXL", "42", "38", "44", "38"],
                   ].map((row) => (
-                    <tr key={row[0]} className="border-b border-[#eee6de] even:bg-[#faf8f5]">
+                    <tr key={row[0]} className="border-b border-[#ece1d3] even:bg-[#fdfaf5]">
                       {row.map((cell, index) => (
                         <td key={index} className="px-3 py-2.5">
                           {cell}
@@ -311,7 +312,7 @@ export default async function ContentPage({
 
           {page.showContactDetails ? (
             <div className="mt-9">
-              <h2 className="font-display text-[21px] font-medium text-[#862222] sm:text-[24px]">Reach us</h2>
+              <h2 className="font-display text-[21px] font-medium text-[#6f1d2b] sm:text-[24px]">Reach us</h2>
               <div className="mt-3">
                 <ContactDetails />
               </div>
@@ -319,7 +320,7 @@ export default async function ContentPage({
           ) : null}
 
           {page.showTrackOrder ? (
-            <div className="mt-9 border border-[#eee6de] bg-[#faf8f5] p-5 sm:p-6">
+            <div className="mt-9 border border-[#ece1d3] bg-[#fdfaf5] p-5 sm:p-6">
               <TrackOrderForm />
             </div>
           ) : null}
@@ -330,21 +331,17 @@ export default async function ContentPage({
             </div>
           ) : null}
 
-          <div className="mt-10 flex flex-wrap gap-3 border-t border-[#eee6de] pt-6">
+          <div className="mt-10 flex flex-wrap gap-3 border-t border-[#ece1d3] pt-6">
             <Link
               href="/collections/party-wear-gown"
-              className="bg-[#862222] px-6 py-3 text-[11px] font-semibold tracking-[.16em] text-white uppercase"
+              className="bg-[#6f1d2b] px-6 py-3 text-[11px] font-semibold tracking-[.16em] text-white uppercase"
             >
               Shop Anarkali Suits
             </Link>
-            <a
-              href="https://wa.me/918005900581"
-              target="_blank"
-              rel="noreferrer"
-              className="border border-[#862222] px-6 py-3 text-[11px] font-semibold tracking-[.16em] text-[#862222] uppercase"
-            >
-              WhatsApp us
-            </a>
+            <SupportWhatsAppLink
+              className="border border-[#6f1d2b] px-6 py-3 text-[11px] font-semibold tracking-[.16em] text-[#6f1d2b] uppercase"
+              message="Hi TRENDS YOUNIQUE, I need help with an order."
+            />
           </div>
         </div>
       </div>

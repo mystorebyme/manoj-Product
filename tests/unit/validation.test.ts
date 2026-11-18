@@ -9,7 +9,7 @@ import {
 } from "@liksha/validation";
 
 const validOrder = {
-  customerName: "Tannu Sharma",
+  customerName: "Ananya Sharma",
   email: "Buyer@Example.com",
   phone: "9876543210",
   address: "12, MI Road, Near Panch Batti",
@@ -71,8 +71,8 @@ test("payment method defaults to prepaid", () => {
 });
 
 test("coupon code is uppercased and trimmed", () => {
-  const parsed = createOrderSchema.parse({ ...validOrder, couponCode: "  liksha10 " });
-  assert.equal(parsed.couponCode, "LIKSHA10");
+  const parsed = createOrderSchema.parse({ ...validOrder, couponCode: "  trends10 " });
+  assert.equal(parsed.couponCode, "TRENDS10");
 });
 
 test("email schema rejects garbage", () => {

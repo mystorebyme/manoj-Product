@@ -18,7 +18,7 @@ export const RAILS: Record<
     title: "Trendy Anarkali Sets",
     subtitle: "Top picks — rotated every 10 minutes",
     href: "/collections/trending",
-    collections: ["trending", "likshas-choice", "party-wear-gown"],
+    collections: ["trending", "trends-signature", "party-wear-gown"],
     count: 8,
   },
   newArrivals: {
@@ -36,7 +36,7 @@ export const RAILS: Record<
     count: 8,
   },
   explore: {
-    title: "More from Designer Clothing",
+    title: "More from TRENDS YOUNIQUE",
     subtitle: "Naye picks har 10 minute me — sab kuch browse kariye",
     href: "/collections/new-arrivals",
     collections: [],

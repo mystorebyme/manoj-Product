@@ -1,16 +1,38 @@
 @import "tailwindcss";
 
+/*
+ * TRENDS YOUNIQUE — design tokens
+ * ---------------------------------
+ * Palette: ink (near-black), wine (primary), gold (accent), ivory/cream (canvas).
+ * Sab classes Tailwind utilities + in tokens se aati hain, isliye ek jagah badalne
+ * par poori site badal jaati hai.
+ */
 @theme {
-  --color-maroon: #862222;
-  --color-maroon-dark: #6d1a1a;
-  --color-cream: #faf6f1;
-  --color-sand: #e9dfd4;
+  --color-ink: #14100e;
+  --color-wine: #6f1d2b;
+  --color-wine-deep: #4a1220;
+  --color-gold: #b08a4a;
+  --color-gold-soft: #d9bb84;
+  --color-cream: #faf6ef;
+  --color-sand: #eadfce;
+
+  /* purane naam bhi kaam karte rahein (200+ jagah use hote hain) */
+  --color-maroon: #6f1d2b;
+  --color-maroon-dark: #4a1220;
+
   --font-display: "Cormorant Garamond", "Playfair Display", Georgia, serif;
   --font-body: "Jost", "Helvetica Neue", Arial, sans-serif;
 }
 
 :root {
-  --maroon: #862222;
+  --maroon: #6f1d2b;
+  --wine: #6f1d2b;
+  --wine-deep: #4a1220;
+  --gold: #b08a4a;
+  --gold-soft: #d9bb84;
+  --ink: #14100e;
+  --ivory: #faf6ef;
+  --hairline: #e4d7c5;
 }
 
 html {
@@ -19,13 +41,137 @@ html {
 
 body {
   font-family: var(--font-body);
-  color: #2f2a25;
+  color: #14100e;
   background: #fff;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 .font-display {
   font-family: var(--font-display);
+}
+
+/* ───────────── premium type helpers ───────────── */
+
+/* chhota all-caps label — section ke upar (gold) */
+.eyebrow {
+  display: inline-block;
+  font-size: 10.5px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+/* do halki gold lines ke beech ka ornament — premium section divider */
+.rule-gold {
+  position: relative;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-soft), transparent);
+}
+
+/* link ke neeche gold underline jo hover par khulti hai */
+.link-underline {
+  position: relative;
+}
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  height: 1px;
+  width: 0;
+  background: var(--gold);
+  transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.link-underline:hover::after,
+.link-underline:focus-visible::after {
+  width: 100%;
+}
+
+/* primary CTA — wine fill, gold hairline, letter-spaced caps */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--wine);
+  color: #fff;
+  padding: 0.9rem 1.75rem;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border: 1px solid var(--wine);
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+.btn-primary:hover {
+  background: var(--wine-deep);
+  border-color: var(--gold);
+}
+
+/* secondary CTA — ink outline, hover par wine */
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: transparent;
+  color: var(--ink);
+  padding: 0.9rem 1.75rem;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border: 1px solid #cfc0ac;
+  transition:
+    border-color 0.3s ease,
+    color 0.3s ease,
+    background 0.3s ease;
+}
+.btn-outline:hover {
+  border-color: var(--wine);
+  color: var(--wine);
+  background: #fdf7f5;
+}
+
+/* WhatsApp CTA — brand green, par site ke saath match karta hua */
+.btn-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  background: #0f7a45;
+  color: #fff;
+  padding: 0.9rem 1.5rem;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border: 1px solid #0f7a45;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+}
+.btn-whatsapp:hover {
+  background: #0b6338;
+  border-color: var(--gold-soft);
+}
+
+/* product card image frame — subtle inner shadow, no harsh border */
+.card-frame {
+  background: #f4ece2;
+  overflow: hidden;
 }
 
 @keyframes fadeIn {
@@ -198,6 +344,45 @@ body {
   transform: none;
 }
 
+/* single-image card: image badalti nahi — wahi image cursor ke saath halki si
+   float karti hai (owner ki request). Multi-image cards par cross-fade hi chalta hai. */
+.card-media.is-single .card-media-primary {
+  opacity: 1;
+  transform: translate3d(
+    calc(var(--cursor-x, 0px) * 0.55),
+    calc(var(--cursor-y, 0px) * 0.55),
+    0
+  )
+    scale(1.045);
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+/* hover par bhi single image gayab na ho */
+.group:hover .card-media.is-single .card-media-primary {
+  opacity: 1;
+  transform: translate3d(
+    calc(var(--cursor-x, 0px) * 0.55),
+    calc(var(--cursor-y, 0px) * 0.55),
+    0
+  )
+    scale(1.06);
+}
+
+@media (hover: none) {
+  .card-media.is-single .card-media-primary {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-media.is-single .card-media-primary,
+  .group:hover .card-media.is-single .card-media-primary {
+    transform: none;
+    transition: none;
+  }
+}
+
 /* gallery cross-fade */
 .gallery-slide {
   transition: opacity 0.45s ease;
@@ -284,19 +469,19 @@ table {
    Height breakpoints yahin hain: mobile 40 → tablet 50 → desktop 46 (horizontal
    lockup lamba hai, isliye height kam par width zyada — header me overlap nahi). */
 .brand-lockup img {
-  height: 40px;
+  height: 42px;
   width: auto;
 }
 
 @media (min-width: 768px) {
   .brand-lockup img {
-    height: 50px;
+    height: 52px;
   }
 }
 
 @media (min-width: 1024px) {
   .brand-lockup img {
-    height: 46px;
+    height: 50px;
   }
 }
 
@@ -324,10 +509,308 @@ table {
   object-position: center;
 }
 
-/* 320px par bhi hero ke edges par kuch kat na jaye */
-@media (max-width: 767px) {
+/* hero: har device par cover (letterbox nahi), model kabhi crop na ho */
+.hero-media img {
+  object-position: center 35%;
+}
+
+@media (min-width: 1024px) {
   .hero-media img {
-    object-fit: contain;
-    background: #fbf1e2;
+    object-position: center 40%;
   }
+}
+
+/* hero overlay copy — neeche se upar gradient, text hamesha readable */
+.hero-scrim::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(20, 16, 14, 0.42) 0%,
+    rgba(20, 16, 14, 0.12) 34%,
+    rgba(20, 16, 14, 0.06) 52%,
+    rgba(20, 16, 14, 0.55) 100%
+  );
+  pointer-events: none;
+}
+
+@media (min-width: 1024px) {
+  .hero-scrim::before {
+    background: linear-gradient(
+      90deg,
+      rgba(20, 16, 14, 0.62) 0%,
+      rgba(20, 16, 14, 0.34) 38%,
+      rgba(20, 16, 14, 0.02) 62%,
+      rgba(20, 16, 14, 0.18) 100%
+    );
+  }
+}
+
+/* ───────────────────────── page opening (route transition) ─────────────────────────
+ * Har naye page par ek baar: wine parda upar uthta hai + gold hairline sweep +
+ * content halka sa rise. CSS-only, 520ms — koi JS timer nahi, isliye instant lagta hai.
+ */
+.page-root { position: relative; }
+
+.page-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 90% at 50% 0%, #6f1d2b 0%, #4a1220 55%, #2a0b13 100%);
+  transform-origin: top;
+  animation: veil-lift 520ms cubic-bezier(.76, 0, .24, 1) forwards;
+  will-change: transform, opacity;
+}
+
+.page-rule {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  z-index: 61;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, #b08a4a 18%, #f0dcae 50%, #b08a4a 82%, transparent);
+  animation: rule-sweep 620ms ease-out forwards;
+}
+
+.page-in {
+  animation: page-rise 480ms cubic-bezier(.22, .61, .36, 1) both;
+  will-change: transform, opacity;
+}
+
+@keyframes veil-lift {
+  0%   { transform: scaleY(1); opacity: 1; }
+  55%  { transform: scaleY(.45); opacity: .92; }
+  100% { transform: scaleY(0); opacity: 0; visibility: hidden; }
+}
+
+@keyframes rule-sweep {
+  0%   { transform: scaleX(0); opacity: 0; }
+  35%  { transform: scaleX(1); opacity: 1; }
+  100% { transform: scaleX(1); opacity: 0; }
+}
+
+@keyframes page-rise {
+  from { opacity: 0; transform: translate3d(0, 10px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-veil, .page-rule, .page-in { animation: none !important; }
+  .page-veil, .page-rule { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TRENDS YOUNIQUE — 2026 theme layer
+   Ivory "gallery" cards, gold hairlines, editorial serif — kisi template ka
+   copy nahi: har cheez in tokens se banti hai.
+   ═══════════════════════════════════════════════════════════════════════════ */
+:root {
+  --ty-ink: #231a16;
+  --ty-wine: #4a1220;
+  --ty-wine-soft: #6f1d2b;
+  --ty-gold: #b08a4a;
+  --ty-gold-soft: #dcc094;
+  --ty-cream: #faf6ef;
+  --ty-sand: #eadfce;
+  --ty-line: #e6dac7;
+}
+
+/* ── framed product card ─────────────────────────────────────────────── */
+.ty-card-frame {
+  position: relative;
+  background: #f3ece1;
+  border: 1px solid var(--ty-line);
+  padding: 6px;
+  transition:
+    border-color 0.4s ease,
+    box-shadow 0.4s ease,
+    transform 0.4s ease;
+}
+
+.ty-card:hover .ty-card-frame {
+  border-color: var(--ty-gold);
+  box-shadow: 0 18px 34px -22px rgba(74, 18, 32, 0.45);
+  transform: translateY(-2px);
+}
+
+.ty-card-frame .card-media {
+  background: var(--ty-cream);
+}
+
+/* gold corner ticks — sirf hover par (subtle, luxury signal) */
+.ty-card-frame::before,
+.ty-card-frame::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--ty-gold);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  z-index: 2;
+  pointer-events: none;
+}
+.ty-card-frame::before {
+  top: 6px;
+  left: 6px;
+  border-right: 0;
+  border-bottom: 0;
+}
+.ty-card-frame::after {
+  bottom: 6px;
+  right: 6px;
+  border-left: 0;
+  border-top: 0;
+}
+.ty-card:hover .ty-card-frame::before,
+.ty-card:hover .ty-card-frame::after {
+  opacity: 1;
+}
+
+/* ── badges ──────────────────────────────────────────────────────────── */
+.ty-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: linear-gradient(135deg, #5d1626, #3a0f1b);
+  color: #f7e9d2;
+  border: 1px solid rgba(176, 138, 74, 0.55);
+  padding: 3px 7px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* quick-add pill: desktop par hover se, mobile par hamesha */
+.ty-quickadd {
+  opacity: 0;
+  transform: translateY(140%);
+  backdrop-filter: blur(2px);
+  box-shadow: 0 8px 20px -12px rgba(35, 26, 22, 0.7);
+}
+.ty-quickadd:disabled {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── section headings (rails / home / collection) ────────────────────── */
+.section-title {
+  font-family: var(--font-display, "Cormorant Garamond", serif);
+  letter-spacing: 0.005em;
+  color: var(--ty-ink);
+  position: relative;
+}
+
+.eyebrow {
+  color: var(--ty-gold) !important;
+  letter-spacing: 0.3em !important;
+}
+
+/* gold flourish — heading ke neeche chhoti lakeer */
+.ty-rule {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.ty-rule::before,
+.ty-rule::after {
+  content: "";
+  width: 26px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--ty-gold));
+}
+.ty-rule::after {
+  background: linear-gradient(90deg, var(--ty-gold), transparent);
+}
+
+/* ── buttons (site-wide polish) ──────────────────────────────────────── */
+.btn-primary {
+  background: linear-gradient(135deg, #5d1626 0%, #4a1220 100%) !important;
+  border: 1px solid rgba(176, 138, 74, 0.45);
+  letter-spacing: 0.2em !important;
+  transition:
+    background 0.35s ease,
+    box-shadow 0.35s ease,
+    transform 0.25s ease;
+}
+.btn-primary:hover {
+  background: linear-gradient(135deg, #6f1d2b 0%, #5d1626 100%) !important;
+  box-shadow: 0 12px 26px -16px rgba(74, 18, 32, 0.85);
+  transform: translateY(-1px);
+}
+
+.btn-outline {
+  border-color: var(--ty-gold) !important;
+  color: var(--ty-wine) !important;
+}
+.btn-outline:hover {
+  background: var(--ty-wine) !important;
+  color: #f7ecdc !important;
+  border-color: var(--ty-wine) !important;
+}
+
+/* ── editorial hero frame (home) ─────────────────────────────────────── */
+.hero-frame {
+  position: relative;
+}
+.hero-frame::after {
+  content: "";
+  position: absolute;
+  inset: clamp(10px, 2vw, 26px);
+  border: 1px solid rgba(240, 226, 205, 0.45);
+  pointer-events: none;
+  z-index: 3;
+}
+@media (max-width: 640px) {
+  .hero-frame::after {
+    inset: 8px;
+    border-color: rgba(240, 226, 205, 0.3);
+  }
+}
+
+.hero-side {
+  position: absolute;
+  right: clamp(14px, 2.4vw, 34px);
+  top: 50%;
+  transform: translateY(-50%) rotate(180deg);
+  writing-mode: vertical-rl;
+  letter-spacing: 0.4em;
+  font-size: 9.5px;
+  text-transform: uppercase;
+  color: rgba(247, 233, 210, 0.7);
+  z-index: 4;
+  pointer-events: none;
+}
+@media (max-width: 1023px) {
+  .hero-side {
+    display: none;
+  }
+}
+
+/* ── paper texture band (sections ke beech halka warm break) ─────────── */
+.ty-paper {
+  background-color: var(--ty-cream);
+  background-image:
+    radial-gradient(circle at 12% 8%, rgba(176, 138, 74, 0.07), transparent 42%),
+    radial-gradient(circle at 88% 92%, rgba(111, 29, 43, 0.06), transparent 45%);
+}
+
+/* ── trust strip numbers ─────────────────────────────────────────────── */
+.ty-trust li {
+  position: relative;
+}
+.ty-trust li + li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 22%;
+  bottom: 22%;
+  width: 1px;
+  background: var(--ty-line);
 }

@@ -28,7 +28,7 @@ Warm, direct, Indian-English. Short sentences. No jargon. "Aap" implied (imperat
 | Payment pending | `Payment pending — pay now to confirm your order.` |
 | 404 | `This page took a different route.` |
 | Search empty | `No matches for "{q}". Try "anarkali" or "saree".` |
-| Support | `WhatsApp us: 8005900581` |
+| Support | `WhatsApp us: 7740992663` |
 | Newsletter | `Join the list — new drops, early access.` |
 
 ## Errors
@@ -40,4 +40,4 @@ Warm, direct, Indian-English. Short sentences. No jargon. "Aap" implied (imperat
 
 - Price: `Rs. 3,499` (no decimals), MRP strike, `50% OFF` pill.
 - Dates: `24 Oct 2026`.
-- Phone: `8005900581` (no +91 in UI, `tel:` link me +91).
+- Phone: `7740992663` (no +91 in UI, `tel:` link me +91).
