@@ -32,7 +32,7 @@ ko **Editor** access de diya gaya hai (notification mail bhi gaya hai):
 
 `Settings` tab me ye values pehle se hain: `support_phone` = 8005900581,
 `whatsapp` = 8005900581, `support_email` = Info.likshaclothing@gmail.com,
-`upi_id` = dhakadgourav@fam, `upi_name` = Designer Clothing, `announcement` = Diwali Sale,
+`upi_id` = dhakadgourav@fam, `upi_name` = Designer Clothing, `announcement` = Winter Sale,
 `free_shipping` = true, `shop_name` = Designer Clothing. `gstin` aur `admin_url` khaali hain —
 owner jise chahe bhar de (khaali = site apni default use karti hai).
 
@@ -82,7 +82,7 @@ sirf server env + admin panel ke `/sheet` screen me.
 | `support_email` | `Info.likshaclothing@gmail.com` | footer, contact page, mailto |
 | `upi_id` | `dhakadgourav@fam` | checkout + order page QR |
 | `upi_name` | `Designer Clothing` | UPI app me payee name |
-| `announcement` | `Diwali Sale — Flat 70% OFF` | top announcement bar |
+| `announcement` | `Winter Sale — Flat 70% OFF` | top announcement bar |
 | `gstin` | `27AAAAA0000A1Z5` | invoice |
 | `free_shipping` | `true` / `false` | shipping text |
 

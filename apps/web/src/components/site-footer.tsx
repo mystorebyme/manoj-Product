@@ -175,7 +175,7 @@ export function SiteFooter() {
           <div>
             <h3 className="text-[15px] font-medium text-white">Sale alerts</h3>
             <p className="mt-2 text-[13px] leading-relaxed text-[#f1dede]">
-              Join the Designer Clothing list for early access to new drops and festive sale prices.
+              Join the Designer Clothing list for early access to new drops and Winter Sale prices.
             </p>
             <form onSubmit={subscribe} className="mt-3">
               <div className="flex border border-white/40 bg-white">

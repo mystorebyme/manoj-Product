@@ -32,8 +32,8 @@ const quickLinks = [
 
 // Fallback copy — admin → Settings se announcement set ho to wahi dikhta hai
 const defaultAnnouncements = [
-  "Diwali Sale — Up to 70% OFF · Final price ₹499 onwards",
-  "Diwali dispatch ✦ order by 4 Nov for delivery before the festival",
+  "Winter Sale — Up to 70% OFF · Final price ₹499 onwards",
+  "Winter edit ✦ limited-time prices, free shipping across India",
   "Free shipping across India — every order",
   "Same-day dispatch on prepaid orders",
   "Secure prepaid checkout — UPI, cards & netbanking",

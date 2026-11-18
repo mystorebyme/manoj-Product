@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 };
 
 /**
- * Festive home banner — owner ke diye hue Diwali Sale posters.
+ * Winter Sale home banner — owner ke diye hue posters ka winter edition.
  * Artwork par "FLAT 70% OFF" chhapa hai; catalogue me 60% aur 70% dono hain, isliye
  * HTML copy/alt/announcement "Up to 70% OFF" bolti hai (misleading claim nahi).
  *
@@ -100,12 +100,12 @@ export default async function HomePage() {
     <div>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      {/* ── hero banner: device-specific festive poster (mobile / tablet / desktop) ── */}
-      <section className="relative bg-[#fbf1e2]" data-testid="hero-banner" aria-label="Diwali Sale">
+      {/* ── hero banner: device-specific winter poster (mobile / tablet / desktop) ── */}
+      <section className="relative bg-[#fbf1e2]" data-testid="hero-banner" aria-label="Winter Sale">
         <div className="mx-auto max-w-[1920px]">
           <Link
             href={HERO_HREF}
-            aria-label="Shop the Diwali sale — up to 70% off"
+            aria-label="Shop the Winter Sale — up to 70% off"
             className="hero-media group relative block aspect-[860/1290] w-full overflow-hidden bg-[#fbf1e2] md:aspect-[4/3] lg:aspect-[1779/594]"
           >
             <picture>
@@ -114,7 +114,7 @@ export default async function HomePage() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={heroBanners.mobile}
-                alt="Happy Diwali Sale — up to 70% off ethnic wear by Designer Clothing"
+                alt="Winter Sale — up to 70% off ethnic wear by Designer Clothing"
                 width={860}
                 height={1290}
                 loading="eager"
@@ -129,7 +129,7 @@ export default async function HomePage() {
           <div className="container-liksha flex flex-col items-center gap-3 border-b border-[#efe2cf] py-5 text-center sm:flex-row sm:justify-between sm:text-left">
             <div>
               <h1 className="font-display text-[20px] leading-tight font-medium text-[#5c1010] sm:text-[24px]">
-                Diwali Sale — Up to <span className="text-[#862222]">70%</span> Off
+                Winter Sale — Up to <span className="text-[#862222]">70%</span> Off
               </h1>
               <p className="mt-1 text-[11px] text-[#7b6f64]">
                 Free shipping pan-India · Prepaid only · 4–7 day delivery

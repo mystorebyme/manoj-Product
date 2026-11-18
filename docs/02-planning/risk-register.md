@@ -11,7 +11,7 @@
 | R7 | Duplicate orders on double click | Inventory mismatch | Medium | Idempotency-Key (implemented) |
 | R8 | Razorpay KYC delay | No prepaid payments | Medium | Manual UPI fallback already built |
 | R9 | Legal copy mismatch (returns) | Consumer complaint | Medium | Policies reviewed; support SOP aligned |
-| R10 | Peak festive traffic | Slow/timeout | Medium | Static pages, CDN images, load test before Diwali |
+| R10 | Peak festive traffic | Slow/timeout | Medium | Static pages, CDN images, load test before the Winter Sale peak |
 
 ## Review cadence
 

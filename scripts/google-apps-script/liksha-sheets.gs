@@ -55,7 +55,7 @@ var DEFAULT_SETTINGS = [
   ['support_email', 'Info.likshaclothing@gmail.com'],
   ['upi_id', 'dhakadgourav@fam'],
   ['upi_name', 'Designer Clothing'],
-  ['announcement', 'Diwali Sale — Flat 70% OFF · Final price ₹499 onwards'],
+  ['announcement', 'Winter Sale — Flat 70% OFF · Final price ₹499 onwards'],
   ['gstin', ''],
   ['free_shipping', 'true'],
   // admin panel ka link — sirf owner ke liye (frontend par kabhi nahi dikhta)

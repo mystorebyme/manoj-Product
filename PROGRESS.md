@@ -184,3 +184,35 @@ Owner ka full-site audit prompt. Sabse pehle code/data inspect kiya, phir fix + 
 - **Tests:** naya `tests/e2e/round16.mjs` (37 checks) + `tests/e2e/links.mjs` (45 pages
   crawl) CI me; smoke 86/0, responsive 40/0, breakpoints 48/0, unit 89/0.
 - Docs: `docs/08-testing/round16-audit.md` (issues, decisions, verification matrix).
+
+## Round 17 — Winter Sale + custom-domain GitHub Actions (2026-11-18)
+
+Owner prompt: *"ye github se custom domain pr hai, github action se run krvavo; jo Diwali sale hai usko change kar do Winter Sale"*.
+
+- **GitHub Pages / custom domain:** `.github/workflows/pages.yml` ab root `CNAME`
+  (`trendsyounique.fashion`) detect karta hai → base path **empty** (`/`), canonical/OG/
+  sitemap/robots/WhatsApp `NEXT_PUBLIC_SITE_URL=https://trendsyounique.fashion`. Pehle
+  `/manoj-Product` base path tha, isliye custom domain par `/_next/*` aur `/images/*` 404 the.
+  Har artifact me `dist/CNAME` + `.nojekyll` jaate hain (domain har deploy par bana rehta hai).
+  `NEXT_PUBLIC_API_BASE_URL` / `NEXT_PUBLIC_LIVE_STORE_URL` abhi bhi Render API par hain
+  (`STORE_API_URL` variable); `apps/web/src/lib/cors.ts` me custom domain + `www` allow kiye.
+- **Workflow cleanup:** GitHub ka stale sample `nextjs.yml` delete (wo bhi `pages` concurrency
+  group use karta tha aur `./out` bina static export ke build karta tha → cancel/fail).
+  `deploy.yml` ab `main` push par skip hota hai jab tak Vercel/Render secrets configure nahi
+  (`ENABLE_VERCEL_DEPLOY=true` ya manual run) — har push par red X nahi. `pages.yml` par
+  session branch bhi add (build-only verify; `github-pages` environment sirf `main` allow karta hai).
+- **Campaign Diwali → Winter Sale:** homepage hero (`aria`/`alt`/h1), announcement bar, header
+  rotating messages (Diwali dispatch cutoff hata kar winter copy), `/collections` meta, cart /
+  checkout / footer / admin coupons copy, store-settings defaults (web + admin), Apps Script
+  `DEFAULT_SETTINGS`, sale-pricing comment, sheet docs, unit test fixture. Collection subtitles
+  `scripts/build-catalog.mjs` + `apps/web/src/lib/collections.ts` me winter wording; 3 catalog
+  copies `npm run catalog:build` se regenerate (sirf 2 subtitles + builtAt badle).
+  Customer reviews aur `database/seeds/live/products.json` ke asli "diwali collection" tags
+  **chhue nahi** — wo source store ka data hai, campaign copy nahi.
+- **Hero artwork:** owner ke posters ka winter edition (`assets/source/hero-wide-winter.png`,
+  `hero-portrait-winter.png`) — "WINTER SALE", "Wrap Up In Style This Winter", wahi models/logo/
+  FLAT 70% OFF badge. `scripts/brand/build-responsive-assets.mjs` inse 4 responsive banners +
+  OG image banata hai; device ratios (1779/594, 4/3, 860/1290) aur tests unchanged. Desktop par
+  poster feathered fade ke saath blurred backdrop me blend hota hai (crop se logo/chehre na katein).
+- Docs: `docs/09-devops/domain-and-brand.md` §3.5, `docs/09-devops/ci-cd.md`,
+  `docs/05-design/responsive-assets.md`, `docs/11-maintenance/changelog.md`, `TASKS.md`.
