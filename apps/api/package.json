@@ -15,7 +15,7 @@
     "@liksha/types": "*",
     "@liksha/validation": "*",
     "cors": "2.8.5",
-    "dotenv": "17.3.1",
+    "dotenv": "17.4.2",
     "express": "5.3.0",
     "zod": "4.6.7"
   },
